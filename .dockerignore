@@ -20,8 +20,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local env files
+# Local env files - 安全措施：防止环境变量泄露
+.env
 .env*.local
+.env.development
+.env.test
+.env.production
 
 # Vercel
 .vercel
@@ -30,17 +34,51 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Git
+# Git - 安全措施：防止Git信息泄露
 .git
 .gitignore
 
-# Docker
+# Docker - 安全措施：防止Docker文件泄露
 Dockerfile*
 docker-compose*
 .dockerignore
 
-# IDE
+# IDE - 安全措施：防止IDE配置泄露
 .vscode
 .idea
+*.swp
+*.swo
+
+# 临时文件 - 安全措施：防止临时文件泄露
+temp
+tmp
+uploads
+exports
+*.sh
+*.bin
+*.out
+*.log
+*.py
+
+# 系统文件 - 安全措施：防止系统文件泄露
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 测试文件 - 安全措施：防止测试文件泄露
+coverage
+.nyc_output
+*.lcov
+
+# 文档文件 - 安全措施：防止文档泄露
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+
+# 配置文件 - 安全措施：防止配置文件泄露
+.eslintrc*
+.prettierrc*
+.editorconfig
 
  

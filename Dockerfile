@@ -3,11 +3,12 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# 复制package文件
+# 复制package文件和锁文件（确保依赖版本一致性）
 COPY package*.json ./
+COPY package-lock.json ./
 
-# 安装所有依赖（包括开发依赖）
-RUN npm ci
+# 安装依赖（使用ci确保版本锁定）
+RUN npm ci --only=production && npm cache clean --force
 
 # 复制源代码
 COPY . .
@@ -17,6 +18,9 @@ RUN npm run build
 
 # 生产阶段
 FROM node:20-alpine AS runner
+
+# 安装curl用于健康检查
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
@@ -36,5 +40,6 @@ EXPOSE 3000
 
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
+ENV NODE_ENV production
 
 CMD ["node", "server.js"] 

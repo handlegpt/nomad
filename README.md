@@ -37,11 +37,11 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
 docker build -t nomad-info .
 
 # 运行容器
-docker run -p 3000:3000 nomad-info
+docker run -p 3010:3000 nomad-info
 
 # 开发环境
 docker build -f Dockerfile.dev -t nomad-info-dev .
-docker run -p 3000:3000 -v $(pwd):/app nomad-info-dev
+docker run -p 3010:3000 -v $(pwd):/app nomad-info-dev
 ```
 
 ### Option 2: Local Development
@@ -54,7 +54,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+Open [http://localhost:3010](http://localhost:3010) to view the site.
 
 ## Docker Commands
 
@@ -107,7 +107,7 @@ Create a `.env.local` file for local development:
 
 ```env
 NODE_ENV=development
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=http://localhost:3010
 ```
 
 ## Contributing
