@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { 
   HomeIcon,
   WrenchScrewdriverIcon,
@@ -16,14 +17,15 @@ import {
 export default function Navigation() {
   const pathname = usePathname();
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const t = useTranslations('navigation');
 
   const navItems = [
-    { href: '/', label: 'Home', icon: HomeIcon },
-    { href: '/tools', label: 'Tools', icon: WrenchScrewdriverIcon },
-    { href: '/cities', label: 'Cities', icon: MapPinIcon },
-    { href: '/tax', label: 'Tax', icon: CalculatorIcon },
-    { href: '/guides', label: 'Guides', icon: BookOpenIcon },
-    { href: '/community', label: 'Community', icon: UserGroupIcon }
+    { href: '/', label: t('home'), icon: HomeIcon },
+    { href: '/tools', label: t('tools'), icon: WrenchScrewdriverIcon },
+    { href: '/cities', label: t('cities'), icon: MapPinIcon },
+    { href: '/tax', label: t('tax'), icon: CalculatorIcon },
+    { href: '/guides', label: t('guides'), icon: BookOpenIcon },
+    { href: '/community', label: t('community'), icon: UserGroupIcon }
   ];
 
   const languages = [
@@ -34,8 +36,8 @@ export default function Navigation() {
   ];
 
   const handleLanguageChange = (languageCode: string) => {
-    // For now, just show an alert since we removed internationalization
-    alert(`Language changed to ${languageCode}. Internationalization will be implemented in a future update.`);
+    // For now, just show an alert since we need to implement locale switching
+    alert(`Language changed to ${languageCode}. Internationalization will be fully implemented in a future update.`);
     setIsLanguageMenuOpen(false);
   };
 
@@ -81,7 +83,7 @@ export default function Navigation() {
                 className="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200"
               >
                 <GlobeAltIcon className="h-5 w-5 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">Language</span>
+                <span className="text-sm font-medium text-gray-700">{t('language')}</span>
                 <span className="text-gray-400">▼</span>
               </button>
 
@@ -132,7 +134,7 @@ export default function Navigation() {
           {/* Mobile Language Switcher */}
           <div className="border-t border-gray-200 pt-4 mt-4">
             <div className="px-3 py-2">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Language</h3>
+              <h3 className="text-sm font-medium text-gray-500 mb-2">{t('language')}</h3>
               <div className="space-y-1">
                 {languages.map((lang) => (
                   <button

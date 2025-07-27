@@ -1,332 +1,184 @@
 {
-  "title": "Digital Nomad Info",
-  "subtitle": "Complete Guide for Digital Nomads",
-  "description": "Visa, tax, housing, insurance and more for digital nomads",
-  "language": "Language",
-  
   "navigation": {
     "home": "Home",
     "tools": "Tools",
     "cities": "Cities",
-    "visa": "Visa",
     "tax": "Tax",
-    "housing": "Housing",
-    "insurance": "Insurance",
     "guides": "Guides",
-    "community": "Community"
+    "community": "Community",
+    "language": "Language"
   },
-
-  "tools": {
-    "title": "Essential Tools",
-    "subtitle": "Tools and services for digital nomads",
-    "features_label": "Key Features",
-    "visit_website": "Visit Website",
-    "banking": {
-      "title": "Banking Services",
-      "description": "Digital banking solutions for nomads",
-      "items": [
-        {
-          "name": "Revolut",
-          "description": "Multi-currency account with competitive rates",
-          "features": ["No foreign exchange fees", "Free ATM withdrawals", "Multi-currency support"],
-          "rating": 4.8,
-          "url": "https://revolut.com"
-        },
-        {
-          "name": "Wise (TransferWise)",
-          "description": "International transfers and borderless accounts",
-          "features": ["Low transfer fees", "Real-time exchange rates", "Borderless accounts"],
-          "rating": 4.7,
-          "url": "https://wise.com"
-        },
-        {
-          "name": "N26",
-          "description": "European digital bank with global features",
-          "features": ["Free ATM withdrawals", "Real-time notifications", "Travel insurance"],
-          "rating": 4.5,
-          "url": "https://n26.com"
-        },
-        {
-          "name": "Monzo",
-          "description": "UK digital bank, travel-friendly",
-          "features": ["No foreign exchange fees", "Real-time notifications", "Budget management"],
-          "rating": 4.4,
-          "url": "https://monzo.com"
-        }
-      ]
+  "home": {
+    "title": "Digital Nomad Information Hub",
+    "subtitle": "Your comprehensive guide for digital nomads",
+    "description": "Find visa information, tax guidance, essential tools, and connect with the global nomad community.",
+    "exploreTools": "Explore Tools",
+    "browseCities": "Browse Cities",
+    "features": {
+      "title": "Everything You Need",
+      "subtitle": "Comprehensive resources for your digital nomad journey",
+      "essentialTools": {
+        "title": "Essential Tools",
+        "description": "Digital banking, insurance, and remote work platforms"
+      },
+      "nomadCities": {
+        "title": "Nomad Cities",
+        "description": "Popular destinations with visa and cost information"
+      },
+      "taxGuidance": {
+        "title": "Tax Guidance",
+        "description": "183-day rule and double taxation treaties"
+      },
+      "guides": {
+        "title": "Guides & Resources",
+        "description": "Visa applications, moving checklists, and tips"
+      },
+      "community": {
+        "title": "Community",
+        "description": "Connect with fellow digital nomads worldwide"
+      }
     },
-    "insurance": {
-      "title": "Insurance Services",
-      "description": "Health and travel insurance for nomads",
-      "items": [
-        {
-          "name": "SafetyWing",
-          "description": "Global health insurance for nomads",
-          "features": ["180+ countries covered", "COVID-19 coverage", "Flexible plans"],
-          "rating": 4.6,
-          "url": "https://safetywing.com"
-        },
-        {
-          "name": "World Nomads",
-          "description": "Travel insurance including adventure sports",
-          "features": ["Adventure sports coverage", "24/7 emergency support", "Flexible duration"],
-          "rating": 4.4,
-          "url": "https://worldnomads.com"
-        },
-        {
-          "name": "Genki",
-          "description": "Digital health insurance for global citizens",
-          "features": ["Digital-first approach", "Global coverage", "Simple claims"],
-          "rating": 4.3,
-          "url": "https://genki.world"
-        },
-        {
-          "name": "Cigna Global",
-          "description": "Premium international health insurance",
-          "features": ["Global network", "Premium service", "Comprehensive coverage"],
-          "rating": 4.5,
-          "url": "https://cigna.com"
-        }
-      ]
+    "stats": {
+      "title": "Global Nomad Community",
+      "subtitle": "Join thousands of digital nomads worldwide",
+      "countriesCovered": "Countries Covered",
+      "citiesFeatured": "Cities Featured",
+      "toolsServices": "Tools & Services",
+      "communitySupport": "Community Support"
     },
-    "remote_work": {
-      "title": "Remote Work Platforms",
-      "description": "Find remote work opportunities",
-      "items": [
-        {
-          "name": "Upwork",
-          "description": "Freelance platform for various skills",
-          "features": ["Wide range of projects", "Secure payment system", "Skill matching"],
-          "rating": 4.2,
-          "url": "https://upwork.com"
-        },
-        {
-          "name": "Fiverr",
-          "description": "Project-based freelance marketplace",
-          "features": ["Quick project completion", "Service packages", "Global clients"],
-          "rating": 4.1,
-          "url": "https://fiverr.com"
-        },
-        {
-          "name": "Toptal",
-          "description": "Premium freelance network for top talent",
-          "features": ["High-quality projects", "Premium clients", "Competitive rates"],
-          "rating": 4.5,
-          "url": "https://toptal.com"
-        },
-        {
-          "name": "Remote.co",
-          "description": "Remote job aggregation platform",
-          "features": ["Full-time remote jobs", "Direct company hiring", "Quality positions"],
-          "rating": 4.3,
-          "url": "https://remote.co"
-        }
-      ]
+    "testimonials": {
+      "title": "What Nomads Say",
+      "subtitle": "Real experiences from our community"
     },
-    "language_learning": {
-      "title": "Language Learning",
-      "description": "Learn languages while traveling",
-      "items": [
-        {
-          "name": "Duolingo",
-          "description": "Free language learning app",
-          "features": ["Gamified learning", "40+ languages", "Free basic version"],
-          "rating": 4.3,
-          "url": "https://duolingo.com"
-        },
-        {
-          "name": "italki",
-          "description": "Online language tutoring platform",
-          "features": ["Native speakers", "Flexible scheduling", "Conversation practice"],
-          "rating": 4.4,
-          "url": "https://italki.com"
-        },
-        {
-          "name": "Babbel",
-          "description": "Conversation-focused language learning",
-          "features": ["Speech recognition", "Real conversations", "Grammar focus"],
-          "rating": 4.2,
-          "url": "https://babbel.com"
-        },
-        {
-          "name": "Memrise",
-          "description": "Memory science-driven language learning",
-          "features": ["Memory techniques", "Real videos", "Personalized learning"],
-          "rating": 4.1,
-          "url": "https://memrise.com"
-        }
-      ]
+    "cta": {
+      "title": "Ready to Start Your Journey?",
+      "description": "Explore our comprehensive resources and join the global digital nomad community.",
+      "button": "Get Started"
     }
   },
-
+  "tools": {
+    "title": "Essential Tools for Nomads",
+    "description": "Curated tools and services that digital nomads actually use. From banking to insurance, remote work platforms to language learning - everything you need for your nomadic lifestyle.",
+    "categories": {
+      "banking": "Banking Services",
+      "insurance": "Insurance Services",
+      "remoteWork": "Remote Work Platforms",
+      "languageLearning": "Language Learning"
+    },
+    "missingTool": {
+      "title": "Missing a Tool?",
+      "description": "We're constantly updating our recommendations. Have a favorite tool that should be on this list?",
+      "button": "Suggest a Tool"
+    }
+  },
   "cities": {
     "title": "Nomad Cities",
-    "subtitle": "Popular destinations for digital nomads",
-    "barcelona": {
-      "name": "Barcelona, Spain",
-      "country": "Spain",
-      "description": "Mediterranean lifestyle, pleasant weather, rich culture",
-      "visa": {
-        "digital_nomad": "Available (2023)",
-        "tourist": "90 days (Schengen)",
-        "requirements": ["Income proof", "Health insurance", "Clean criminal record"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$2000-3500",
-        "accommodation": "$800-1500",
-        "food": "$300-500",
-        "transport": "$50-100"
-      },
-      "internet": {
-        "average_speed": "100 Mbps",
-        "coworking_spaces": "50+",
-        "free_wifi": "Widely available"
-      },
-      "safety": "Very safe",
-      "language": "Spanish, Catalan",
-      "highlights": ["Beach life", "Rich culture", "Gastronomy", "Tech scene"]
-    }
-  },
-
-  "tax_reminder": {
-    "title": "Tax Reminder",
-    "subtitle": "Stay tax compliant",
-    "183_day_rule": {
-      "title": "183-Day Rule",
-      "description": "Most countries consider you a tax resident after 183 days",
-      "countries": [
-        {
-          "name": "Spain",
-          "days": 183,
-          "notes": "Also considers habitual residence"
-        },
-        {
-          "name": "Mexico",
-          "days": 183,
-          "notes": "Consecutive or non-consecutive days"
-        },
-        {
-          "name": "Thailand",
-          "days": 180,
-          "notes": "Any calendar year"
-        },
-        {
-          "name": "Japan",
-          "days": 183,
-          "notes": "Any 12-month period"
-        },
-        {
-          "name": "Portugal",
-          "days": 183,
-          "notes": "Consecutive or non-consecutive days"
-        },
-        {
-          "name": "Hungary",
-          "days": 183,
-          "notes": "Within calendar year"
-        }
-      ]
+    "description": "Discover the best cities for digital nomads. Each destination offers unique opportunities, from affordable living to vibrant communities and excellent infrastructure.",
+    "planningDestination": {
+      "title": "Planning Your Next Destination?",
+      "description": "Get detailed visa information, cost breakdowns, and community insights for each city.",
+      "button": "Get City Guide"
     },
-    "double_taxation": {
-      "title": "Double Taxation Treaties",
-      "description": "Agreements to avoid double taxation",
-      "common_treaties": [
-        "US has treaties with 60+ countries",
-        "UK has treaties with 130+ countries",
-        "Germany has treaties with 90+ countries",
-        "Portugal has treaties with 70+ countries",
-        "Hungary has treaties with 80+ countries"
-      ]
+    "tabs": {
+      "overview": "Overview",
+      "visa": "Visa & Legal",
+      "costs": "Costs",
+      "practical": "Practical Info",
+      "community": "Community",
+      "neighborhoods": "Neighborhoods"
+    },
+    "visa": {
+      "title": "Visa Information",
+      "touristVisa": "Tourist Visa",
+      "digitalNomadVisa": "Digital Nomad Visa",
+      "requirements": "Requirements",
+      "applicationProcess": "Application Process",
+      "fees": "Fees",
+      "processingTime": "Processing Time"
+    },
+    "costs": {
+      "title": "Detailed Cost Breakdown",
+      "accommodation": "Accommodation",
+      "food": "Food & Dining",
+      "transportation": "Transportation",
+      "utilities": "Utilities",
+      "entertainment": "Entertainment",
+      "budget": "Budget",
+      "midRange": "Mid-Range",
+      "luxury": "Luxury",
+      "localRestaurant": "Local Restaurant",
+      "midRangeRestaurant": "Mid-Range Restaurant",
+      "groceries": "Groceries",
+      "publicTransport": "Public Transport",
+      "taxi": "Taxi",
+      "scooterRental": "Scooter Rental",
+      "popularDishes": "Popular Local Dishes"
+    },
+    "practical": {
+      "title": "Practical Information",
+      "essentialInfo": "Essential Information",
+      "emergencyContacts": "Emergency Contacts",
+      "bestTimeToVisit": "Best Time to Visit",
+      "language": "Language",
+      "currency": "Currency",
+      "timezone": "Timezone",
+      "emergencyNumbers": "Emergency Numbers",
+      "majorHospitals": "Major Hospitals"
+    },
+    "community": {
+      "title": "Nomad Community",
+      "coworkingSpaces": "Coworking Spaces",
+      "meetupGroups": "Meetup Groups",
+      "events": "Events & Festivals"
+    },
+    "neighborhoods": {
+      "title": "Popular Neighborhoods",
+      "averageRent": "Average Rent",
+      "vibe": "Vibe",
+      "pros": "Pros",
+      "cons": "Cons"
     }
   },
-
+  "tax": {
+    "title": "Tax Guidance",
+    "description": "Understand tax obligations and optimization strategies for digital nomads",
+    "sections": {
+      "dayRule": "183-Day Rule",
+      "treaties": "Double Taxation Treaties"
+    }
+  },
   "guides": {
     "title": "Guides & Resources",
-    "subtitle": "Comprehensive nomad guides",
-    "visa_guide": {
-      "title": "Visa Application Guide",
-      "steps": [
-        "Research visa requirements",
-        "Prepare required documents",
-        "Submit application online/embassy",
-        "Pay application fees",
-        "Attend interview if required",
-        "Wait for approval"
-      ],
-      "common_documents": [
-        "Valid passport (6+ months validity)",
-        "Passport photos",
-        "Bank statements",
-        "Income proof",
-        "Health insurance",
-        "Criminal record certificate"
-      ]
-    },
-    "moving_checklist": {
-      "title": "Moving Checklist",
-      "items": [
-        "Thoroughly research destination",
-        "Book first month accommodation",
-        "Arrange health insurance",
-        "Notify bank of travel plans",
-        "Pack important documents",
-        "Download offline maps",
-        "Learn basic local phrases",
-        "Set up local SIM card",
-        "Register with local authorities if required"
-      ]
-    },
-    "coworking_guide": {
-      "title": "Finding Coworking Spaces",
-      "tips": [
-        "Use platforms like NomadList and Outsite",
-        "Join local Facebook groups",
-        "Check reviews and photos",
-        "Ask about internet speed",
-        "Negotiate long-term rates",
-        "Consider location vs price trade-offs"
-      ]
+    "description": "Comprehensive digital nomad guides and practical resources",
+    "categories": {
+      "visa": "Visa",
+      "moving": "Moving",
+      "cohabitation": "Cohabitation"
     }
   },
-
   "community": {
     "title": "Nomad Community",
-    "subtitle": "Connect with fellow nomads",
-    "telegram": {
-      "title": "Telegram Groups",
-      "groups": [
-        "Global Digital Nomads",
-        "Nomad List Community",
-        "Bali Digital Nomads",
-        "Mexico City Nomads",
-        "Barcelona Nomads",
-        "Lisbon Digital Nomads",
-        "Chiang Mai Digital Nomads",
-        "Budapest Nomads"
-      ]
-    },
-    "discord": {
-      "title": "Discord Servers",
-      "servers": [
-        "Nomad List Discord",
-        "Remote Work Community",
-        "Digital Nomad Hub",
-        "European Nomads",
-        "Asian Nomads"
-      ]
-    },
-    "facebook": {
-      "title": "Facebook Groups",
-      "groups": [
-        "Global Digital Nomads",
-        "Bali Digital Nomads",
-        "Mexico City Digital Nomads",
-        "Barcelona Digital Nomads",
-        "Lisbon Digital Nomads",
-        "Chiang Mai Digital Nomads",
-        "Budapest Digital Nomads",
-        "Porto Digital Nomads"
-      ]
+    "description": "Connect with digital nomads worldwide",
+    "categories": {
+      "telegram": "Telegram",
+      "discord": "Discord",
+      "facebook": "Facebook",
+      "meetups": "Meetups"
     }
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "viewDetails": "View Details",
+    "back": "Back",
+    "visitWebsite": "Visit Website",
+    "suggestTool": "Suggest Tool",
+    "getCityGuide": "Get City Guide",
+    "nomadScore": "Nomad Score",
+    "costOfLiving": "Cost of Living",
+    "internet": "Internet",
+    "safety": "Safety",
+    "visa": "Visa",
+    "highlights": "Highlights",
+    "localTips": "Local Tips"
   }
 } 
