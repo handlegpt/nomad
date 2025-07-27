@@ -2,17 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { 
   HomeIcon,
   WrenchScrewdriverIcon,
   MapPinIcon,
   CalculatorIcon,
   BookOpenIcon,
-  UserGroupIcon
+  UserGroupIcon,
+  GlobeAltIcon
 } from '@heroicons/react/24/outline';
 
 export default function Navigation() {
   const pathname = usePathname();
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
 
   const navItems = [
     { href: '/', label: 'Home', icon: HomeIcon },
@@ -22,6 +25,19 @@ export default function Navigation() {
     { href: '/guides', label: 'Guides', icon: BookOpenIcon },
     { href: '/community', label: 'Community', icon: UserGroupIcon }
   ];
+
+  const languages = [
+    { code: 'en', label: 'English', flag: '🇺🇸' },
+    { code: 'zh', label: '中文', flag: '🇨🇳' },
+    { code: 'ja', label: '日本語', flag: '🇯🇵' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' }
+  ];
+
+  const handleLanguageChange = (languageCode: string) => {
+    // For now, just show an alert since we removed internationalization
+    alert(`Language changed to ${languageCode}. Internationalization will be implemented in a future update.`);
+    setIsLanguageMenuOpen(false);
+  };
 
   return (
     <nav className="bg-white shadow-lg">
@@ -58,7 +74,32 @@ export default function Navigation() {
           </div>
 
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            {/* Language switcher can be added here */}
+            {/* Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
+                className="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200"
+              >
+                <GlobeAltIcon className="h-5 w-5 text-gray-600" />
+                <span className="text-sm font-medium text-gray-700">Language</span>
+                <span className="text-gray-400">▼</span>
+              </button>
+
+              {isLanguageMenuOpen && (
+                <div className="absolute top-full mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 min-w-[160px]">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      className="flex items-center space-x-3 w-full px-4 py-3 hover:bg-gray-50 rounded-lg transition-colors"
+                    >
+                      <span className="text-lg">{lang.flag}</span>
+                      <span className="text-sm text-gray-700">{lang.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -87,6 +128,25 @@ export default function Navigation() {
               </Link>
             );
           })}
+          
+          {/* Mobile Language Switcher */}
+          <div className="border-t border-gray-200 pt-4 mt-4">
+            <div className="px-3 py-2">
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Language</h3>
+              <div className="space-y-1">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors"
+                  >
+                    <span className="text-base">{lang.flag}</span>
+                    <span>{lang.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
