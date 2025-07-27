@@ -1,39 +1,39 @@
-# 多阶段构建 - 构建阶段
+# Multi-stage build - Build stage
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# 复制package文件和锁文件（确保依赖版本一致性）
+# Copy package files and lock file (ensure dependency version consistency)
 COPY package*.json ./
 COPY package-lock.json ./
 
-# 安装依赖（使用ci确保版本锁定）
+# Install dependencies (use ci to ensure version locking)
 RUN npm ci --only=production && npm cache clean --force
 
-# 复制源代码
+# Copy source code
 COPY . .
 
-# 构建应用
+# Build application
 RUN npm run build
 
-# 生产阶段
+# Production stage
 FROM node:20-alpine AS runner
 
-# 安装curl用于健康检查
+# Install curl for health checks
 RUN apk add --no-cache curl
 
 WORKDIR /app
 
-# 创建非root用户
+# Create non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# 复制构建产物
+# Copy build artifacts
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# 设置用户权限
+# Set user permissions
 USER nextjs
 
 EXPOSE 3000

@@ -28,7 +28,7 @@ export default function ToolsPage() {
       <p className="text-gray-600 mb-4">{tool.description}</p>
       
       <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-900 mb-2">特色功能:</h4>
+        <h4 className="text-sm font-medium text-gray-900 mb-2">{t('features_label')}:</h4>
         <ul className="space-y-1">
           {tool.features.map((feature: string, index: number) => (
             <li key={index} className="text-sm text-gray-600 flex items-center">
@@ -45,7 +45,7 @@ export default function ToolsPage() {
         rel="noopener noreferrer"
         className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
       >
-        访问网站
+        {t('visit_website')}
         <ExternalLinkIcon className="ml-1 h-4 w-4" />
       </a>
     </div>

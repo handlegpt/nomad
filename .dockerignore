@@ -20,7 +20,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local env files - 安全措施：防止环境变量泄露
+# Local env files - Security measure: prevent environment variable leaks
 .env
 .env*.local
 .env.development
@@ -34,22 +34,22 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Git - 安全措施：防止Git信息泄露
+# Git - Security measure: prevent Git information leaks
 .git
 .gitignore
 
-# Docker - 安全措施：防止Docker文件泄露
+# Docker - Security measure: prevent Docker file leaks
 Dockerfile*
 docker-compose*
 .dockerignore
 
-# IDE - 安全措施：防止IDE配置泄露
+# IDE - Security measure: prevent IDE configuration leaks
 .vscode
 .idea
 *.swp
 *.swo
 
-# 临时文件 - 安全措施：防止临时文件泄露
+# Temporary files - Security measure: prevent temporary file leaks
 temp
 tmp
 uploads
@@ -60,23 +60,23 @@ exports
 *.log
 *.py
 
-# 系统文件 - 安全措施：防止系统文件泄露
+# System files - Security measure: prevent system file leaks
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# 测试文件 - 安全措施：防止测试文件泄露
+# Test files - Security measure: prevent test file leaks
 coverage
 .nyc_output
 *.lcov
 
-# 文档文件 - 安全措施：防止文档泄露
+# Documentation files - Security measure: prevent documentation leaks
 README.md
 CHANGELOG.md
 LICENSE
 *.md
 
-# 配置文件 - 安全措施：防止配置文件泄露
+# Configuration files - Security measure: prevent configuration leaks
 .eslintrc*
 .prettierrc*
 .editorconfig
