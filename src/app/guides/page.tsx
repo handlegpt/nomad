@@ -1,175 +1,281 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { 
   DocumentTextIcon, 
-  ClipboardDocumentListIcon,
+  CheckCircleIcon, 
+  ExclamationTriangleIcon,
+  ArrowRightIcon,
+  CalendarIcon,
+  GlobeAltIcon,
   HomeIcon,
-  CheckCircleIcon,
-  ChevronDownIcon,
-  ChevronUpIcon
+  CreditCardIcon
 } from '@heroicons/react/24/outline';
 
 export default function GuidesPage() {
-  const t = useTranslations('guides');
-  const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState('visa');
 
-  const guides = [
-    {
-      key: 'visa_guide',
-      title: t('visa_guide.title'),
-      icon: DocumentTextIcon,
-      color: 'blue'
+  const guides = {
+    visa: {
+      title: 'Visa Guides',
+      description: 'Step-by-step guides for popular digital nomad visas',
+      items: [
+        {
+          title: 'Spain Digital Nomad Visa',
+          description: 'Complete guide to Spain\'s digital nomad visa application',
+          steps: [
+            'Gather required documents (passport, income proof, health insurance)',
+            'Book accommodation for at least 6 months',
+            'Apply at Spanish consulate in your home country',
+            'Wait for approval (2-4 weeks)',
+            'Travel to Spain and register with local authorities'
+          ],
+          requirements: ['€2,160+ monthly income', 'Health insurance', 'Clean criminal record'],
+          processing_time: '2-4 weeks',
+          validity: '1 year (renewable)'
+        },
+        {
+          title: 'Portugal D7 Visa',
+          description: 'Passive income visa for Portugal residency',
+          steps: [
+            'Prove passive income of €7,200+ annually',
+            'Secure accommodation in Portugal',
+            'Apply at Portuguese consulate',
+            'Provide bank statements and income proof',
+            'Wait for approval and travel to Portugal'
+          ],
+          requirements: ['€7,200+ annual passive income', 'Accommodation proof', 'Health insurance'],
+          processing_time: '3-6 months',
+          validity: '1 year (renewable)'
+        },
+        {
+          title: 'Thailand ED Visa',
+          description: 'Education visa for long-term stay in Thailand',
+          steps: [
+            'Enroll in Thai language school or course',
+            'Receive acceptance letter from school',
+            'Apply at Thai consulate with documents',
+            'Pay visa fee and wait for approval',
+            'Enter Thailand and extend visa locally'
+          ],
+          requirements: ['School enrollment', 'Bank statement', 'Health insurance'],
+          processing_time: '1-2 weeks',
+          validity: '3 months (extendable)'
+        }
+      ]
     },
-    {
-      key: 'moving_checklist',
-      title: t('moving_checklist.title'),
-      icon: ClipboardDocumentListIcon,
-      color: 'green'
+    moving: {
+      title: 'Moving Checklists',
+      description: 'Essential checklists for smooth relocation',
+      items: [
+        {
+          title: 'Pre-Move Checklist (2-3 months)',
+          description: 'Tasks to complete before your move',
+          steps: [
+            'Research visa requirements and start application',
+            'Book accommodation for first month',
+            'Arrange health insurance coverage',
+            'Notify banks and update addresses',
+            'Research local banking options',
+            'Plan transportation and arrival logistics'
+          ],
+          tips: ['Start visa process early', 'Book accommodation in advance', 'Research local customs']
+        },
+        {
+          title: 'Packing Checklist',
+          description: 'Essential items for digital nomads',
+          steps: [
+            'Passport and visa documents',
+            'Laptop and essential electronics',
+            'Universal power adapter',
+            'Basic medical supplies',
+            'Comfortable clothing for climate',
+            'Important documents (copies)'
+          ],
+          tips: ['Pack light but smart', 'Bring backup electronics', 'Keep documents organized']
+        },
+        {
+          title: 'First Week Checklist',
+          description: 'Tasks to complete upon arrival',
+          steps: [
+            'Register with local authorities (if required)',
+            'Set up local bank account',
+            'Get local SIM card',
+            'Explore neighborhood and find essentials',
+            'Join local expat/nomad groups',
+            'Set up workspace and internet'
+          ],
+          tips: ['Take time to adjust', 'Meet other nomads', 'Learn basic local phrases']
+        }
+      ]
     },
-    {
-      key: 'coworking_guide',
-      title: t('coworking_guide.title'),
-      icon: HomeIcon,
-      color: 'purple'
+    cohabitation: {
+      title: 'Cohabitation Guides',
+      description: 'Tips for living with other digital nomads',
+      items: [
+        {
+          title: 'Finding Roommates',
+          description: 'How to find compatible roommates',
+          steps: [
+            'Join local Facebook groups and forums',
+            'Use platforms like NomadList and Reddit',
+            'Attend local meetups and events',
+            'Ask for recommendations from other nomads',
+            'Screen potential roommates carefully',
+            'Discuss expectations and house rules'
+          ],
+          tips: ['Be clear about your lifestyle', 'Discuss work schedules', 'Set boundaries early']
+        },
+        {
+          title: 'House Rules & Communication',
+          description: 'Establishing good cohabitation practices',
+          steps: [
+            'Create shared house rules document',
+            'Set up group chat for communication',
+            'Establish cleaning schedule',
+            'Discuss noise levels and work hours',
+            'Plan shared expenses and utilities',
+            'Schedule regular house meetings'
+          ],
+          tips: ['Be respectful of others', 'Communicate openly', 'Compromise when needed']
+        },
+        {
+          title: 'Conflict Resolution',
+          description: 'Handling disagreements in shared spaces',
+          steps: [
+            'Address issues early before they escalate',
+            'Use "I" statements to express concerns',
+            'Listen actively to other perspectives',
+            'Find mutually acceptable solutions',
+            'Document agreements in writing',
+            'Know when to involve landlord or mediator'
+          ],
+          tips: ['Stay calm and professional', 'Focus on solutions', 'Maintain relationships']
+        }
+      ]
     }
+  };
+
+  const categories = [
+    { key: 'visa', label: 'Visa Guides' },
+    { key: 'moving', label: 'Moving Checklists' },
+    { key: 'cohabitation', label: 'Cohabitation Guides' }
   ];
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: 'bg-blue-50 border-blue-200 text-blue-800',
-      green: 'bg-green-50 border-green-200 text-green-800',
-      purple: 'bg-purple-50 border-purple-200 text-purple-800'
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
-
-  const renderGuide = (guide: any) => {
-    const guideData = t.raw(guide.key);
-    const isExpanded = expandedGuide === guide.key;
-    const IconComponent = guide.icon;
-
-    return (
-      <div key={guide.key} className="bg-white rounded-xl shadow-lg overflow-hidden">
-        <button
-          onClick={() => setExpandedGuide(isExpanded ? null : guide.key)}
-          className="w-full p-6 flex items-center justify-between hover:bg-gray-50 transition-colors"
-        >
-          <div className="flex items-center">
-            <div className={`p-3 rounded-lg mr-4 ${getColorClasses(guide.color)}`}>
-              <IconComponent className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900">{guide.title}</h3>
-          </div>
-          {isExpanded ? (
-            <ChevronUpIcon className="h-5 w-5 text-gray-500" />
-          ) : (
-            <ChevronDownIcon className="h-5 w-5 text-gray-500" />
-          )}
-        </button>
-
-        {isExpanded && (
-          <div className="px-6 pb-6 border-t border-gray-200">
-            {guide.key === 'visa_guide' && (
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">申请步骤</h4>
-                  <ol className="space-y-2">
-                    {guideData.steps.map((step: string, index: number) => (
-                      <li key={index} className="flex items-start">
-                        <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
-                          {index + 1}
-                        </span>
-                        <span className="text-gray-700">{step}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">常见所需文件</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {guideData.common_documents.map((doc: string, index: number) => (
-                      <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <CheckCircleIcon className="h-4 w-4 text-green-600 mr-2" />
-                        <span className="text-sm text-gray-700">{doc}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {guide.key === 'moving_checklist' && (
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3">搬家前准备清单</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {guideData.items.map((item: string, index: number) => (
-                    <div key={index} className="flex items-start p-3 bg-green-50 rounded-lg">
-                      <CheckCircleIcon className="h-4 w-4 text-green-600 mr-2 mt-0.5" />
-                      <span className="text-sm text-gray-700">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {guide.key === 'coworking_guide' && (
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3">寻找共同居住空间的技巧</h4>
-                <div className="space-y-3">
-                  {guideData.tips.map((tip: string, index: number) => (
-                    <div key={index} className="flex items-start p-3 bg-purple-50 rounded-lg">
-                      <div className="w-2 h-2 bg-purple-600 rounded-full mr-3 mt-2"></div>
-                      <span className="text-sm text-gray-700">{tip}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
+  const selectedGuides = guides[activeCategory as keyof typeof guides];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('title')}</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t('subtitle')}</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Guides & Resources</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Comprehensive guides for visa applications, moving checklists, and cohabitation tips
+          </p>
         </div>
 
-        <div className="space-y-6">
-          {guides.map(renderGuide)}
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
+          {categories.map((category) => (
+            <button
+              key={category.key}
+              onClick={() => setActiveCategory(category.key)}
+              className={`px-6 py-3 rounded-full font-medium transition-colors ${
+                activeCategory === category.key
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {category.label}
+            </button>
+          ))}
         </div>
 
-        {/* Additional Resources */}
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">额外资源</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 bg-blue-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-3">官方资源</h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• 各国大使馆官网</li>
-                <li>• 移民局官方网站</li>
-                <li>• 税务部门网站</li>
-                <li>• 当地政府信息</li>
-              </ul>
-            </div>
+        {/* Guides Content */}
+        <div className="space-y-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{selectedGuides.title}</h2>
+            <p className="text-xl text-gray-600">{selectedGuides.description}</p>
+          </div>
 
-            <div className="p-6 bg-green-50 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-3">社区资源</h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li>• Nomad List 社区</li>
-                <li>• Reddit 数字游民版块</li>
-                <li>• Facebook 游民群组</li>
-                <li>• 当地游民社区</li>
-              </ul>
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {selectedGuides.items.map((guide, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{guide.title}</h3>
+                  <p className="text-gray-600 mb-6">{guide.description}</p>
+
+                  <div className="space-y-6">
+                    {/* Steps */}
+                    <div>
+                      <h4 className="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                        <ArrowRightIcon className="h-5 w-5 mr-2 text-blue-600" />
+                        Steps
+                      </h4>
+                      <ol className="space-y-2">
+                        {guide.steps.map((step, stepIndex) => (
+                          <li key={stepIndex} className="flex items-start">
+                            <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-medium mr-3 mt-0.5">
+                              {stepIndex + 1}
+                            </span>
+                            <span className="text-gray-700">{step}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+
+                    {/* Requirements or Tips */}
+                    {('requirements' in guide) && (
+                      <div>
+                        <h4 className="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-600" />
+                          Requirements
+                        </h4>
+                        <ul className="space-y-2">
+                          {guide.requirements.map((req, reqIndex) => (
+                            <li key={reqIndex} className="flex items-center">
+                              <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></div>
+                              <span className="text-gray-700">{req}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {('tips' in guide) && (
+                      <div>
+                        <h4 className="text-lg font-medium text-gray-900 mb-3 flex items-center">
+                          <ExclamationTriangleIcon className="h-5 w-5 mr-2 text-yellow-600" />
+                          Tips
+                        </h4>
+                        <ul className="space-y-2">
+                          {guide.tips.map((tip, tipIndex) => (
+                            <li key={tipIndex} className="flex items-center">
+                              <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full mr-2"></div>
+                              <span className="text-gray-700">{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Processing Time and Validity (for visa guides) */}
+                    {('processing_time' in guide) && (
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h5 className="font-medium text-gray-900 mb-1">Processing Time</h5>
+                          <p className="text-gray-600">{guide.processing_time}</p>
+                        </div>
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h5 className="font-medium text-gray-900 mb-1">Validity</h5>
+                          <p className="text-gray-600">{guide.validity}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
