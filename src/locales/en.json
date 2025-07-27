@@ -1,6 +1,6 @@
 {
-  "title": "Nomad Info",
-  "subtitle": "Your comprehensive guide for digital nomads",
+  "title": "Digital Nomad Info",
+  "subtitle": "Complete Guide for Digital Nomads",
   "description": "Visa, tax, housing, insurance and more for digital nomads",
   "language": "Language",
   
@@ -19,21 +19,23 @@
   "tools": {
     "title": "Essential Tools",
     "subtitle": "Tools and services for digital nomads",
+    "features_label": "Key Features",
+    "visit_website": "Visit Website",
     "banking": {
-      "title": "Banking",
+      "title": "Banking Services",
       "description": "Digital banking solutions for nomads",
       "items": [
         {
           "name": "Revolut",
-          "description": "Multi-currency account with great exchange rates",
-          "features": ["No foreign transaction fees", "Free ATM withdrawals", "Multi-currency support"],
+          "description": "Multi-currency account with competitive rates",
+          "features": ["No foreign exchange fees", "Free ATM withdrawals", "Multi-currency support"],
           "rating": 4.8,
           "url": "https://revolut.com"
         },
         {
           "name": "Wise (TransferWise)",
-          "description": "International money transfers and borderless account",
-          "features": ["Low transfer fees", "Real exchange rates", "Borderless account"],
+          "description": "International transfers and borderless accounts",
+          "features": ["Low transfer fees", "Real-time exchange rates", "Borderless accounts"],
           "rating": 4.7,
           "url": "https://wise.com"
         },
@@ -43,23 +45,30 @@
           "features": ["Free ATM withdrawals", "Real-time notifications", "Travel insurance"],
           "rating": 4.5,
           "url": "https://n26.com"
+        },
+        {
+          "name": "Monzo",
+          "description": "UK digital bank, travel-friendly",
+          "features": ["No foreign exchange fees", "Real-time notifications", "Budget management"],
+          "rating": 4.4,
+          "url": "https://monzo.com"
         }
       ]
     },
     "insurance": {
-      "title": "Insurance",
+      "title": "Insurance Services",
       "description": "Health and travel insurance for nomads",
       "items": [
         {
           "name": "SafetyWing",
           "description": "Global health insurance for nomads",
-          "features": ["Coverage in 180+ countries", "Covid-19 coverage", "Flexible plans"],
+          "features": ["180+ countries covered", "COVID-19 coverage", "Flexible plans"],
           "rating": 4.6,
           "url": "https://safetywing.com"
         },
         {
           "name": "World Nomads",
-          "description": "Travel insurance with adventure sports coverage",
+          "description": "Travel insurance including adventure sports",
           "features": ["Adventure sports coverage", "24/7 emergency support", "Flexible duration"],
           "rating": 4.4,
           "url": "https://worldnomads.com"
@@ -67,9 +76,16 @@
         {
           "name": "Genki",
           "description": "Digital health insurance for global citizens",
-          "features": ["Digital-first approach", "Global coverage", "Easy claims process"],
+          "features": ["Digital-first approach", "Global coverage", "Simple claims"],
           "rating": 4.3,
           "url": "https://genki.world"
+        },
+        {
+          "name": "Cigna Global",
+          "description": "Premium international health insurance",
+          "features": ["Global network", "Premium service", "Comprehensive coverage"],
+          "rating": 4.5,
+          "url": "https://cigna.com"
         }
       ]
     },
@@ -80,23 +96,30 @@
         {
           "name": "Upwork",
           "description": "Freelance platform for various skills",
-          "features": ["Wide range of projects", "Secure payment system", "Skill-based matching"],
+          "features": ["Wide range of projects", "Secure payment system", "Skill matching"],
           "rating": 4.2,
           "url": "https://upwork.com"
         },
         {
           "name": "Fiverr",
-          "description": "Gig-based freelance marketplace",
-          "features": ["Quick project completion", "Service packages", "Global client base"],
+          "description": "Project-based freelance marketplace",
+          "features": ["Quick project completion", "Service packages", "Global clients"],
           "rating": 4.1,
           "url": "https://fiverr.com"
         },
         {
           "name": "Toptal",
           "description": "Premium freelance network for top talent",
-          "features": ["High-quality projects", "Top-tier clients", "Competitive rates"],
+          "features": ["High-quality projects", "Premium clients", "Competitive rates"],
           "rating": 4.5,
           "url": "https://toptal.com"
+        },
+        {
+          "name": "Remote.co",
+          "description": "Remote job aggregation platform",
+          "features": ["Full-time remote jobs", "Direct company hiring", "Quality positions"],
+          "rating": 4.3,
+          "url": "https://remote.co"
         }
       ]
     },
@@ -107,7 +130,7 @@
         {
           "name": "Duolingo",
           "description": "Free language learning app",
-          "features": ["Gamified learning", "40+ languages", "Free basic plan"],
+          "features": ["Gamified learning", "40+ languages", "Free basic version"],
           "rating": 4.3,
           "url": "https://duolingo.com"
         },
@@ -124,6 +147,13 @@
           "features": ["Speech recognition", "Real conversations", "Grammar focus"],
           "rating": 4.2,
           "url": "https://babbel.com"
+        },
+        {
+          "name": "Memrise",
+          "description": "Memory science-driven language learning",
+          "features": ["Memory techniques", "Real videos", "Personalized learning"],
+          "rating": 4.1,
+          "url": "https://memrise.com"
         }
       ]
     }
@@ -135,11 +165,11 @@
     "barcelona": {
       "name": "Barcelona, Spain",
       "country": "Spain",
-      "description": "Mediterranean lifestyle with great weather and culture",
+      "description": "Mediterranean lifestyle, pleasant weather, rich culture",
       "visa": {
         "digital_nomad": "Available (2023)",
         "tourist": "90 days (Schengen)",
-        "requirements": ["Proof of income", "Health insurance", "Clean criminal record"]
+        "requirements": ["Income proof", "Health insurance", "Clean criminal record"]
       },
       "cost_of_living": {
         "monthly_budget": "$2000-3500",
@@ -154,88 +184,16 @@
       },
       "safety": "Very safe",
       "language": "Spanish, Catalan",
-      "highlights": ["Beach lifestyle", "Rich culture", "Great food", "Tech scene"]
-    },
-    "mexico_city": {
-      "name": "Mexico City, Mexico",
-      "country": "Mexico",
-      "description": "Vibrant city with rich culture and affordable living",
-      "visa": {
-        "digital_nomad": "Available",
-        "tourist": "180 days",
-        "requirements": ["Valid passport", "Return ticket", "Sufficient funds"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$1500-2500",
-        "accommodation": "$500-1000",
-        "food": "$200-400",
-        "transport": "$30-60"
-      },
-      "internet": {
-        "average_speed": "50 Mbps",
-        "coworking_spaces": "30+",
-        "free_wifi": "Common in cafes"
-      },
-      "safety": "Generally safe (avoid certain areas)",
-      "language": "Spanish",
-      "highlights": ["Affordable", "Rich culture", "Great food", "Friendly people"]
-    },
-    "bali": {
-      "name": "Bali, Indonesia",
-      "country": "Indonesia",
-      "description": "Tropical paradise with spiritual culture",
-      "visa": {
-        "digital_nomad": "Available (B211A)",
-        "tourist": "30 days (extendable)",
-        "requirements": ["Sponsor letter", "Bank statement", "Return ticket"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$1000-2000",
-        "accommodation": "$300-800",
-        "food": "$150-300",
-        "transport": "$50-100"
-      },
-      "internet": {
-        "average_speed": "25 Mbps",
-        "coworking_spaces": "20+",
-        "free_wifi": "Common in tourist areas"
-      },
-      "safety": "Very safe",
-      "language": "Indonesian, English",
-      "highlights": ["Tropical climate", "Spiritual culture", "Affordable", "Beautiful nature"]
-    },
-    "tokyo": {
-      "name": "Tokyo, Japan",
-      "country": "Japan",
-      "description": "High-tech city with perfect infrastructure",
-      "visa": {
-        "digital_nomad": "Not available",
-        "tourist": "90 days",
-        "requirements": ["Valid passport", "Return ticket", "Sufficient funds"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$3000-5000",
-        "accommodation": "$1500-2500",
-        "food": "$400-600",
-        "transport": "$100-150"
-      },
-      "internet": {
-        "average_speed": "200 Mbps",
-        "coworking_spaces": "100+",
-        "free_wifi": "Extensive coverage"
-      },
-      "safety": "Extremely safe",
-      "language": "Japanese",
-      "highlights": ["Perfect infrastructure", "High-tech", "Clean", "Efficient"]
+      "highlights": ["Beach life", "Rich culture", "Gastronomy", "Tech scene"]
     }
   },
 
   "tax_reminder": {
     "title": "Tax Reminder",
-    "subtitle": "Stay compliant with tax obligations",
+    "subtitle": "Stay tax compliant",
     "183_day_rule": {
       "title": "183-Day Rule",
-      "description": "Most countries consider you a tax resident if you stay for 183+ days",
+      "description": "Most countries consider you a tax resident after 183 days",
       "countries": [
         {
           "name": "Spain",
@@ -250,29 +208,41 @@
         {
           "name": "Thailand",
           "days": 180,
-          "notes": "In any calendar year"
+          "notes": "Any calendar year"
         },
         {
           "name": "Japan",
           "days": 183,
-          "notes": "In any 12-month period"
+          "notes": "Any 12-month period"
+        },
+        {
+          "name": "Portugal",
+          "days": 183,
+          "notes": "Consecutive or non-consecutive days"
+        },
+        {
+          "name": "Hungary",
+          "days": 183,
+          "notes": "Within calendar year"
         }
       ]
     },
     "double_taxation": {
       "title": "Double Taxation Treaties",
-      "description": "Agreements to avoid paying tax twice",
+      "description": "Agreements to avoid double taxation",
       "common_treaties": [
         "US has treaties with 60+ countries",
         "UK has treaties with 130+ countries",
-        "Germany has treaties with 90+ countries"
+        "Germany has treaties with 90+ countries",
+        "Portugal has treaties with 70+ countries",
+        "Hungary has treaties with 80+ countries"
       ]
     }
   },
 
   "guides": {
     "title": "Guides & Resources",
-    "subtitle": "Comprehensive guides for nomads",
+    "subtitle": "Comprehensive nomad guides",
     "visa_guide": {
       "title": "Visa Application Guide",
       "steps": [
@@ -287,19 +257,19 @@
         "Valid passport (6+ months validity)",
         "Passport photos",
         "Bank statements",
-        "Proof of income",
+        "Income proof",
         "Health insurance",
-        "Criminal background check"
+        "Criminal record certificate"
       ]
     },
     "moving_checklist": {
       "title": "Moving Checklist",
       "items": [
-        "Research destination thoroughly",
-        "Book accommodation for first month",
+        "Thoroughly research destination",
+        "Book first month accommodation",
         "Arrange health insurance",
         "Notify bank of travel plans",
-        "Pack essential documents",
+        "Pack important documents",
         "Download offline maps",
         "Learn basic local phrases",
         "Set up local SIM card",
@@ -307,29 +277,32 @@
       ]
     },
     "coworking_guide": {
-      "title": "Finding Co-living Spaces",
+      "title": "Finding Coworking Spaces",
       "tips": [
         "Use platforms like NomadList and Outsite",
         "Join local Facebook groups",
         "Check reviews and photos",
         "Ask about internet speed",
         "Negotiate long-term rates",
-        "Consider location vs price trade-off"
+        "Consider location vs price trade-offs"
       ]
     }
   },
 
   "community": {
-    "title": "Nomad Communities",
+    "title": "Nomad Community",
     "subtitle": "Connect with fellow nomads",
     "telegram": {
       "title": "Telegram Groups",
       "groups": [
-        "Digital Nomads Worldwide",
+        "Global Digital Nomads",
         "Nomad List Community",
         "Bali Digital Nomads",
         "Mexico City Nomads",
-        "Barcelona Nomads"
+        "Barcelona Nomads",
+        "Lisbon Digital Nomads",
+        "Chiang Mai Digital Nomads",
+        "Budapest Nomads"
       ]
     },
     "discord": {
@@ -337,16 +310,22 @@
       "servers": [
         "Nomad List Discord",
         "Remote Work Community",
-        "Digital Nomad Hub"
+        "Digital Nomad Hub",
+        "European Nomads",
+        "Asian Nomads"
       ]
     },
     "facebook": {
       "title": "Facebook Groups",
       "groups": [
-        "Digital Nomads Around the World",
+        "Global Digital Nomads",
         "Bali Digital Nomads",
         "Mexico City Digital Nomads",
-        "Barcelona Digital Nomads"
+        "Barcelona Digital Nomads",
+        "Lisbon Digital Nomads",
+        "Chiang Mai Digital Nomads",
+        "Budapest Digital Nomads",
+        "Porto Digital Nomads"
       ]
     }
   }
