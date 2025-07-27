@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { StarIcon, ExternalLinkIcon } from '@heroicons/react/24/solid';
+import { StarIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 export default function ToolsPage() {
   const t = useTranslations('tools');
@@ -46,7 +46,7 @@ export default function ToolsPage() {
         className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
       >
         {t('visit_website')}
-        <ExternalLinkIcon className="ml-1 h-4 w-4" />
+        <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
       </a>
     </div>
   );
