@@ -7,10 +7,7 @@ import {
   HomeIcon,
   WrenchScrewdriverIcon,
   MapPinIcon,
-  DocumentTextIcon,
   CalculatorIcon,
-  HouseIcon,
-  ShieldCheckIcon,
   BookOpenIcon,
   UserGroupIcon
 } from '@heroicons/react/24/outline';
