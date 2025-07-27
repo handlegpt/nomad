@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 import Navigation from '../components/Navigation'
-import LanguageSwitcher from '../components/LanguageSwitcher'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,16 +12,20 @@ export const metadata: Metadata = {
   description: 'Visa, tax, housing, insurance and more for digital nomads',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const messages = await getMessages()
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        <main>{children}</main>
+        <NextIntlClientProvider messages={messages}>
+          <Navigation />
+          <main>{children}</main>
+        </NextIntlClientProvider>
       </body>
     </html>
   )
