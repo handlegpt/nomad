@@ -74,7 +74,7 @@ coverage
 README.md
 CHANGELOG.md
 LICENSE
-*.md
+SECURITY.md
 
 # Configuration files - Security measure: prevent configuration leaks
 .eslintrc*
