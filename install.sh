@@ -22,29 +22,24 @@ echo "✅ Docker环境检查通过"
 # 选择安装模式
 echo ""
 echo "请选择安装模式:"
-echo "1) 生产环境 (推荐)"
-echo "2) 开发环境"
-echo "3) 自定义端口"
+echo "1) 默认端口 (3010)"
+echo "2) 自定义端口"
 
-read -p "请输入选择 (1-3): " choice
+read -p "请输入选择 (1-2): " choice
 
 case $choice in
     1)
-        echo "🔧 安装生产环境..."
+        echo "🔧 安装到默认端口 3010..."
         docker-compose up --build -d
         ;;
     2)
-        echo "🔧 安装开发环境..."
-        docker-compose --profile dev up --build -d
-        ;;
-    3)
         read -p "请输入端口号 (默认3010): " port
         port=${port:-3010}
         echo "🔧 安装到端口 $port..."
         PORT=$port docker-compose up --build -d
         ;;
     *)
-        echo "❌ 无效选择，使用默认生产环境"
+        echo "❌ 无效选择，使用默认端口 3010"
         docker-compose up --build -d
         ;;
 esac

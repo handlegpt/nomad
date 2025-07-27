@@ -1,43 +1,7 @@
 version: '3.8'
 
 services:
-  # 开发环境
-  web-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3010:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - NEXT_PUBLIC_SITE_URL=http://localhost:3010
-    profiles:
-      - dev
-    restart: unless-stopped
-
   # 生产环境
-  web-prod:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3010:3000"
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_SITE_URL=http://localhost:3010
-    profiles:
-      - prod
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # 默认启动生产环境
   web:
     build:
       context: .

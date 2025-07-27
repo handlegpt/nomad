@@ -26,18 +26,16 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 
 #### 生产环境部署
 ```bash
-# 使用生产环境配置
-docker-compose --profile prod up --build -d
+# 使用安装脚本
+chmod +x install.sh
+./install.sh
+
+# 或手动部署
+docker-compose up --build -d
 
 # 检查容器安全
 docker-compose ps
 docker-compose logs -f
-```
-
-#### 开发环境部署
-```bash
-# 使用开发环境配置
-docker-compose --profile dev up --build -d
 ```
 
 ### 4. 网络安全

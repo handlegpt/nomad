@@ -13,22 +13,14 @@ A comprehensive website for digital nomads providing information about visas, ta
 
 ### Option 1: Docker (Recommended)
 
-**生产环境部署：**
+**一键部署：**
 ```bash
-# 构建并启动生产环境
-docker-compose up --build
+# 使用安装脚本
+chmod +x install.sh
+./install.sh
 
-# 或者指定生产环境配置
-docker-compose --profile prod up --build
-```
-
-**开发环境：**
-```bash
-# 使用开发环境配置（支持热重载）
-docker-compose --profile dev up --build
-
-# 或者使用覆盖文件
-docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+# 或手动部署
+docker-compose up --build -d
 ```
 
 **手动Docker命令：**
@@ -38,10 +30,6 @@ docker build -t nomad-info .
 
 # 运行容器
 docker run -p 3010:3000 nomad-info
-
-# 开发环境
-docker build -f Dockerfile.dev -t nomad-info-dev .
-docker run -p 3010:3000 -v $(pwd):/app nomad-info-dev
 ```
 
 ### Option 2: Local Development
