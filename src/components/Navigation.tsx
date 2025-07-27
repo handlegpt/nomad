@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -13,16 +12,15 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function Navigation() {
-  const t = useTranslations('navigation');
   const pathname = usePathname();
 
   const navItems = [
-    { href: '/', label: t('home'), icon: HomeIcon },
-    { href: '/tools', label: t('tools'), icon: WrenchScrewdriverIcon },
-    { href: '/cities', label: t('cities'), icon: MapPinIcon },
-    { href: '/tax', label: t('tax'), icon: CalculatorIcon },
-    { href: '/guides', label: t('guides'), icon: BookOpenIcon },
-    { href: '/community', label: t('community'), icon: UserGroupIcon }
+    { href: '/', label: 'Home', icon: HomeIcon },
+    { href: '/tools', label: 'Tools', icon: WrenchScrewdriverIcon },
+    { href: '/cities', label: 'Cities', icon: MapPinIcon },
+    { href: '/tax', label: 'Tax', icon: CalculatorIcon },
+    { href: '/guides', label: 'Guides', icon: BookOpenIcon },
+    { href: '/community', label: 'Community', icon: UserGroupIcon }
   ];
 
   return (
@@ -32,7 +30,7 @@ export default function Navigation() {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="text-xl font-bold text-gray-900">
-                数字游民资讯
+                Digital Nomad Info
               </Link>
             </div>
             
