@@ -1,0 +1,353 @@
+{
+  "title": "數碼遊民資訊",
+  "subtitle": "數碼遊民的全面指南",
+  "description": "簽證、稅務、住房、保險等數碼遊民資訊",
+  "language": "語言",
+  
+  "navigation": {
+    "home": "首頁",
+    "tools": "工具",
+    "cities": "城市",
+    "visa": "簽證",
+    "tax": "稅務",
+    "housing": "住房",
+    "insurance": "保險",
+    "guides": "指南",
+    "community": "社區"
+  },
+
+  "tools": {
+    "title": "必備工具",
+    "subtitle": "數碼遊民的工具和服務",
+    "banking": {
+      "title": "銀行服務",
+      "description": "數碼遊民的數字銀行解決方案",
+      "items": [
+        {
+          "name": "Revolut",
+          "description": "多幣種賬戶，匯率優惠",
+          "features": ["無外匯交易費", "免費ATM取款", "多幣種支持"],
+          "rating": 4.8,
+          "url": "https://revolut.com"
+        },
+        {
+          "name": "Wise (TransferWise)",
+          "description": "國際匯款和無邊界賬戶",
+          "features": ["低轉賬費用", "實時匯率", "無邊界賬戶"],
+          "rating": 4.7,
+          "url": "https://wise.com"
+        },
+        {
+          "name": "N26",
+          "description": "歐洲數字銀行，全球功能",
+          "features": ["免費ATM取款", "實時通知", "旅行保險"],
+          "rating": 4.5,
+          "url": "https://n26.com"
+        }
+      ]
+    },
+    "insurance": {
+      "title": "保險服務",
+      "description": "遊民的健康和旅行保險",
+      "items": [
+        {
+          "name": "SafetyWing",
+          "description": "遊民全球健康保險",
+          "features": ["180+國家覆蓋", "新冠保險", "靈活計劃"],
+          "rating": 4.6,
+          "url": "https://safetywing.com"
+        },
+        {
+          "name": "World Nomads",
+          "description": "包含冒險運動的旅行保險",
+          "features": ["冒險運動覆蓋", "24/7緊急支持", "靈活期限"],
+          "rating": 4.4,
+          "url": "https://worldnomads.com"
+        },
+        {
+          "name": "Genki",
+          "description": "全球公民的數字健康保險",
+          "features": ["數字優先", "全球覆蓋", "簡單理賠"],
+          "rating": 4.3,
+          "url": "https://genki.world"
+        }
+      ]
+    },
+    "remote_work": {
+      "title": "遠程工作平台",
+      "description": "尋找遠程工作機會",
+      "items": [
+        {
+          "name": "Upwork",
+          "description": "各種技能的自由職業平台",
+          "features": ["廣泛項目類型", "安全支付系統", "技能匹配"],
+          "rating": 4.2,
+          "url": "https://upwork.com"
+        },
+        {
+          "name": "Fiverr",
+          "description": "基於項目的自由職業市場",
+          "features": ["快速項目完成", "服務套餐", "全球客戶"],
+          "rating": 4.1,
+          "url": "https://fiverr.com"
+        },
+        {
+          "name": "Toptal",
+          "description": "頂級人才的高級自由職業網絡",
+          "features": ["高質量項目", "頂級客戶", "競爭性費率"],
+          "rating": 4.5,
+          "url": "https://toptal.com"
+        }
+      ]
+    },
+    "language_learning": {
+      "title": "語言學習",
+      "description": "旅行中學習語言",
+      "items": [
+        {
+          "name": "Duolingo",
+          "description": "免費語言學習應用",
+          "features": ["遊戲化學習", "40+語言", "免費基礎版"],
+          "rating": 4.3,
+          "url": "https://duolingo.com"
+        },
+        {
+          "name": "italki",
+          "description": "在線語言輔導平台",
+          "features": ["母語者", "靈活安排", "對話練習"],
+          "rating": 4.4,
+          "url": "https://italki.com"
+        },
+        {
+          "name": "Babbel",
+          "description": "專注對話的語言學習",
+          "features": ["語音識別", "真實對話", "語法重點"],
+          "rating": 4.2,
+          "url": "https://babbel.com"
+        }
+      ]
+    }
+  },
+
+  "cities": {
+    "title": "遊民城市",
+    "subtitle": "數碼遊民熱門目的地",
+    "barcelona": {
+      "name": "巴塞羅那，西班牙",
+      "country": "西班牙",
+      "description": "地中海生活方式，天氣宜人，文化豐富",
+      "visa": {
+        "digital_nomad": "可用 (2023)",
+        "tourist": "90天 (申根)",
+        "requirements": ["收入證明", "健康保險", "無犯罪記錄"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$2000-3500",
+        "accommodation": "$800-1500",
+        "food": "$300-500",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "100 Mbps",
+        "coworking_spaces": "50+",
+        "free_wifi": "廣泛可用"
+      },
+      "safety": "非常安全",
+      "language": "西班牙語，加泰羅尼亞語",
+      "highlights": ["海灘生活", "豐富文化", "美食", "科技場景"]
+    },
+    "mexico_city": {
+      "name": "墨西哥城，墨西哥",
+      "country": "墨西哥",
+      "description": "充滿活力的城市，文化豐富，生活成本低",
+      "visa": {
+        "digital_nomad": "可用",
+        "tourist": "180天",
+        "requirements": ["有效護照", "返程機票", "充足資金"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1500-2500",
+        "accommodation": "$500-1000",
+        "food": "$200-400",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "50 Mbps",
+        "coworking_spaces": "30+",
+        "free_wifi": "咖啡館常見"
+      },
+      "safety": "總體安全（避開某些區域）",
+      "language": "西班牙語",
+      "highlights": ["經濟實惠", "豐富文化", "美食", "友好人民"]
+    },
+    "bali": {
+      "name": "巴厘島，印度尼西亞",
+      "country": "印度尼西亞",
+      "description": "熱帶天堂，精神文化",
+      "visa": {
+        "digital_nomad": "可用 (B211A)",
+        "tourist": "30天（可延長）",
+        "requirements": ["擔保信", "銀行對賬單", "返程機票"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1000-2000",
+        "accommodation": "$300-800",
+        "food": "$150-300",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "25 Mbps",
+        "coworking_spaces": "20+",
+        "free_wifi": "旅遊區常見"
+      },
+      "safety": "非常安全",
+      "language": "印尼語，英語",
+      "highlights": ["熱帶氣候", "精神文化", "經濟實惠", "美麗自然"]
+    },
+    "tokyo": {
+      "name": "東京，日本",
+      "country": "日本",
+      "description": "高科技城市，基礎設施完美",
+      "visa": {
+        "digital_nomad": "不可用",
+        "tourist": "90天",
+        "requirements": ["有效護照", "返程機票", "充足資金"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$3000-5000",
+        "accommodation": "$1500-2500",
+        "food": "$400-600",
+        "transport": "$100-150"
+      },
+      "internet": {
+        "average_speed": "200 Mbps",
+        "coworking_spaces": "100+",
+        "free_wifi": "覆蓋廣泛"
+      },
+      "safety": "極其安全",
+      "language": "日語",
+      "highlights": ["完美基礎設施", "高科技", "清潔", "高效"]
+    }
+  },
+
+  "tax_reminder": {
+    "title": "稅務提醒",
+    "subtitle": "保持稅務合規",
+    "183_day_rule": {
+      "title": "183天規則",
+      "description": "大多數國家認為停留183天以上為稅務居民",
+      "countries": [
+        {
+          "name": "西班牙",
+          "days": 183,
+          "notes": "也考慮習慣性居住"
+        },
+        {
+          "name": "墨西哥",
+          "days": 183,
+          "notes": "連續或非連續天數"
+        },
+        {
+          "name": "泰國",
+          "days": 180,
+          "notes": "任何日曆年內"
+        },
+        {
+          "name": "日本",
+          "days": 183,
+          "notes": "任何12個月期間"
+        }
+      ]
+    },
+    "double_taxation": {
+      "title": "雙重徵稅條約",
+      "description": "避免雙重徵稅的協議",
+      "common_treaties": [
+        "美國與60+國家有條約",
+        "英國與130+國家有條約",
+        "德國與90+國家有條約"
+      ]
+    }
+  },
+
+  "guides": {
+    "title": "指南與資源",
+    "subtitle": "遊民綜合指南",
+    "visa_guide": {
+      "title": "簽證申請指南",
+      "steps": [
+        "研究簽證要求",
+        "準備所需文件",
+        "在線/使館提交申請",
+        "支付申請費用",
+        "如需要參加面試",
+        "等待批准"
+      ],
+      "common_documents": [
+        "有效護照（6個月以上有效期）",
+        "護照照片",
+        "銀行對賬單",
+        "收入證明",
+        "健康保險",
+        "無犯罪記錄證明"
+      ]
+    },
+    "moving_checklist": {
+      "title": "搬家清單",
+      "items": [
+        "徹底研究目的地",
+        "預訂第一個月住宿",
+        "安排健康保險",
+        "通知銀行旅行計劃",
+        "打包重要文件",
+        "下載離線地圖",
+        "學習基本當地短語",
+        "設置當地SIM卡",
+        "如需要向當地當局註冊"
+      ]
+    },
+    "coworking_guide": {
+      "title": "尋找共同居住空間",
+      "tips": [
+        "使用NomadList和Outsite等平台",
+        "加入當地Facebook群組",
+        "查看評論和照片",
+        "詢問網速",
+        "協商長期費率",
+        "考慮位置與價格權衡"
+      ]
+    }
+  },
+
+  "community": {
+    "title": "遊民社區",
+    "subtitle": "與遊民同伴聯繫",
+    "telegram": {
+      "title": "Telegram群組",
+      "groups": [
+        "全球數碼遊民",
+        "Nomad List社區",
+        "巴厘島數碼遊民",
+        "墨西哥城遊民",
+        "巴塞羅那遊民"
+      ]
+    },
+    "discord": {
+      "title": "Discord服務器",
+      "servers": [
+        "Nomad List Discord",
+        "遠程工作社區",
+        "數碼遊民中心"
+      ]
+    },
+    "facebook": {
+      "title": "Facebook群組",
+      "groups": [
+        "全球數碼遊民",
+        "巴厘島數碼遊民",
+        "墨西哥城數碼遊民",
+        "巴塞羅那數碼遊民"
+      ]
+    }
+  }
+} 

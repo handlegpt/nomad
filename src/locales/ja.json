@@ -1,0 +1,353 @@
+{
+  "title": "ノマド情報",
+  "subtitle": "デジタルノマドの包括的ガイド",
+  "description": "ビザ、税金、住宅、保険などのデジタルノマド情報",
+  "language": "言語",
+  
+  "navigation": {
+    "home": "ホーム",
+    "tools": "ツール",
+    "cities": "都市",
+    "visa": "ビザ",
+    "tax": "税金",
+    "housing": "住宅",
+    "insurance": "保険",
+    "guides": "ガイド",
+    "community": "コミュニティ"
+  },
+
+  "tools": {
+    "title": "必須ツール",
+    "subtitle": "デジタルノマドのツールとサービス",
+    "banking": {
+      "title": "銀行サービス",
+      "description": "デジタルノマドのデジタル銀行ソリューション",
+      "items": [
+        {
+          "name": "Revolut",
+          "description": "優れた為替レートのマルチ通貨口座",
+          "features": ["外国為替手数料なし", "無料ATM引き出し", "マルチ通貨サポート"],
+          "rating": 4.8,
+          "url": "https://revolut.com"
+        },
+        {
+          "name": "Wise (TransferWise)",
+          "description": "国際送金とボーダーレス口座",
+          "features": ["低い送金手数料", "リアルタイム為替レート", "ボーダーレス口座"],
+          "rating": 4.7,
+          "url": "https://wise.com"
+        },
+        {
+          "name": "N26",
+          "description": "グローバル機能を持つヨーロッパのデジタル銀行",
+          "features": ["無料ATM引き出し", "リアルタイム通知", "旅行保険"],
+          "rating": 4.5,
+          "url": "https://n26.com"
+        }
+      ]
+    },
+    "insurance": {
+      "title": "保険サービス",
+      "description": "ノマドの健康と旅行保険",
+      "items": [
+        {
+          "name": "SafetyWing",
+          "description": "ノマドのグローバル健康保険",
+          "features": ["180+カ国カバー", "Covid-19カバー", "柔軟なプラン"],
+          "rating": 4.6,
+          "url": "https://safetywing.com"
+        },
+        {
+          "name": "World Nomads",
+          "description": "アドベンチャースポーツカバーの旅行保険",
+          "features": ["アドベンチャースポーツカバー", "24/7緊急サポート", "柔軟な期間"],
+          "rating": 4.4,
+          "url": "https://worldnomads.com"
+        },
+        {
+          "name": "Genki",
+          "description": "グローバル市民のデジタル健康保険",
+          "features": ["デジタルファースト", "グローバルカバー", "簡単な請求プロセス"],
+          "rating": 4.3,
+          "url": "https://genki.world"
+        }
+      ]
+    },
+    "remote_work": {
+      "title": "リモートワークプラットフォーム",
+      "description": "リモートワークの機会を見つける",
+      "items": [
+        {
+          "name": "Upwork",
+          "description": "様々なスキルのフリーランスプラットフォーム",
+          "features": ["幅広いプロジェクト", "安全な支払いシステム", "スキルベースマッチング"],
+          "rating": 4.2,
+          "url": "https://upwork.com"
+        },
+        {
+          "name": "Fiverr",
+          "description": "ギグベースのフリーランスマーケットプレイス",
+          "features": ["迅速なプロジェクト完了", "サービスパッケージ", "グローバルクライアント"],
+          "rating": 4.1,
+          "url": "https://fiverr.com"
+        },
+        {
+          "name": "Toptal",
+          "description": "トップ人材のプレミアムフリーランスネットワーク",
+          "features": ["高品質プロジェクト", "トップティアクライアント", "競争力のある料金"],
+          "rating": 4.5,
+          "url": "https://toptal.com"
+        }
+      ]
+    },
+    "language_learning": {
+      "title": "言語学習",
+      "description": "旅行中に言語を学ぶ",
+      "items": [
+        {
+          "name": "Duolingo",
+          "description": "無料の言語学習アプリ",
+          "features": ["ゲーム化された学習", "40+言語", "無料基本プラン"],
+          "rating": 4.3,
+          "url": "https://duolingo.com"
+        },
+        {
+          "name": "italki",
+          "description": "オンライン言語指導プラットフォーム",
+          "features": ["ネイティブスピーカー", "柔軟なスケジュール", "会話練習"],
+          "rating": 4.4,
+          "url": "https://italki.com"
+        },
+        {
+          "name": "Babbel",
+          "description": "会話に焦点を当てた言語学習",
+          "features": ["音声認識", "リアル会話", "文法フォーカス"],
+          "rating": 4.2,
+          "url": "https://babbel.com"
+        }
+      ]
+    }
+  },
+
+  "cities": {
+    "title": "ノマド都市",
+    "subtitle": "デジタルノマドの人気目的地",
+    "barcelona": {
+      "name": "バルセロナ、スペイン",
+      "country": "スペイン",
+      "description": "地中海のライフスタイル、素晴らしい天候と文化",
+      "visa": {
+        "digital_nomad": "利用可能 (2023)",
+        "tourist": "90日 (シェンゲン)",
+        "requirements": ["収入証明", "健康保険", "犯罪歴なし"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$2000-3500",
+        "accommodation": "$800-1500",
+        "food": "$300-500",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "100 Mbps",
+        "coworking_spaces": "50+",
+        "free_wifi": "広く利用可能"
+      },
+      "safety": "非常に安全",
+      "language": "スペイン語、カタルーニャ語",
+      "highlights": ["ビーチライフスタイル", "豊かな文化", "素晴らしい料理", "テックシーン"]
+    },
+    "mexico_city": {
+      "name": "メキシコシティ、メキシコ",
+      "country": "メキシコ",
+      "description": "活気のある都市、豊かな文化と手頃な生活費",
+      "visa": {
+        "digital_nomad": "利用可能",
+        "tourist": "180日",
+        "requirements": ["有効なパスポート", "帰国チケット", "十分な資金"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1500-2500",
+        "accommodation": "$500-1000",
+        "food": "$200-400",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "50 Mbps",
+        "coworking_spaces": "30+",
+        "free_wifi": "カフェで一般的"
+      },
+      "safety": "全体的に安全（特定の地域を避ける）",
+      "language": "スペイン語",
+      "highlights": ["手頃な価格", "豊かな文化", "素晴らしい料理", "友好的な人々"]
+    },
+    "bali": {
+      "name": "バリ、インドネシア",
+      "country": "インドネシア",
+      "description": "熱帯の楽園、スピリチュアルな文化",
+      "visa": {
+        "digital_nomad": "利用可能 (B211A)",
+        "tourist": "30日（延長可能）",
+        "requirements": ["スポンサーレター", "銀行口座明細", "帰国チケット"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1000-2000",
+        "accommodation": "$300-800",
+        "food": "$150-300",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "25 Mbps",
+        "coworking_spaces": "20+",
+        "free_wifi": "観光地で一般的"
+      },
+      "safety": "非常に安全",
+      "language": "インドネシア語、英語",
+      "highlights": ["熱帯気候", "スピリチュアルな文化", "手頃な価格", "美しい自然"]
+    },
+    "tokyo": {
+      "name": "東京、日本",
+      "country": "日本",
+      "description": "完璧なインフラを持つハイテク都市",
+      "visa": {
+        "digital_nomad": "利用不可",
+        "tourist": "90日",
+        "requirements": ["有効なパスポート", "帰国チケット", "十分な資金"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$3000-5000",
+        "accommodation": "$1500-2500",
+        "food": "$400-600",
+        "transport": "$100-150"
+      },
+      "internet": {
+        "average_speed": "200 Mbps",
+        "coworking_spaces": "100+",
+        "free_wifi": "広範囲なカバー"
+      },
+      "safety": "極めて安全",
+      "language": "日本語",
+      "highlights": ["完璧なインフラ", "ハイテク", "清潔", "効率的"]
+    }
+  },
+
+  "tax_reminder": {
+    "title": "税金リマインダー",
+    "subtitle": "税金義務のコンプライアンスを維持",
+    "183_day_rule": {
+      "title": "183日ルール",
+      "description": "ほとんどの国は183日以上滞在すると税務居住者とみなす",
+      "countries": [
+        {
+          "name": "スペイン",
+          "days": 183,
+          "notes": "習慣的居住も考慮"
+        },
+        {
+          "name": "メキシコ",
+          "days": 183,
+          "notes": "連続または非連続日数"
+        },
+        {
+          "name": "タイ",
+          "days": 180,
+          "notes": "任意の暦年"
+        },
+        {
+          "name": "日本",
+          "days": 183,
+          "notes": "任意の12ヶ月期間"
+        }
+      ]
+    },
+    "double_taxation": {
+      "title": "二重課税条約",
+      "description": "二重課税を避けるための協定",
+      "common_treaties": [
+        "米国は60+カ国と条約",
+        "英国は130+カ国と条約",
+        "ドイツは90+カ国と条約"
+      ]
+    }
+  },
+
+  "guides": {
+    "title": "ガイドとリソース",
+    "subtitle": "ノマドの包括的ガイド",
+    "visa_guide": {
+      "title": "ビザ申請ガイド",
+      "steps": [
+        "ビザ要件を調査",
+        "必要な書類を準備",
+        "オンライン/大使館に申請を提出",
+        "申請料を支払う",
+        "必要に応じて面接に参加",
+        "承認を待つ"
+      ],
+      "common_documents": [
+        "有効なパスポート（6ヶ月以上の有効期限）",
+        "パスポート写真",
+        "銀行口座明細",
+        "収入証明",
+        "健康保険",
+        "犯罪歴証明書"
+      ]
+    },
+    "moving_checklist": {
+      "title": "引っ越しチェックリスト",
+      "items": [
+        "目的地を徹底的に調査",
+        "最初の月の宿泊施設を予約",
+        "健康保険を手配",
+        "銀行に旅行計画を通知",
+        "重要な書類を梱包",
+        "オフラインマップをダウンロード",
+        "基本的な現地のフレーズを学ぶ",
+        "現地SIMカードを設定",
+        "必要に応じて現地当局に登録"
+      ]
+    },
+    "coworking_guide": {
+      "title": "コリビングスペースを見つける",
+      "tips": [
+        "NomadListやOutsiteなどのプラットフォームを使用",
+        "現地のFacebookグループに参加",
+        "レビューと写真をチェック",
+        "インターネット速度について質問",
+        "長期料金を交渉",
+        "場所と価格のトレードオフを考慮"
+      ]
+    }
+  },
+
+  "community": {
+    "title": "ノマドコミュニティ",
+    "subtitle": "ノマド仲間とつながる",
+    "telegram": {
+      "title": "Telegramグループ",
+      "groups": [
+        "世界のデジタルノマド",
+        "Nomad Listコミュニティ",
+        "バリデジタルノマド",
+        "メキシコシティノマド",
+        "バルセロナノマド"
+      ]
+    },
+    "discord": {
+      "title": "Discordサーバー",
+      "servers": [
+        "Nomad List Discord",
+        "リモートワークコミュニティ",
+        "デジタルノマドハブ"
+      ]
+    },
+    "facebook": {
+      "title": "Facebookグループ",
+      "groups": [
+        "世界のデジタルノマド",
+        "バリデジタルノマド",
+        "メキシコシティデジタルノマド",
+        "バルセロナデジタルノマド"
+      ]
+    }
+  }
+} 

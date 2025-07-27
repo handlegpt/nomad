@@ -1,0 +1,353 @@
+{
+  "title": "Info Nómada",
+  "subtitle": "Tu guía completa para nómadas digitales",
+  "description": "Visa, impuestos, vivienda, seguro y más para nómadas digitales",
+  "language": "Idioma",
+  
+  "navigation": {
+    "home": "Inicio",
+    "tools": "Herramientas",
+    "cities": "Ciudades",
+    "visa": "Visa",
+    "tax": "Impuestos",
+    "housing": "Vivienda",
+    "insurance": "Seguro",
+    "guides": "Guías",
+    "community": "Comunidad"
+  },
+
+  "tools": {
+    "title": "Herramientas Esenciales",
+    "subtitle": "Herramientas y servicios para nómadas digitales",
+    "banking": {
+      "title": "Banca",
+      "description": "Soluciones bancarias digitales para nómadas",
+      "items": [
+        {
+          "name": "Revolut",
+          "description": "Cuenta multi-moneda con excelentes tipos de cambio",
+          "features": ["Sin comisiones de cambio", "Retiros gratuitos en ATM", "Soporte multi-moneda"],
+          "rating": 4.8,
+          "url": "https://revolut.com"
+        },
+        {
+          "name": "Wise (TransferWise)",
+          "description": "Transferencias internacionales y cuenta sin fronteras",
+          "features": ["Bajas comisiones de transferencia", "Tipos de cambio reales", "Cuenta sin fronteras"],
+          "rating": 4.7,
+          "url": "https://wise.com"
+        },
+        {
+          "name": "N26",
+          "description": "Banco digital europeo con funciones globales",
+          "features": ["Retiros gratuitos en ATM", "Notificaciones en tiempo real", "Seguro de viaje"],
+          "rating": 4.5,
+          "url": "https://n26.com"
+        }
+      ]
+    },
+    "insurance": {
+      "title": "Seguro",
+      "description": "Seguro de salud y viaje para nómadas",
+      "items": [
+        {
+          "name": "SafetyWing",
+          "description": "Seguro de salud global para nómadas",
+          "features": ["Cobertura en 180+ países", "Cobertura Covid-19", "Planes flexibles"],
+          "rating": 4.6,
+          "url": "https://safetywing.com"
+        },
+        {
+          "name": "World Nomads",
+          "description": "Seguro de viaje con cobertura de deportes de aventura",
+          "features": ["Cobertura de deportes de aventura", "Soporte de emergencia 24/7", "Duración flexible"],
+          "rating": 4.4,
+          "url": "https://worldnomads.com"
+        },
+        {
+          "name": "Genki",
+          "description": "Seguro de salud digital para ciudadanos globales",
+          "features": ["Enfoque digital", "Cobertura global", "Proceso de reclamación fácil"],
+          "rating": 4.3,
+          "url": "https://genki.world"
+        }
+      ]
+    },
+    "remote_work": {
+      "title": "Plataformas de Trabajo Remoto",
+      "description": "Encuentra oportunidades de trabajo remoto",
+      "items": [
+        {
+          "name": "Upwork",
+          "description": "Plataforma freelance para diversas habilidades",
+          "features": ["Amplia gama de proyectos", "Sistema de pago seguro", "Coincidencia basada en habilidades"],
+          "rating": 4.2,
+          "url": "https://upwork.com"
+        },
+        {
+          "name": "Fiverr",
+          "description": "Mercado freelance basado en gigs",
+          "features": ["Finalización rápida de proyectos", "Paquetes de servicios", "Base de clientes global"],
+          "rating": 4.1,
+          "url": "https://fiverr.com"
+        },
+        {
+          "name": "Toptal",
+          "description": "Red freelance premium para talento de élite",
+          "features": ["Proyectos de alta calidad", "Clientes de primer nivel", "Tarifas competitivas"],
+          "rating": 4.5,
+          "url": "https://toptal.com"
+        }
+      ]
+    },
+    "language_learning": {
+      "title": "Aprendizaje de Idiomas",
+      "description": "Aprende idiomas mientras viajas",
+      "items": [
+        {
+          "name": "Duolingo",
+          "description": "Aplicación gratuita de aprendizaje de idiomas",
+          "features": ["Aprendizaje gamificado", "40+ idiomas", "Plan básico gratuito"],
+          "rating": 4.3,
+          "url": "https://duolingo.com"
+        },
+        {
+          "name": "italki",
+          "description": "Plataforma de tutoría de idiomas en línea",
+          "features": ["Hablantes nativos", "Programación flexible", "Práctica de conversación"],
+          "rating": 4.4,
+          "url": "https://italki.com"
+        },
+        {
+          "name": "Babbel",
+          "description": "Aprendizaje de idiomas enfocado en conversación",
+          "features": ["Reconocimiento de voz", "Conversaciones reales", "Enfoque en gramática"],
+          "rating": 4.2,
+          "url": "https://babbel.com"
+        }
+      ]
+    }
+  },
+
+  "cities": {
+    "title": "Ciudades Nómadas",
+    "subtitle": "Destinos populares para nómadas digitales",
+    "barcelona": {
+      "name": "Barcelona, España",
+      "country": "España",
+      "description": "Estilo de vida mediterráneo con excelente clima y cultura",
+      "visa": {
+        "digital_nomad": "Disponible (2023)",
+        "tourist": "90 días (Schengen)",
+        "requirements": ["Prueba de ingresos", "Seguro de salud", "Antecedentes penales limpios"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$2000-3500",
+        "accommodation": "$800-1500",
+        "food": "$300-500",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "100 Mbps",
+        "coworking_spaces": "50+",
+        "free_wifi": "Ampliamente disponible"
+      },
+      "safety": "Muy seguro",
+      "language": "Español, Catalán",
+      "highlights": ["Estilo de vida de playa", "Cultura rica", "Excelente comida", "Escena tecnológica"]
+    },
+    "mexico_city": {
+      "name": "Ciudad de México, México",
+      "country": "México",
+      "description": "Ciudad vibrante con rica cultura y bajo costo de vida",
+      "visa": {
+        "digital_nomad": "Disponible",
+        "tourist": "180 días",
+        "requirements": ["Pasaporte válido", "Boleto de regreso", "Fondos suficientes"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1500-2500",
+        "accommodation": "$500-1000",
+        "food": "$200-400",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "50 Mbps",
+        "coworking_spaces": "30+",
+        "free_wifi": "Común en cafés"
+      },
+      "safety": "Generalmente seguro (evitar ciertas áreas)",
+      "language": "Español",
+      "highlights": ["Asequible", "Cultura rica", "Excelente comida", "Gente amigable"]
+    },
+    "bali": {
+      "name": "Bali, Indonesia",
+      "country": "Indonesia",
+      "description": "Paraíso tropical con cultura espiritual",
+      "visa": {
+        "digital_nomad": "Disponible (B211A)",
+        "tourist": "30 días (extensible)",
+        "requirements": ["Carta de patrocinio", "Estado de cuenta bancario", "Boleto de regreso"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1000-2000",
+        "accommodation": "$300-800",
+        "food": "$150-300",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "25 Mbps",
+        "coworking_spaces": "20+",
+        "free_wifi": "Común en áreas turísticas"
+      },
+      "safety": "Muy seguro",
+      "language": "Indonesio, Inglés",
+      "highlights": ["Clima tropical", "Cultura espiritual", "Asequible", "Hermosa naturaleza"]
+    },
+    "tokyo": {
+      "name": "Tokio, Japón",
+      "country": "Japón",
+      "description": "Ciudad de alta tecnología con infraestructura perfecta",
+      "visa": {
+        "digital_nomad": "No disponible",
+        "tourist": "90 días",
+        "requirements": ["Pasaporte válido", "Boleto de regreso", "Fondos suficientes"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$3000-5000",
+        "accommodation": "$1500-2500",
+        "food": "$400-600",
+        "transport": "$100-150"
+      },
+      "internet": {
+        "average_speed": "200 Mbps",
+        "coworking_spaces": "100+",
+        "free_wifi": "Cobertura extensa"
+      },
+      "safety": "Extremadamente seguro",
+      "language": "Japonés",
+      "highlights": ["Infraestructura perfecta", "Alta tecnología", "Limpio", "Eficiente"]
+    }
+  },
+
+  "tax_reminder": {
+    "title": "Recordatorio de Impuestos",
+    "subtitle": "Mantén el cumplimiento fiscal",
+    "183_day_rule": {
+      "title": "Regla de 183 Días",
+      "description": "La mayoría de países te consideran residente fiscal si te quedas 183+ días",
+      "countries": [
+        {
+          "name": "España",
+          "days": 183,
+          "notes": "También considera residencia habitual"
+        },
+        {
+          "name": "México",
+          "days": 183,
+          "notes": "Días consecutivos o no consecutivos"
+        },
+        {
+          "name": "Tailandia",
+          "days": 180,
+          "notes": "En cualquier año calendario"
+        },
+        {
+          "name": "Japón",
+          "days": 183,
+          "notes": "En cualquier período de 12 meses"
+        }
+      ]
+    },
+    "double_taxation": {
+      "title": "Tratados de Doble Imposición",
+      "description": "Acuerdos para evitar pagar impuestos dos veces",
+      "common_treaties": [
+        "EEUU tiene tratados con 60+ países",
+        "Reino Unido tiene tratados con 130+ países",
+        "Alemania tiene tratados con 90+ países"
+      ]
+    }
+  },
+
+  "guides": {
+    "title": "Guías y Recursos",
+    "subtitle": "Guías completas para nómadas",
+    "visa_guide": {
+      "title": "Guía de Solicitud de Visa",
+      "steps": [
+        "Investiga requisitos de visa",
+        "Prepara documentos requeridos",
+        "Envía solicitud en línea/embajada",
+        "Paga tarifas de solicitud",
+        "Asiste a entrevista si es requerida",
+        "Espera aprobación"
+      ],
+      "common_documents": [
+        "Pasaporte válido (6+ meses de validez)",
+        "Fotos de pasaporte",
+        "Estados de cuenta bancarios",
+        "Prueba de ingresos",
+        "Seguro de salud",
+        "Verificación de antecedentes penales"
+      ]
+    },
+    "moving_checklist": {
+      "title": "Lista de Verificación para Mudanza",
+      "items": [
+        "Investiga destino a fondo",
+        "Reserva alojamiento para primer mes",
+        "Organiza seguro de salud",
+        "Notifica al banco planes de viaje",
+        "Empaca documentos importantes",
+        "Descarga mapas offline",
+        "Aprende frases básicas locales",
+        "Configura SIM local",
+        "Regístrate con autoridades locales si es requerido"
+      ]
+    },
+    "coworking_guide": {
+      "title": "Encontrar Espacios Co-living",
+      "tips": [
+        "Usa plataformas como NomadList y Outsite",
+        "Únete a grupos locales de Facebook",
+        "Revisa reseñas y fotos",
+        "Pregunta sobre velocidad de internet",
+        "Negocia tarifas a largo plazo",
+        "Considera el trade-off ubicación vs precio"
+      ]
+    }
+  },
+
+  "community": {
+    "title": "Comunidades Nómadas",
+    "subtitle": "Conecta con compañeros nómadas",
+    "telegram": {
+      "title": "Grupos de Telegram",
+      "groups": [
+        "Nómadas Digitales Mundiales",
+        "Comunidad Nomad List",
+        "Nómadas Digitales Bali",
+        "Nómadas Ciudad de México",
+        "Nómadas Barcelona"
+      ]
+    },
+    "discord": {
+      "title": "Servidores de Discord",
+      "servers": [
+        "Nomad List Discord",
+        "Comunidad de Trabajo Remoto",
+        "Hub de Nómadas Digitales"
+      ]
+    },
+    "facebook": {
+      "title": "Grupos de Facebook",
+      "groups": [
+        "Nómadas Digitales Alrededor del Mundo",
+        "Nómadas Digitales Bali",
+        "Nómadas Digitales Ciudad de México",
+        "Nómadas Digitales Barcelona"
+      ]
+    }
+  }
+} 

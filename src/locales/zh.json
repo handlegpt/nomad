@@ -1,0 +1,498 @@
+{
+  "title": "数字游民资讯",
+  "subtitle": "数字游民的全面指南",
+  "description": "签证、税务、住房、保险等数字游民资讯",
+  "language": "语言",
+  
+  "navigation": {
+    "home": "首页",
+    "tools": "工具",
+    "cities": "城市",
+    "visa": "签证",
+    "tax": "税务",
+    "housing": "住房",
+    "insurance": "保险",
+    "guides": "指南",
+    "community": "社区"
+  },
+
+  "tools": {
+    "title": "必备工具",
+    "subtitle": "数字游民的工具和服务",
+    "banking": {
+      "title": "银行服务",
+      "description": "数字游民的数字银行解决方案",
+      "items": [
+        {
+          "name": "Revolut",
+          "description": "多币种账户，汇率优惠",
+          "features": ["无外汇交易费", "免费ATM取款", "多币种支持"],
+          "rating": 4.8,
+          "url": "https://revolut.com"
+        },
+        {
+          "name": "Wise (TransferWise)",
+          "description": "国际汇款和无边界账户",
+          "features": ["低转账费用", "实时汇率", "无边界账户"],
+          "rating": 4.7,
+          "url": "https://wise.com"
+        },
+        {
+          "name": "N26",
+          "description": "欧洲数字银行，全球功能",
+          "features": ["免费ATM取款", "实时通知", "旅行保险"],
+          "rating": 4.5,
+          "url": "https://n26.com"
+        },
+        {
+          "name": "Monzo",
+          "description": "英国数字银行，旅行友好",
+          "features": ["无外汇费用", "实时通知", "预算管理"],
+          "rating": 4.4,
+          "url": "https://monzo.com"
+        }
+      ]
+    },
+    "insurance": {
+      "title": "保险服务",
+      "description": "游民的健康和旅行保险",
+      "items": [
+        {
+          "name": "SafetyWing",
+          "description": "游民全球健康保险",
+          "features": ["180+国家覆盖", "新冠保险", "灵活计划"],
+          "rating": 4.6,
+          "url": "https://safetywing.com"
+        },
+        {
+          "name": "World Nomads",
+          "description": "包含冒险运动的旅行保险",
+          "features": ["冒险运动覆盖", "24/7紧急支持", "灵活期限"],
+          "rating": 4.4,
+          "url": "https://worldnomads.com"
+        },
+        {
+          "name": "Genki",
+          "description": "全球公民的数字健康保险",
+          "features": ["数字优先", "全球覆盖", "简单理赔"],
+          "rating": 4.3,
+          "url": "https://genki.world"
+        },
+        {
+          "name": "Cigna Global",
+          "description": "高端国际健康保险",
+          "features": ["全球网络", "高端服务", "全面覆盖"],
+          "rating": 4.5,
+          "url": "https://cigna.com"
+        }
+      ]
+    },
+    "remote_work": {
+      "title": "远程工作平台",
+      "description": "寻找远程工作机会",
+      "items": [
+        {
+          "name": "Upwork",
+          "description": "各种技能的自由职业平台",
+          "features": ["广泛项目类型", "安全支付系统", "技能匹配"],
+          "rating": 4.2,
+          "url": "https://upwork.com"
+        },
+        {
+          "name": "Fiverr",
+          "description": "基于项目的自由职业市场",
+          "features": ["快速项目完成", "服务套餐", "全球客户"],
+          "rating": 4.1,
+          "url": "https://fiverr.com"
+        },
+        {
+          "name": "Toptal",
+          "description": "顶级人才的高级自由职业网络",
+          "features": ["高质量项目", "顶级客户", "竞争性费率"],
+          "rating": 4.5,
+          "url": "https://toptal.com"
+        },
+        {
+          "name": "Remote.co",
+          "description": "远程工作机会聚合平台",
+          "features": ["全职远程工作", "公司直接招聘", "高质量职位"],
+          "rating": 4.3,
+          "url": "https://remote.co"
+        }
+      ]
+    },
+    "language_learning": {
+      "title": "语言学习",
+      "description": "旅行中学习语言",
+      "items": [
+        {
+          "name": "Duolingo",
+          "description": "免费语言学习应用",
+          "features": ["游戏化学习", "40+语言", "免费基础版"],
+          "rating": 4.3,
+          "url": "https://duolingo.com"
+        },
+        {
+          "name": "italki",
+          "description": "在线语言辅导平台",
+          "features": ["母语者", "灵活安排", "对话练习"],
+          "rating": 4.4,
+          "url": "https://italki.com"
+        },
+        {
+          "name": "Babbel",
+          "description": "专注对话的语言学习",
+          "features": ["语音识别", "真实对话", "语法重点"],
+          "rating": 4.2,
+          "url": "https://babbel.com"
+        },
+        {
+          "name": "Memrise",
+          "description": "记忆科学驱动的语言学习",
+          "features": ["记忆技巧", "真实视频", "个性化学习"],
+          "rating": 4.1,
+          "url": "https://memrise.com"
+        }
+      ]
+    }
+  },
+
+  "cities": {
+    "title": "游民城市",
+    "subtitle": "数字游民热门目的地",
+    "barcelona": {
+      "name": "巴塞罗那，西班牙",
+      "country": "西班牙",
+      "description": "地中海生活方式，天气宜人，文化丰富",
+      "visa": {
+        "digital_nomad": "可用 (2023)",
+        "tourist": "90天 (申根)",
+        "requirements": ["收入证明", "健康保险", "无犯罪记录"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$2000-3500",
+        "accommodation": "$800-1500",
+        "food": "$300-500",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "100 Mbps",
+        "coworking_spaces": "50+",
+        "free_wifi": "广泛可用"
+      },
+      "safety": "非常安全",
+      "language": "西班牙语，加泰罗尼亚语",
+      "highlights": ["海滩生活", "丰富文化", "美食", "科技场景"]
+    },
+    "mexico_city": {
+      "name": "墨西哥城，墨西哥",
+      "country": "墨西哥",
+      "description": "充满活力的城市，文化丰富，生活成本低",
+      "visa": {
+        "digital_nomad": "可用",
+        "tourist": "180天",
+        "requirements": ["有效护照", "返程机票", "充足资金"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1500-2500",
+        "accommodation": "$500-1000",
+        "food": "$200-400",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "50 Mbps",
+        "coworking_spaces": "30+",
+        "free_wifi": "咖啡馆常见"
+      },
+      "safety": "总体安全（避开某些区域）",
+      "language": "西班牙语",
+      "highlights": ["经济实惠", "丰富文化", "美食", "友好人民"]
+    },
+    "bali": {
+      "name": "巴厘岛，印度尼西亚",
+      "country": "印度尼西亚",
+      "description": "热带天堂，精神文化",
+      "visa": {
+        "digital_nomad": "可用 (B211A)",
+        "tourist": "30天（可延长）",
+        "requirements": ["担保信", "银行对账单", "返程机票"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1000-2000",
+        "accommodation": "$300-800",
+        "food": "$150-300",
+        "transport": "$50-100"
+      },
+      "internet": {
+        "average_speed": "25 Mbps",
+        "coworking_spaces": "20+",
+        "free_wifi": "旅游区常见"
+      },
+      "safety": "非常安全",
+      "language": "印尼语，英语",
+      "highlights": ["热带气候", "精神文化", "经济实惠", "美丽自然"]
+    },
+    "tokyo": {
+      "name": "东京，日本",
+      "country": "日本",
+      "description": "高科技城市，基础设施完美",
+      "visa": {
+        "digital_nomad": "不可用",
+        "tourist": "90天",
+        "requirements": ["有效护照", "返程机票", "充足资金"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$3000-5000",
+        "accommodation": "$1500-2500",
+        "food": "$400-600",
+        "transport": "$100-150"
+      },
+      "internet": {
+        "average_speed": "200 Mbps",
+        "coworking_spaces": "100+",
+        "free_wifi": "覆盖广泛"
+      },
+      "safety": "极其安全",
+      "language": "日语",
+      "highlights": ["完美基础设施", "高科技", "清洁", "高效"]
+    },
+    "lisbon": {
+      "name": "里斯本，葡萄牙",
+      "country": "葡萄牙",
+      "description": "历史与现代融合，数字游民友好",
+      "visa": {
+        "digital_nomad": "可用 (D7签证)",
+        "tourist": "90天 (申根)",
+        "requirements": ["被动收入证明", "健康保险", "住宿证明"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1800-3000",
+        "accommodation": "$600-1200",
+        "food": "$250-450",
+        "transport": "$40-80"
+      },
+      "internet": {
+        "average_speed": "100 Mbps",
+        "coworking_spaces": "40+",
+        "free_wifi": "广泛可用"
+      },
+      "safety": "非常安全",
+      "language": "葡萄牙语，英语",
+      "highlights": ["历史建筑", "美食文化", "友好社区", "宜人气候"]
+    },
+    "chiang_mai": {
+      "name": "清迈，泰国",
+      "country": "泰国",
+      "description": "宁静古城，生活节奏慢，成本极低",
+      "visa": {
+        "digital_nomad": "可用 (ED签证)",
+        "tourist": "30天（可延长）",
+        "requirements": ["语言学校注册", "银行对账单", "住宿证明"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$800-1500",
+        "accommodation": "$200-500",
+        "food": "$100-200",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "30 Mbps",
+        "coworking_spaces": "15+",
+        "free_wifi": "咖啡馆常见"
+      },
+      "safety": "非常安全",
+      "language": "泰语，英语",
+      "highlights": ["古城文化", "寺庙众多", "美食天堂", "生活悠闲"]
+    },
+    "budapest": {
+      "name": "布达佩斯，匈牙利",
+      "country": "匈牙利",
+      "description": "中欧明珠，温泉之都，性价比高",
+      "visa": {
+        "digital_nomad": "可用 (白卡)",
+        "tourist": "90天 (申根)",
+        "requirements": ["收入证明", "健康保险", "住宿合同"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1200-2200",
+        "accommodation": "$400-800",
+        "food": "$200-350",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "80 Mbps",
+        "coworking_spaces": "25+",
+        "free_wifi": "广泛可用"
+      },
+      "safety": "非常安全",
+      "language": "匈牙利语，英语",
+      "highlights": ["温泉文化", "历史建筑", "夜生活", "性价比高"]
+    },
+    "porto": {
+      "name": "波尔图，葡萄牙",
+      "country": "葡萄牙",
+      "description": "葡萄酒之都，艺术氛围浓厚",
+      "visa": {
+        "digital_nomad": "可用 (D7签证)",
+        "tourist": "90天 (申根)",
+        "requirements": ["被动收入证明", "健康保险", "住宿证明"]
+      },
+      "cost_of_living": {
+        "monthly_budget": "$1500-2500",
+        "accommodation": "$500-900",
+        "food": "$200-350",
+        "transport": "$30-60"
+      },
+      "internet": {
+        "average_speed": "100 Mbps",
+        "coworking_spaces": "20+",
+        "free_wifi": "广泛可用"
+      },
+      "safety": "非常安全",
+      "language": "葡萄牙语，英语",
+      "highlights": ["葡萄酒文化", "艺术氛围", "河畔美景", "友好社区"]
+    }
+  },
+
+  "tax_reminder": {
+    "title": "税务提醒",
+    "subtitle": "保持税务合规",
+    "183_day_rule": {
+      "title": "183天规则",
+      "description": "大多数国家认为停留183天以上为税务居民",
+      "countries": [
+        {
+          "name": "西班牙",
+          "days": 183,
+          "notes": "也考虑习惯性居住"
+        },
+        {
+          "name": "墨西哥",
+          "days": 183,
+          "notes": "连续或非连续天数"
+        },
+        {
+          "name": "泰国",
+          "days": 180,
+          "notes": "任何日历年内"
+        },
+        {
+          "name": "日本",
+          "days": 183,
+          "notes": "任何12个月期间"
+        },
+        {
+          "name": "葡萄牙",
+          "days": 183,
+          "notes": "连续或非连续天数"
+        },
+        {
+          "name": "匈牙利",
+          "days": 183,
+          "notes": "在日历年内"
+        }
+      ]
+    },
+    "double_taxation": {
+      "title": "双重征税条约",
+      "description": "避免双重征税的协议",
+      "common_treaties": [
+        "美国与60+国家有条约",
+        "英国与130+国家有条约",
+        "德国与90+国家有条约",
+        "葡萄牙与70+国家有条约",
+        "匈牙利与80+国家有条约"
+      ]
+    }
+  },
+
+  "guides": {
+    "title": "指南与资源",
+    "subtitle": "游民综合指南",
+    "visa_guide": {
+      "title": "签证申请指南",
+      "steps": [
+        "研究签证要求",
+        "准备所需文件",
+        "在线/使馆提交申请",
+        "支付申请费用",
+        "如需要参加面试",
+        "等待批准"
+      ],
+      "common_documents": [
+        "有效护照（6个月以上有效期）",
+        "护照照片",
+        "银行对账单",
+        "收入证明",
+        "健康保险",
+        "无犯罪记录证明"
+      ]
+    },
+    "moving_checklist": {
+      "title": "搬家清单",
+      "items": [
+        "彻底研究目的地",
+        "预订第一个月住宿",
+        "安排健康保险",
+        "通知银行旅行计划",
+        "打包重要文件",
+        "下载离线地图",
+        "学习基本当地短语",
+        "设置当地SIM卡",
+        "如需要向当地当局注册"
+      ]
+    },
+    "coworking_guide": {
+      "title": "寻找共同居住空间",
+      "tips": [
+        "使用NomadList和Outsite等平台",
+        "加入当地Facebook群组",
+        "查看评论和照片",
+        "询问网速",
+        "协商长期费率",
+        "考虑位置与价格权衡"
+      ]
+    }
+  },
+
+  "community": {
+    "title": "游民社区",
+    "subtitle": "与游民同伴联系",
+    "telegram": {
+      "title": "Telegram群组",
+      "groups": [
+        "全球数字游民",
+        "Nomad List社区",
+        "巴厘岛数字游民",
+        "墨西哥城游民",
+        "巴塞罗那游民",
+        "里斯本数字游民",
+        "清迈数字游民",
+        "布达佩斯游民"
+      ]
+    },
+    "discord": {
+      "title": "Discord服务器",
+      "servers": [
+        "Nomad List Discord",
+        "远程工作社区",
+        "数字游民中心",
+        "欧洲游民社区",
+        "亚洲游民社区"
+      ]
+    },
+    "facebook": {
+      "title": "Facebook群组",
+      "groups": [
+        "全球数字游民",
+        "巴厘岛数字游民",
+        "墨西哥城数字游民",
+        "巴塞罗那数字游民",
+        "里斯本数字游民",
+        "清迈数字游民",
+        "布达佩斯数字游民",
+        "波尔图数字游民"
+      ]
+    }
+  }
+} 
