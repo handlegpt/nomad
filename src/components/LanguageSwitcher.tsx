@@ -1,14 +1,15 @@
 'use client'
 
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from '../i18n/navigation'
 import { useState } from 'react'
+import { locales } from '../i18n/navigation'
 
 const languages = [
-  { code: 'zh', label: '中文', flag: '🇨🇳' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  { code: 'yue', label: '粵語', flag: '🇭🇰' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' }
+  { code: 'zh' as const, label: '中文', flag: '🇨🇳' },
+  { code: 'en' as const, label: 'English', flag: '🇺🇸' },
+  { code: 'ja' as const, label: '日本語', flag: '🇯🇵' },
+  { code: 'zh-hk' as const, label: '粵語', flag: '🇭🇰' },
+  { code: 'es' as const, label: 'Español', flag: '🇪🇸' }
 ]
 
 export default function LanguageSwitcher() {
@@ -16,10 +17,9 @@ export default function LanguageSwitcher() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleLanguageChange = (locale: string) => {
-    // 简单的语言切换逻辑
-    const newPath = `/${locale}${pathname}`
-    router.push(newPath)
+  const handleLanguageChange = (locale: typeof locales[number]) => {
+    // 使用next-intl的路由方法
+    router.replace(pathname, { locale })
     setIsOpen(false)
   }
 
