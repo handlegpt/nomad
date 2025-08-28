@@ -1,5 +1,5 @@
 {
-  "name": "nomad-info",
+  "name": "nomad-now",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "next-intl": "^3.0.0",
-    "@heroicons/react": "^2.0.18"
+    "@heroicons/react": "^2.0.18",
+    "@supabase/supabase-js": "^2.39.0",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.294.0",
+    "clsx": "^2.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",

@@ -1,5 +1,3 @@
-const withNextIntl = require('next-intl/plugin')();
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Docker deployment optimization
@@ -9,6 +7,13 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
+
+  // Environment variables for client-side
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_OPENWEATHER_API_KEY: process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY,
+  },
 };
 
-module.exports = withNextIntl(nextConfig); 
+module.exports = nextConfig; 

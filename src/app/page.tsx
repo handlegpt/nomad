@@ -1,249 +1,204 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { WrenchScrewdriverIcon, MapPinIcon, CalculatorIcon, BookOpenIcon, UserGroupIcon, GlobeAltIcon, ArrowRightIcon, StarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect } from 'react'
+import { GlobeIcon, MapPinIcon, RefreshCwIcon } from 'lucide-react'
+import CurrentLocationCard from '@/components/CurrentLocationCard'
+import CityRanking from '@/components/CityRanking'
+import NomadTip from '@/components/NomadTip'
+import CommunitySection from '@/components/CommunitySection'
+import PremiumFeatures from '@/components/PremiumFeatures'
+import VisaCountdown from '@/components/VisaCountdown'
+import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
+import CityComparison from '@/components/CityComparison'
+import PlaceRecommendations from '@/components/PlaceRecommendations'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
+import MobileMenu from '@/components/MobileMenu'
+import NotificationSystem from '@/components/NotificationSystem'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function HomePage() {
-  const features = [
-    {
-      icon: WrenchScrewdriverIcon,
-      title: 'Essential Tools',
-      description: 'Digital banking, insurance, and remote work platforms',
-      href: '/tools',
-      color: 'blue'
-    },
-    {
-      icon: MapPinIcon,
-      title: 'Nomad Cities',
-      description: 'Popular destinations with visa and cost information',
-      href: '/cities',
-      color: 'green'
-    },
-    {
-      icon: CalculatorIcon,
-      title: 'Tax Guidance',
-      description: '183-day rule and double taxation treaties',
-      href: '/tax',
-      color: 'purple'
-    },
-    {
-      icon: BookOpenIcon,
-      title: 'Guides & Resources',
-      description: 'Visa applications, moving checklists, and tips',
-      href: '/guides',
-      color: 'orange'
-    },
-    {
-      icon: UserGroupIcon,
-      title: 'Community',
-      description: 'Connect with fellow digital nomads worldwide',
-      href: '/community',
-      color: 'indigo'
-    }
-  ];
+  const { t, locale } = useTranslation()
+  const [currentLocation, setCurrentLocation] = useState({
+    city: 'Osaka',
+    country: 'Japan',
+    timezone: 'Asia/Tokyo',
+    lat: 34.6937,
+    lon: 135.5023
+  })
+  const [lastUpdated, setLastUpdated] = useState(new Date())
 
-  const stats = [
-    { number: '180+', label: 'Countries Covered', icon: GlobeAltIcon },
-    { number: '50+', label: 'Cities Featured', icon: MapPinIcon },
-    { number: '100+', label: 'Tools & Services', icon: WrenchScrewdriverIcon },
-    { number: '24/7', label: 'Community Support', icon: UserGroupIcon }
-  ];
+  useEffect(() => {
+    // 这里可以集成地理位置检测
+    // 暂时使用默认位置
+  }, [])
 
-  const testimonials = [
-    {
-      text: "This site helped me find the perfect city for my digital nomad lifestyle. The visa information was incredibly accurate!",
-      author: "Sarah M.",
-      location: "Barcelona, Spain"
-    },
-    {
-      text: "The tax guidance saved me from making expensive mistakes. Essential resource for any nomad!",
-      author: "Mike R.",
-      location: "Lisbon, Portugal"
-    },
-    {
-      text: "Found my remote work community through this platform. The tools section is gold!",
-      author: "Emma L.",
-      location: "Chiang Mai, Thailand"
-    }
-  ];
-
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: 'bg-blue-500',
-      green: 'bg-green-500',
-      purple: 'bg-purple-500',
-      orange: 'bg-orange-500',
-      indigo: 'bg-indigo-500'
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
+  const handleRefresh = () => {
+    setLastUpdated(new Date())
+    // 这里可以重新获取数据
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '60px 60px'
-          }}></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <div className="mb-6">
-              <GlobeAltIcon className="h-16 w-16 mx-auto text-white opacity-80" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      {/* Minimal Header */}
+      <header className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <GlobeIcon className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">NOMAD.NOW</h1>
+                <p className="text-xs text-gray-500">digital nomad tools</p>
+              </div>
             </div>
-            <h1 className="text-6xl font-bold mb-6 leading-tight">
-              Digital Nomad
-              <span className="block text-blue-200">Information Hub</span>
-            </h1>
-            <p className="text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
-              Your comprehensive guide for digital nomads. Find visa information, tax guidance, 
-              essential tools, and connect with the global nomad community.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/tools" 
-                className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                Explore Tools
-              </Link>
-              <Link 
-                href="/cities" 
-                className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
-              >
-                Browse Cities
-              </Link>
+            
+            <div className="flex items-center space-x-3">
+              <div className="hidden lg:block">
+                <NotificationSystem />
+              </div>
+              <div className="hidden lg:block">
+                <LanguageSwitcher />
+              </div>
+              <MobileMenu />
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Features Section */}
-      <div className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Everything You Need
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive resources for your digital nomad journey
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature) => {
-              const IconComponent = feature.icon;
-              return (
-                <Link
-                  key={feature.href}
-                  href={feature.href}
-                  className="group relative bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-                >
-                  <div className={`w-16 h-16 ${getColorClasses(feature.color)} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{feature.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{feature.description}</p>
-                  <div className="flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
-                    Learn more
-                    <ArrowRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="py-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Global Nomad Community
-            </h2>
-            <p className="text-xl text-gray-300">
-              Join thousands of digital nomads worldwide
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat) => {
-              const IconComponent = stat.icon;
-              return (
-                <div key={stat.label} className="text-center group">
-                  <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-4xl font-bold text-blue-400 mb-2">{stat.number}</div>
-                  <div className="text-gray-300 font-medium">{stat.label}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              What Nomads Say
-            </h2>
-            <p className="text-xl text-gray-600">
-              Real experiences from our community
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6 leading-relaxed italic">"{testimonial.text}"</p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
-                    {testimonial.author.charAt(0)}
-                  </div>
-                  <div className="ml-4">
-                    <div className="font-semibold text-gray-900">{testimonial.author}</div>
-                    <div className="text-sm text-gray-500">{testimonial.location}</div>
-                  </div>
+      {/* Main Content - Minimal Design */}
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="space-y-8">
+          {/* Core Information Card - Like time.is */}
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <MapPinIcon className="h-6 w-6 text-blue-500" />
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">📍 你的位置: {currentLocation.city}, {currentLocation.country}</h2>
+                  <p className="text-sm text-gray-500">最后更新: {lastUpdated.toLocaleTimeString()}</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              <button
+                onClick={handleRefresh}
+                className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                title="刷新数据"
+              >
+                <RefreshCwIcon className="h-5 w-5" />
+              </button>
+            </div>
 
-      {/* CTA Section */}
-      <div className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-8">
-            <CheckCircleIcon className="h-16 w-16 mx-auto text-green-300 mb-6" />
-            <h2 className="text-4xl font-bold mb-4">
-              Ready to Start Your Journey?
-            </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
-              Explore our comprehensive resources and join the global digital nomad community.
-            </p>
+            {/* Current Status Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="text-center p-4 bg-blue-50 rounded-xl">
+                <div className="text-3xl font-bold text-blue-600 mb-2">14:22</div>
+                <div className="text-sm text-gray-600">🕒 当地时间</div>
+              </div>
+              
+              <div className="text-center p-4 bg-green-50 rounded-xl">
+                <div className="text-3xl font-bold text-green-600 mb-2">27°C</div>
+                <div className="text-sm text-gray-600">🌤 天气</div>
+              </div>
+              
+              <div className="text-center p-4 bg-purple-50 rounded-xl">
+                <div className="text-3xl font-bold text-purple-600 mb-2">120</div>
+                <div className="text-sm text-gray-600">☕ WiFi (Mbps)</div>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50 rounded-xl">
+                <div className="text-3xl font-bold text-orange-600 mb-2">38</div>
+                <div className="text-sm text-gray-600">🛂 签证剩余天数</div>
+              </div>
+            </div>
           </div>
-          <Link 
-            href="/tools" 
-            className="bg-white text-blue-600 px-10 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center"
-          >
-            Get Started
-            <ArrowRightIcon className="ml-2 h-6 w-6" />
-          </Link>
+
+          {/* Nomad Hot Cities Ranking */}
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                🌍 Nomad 热门城市推荐榜单
+              </h2>
+              <span className="text-sm text-gray-500">(投票 → 得分 → 排名)</span>
+            </div>
+            
+            <CityRanking limit={5} />
+            
+            <div className="mt-6 text-center">
+              <button className="text-blue-600 hover:text-blue-700 font-medium">
+                👉 查看全部城市排行
+              </button>
+            </div>
+          </div>
+
+          {/* Quick Vote Section */}
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+              ✍️ 参与投票
+            </h3>
+            <div className="flex items-center justify-center space-x-4">
+              <button className="px-6 py-3 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors font-medium">
+                🔼 喜欢
+              </button>
+              <button className="px-6 py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
+                🔽 不喜欢
+              </button>
+              <span className="text-gray-500">或者</span>
+              <button className="px-6 py-3 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors font-medium">
+                ⭐ 评分: 1~5
+              </button>
+            </div>
+          </div>
+
+          {/* Nomad Tip */}
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+              📨 Nomad 小贴士
+            </h3>
+            <div className="bg-blue-50 rounded-xl p-4 mb-4">
+              <p className="text-gray-700 italic">
+                「在葡萄牙，数字游民签证允许停留1年并可续签。」
+              </p>
+            </div>
+            <div className="text-center">
+              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                订阅邮件提醒 → 获取签证到期/城市推荐
+              </button>
+            </div>
+          </div>
+
+          {/* Additional Features - Collapsible */}
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <VisaCountdown
+                visaExpiry="2024-03-15"
+                country="Japan"
+                visaType="Tourist Visa"
+              />
+              <PersonalizedRecommendations />
+            </div>
+            
+            <PlaceRecommendations cityId="osaka" />
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <CommunitySection />
+              <PremiumFeatures />
+            </div>
+            
+            <CityComparison />
+          </div>
         </div>
-      </div>
+      </main>
+
+      {/* Minimal Footer */}
+      <footer className="bg-white border-t border-gray-200 mt-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-center space-x-6 text-sm text-gray-600">
+            <a href="#" className="hover:text-gray-900">关于 nomad.now</a>
+            <a href="#" className="hover:text-gray-900">联系</a>
+            <a href="#" className="hover:text-gray-900">赞助合作</a>
+          </div>
+        </div>
+      </footer>
     </div>
-  );
+  )
 } 

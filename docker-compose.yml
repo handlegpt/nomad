@@ -1,19 +1,31 @@
 version: '3.8'
 
 services:
-  # Production environment
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nomad-now:
+    build: .
     ports:
-      - "3010:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_SITE_URL=http://localhost:3010
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # Supabase配置 - 请替换为你的实际值
+      - NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+      # OpenWeather API配置 - 请替换为你的实际值
+      - NEXT_PUBLIC_OPENWEATHER_API_KEY=your-openweather-api-key-here
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
-      retries: 3 
+      retries: 3
+      start_period: 40s
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - nomad-network
+
+networks:
+  nomad-network:
+    driver: bridge 

@@ -1,52 +1,72 @@
 'use client'
 
-import { useRouter, usePathname } from '../i18n/navigation'
-import { useState } from 'react'
-import { locales } from '../i18n/navigation'
+import { useState, useEffect } from 'react'
+import { GlobeIcon, ChevronDownIcon } from 'lucide-react'
+import { Locale, locales, localeNames, localeFlags } from '@/i18n/config'
+import { getCurrentLocale, setLocale } from '@/i18n/utils'
 
-const languages = [
-  { code: 'zh' as const, label: '中文', flag: '🇨🇳' },
-  { code: 'en' as const, label: 'English', flag: '🇺🇸' },
-  { code: 'ja' as const, label: '日本語', flag: '🇯🇵' },
-  { code: 'zh-hk' as const, label: '粵語', flag: '🇭🇰' },
-  { code: 'es' as const, label: 'Español', flag: '🇪🇸' }
-]
+interface LanguageSwitcherProps {
+  onLanguageChange?: (locale: Locale) => void
+}
 
-export default function LanguageSwitcher() {
-  const router = useRouter()
-  const pathname = usePathname()
+export default function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherProps) {
+  const [currentLocale, setCurrentLocale] = useState<Locale>('zh')
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleLanguageChange = (locale: typeof locales[number]) => {
-    // 使用next-intl的路由方法
-    router.replace(pathname, { locale })
+  useEffect(() => {
+    const locale = getCurrentLocale()
+    setCurrentLocale(locale)
+  }, [])
+
+  const handleLanguageChange = (locale: Locale) => {
+    setCurrentLocale(locale)
+    setLocale(locale)
     setIsOpen(false)
+    onLanguageChange?.(locale)
+    
+    // 刷新页面以应用新语言
+    window.location.reload()
   }
 
   return (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+        className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
       >
-        <span>🌐</span>
-        <span>Language</span>
-        <span>▼</span>
+        <GlobeIcon className="h-4 w-4" />
+        <span className="text-sm font-medium">
+          {localeFlags[currentLocale]} {localeNames[currentLocale]}
+        </span>
+        <ChevronDownIcon className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      
+
       {isOpen && (
-        <div className="absolute top-full mt-2 bg-white rounded-lg shadow-lg border">
-          {languages.map((lang) => (
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+          {locales.map((locale) => (
             <button
-              key={lang.code}
-              onClick={() => handleLanguageChange(lang.code)}
-              className="flex items-center space-x-2 w-full px-4 py-2 hover:bg-gray-100 rounded-lg"
+              key={locale}
+              onClick={() => handleLanguageChange(locale)}
+              className={`w-full flex items-center space-x-3 px-4 py-2 text-left hover:bg-gray-50 transition-colors ${
+                currentLocale === locale ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+              }`}
             >
-              <span>{lang.flag}</span>
-              <span>{lang.label}</span>
+              <span className="text-lg">{localeFlags[locale]}</span>
+              <span className="text-sm font-medium">{localeNames[locale]}</span>
+              {currentLocale === locale && (
+                <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full"></div>
+              )}
             </button>
           ))}
         </div>
+      )}
+
+      {/* 点击外部关闭 */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setIsOpen(false)}
+        />
       )}
     </div>
   )
