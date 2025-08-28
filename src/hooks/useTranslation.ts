@@ -40,16 +40,19 @@ export function useTranslation() {
     if (loading) return key
     
     const keys = key.split('.')
-    let value = keys.reduce((obj, k) => obj?.[k], translations) || key
+    let value: any = keys.reduce((obj, k) => obj?.[k], translations) || key
     
-    // 替换参数
+    // Ensure value is a string
+    let result = String(value)
+    
+    // Replace parameters
     if (params) {
       Object.entries(params).forEach(([param, replacement]) => {
-        value = value.replace(new RegExp(`{${param}}`, 'g'), replacement)
+        result = result.replace(new RegExp(`{${param}}`, 'g'), replacement)
       })
     }
     
-    return value
+    return result
   }
 
   return {
