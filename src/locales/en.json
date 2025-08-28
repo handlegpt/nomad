@@ -245,6 +245,21 @@
     "attendEvent": "Attend Event",
     "discoverMore": "Discover More Communities",
     "nextEvent": "Next Event",
+    "lightweightSocial": {
+      "title": "Lightweight Social",
+      "messages": "Messages",
+      "onlineUsers": "Online Users",
+      "messagePlaceholder": "Share something with the community...",
+      "noMessages": "No messages yet",
+      "startConversation": "Be the first to start a conversation!",
+      "onlineInCity": "Online in this city",
+      "available": "available",
+      "coffeeMeetup": "Coffee Meetup",
+      "busy": "Busy",
+      "noOnlineUsers": "No online users",
+      "checkLater": "Check back later",
+      "footer": "Lightweight social features for digital nomads"
+    },
     "onlineCommunities": {
       "facebook": {
         "description": "The world's largest digital nomad Facebook group"
