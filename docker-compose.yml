@@ -5,15 +5,12 @@ services:
     build: .
     ports:
       - "3011:3000"  # 修改为3011端口
+    env_file:
+      - .env.local
     environment:
       - NODE_ENV=production
       - PORT=3000
       - HOSTNAME=0.0.0.0
-      # Supabase配置 - 请替换为你的实际值
-      - NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-      - NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-      # OpenWeather API配置 - 请替换为你的实际值
-      - NEXT_PUBLIC_OPENWEATHER_API_KEY=your-openweather-api-key-here
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]

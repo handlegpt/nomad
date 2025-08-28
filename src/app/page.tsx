@@ -14,6 +14,7 @@ import CommunitySection from '@/components/CommunitySection'
 import PremiumFeatures from '@/components/PremiumFeatures'
 import CityComparison from '@/components/CityComparison'
 import NomadMeetup from '@/components/NomadMeetup'
+import HomePlaceRecommendations from '@/components/HomePlaceRecommendations'
 
 export default function HomePage() {
   const { t, locale } = useTranslation()
@@ -66,6 +67,9 @@ export default function HomePage() {
             </div>
             <CityRanking limit={5} />
           </div>
+
+          {/* Nomad Place Recommendations */}
+          <HomePlaceRecommendations />
 
           {/* Personalized Recommendations */}
           <PersonalizedRecommendations />

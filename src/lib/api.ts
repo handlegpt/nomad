@@ -355,8 +355,15 @@ export async function getCurrentLocation(): Promise<{ lat: number; lon: number; 
   return new Promise((resolve) => {
     // Check if we're in a secure context (HTTPS or localhost)
     const isSecureContext = window.location.protocol === 'https:' || window.location.hostname === 'localhost'
+    const isProduction = process.env.NODE_ENV === 'production'
     
-    if (!isSecureContext) {
+    // In production, if not HTTPS, show a message but still allow geolocation
+    if (isProduction && !isSecureContext) {
+      console.warn('Geolocation works better with HTTPS - some features may be limited')
+    }
+    
+    // Only block geolocation if not secure and not in production
+    if (!isSecureContext && !isProduction) {
       console.warn('Geolocation requires HTTPS or localhost - using default location')
       resolve({
         lat: 34.6937,

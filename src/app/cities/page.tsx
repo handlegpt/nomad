@@ -54,7 +54,7 @@ export default function CitiesPage() {
   }
 
   if (loading) {
-    return (
+  return (
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse">
@@ -66,7 +66,7 @@ export default function CitiesPage() {
             </div>
           </div>
         </div>
-      </div>
+                </div>
     )
   }
 
@@ -89,7 +89,7 @@ export default function CitiesPage() {
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
-            
+
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
@@ -100,9 +100,9 @@ export default function CitiesPage() {
               <option value="digital-nomad">数字游民签证</option>
               <option value="low-cost">低成本</option>
             </select>
-          </div>
-        </div>
-      </div>
+                      </div>
+                    </div>
+                  </div>
 
       {/* Cities Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -132,7 +132,7 @@ export default function CitiesPage() {
                     <span className="font-semibold text-gray-900">
                       ${city.cost_of_living || 'N/A'}
                     </span>
-                  </div>
+                          </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
@@ -172,11 +172,11 @@ export default function CitiesPage() {
                   <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
                     投票
                   </button>
-                </div>
-              </div>
+                        </div>
+                        </div>
+                      </div>
+                    ))}
             </div>
-          ))}
-        </div>
 
         {filteredCities.length === 0 && (
           <div className="text-center py-12">
