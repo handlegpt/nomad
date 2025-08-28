@@ -41,7 +41,7 @@ RUN mkdir -p public
 COPY --from=builder /app/public ./public
 
 # Copy environment example file (if exists)
-COPY --from=builder /app/env.example ./env.example 2>/dev/null || true
+COPY --from=builder /app/env.example ./env.example
 
 # Set proper permissions
 RUN chown -R nextjs:nodejs /app
