@@ -10,6 +10,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY package-lock.json ./
 
+# Copy environment file for build
+COPY .env ./
+
 # Install all dependencies (including dev dependencies for build)
 # Use npm ci for reproducible builds and better security
 RUN npm ci && npm cache clean --force
@@ -40,8 +43,9 @@ COPY --from=builder /app/.next/static ./.next/static
 RUN mkdir -p public
 COPY --from=builder /app/public ./public
 
-# Copy environment example file (if exists)
+# Copy environment files
 COPY --from=builder /app/env.example ./env.example
+COPY --from=builder /app/.env ./.env
 
 # Set proper permissions
 RUN chown -R nextjs:nodejs /app

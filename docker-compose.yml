@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   nomad-now:
-    build: .
+    build: 
+      context: .
+      args:
+        - NODE_ENV=production
     ports:
       - "3011:3000"  # 修改为3011端口
     env_file:
