@@ -17,11 +17,11 @@ interface ScoredCity extends City {
 }
 
 const preferences: Preference[] = [
-  { id: 'wifi', label: 'WiFi Quality', weight: 0 },
-  { id: 'cost', label: 'Cost of Living', weight: 0 },
-  { id: 'climate', label: 'Climate Comfort', weight: 0 },
-  { id: 'social', label: 'Social Atmosphere', weight: 0 },
-  { id: 'visa', label: 'Visa Convenience', weight: 0 }
+  { id: 'wifi', label: t('preferences.wifiQuality'), weight: 0 },
+  { id: 'cost', label: t('preferences.costOfLiving'), weight: 0 },
+  { id: 'climate', label: t('preferences.climateComfort'), weight: 0 },
+  { id: 'social', label: t('preferences.socialAtmosphere'), weight: 0 },
+  { id: 'visa', label: t('preferences.visaConvenience'), weight: 0 }
 ]
 
 export default function PersonalizedRecommendations() {

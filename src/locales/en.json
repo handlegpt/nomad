@@ -259,6 +259,59 @@
     "addToFavorites": "Add to Favorites",
     "setPreferences": "Set your preferences to get personalized city recommendations"
   },
+
+  "preferences": {
+    "wifiQuality": "WiFi Quality",
+    "costOfLiving": "Cost of Living",
+    "climateComfort": "Climate Comfort",
+    "socialAtmosphere": "Social Atmosphere",
+    "visaConvenience": "Visa Convenience"
+  },
+
+  "premiumFeatures": {
+    "title": "Premium Features",
+    "subtitle": "Unlock more professional features to enhance your digital nomad experience",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "month": "month",
+    "year": "year",
+    "savings": "Save 20%",
+    "pdfReport": "PDF City Comparison Report",
+    "pdfReportDesc": "Generate detailed city comparison PDF reports",
+    "visaReminder": "Personalized Visa Reminders",
+    "visaReminderDesc": "Smart visa expiry reminders and renewal suggestions",
+    "aiAssistant": "AI City Recommendation Assistant",
+    "aiAssistantDesc": "AI city recommendations based on personal preferences",
+    "dataAnalysis": "Advanced Data Analysis",
+    "dataAnalysisDesc": "Detailed cost and quality of life analysis",
+    "upgrade": "Upgrade to Premium",
+    "trial": "7-day free trial • Cancel anytime • No hidden fees"
+  },
+
+  "cityComparison": {
+    "title": "City Comparison",
+    "addCity": "Add City",
+    "exportPDF": "Export PDF",
+    "selectCities": "Select 2-4 cities to compare",
+    "startComparison": "Start Comparison"
+  },
+
+  "cities": {
+    "tokyo": "Tokyo",
+    "osaka": "Osaka",
+    "bangkok": "Bangkok",
+    "chiangMai": "Chiang Mai",
+    "bali": "Bali",
+    "lisbon": "Lisbon",
+    "barcelona": "Barcelona",
+    "mexicoCity": "Mexico City",
+    "japan": "Japan",
+    "thailand": "Thailand",
+    "indonesia": "Indonesia",
+    "portugal": "Portugal",
+    "spain": "Spain",
+    "mexico": "Mexico"
+  },
   "common": {
     "learnMore": "Learn more",
     "viewDetails": "View Details",

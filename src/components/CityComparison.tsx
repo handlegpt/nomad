@@ -2,20 +2,22 @@
 
 import { useState } from 'react'
 import { BarChart3, Download, Plus, X } from 'lucide-react'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function CityComparison() {
+  const { t } = useTranslation()
   const [selectedCities, setSelectedCities] = useState<string[]>([])
   const [showCitySelector, setShowCitySelector] = useState(false)
 
   const availableCities = [
-    { id: 'tokyo', name: '东京', country: '日本' },
-    { id: 'osaka', name: '大阪', country: '日本' },
-    { id: 'bangkok', name: '曼谷', country: '泰国' },
-    { id: 'chiang-mai', name: '清迈', country: '泰国' },
-    { id: 'bali', name: '巴厘岛', country: '印尼' },
-    { id: 'portugal', name: '里斯本', country: '葡萄牙' },
-    { id: 'barcelona', name: '巴塞罗那', country: '西班牙' },
-    { id: 'mexico-city', name: '墨西哥城', country: '墨西哥' }
+    { id: 'tokyo', name: t('cities.tokyo'), country: t('cities.japan') },
+    { id: 'osaka', name: t('cities.osaka'), country: t('cities.japan') },
+    { id: 'bangkok', name: t('cities.bangkok'), country: t('cities.thailand') },
+    { id: 'chiang-mai', name: t('cities.chiangMai'), country: t('cities.thailand') },
+    { id: 'bali', name: t('cities.bali'), country: t('cities.indonesia') },
+    { id: 'portugal', name: t('cities.lisbon'), country: t('cities.portugal') },
+    { id: 'barcelona', name: t('cities.barcelona'), country: t('cities.spain') },
+    { id: 'mexico-city', name: t('cities.mexicoCity'), country: t('cities.mexico') }
   ]
 
   const comparisonData = {
@@ -76,7 +78,7 @@ export default function CityComparison() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 flex items-center">
           <BarChart3 className="h-6 w-6 mr-2 text-blue-600" />
-          城市对比
+          {t('cityComparison.title')}
         </h2>
         <div className="flex items-center space-x-2">
           <button
@@ -85,12 +87,12 @@ export default function CityComparison() {
             className="flex items-center space-x-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
             <Plus className="h-4 w-4" />
-            <span>添加城市</span>
+            <span>{t('cityComparison.addCity')}</span>
           </button>
           {selectedCities.length > 0 && (
             <button className="flex items-center space-x-1 px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm">
               <Download className="h-4 w-4" />
-              <span>导出PDF</span>
+              <span>{t('cityComparison.exportPDF')}</span>
             </button>
           )}
         </div>

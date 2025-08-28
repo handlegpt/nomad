@@ -2,29 +2,31 @@
 
 import { useState } from 'react'
 import { Crown, Check, Star, Download, Bell, Users } from 'lucide-react'
+import { useTranslation } from '@/hooks/useTranslation'
 
 export default function PremiumFeatures() {
+  const { t } = useTranslation()
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly')
 
   const features = [
     {
-      name: 'PDF城市对比报告',
-      description: '生成详细的城市对比PDF报告',
+      name: t('premiumFeatures.pdfReport'),
+      description: t('premiumFeatures.pdfReportDesc'),
       icon: Download
     },
     {
-      name: '个性化签证提醒',
-      description: '智能签证到期提醒和续签建议',
+      name: t('premiumFeatures.visaReminder'),
+      description: t('premiumFeatures.visaReminderDesc'),
       icon: Bell
     },
     {
-      name: 'AI城市推荐助手',
-      description: '基于个人偏好的AI城市推荐',
+      name: t('premiumFeatures.aiAssistant'),
+      description: t('premiumFeatures.aiAssistantDesc'),
       icon: Star
     },
     {
-      name: '高级数据分析',
-      description: '详细的成本和生活质量分析',
+      name: t('premiumFeatures.dataAnalysis'),
+      description: t('premiumFeatures.dataAnalysisDesc'),
       icon: Users
     }
   ]
@@ -32,13 +34,13 @@ export default function PremiumFeatures() {
   const plans = {
     monthly: {
       price: 9.99,
-      period: '月',
+      period: t('premiumFeatures.month'),
       savings: null
     },
     yearly: {
       price: 99.99,
-      period: '年',
-      savings: '节省 20%'
+      period: t('premiumFeatures.year'),
+      savings: t('premiumFeatures.savings')
     }
   }
 
@@ -50,8 +52,8 @@ export default function PremiumFeatures() {
         <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4">
           <Crown className="h-6 w-6 text-white" />
         </div>
-        <h2 className="text-xl font-bold text-gray-900 mb-2">高级功能</h2>
-        <p className="text-gray-600">解锁更多专业功能，提升数字游民体验</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">{t('premiumFeatures.title')}</h2>
+        <p className="text-gray-600">{t('premiumFeatures.subtitle')}</p>
       </div>
 
       {/* Plan Toggle */}
@@ -65,7 +67,7 @@ export default function PremiumFeatures() {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            月付
+            {t('premiumFeatures.monthly')}
           </button>
           <button
             onClick={() => setSelectedPlan('yearly')}
@@ -75,7 +77,7 @@ export default function PremiumFeatures() {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            年付
+            {t('premiumFeatures.yearly')}
           </button>
         </div>
       </div>
@@ -114,13 +116,13 @@ export default function PremiumFeatures() {
       {/* CTA Button */}
       <button className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 px-6 rounded-xl font-medium hover:from-yellow-500 hover:to-orange-600 transition-all duration-200 flex items-center justify-center">
         <Crown className="h-5 w-5 mr-2" />
-        升级到高级版
+        {t('premiumFeatures.upgrade')}
       </button>
 
       {/* Additional Info */}
       <div className="mt-4 text-center">
         <p className="text-xs text-gray-500">
-          7天免费试用 • 随时取消 • 无隐藏费用
+          {t('premiumFeatures.trial')}
         </p>
       </div>
     </div>

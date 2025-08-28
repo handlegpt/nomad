@@ -487,6 +487,59 @@
     "setPreferences": "Configura tus preferencias para obtener recomendaciones de ciudades personalizadas"
   },
 
+  "preferences": {
+    "wifiQuality": "Calidad WiFi",
+    "costOfLiving": "Costo de Vida",
+    "climateComfort": "Comodidad Climática",
+    "socialAtmosphere": "Atmósfera Social",
+    "visaConvenience": "Conveniencia de Visa"
+  },
+
+  "premiumFeatures": {
+    "title": "Características Premium",
+    "subtitle": "Desbloquea más características profesionales para mejorar tu experiencia como nómada digital",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "month": "mes",
+    "year": "año",
+    "savings": "Ahorra 20%",
+    "pdfReport": "Reporte de Comparación de Ciudades PDF",
+    "pdfReportDesc": "Genera reportes detallados de comparación de ciudades en PDF",
+    "visaReminder": "Recordatorios de Visa Personalizados",
+    "visaReminderDesc": "Recordatorios inteligentes de vencimiento de visa y sugerencias de renovación",
+    "aiAssistant": "Asistente de Recomendaciones de Ciudades IA",
+    "aiAssistantDesc": "Recomendaciones de ciudades IA basadas en preferencias personales",
+    "dataAnalysis": "Análisis de Datos Avanzado",
+    "dataAnalysisDesc": "Análisis detallado de costo y calidad de vida",
+    "upgrade": "Actualizar a Premium",
+    "trial": "Prueba gratuita de 7 días • Cancela en cualquier momento • Sin cargos ocultos"
+  },
+
+  "cityComparison": {
+    "title": "Comparación de Ciudades",
+    "addCity": "Agregar Ciudad",
+    "exportPDF": "Exportar PDF",
+    "selectCities": "Selecciona 2-4 ciudades para comparar",
+    "startComparison": "Comenzar Comparación"
+  },
+
+  "cities": {
+    "tokyo": "Tokio",
+    "osaka": "Osaka",
+    "bangkok": "Bangkok",
+    "chiangMai": "Chiang Mai",
+    "bali": "Bali",
+    "lisbon": "Lisboa",
+    "barcelona": "Barcelona",
+    "mexicoCity": "Ciudad de México",
+    "japan": "Japón",
+    "thailand": "Tailandia",
+    "indonesia": "Indonesia",
+    "portugal": "Portugal",
+    "spain": "España",
+    "mexico": "México"
+  },
+
   "places": {
     "title": "Lugares Recomendados",
     "description": "Descubre los mejores lugares para nómadas digitales",
@@ -560,6 +613,11 @@
     "cityRecommendations": "Recomendaciones de ciudades",
     "subscribe": "Suscribirse",
     "cancel": "Cancelar"
+  },
+
+  "common": {
+    "viewDetails": "Ver Detalles",
+    "learnMore": "Aprender Más"
   },
 
   "community": {

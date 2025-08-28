@@ -259,6 +259,59 @@
     "addToFavorites": "添加到收藏",
     "setPreferences": "设置你的偏好，获取个性化城市推荐"
   },
+
+  "preferences": {
+    "wifiQuality": "WiFi质量",
+    "costOfLiving": "生活成本",
+    "climateComfort": "气候舒适度",
+    "socialAtmosphere": "社交氛围",
+    "visaConvenience": "签证便利性"
+  },
+
+  "premiumFeatures": {
+    "title": "高级功能",
+    "subtitle": "解锁更多专业功能，提升数字游民体验",
+    "monthly": "月付",
+    "yearly": "年付",
+    "month": "月",
+    "year": "年",
+    "savings": "节省 20%",
+    "pdfReport": "PDF城市对比报告",
+    "pdfReportDesc": "生成详细的城市对比PDF报告",
+    "visaReminder": "个性化签证提醒",
+    "visaReminderDesc": "智能签证到期提醒和续签建议",
+    "aiAssistant": "AI城市推荐助手",
+    "aiAssistantDesc": "基于个人偏好的AI城市推荐",
+    "dataAnalysis": "高级数据分析",
+    "dataAnalysisDesc": "详细的成本和生活质量分析",
+    "upgrade": "升级到高级版",
+    "trial": "7天免费试用 • 随时取消 • 无隐藏费用"
+  },
+
+  "cityComparison": {
+    "title": "城市对比",
+    "addCity": "添加城市",
+    "exportPDF": "导出PDF",
+    "selectCities": "选择2-4个城市进行对比",
+    "startComparison": "开始对比"
+  },
+
+  "cities": {
+    "tokyo": "东京",
+    "osaka": "大阪",
+    "bangkok": "曼谷",
+    "chiangMai": "清迈",
+    "bali": "巴厘岛",
+    "lisbon": "里斯本",
+    "barcelona": "巴塞罗那",
+    "mexicoCity": "墨西哥城",
+    "japan": "日本",
+    "thailand": "泰国",
+    "indonesia": "印尼",
+    "portugal": "葡萄牙",
+    "spain": "西班牙",
+    "mexico": "墨西哥"
+  },
   "common": {
     "learnMore": "了解更多",
     "viewDetails": "查看详情",
