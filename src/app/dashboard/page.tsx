@@ -53,6 +53,28 @@ interface FavoriteCity {
   addedDate: string
 }
 
+interface UserVisa {
+  id: string
+  user_id: string
+  country: string
+  visa_type: string
+  expiry_date: string
+  status: 'active' | 'expired' | 'expiring'
+  created_at: string
+}
+
+interface UserFavorite {
+  id: string
+  user_id: string
+  created_at: string
+  cities: {
+    id: string
+    name: string
+    country: string
+    country_code: string
+  }
+}
+
 export default function DashboardPage() {
   const { t } = useTranslation()
   const [user, setUser] = useState<UserProfile | null>(null)
@@ -99,7 +121,7 @@ export default function DashboardPage() {
         .eq('user_id', currentUser.id)
 
       if (userVisas) {
-        setVisas(userVisas.map(visa => ({
+        setVisas((userVisas as UserVisa[]).map((visa: UserVisa) => ({
           id: visa.id,
           country: visa.country,
           type: visa.visa_type,
@@ -124,7 +146,7 @@ export default function DashboardPage() {
         .eq('user_id', currentUser.id)
 
       if (userFavorites) {
-        setFavorites(userFavorites.map(fav => ({
+        setFavorites((userFavorites as UserFavorite[]).map((fav: UserFavorite) => ({
           id: fav.cities.id,
           name: fav.cities.name,
           country: fav.cities.country,
