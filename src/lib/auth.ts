@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers'
 import { supabase } from './supabase'
 
 export interface User {
@@ -16,20 +15,24 @@ export interface SessionToken {
   exp: number
 }
 
-// 从cookie中获取会话令牌
+// 客户端获取会话令牌（从localStorage）
 export function getSessionToken(): SessionToken | null {
   try {
-    const cookieStore = cookies()
-    const sessionToken = cookieStore.get('session_token')
+    if (typeof window === 'undefined') {
+      return null
+    }
+    
+    const sessionToken = localStorage.getItem('session_token')
     
     if (!sessionToken) {
       return null
     }
 
-    const decoded = JSON.parse(atob(sessionToken.value))
+    const decoded = JSON.parse(atob(sessionToken))
     
     // 检查令牌是否过期
     if (decoded.exp < Date.now()) {
+      localStorage.removeItem('session_token')
       return null
     }
 
@@ -74,6 +77,7 @@ export async function isAuthenticated(): Promise<boolean> {
 
 // 清除会话
 export function clearSession() {
-  const cookieStore = cookies()
-  cookieStore.delete('session_token')
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('session_token')
+  }
 }

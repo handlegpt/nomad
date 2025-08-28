@@ -12,6 +12,14 @@ function generateVerificationCode(): string {
 // 使用Resend发送邮件
 async function sendEmail(email: string, code: string): Promise<boolean> {
   try {
+    // 如果没有配置Resend API密钥，使用模拟发送
+    if (!process.env.RESEND_API_KEY) {
+      console.log(`📧 验证码邮件发送到: ${email}`)
+      console.log(`🔐 验证码: ${code}`)
+      console.log(`⏰ 过期时间: ${new Date(Date.now() + 10 * 60 * 1000).toLocaleString()}`)
+      return true
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'NOMAD.NOW <noreply@yourdomain.com>',
       to: [email],

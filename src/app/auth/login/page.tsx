@@ -77,6 +77,10 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
+        // 存储会话令牌
+        if (data.sessionToken) {
+          localStorage.setItem('session_token', data.sessionToken)
+        }
         // 登录成功，重定向到用户后台
         window.location.href = '/dashboard'
       } else {

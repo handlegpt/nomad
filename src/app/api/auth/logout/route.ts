@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   try {
-    // 清除会话cookie
-    const cookieStore = cookies()
-    cookieStore.delete('session_token')
-
+    // 服务器端无法直接清除localStorage，客户端会处理
     return NextResponse.json({
       message: '退出登录成功',
       success: true

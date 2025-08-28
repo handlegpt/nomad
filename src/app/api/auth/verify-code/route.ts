@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { cookies } from 'next/headers'
-import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   try {
@@ -79,15 +77,7 @@ export async function POST(request: NextRequest) {
       exp: Date.now() + 7 * 24 * 60 * 60 * 1000 // 7天过期
     }))
 
-    // 设置cookie
-    const cookieStore = cookies()
-    cookieStore.set('session_token', sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 // 7天
-    })
-
+    // 返回会话令牌，客户端将存储在localStorage中
     return NextResponse.json({
       message: '登录成功',
       user: {
@@ -95,6 +85,7 @@ export async function POST(request: NextRequest) {
         email: user.email,
         name: user.name
       },
+      sessionToken,
       success: true
     })
 

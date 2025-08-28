@@ -149,6 +149,8 @@ export default function DashboardPage() {
       })
 
       if (response.ok) {
+        // 清除本地存储的会话令牌
+        localStorage.removeItem('session_token')
         // 重定向到首页
         window.location.href = '/'
       } else {
