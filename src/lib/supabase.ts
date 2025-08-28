@@ -71,6 +71,11 @@ export interface Place {
   submitted_by: string
   created_at: string
   updated_at: string
+  // Computed fields from views
+  upvotes?: number
+  downvotes?: number
+  rating?: number
+  review_count?: number
 }
 
 export interface PlaceVote {

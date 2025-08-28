@@ -146,7 +146,17 @@ export async function getPlacesByCity(cityId: string): Promise<Place[]> {
       .order('created_at', { ascending: false })
     
     if (error) throw error
-    return data || []
+    
+    // Transform data to include computed fields
+    const placesWithStats = (data || []).map((place: any) => ({
+      ...place,
+      upvotes: 0, // These would be calculated from place_votes table
+      downvotes: 0,
+      rating: 0, // This would be calculated from place_reviews table
+      review_count: 0
+    }))
+    
+    return placesWithStats
   } catch (error) {
     console.error('Error fetching places:', error)
     return []
@@ -172,7 +182,17 @@ export async function getPlacesByCategory(category: string, cityId?: string): Pr
     const { data, error } = await query.order('created_at', { ascending: false })
     
     if (error) throw error
-    return data || []
+    
+    // Transform data to include computed fields
+    const placesWithStats = (data || []).map((place: any) => ({
+      ...place,
+      upvotes: 0,
+      downvotes: 0,
+      rating: 0,
+      review_count: 0
+    }))
+    
+    return placesWithStats
   } catch (error) {
     console.error('Error fetching places by category:', error)
     return []
@@ -393,7 +413,17 @@ export async function getTopPlaces(limit: number = 10): Promise<Place[]> {
       .limit(limit)
     
     if (error) throw error
-    return data?.map((item: any) => item.places) || []
+    
+    // Transform data to include computed fields
+    const placesWithStats = (data?.map((item: any) => item.places) || []).map((place: any) => ({
+      ...place,
+      upvotes: 0,
+      downvotes: 0,
+      rating: 0,
+      review_count: 0
+    }))
+    
+    return placesWithStats
   } catch (error) {
     console.error('Error fetching top places:', error)
     return []
@@ -415,7 +445,17 @@ export async function getUserPlaces(userId: string): Promise<Place[]> {
       .order('created_at', { ascending: false })
     
     if (error) throw error
-    return data || []
+    
+    // Transform data to include computed fields
+    const placesWithStats = (data || []).map((place: any) => ({
+      ...place,
+      upvotes: 0,
+      downvotes: 0,
+      rating: 0,
+      review_count: 0
+    }))
+    
+    return placesWithStats
   } catch (error) {
     console.error('Error fetching user places:', error)
     return []
