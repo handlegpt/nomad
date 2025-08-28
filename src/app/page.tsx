@@ -189,13 +189,13 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Minimal Footer */}
+                {/* Minimal Footer */}
       <footer className="bg-white border-t border-gray-200 mt-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-center space-x-6 text-sm text-gray-600">
-            <a href="#" className="hover:text-gray-900">关于 nomad.now</a>
-            <a href="#" className="hover:text-gray-900">联系</a>
-            <a href="#" className="hover:text-gray-900">赞助合作</a>
+            <a href="/about" className="hover:text-gray-900">关于 nomad.now</a>
+            <a href="/contact" className="hover:text-gray-900">联系</a>
+            <a href="/contact" className="hover:text-gray-900">赞助合作</a>
           </div>
         </div>
       </footer>

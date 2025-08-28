@@ -1,160 +1,127 @@
 'use client'
 
 import { useState } from 'react'
-import { CrownIcon, DownloadIcon, BellIcon, MapIcon, StarIcon, CheckIcon } from 'lucide-react'
-
-const premiumFeatures = [
-  {
-    icon: DownloadIcon,
-    title: '城市对比报告',
-    description: '导出PDF格式的详细城市对比分析',
-    free: false
-  },
-  {
-    icon: BellIcon,
-    title: '签证到期提醒',
-    description: '邮件和日历提醒，避免逾期',
-    free: false
-  },
-  {
-    icon: MapIcon,
-    title: '个性化推荐',
-    description: '基于你的偏好推荐下一个目的地',
-    free: false
-  },
-  {
-    icon: StarIcon,
-    title: '高级筛选',
-    description: '多维度筛选和排序城市',
-    free: true
-  },
-  {
-    icon: CrownIcon,
-    title: '无广告体验',
-    description: '享受纯净的浏览体验',
-    free: false
-  }
-]
-
-const affiliateServices = [
-  {
-    name: '住宿预订',
-    description: 'Booking.com, Airbnb 优惠',
-    commission: '3-15%',
-    icon: '🏨'
-  },
-  {
-    name: '签证服务',
-    description: '专业签证代办服务',
-    commission: '5-10%',
-    icon: '🛂'
-  },
-  {
-    name: '保险服务',
-    description: '旅行和健康保险',
-    commission: '8-12%',
-    icon: '🛡️'
-  },
-  {
-    name: 'Co-working',
-    description: '全球联合办公空间',
-    commission: '10-20%',
-    icon: '💼'
-  }
-]
+import { Crown, Check, Star, Download, Bell, Users } from 'lucide-react'
 
 export default function PremiumFeatures() {
-  const [showPricing, setShowPricing] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly')
+
+  const features = [
+    {
+      name: 'PDF城市对比报告',
+      description: '生成详细的城市对比PDF报告',
+      icon: Download
+    },
+    {
+      name: '个性化签证提醒',
+      description: '智能签证到期提醒和续签建议',
+      icon: Bell
+    },
+    {
+      name: 'AI城市推荐助手',
+      description: '基于个人偏好的AI城市推荐',
+      icon: Star
+    },
+    {
+      name: '高级数据分析',
+      description: '详细的成本和生活质量分析',
+      icon: Users
+    }
+  ]
+
+  const plans = {
+    monthly: {
+      price: 9.99,
+      period: '月',
+      savings: null
+    },
+    yearly: {
+      price: 99.99,
+      period: '年',
+      savings: '节省 20%'
+    }
+  }
+
+  const currentPlan = plans[selectedPlan]
 
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 border border-purple-100">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-gray-900 flex items-center">
-          <CrownIcon className="h-5 w-5 text-yellow-500 mr-2" />
-          高级功能
-        </h2>
-        <button
-          onClick={() => setShowPricing(!showPricing)}
-          className="text-purple-600 hover:text-purple-700 text-sm font-medium"
-        >
-          {showPricing ? '隐藏价格' : '查看价格'}
-        </button>
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+      <div className="text-center mb-6">
+        <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <Crown className="h-6 w-6 text-white" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">高级功能</h2>
+        <p className="text-gray-600">解锁更多专业功能，提升数字游民体验</p>
       </div>
 
-      {/* Features List */}
+      {/* Plan Toggle */}
+      <div className="flex justify-center mb-6">
+        <div className="flex bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setSelectedPlan('monthly')}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              selectedPlan === 'monthly'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            月付
+          </button>
+          <button
+            onClick={() => setSelectedPlan('yearly')}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              selectedPlan === 'yearly'
+                ? 'bg-white text-gray-900 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            年付
+          </button>
+        </div>
+      </div>
+
+      {/* Pricing */}
+      <div className="text-center mb-6">
+        <div className="flex items-center justify-center space-x-2 mb-2">
+          <span className="text-3xl font-bold text-gray-900">¥{currentPlan.price}</span>
+          <span className="text-gray-600">/{currentPlan.period}</span>
+        </div>
+        {currentPlan.savings && (
+          <span className="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full font-medium">
+            {currentPlan.savings}
+          </span>
+        )}
+      </div>
+
+      {/* Features */}
       <div className="space-y-4 mb-6">
-        {premiumFeatures.map((feature, index) => {
-          const IconComponent = feature.icon
+        {features.map((feature, index) => {
+          const Icon = feature.icon
           return (
-            <div key={index} className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200">
-              <div className="flex items-center space-x-3">
-                <IconComponent className={`h-5 w-5 ${feature.free ? 'text-green-500' : 'text-purple-500'}`} />
-                <div>
-                  <div className="font-medium text-gray-900">{feature.title}</div>
-                  <div className="text-sm text-gray-600">{feature.description}</div>
-                </div>
+            <div key={index} className="flex items-start space-x-3">
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon className="h-4 w-4 text-blue-600" />
               </div>
-              <div className="flex items-center space-x-2">
-                {feature.free ? (
-                  <span className="text-green-600 text-sm font-medium">免费</span>
-                ) : (
-                  <span className="text-purple-600 text-sm font-medium">高级</span>
-                )}
-                {feature.free && <CheckIcon className="h-4 w-4 text-green-500" />}
+              <div>
+                <h3 className="font-semibold text-gray-900 text-sm">{feature.name}</h3>
+                <p className="text-xs text-gray-600">{feature.description}</p>
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Pricing Modal */}
-      {showPricing && (
-        <div className="bg-white rounded-xl p-6 border border-gray-200 mb-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">订阅计划</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <h4 className="font-semibold text-gray-900 mb-2">月度订阅</h4>
-              <div className="text-2xl font-bold text-purple-600 mb-2">$9.99</div>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• 所有高级功能</li>
-                <li>• 无广告体验</li>
-                <li>• 优先客服支持</li>
-              </ul>
-              <button className="w-full mt-3 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-                开始订阅
-              </button>
-            </div>
-            <div className="p-4 border-2 border-purple-500 rounded-lg bg-purple-50">
-              <h4 className="font-semibold text-gray-900 mb-2">年度订阅</h4>
-              <div className="text-2xl font-bold text-purple-600 mb-2">$99.99</div>
-              <div className="text-sm text-green-600 mb-2">节省 $19.89</div>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• 所有高级功能</li>
-                <li>• 无广告体验</li>
-                <li>• 优先客服支持</li>
-                <li>• 专属内容</li>
-              </ul>
-              <button className="w-full mt-3 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-                开始订阅
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* CTA Button */}
+      <button className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 px-6 rounded-xl font-medium hover:from-yellow-500 hover:to-orange-600 transition-all duration-200 flex items-center justify-center">
+        <Crown className="h-5 w-5 mr-2" />
+        升级到高级版
+      </button>
 
-      {/* Affiliate Services */}
-      <div>
-        <h3 className="font-semibold text-gray-900 mb-4">推荐服务</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {affiliateServices.map((service, index) => (
-            <div key={index} className="p-3 bg-white rounded-lg border border-gray-200 text-center">
-              <div className="text-2xl mb-2">{service.icon}</div>
-              <div className="font-medium text-gray-900 text-sm">{service.name}</div>
-              <div className="text-xs text-gray-600 mb-1">{service.description}</div>
-              <div className="text-xs text-green-600 font-medium">佣金 {service.commission}</div>
-            </div>
-          ))}
-        </div>
+      {/* Additional Info */}
+      <div className="mt-4 text-center">
+        <p className="text-xs text-gray-500">
+          7天免费试用 • 随时取消 • 无隐藏费用
+        </p>
       </div>
     </div>
   )

@@ -1,210 +1,188 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { BarChart3Icon, PlusIcon, XIcon, DownloadIcon } from 'lucide-react'
-import { getCities } from '@/lib/api'
-import { City } from '@/lib/supabase'
+import { useState } from 'react'
+import { BarChart3, Download, Plus, X } from 'lucide-react'
 
 export default function CityComparison() {
-  const [cities, setCities] = useState<City[]>([])
-  const [selectedCities, setSelectedCities] = useState<City[]>([])
+  const [selectedCities, setSelectedCities] = useState<string[]>([])
   const [showCitySelector, setShowCitySelector] = useState(false)
 
-  useEffect(() => {
-    fetchCities()
-  }, [])
+  const availableCities = [
+    { id: 'tokyo', name: '东京', country: '日本' },
+    { id: 'osaka', name: '大阪', country: '日本' },
+    { id: 'bangkok', name: '曼谷', country: '泰国' },
+    { id: 'chiang-mai', name: '清迈', country: '泰国' },
+    { id: 'bali', name: '巴厘岛', country: '印尼' },
+    { id: 'portugal', name: '里斯本', country: '葡萄牙' },
+    { id: 'barcelona', name: '巴塞罗那', country: '西班牙' },
+    { id: 'mexico-city', name: '墨西哥城', country: '墨西哥' }
+  ]
 
-  const fetchCities = async () => {
-    try {
-      const data = await getCities()
-      setCities(data)
-    } catch (error) {
-      console.error('Error fetching cities:', error)
+  const comparisonData = {
+    'tokyo': {
+      name: '东京',
+      country: '日本',
+      wifi: 85,
+      cost: 2500,
+      visa: 90,
+      climate: 75,
+      social: 80
+    },
+    'osaka': {
+      name: '大阪',
+      country: '日本',
+      wifi: 80,
+      cost: 2000,
+      visa: 90,
+      climate: 70,
+      social: 75
+    },
+    'bangkok': {
+      name: '曼谷',
+      country: '泰国',
+      wifi: 70,
+      cost: 1200,
+      visa: 30,
+      climate: 85,
+      social: 90
     }
   }
 
-  const addCity = (city: City) => {
-    if (selectedCities.length < 4 && !selectedCities.find(c => c.id === city.id)) {
-      setSelectedCities(prev => [...prev, city])
+  const addCity = (cityId: string) => {
+    if (selectedCities.length < 4 && !selectedCities.includes(cityId)) {
+      setSelectedCities([...selectedCities, cityId])
     }
     setShowCitySelector(false)
   }
 
   const removeCity = (cityId: string) => {
-    setSelectedCities(prev => prev.filter(c => c.id !== cityId))
+    setSelectedCities(selectedCities.filter(id => id !== cityId))
   }
 
-  const getCountryFlag = (countryCode: string) => {
-    const codePoints = countryCode
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0))
-    return String.fromCodePoint(...codePoints)
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'text-green-600'
+    if (score >= 60) return 'text-yellow-600'
+    return 'text-red-600'
   }
 
-  const getScoreColor = (value: number, maxValue: number) => {
-    const percentage = (value / maxValue) * 100
-    if (percentage >= 80) return 'bg-green-500'
-    if (percentage >= 60) return 'bg-yellow-500'
-    if (percentage >= 40) return 'bg-orange-500'
-    return 'bg-red-500'
+  const getScoreBg = (score: number) => {
+    if (score >= 80) return 'bg-green-100'
+    if (score >= 60) return 'bg-yellow-100'
+    return 'bg-red-100'
   }
-
-  const exportComparison = () => {
-    // 模拟导出PDF功能
-    alert('导出功能需要高级订阅')
-  }
-
-  const comparisonMetrics = [
-    {
-      key: 'wifi_speed',
-      label: 'WiFi速度 (Mbps)',
-      format: (value: number) => `${value || 'N/A'} Mbps`,
-      maxValue: 200
-    },
-    {
-      key: 'cost_of_living',
-      label: '生活成本 ($/月)',
-      format: (value: number) => `$${value || 'N/A'}`,
-      maxValue: 3000,
-      reverse: true // 成本越低越好
-    },
-    {
-      key: 'visa_days',
-      label: '签证天数',
-      format: (value: number) => `${value || 'N/A'} 天`,
-      maxValue: 365
-    }
-  ]
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 flex items-center">
-          <BarChart3Icon className="h-5 w-5 text-blue-500 mr-2" />
+          <BarChart3 className="h-6 w-6 mr-2 text-blue-600" />
           城市对比
         </h2>
         <div className="flex items-center space-x-2">
           <button
-            onClick={exportComparison}
-            className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 text-sm font-medium"
-          >
-            <DownloadIcon className="h-4 w-4" />
-            <span>导出PDF</span>
-          </button>
-          <button
             onClick={() => setShowCitySelector(true)}
             disabled={selectedCities.length >= 4}
-            className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="flex items-center space-x-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
-            <PlusIcon className="h-4 w-4" />
+            <Plus className="h-4 w-4" />
+            <span>添加城市</span>
           </button>
+          {selectedCities.length > 0 && (
+            <button className="flex items-center space-x-1 px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm">
+              <Download className="h-4 w-4" />
+              <span>导出PDF</span>
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Selected Cities */}
-      {selectedCities.length > 0 && (
-        <div className="mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {selectedCities.map((city) => (
-              <div key={city.id} className="p-4 border border-gray-200 rounded-xl relative">
-                <button
-                  onClick={() => removeCity(city.id)}
-                  className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors"
-                >
-                  <XIcon className="h-4 w-4" />
-                </button>
-                <div className="text-center">
-                  <div className="text-2xl mb-2">{getCountryFlag(city.country_code)}</div>
-                  <div className="font-semibold text-gray-900">{city.name}</div>
-                  <div className="text-sm text-gray-500">{city.country}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+      {selectedCities.length === 0 ? (
+        <div className="text-center py-8">
+          <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500 mb-4">选择2-4个城市进行对比</p>
+          <button
+            onClick={() => setShowCitySelector(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            开始对比
+          </button>
         </div>
-      )}
-
-      {/* Comparison Chart */}
-      {selectedCities.length >= 2 && (
+      ) : (
         <div className="space-y-6">
-          {comparisonMetrics.map((metric) => (
-            <div key={metric.key} className="space-y-3">
-              <h3 className="font-semibold text-gray-900">{metric.label}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {selectedCities.map((city) => {
-                  const value = city[metric.key as keyof City] as number
-                  const displayValue = metric.reverse ? (metric.maxValue - (value || 0)) : (value || 0)
-                  const percentage = (displayValue / metric.maxValue) * 100
-                  
-                  return (
-                    <div key={city.id} className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="font-medium">{city.name}</span>
-                        <span className="text-gray-600">{metric.format(value)}</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className={`h-2 rounded-full transition-all duration-300 ${getScoreColor(displayValue, metric.maxValue)}`}
-                          style={{ width: `${Math.min(100, percentage)}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  )
-                })}
+          {/* City Headers */}
+          <div className="grid grid-cols-5 gap-4">
+            <div className="font-semibold text-gray-900">指标</div>
+            {selectedCities.map(cityId => {
+              const city = comparisonData[cityId as keyof typeof comparisonData]
+              return (
+                <div key={cityId} className="relative">
+                  <div className="text-center">
+                    <div className="font-semibold text-gray-900">{city.name}</div>
+                    <div className="text-sm text-gray-500">{city.country}</div>
+                  </div>
+                  <button
+                    onClick={() => removeCity(cityId)}
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Comparison Rows */}
+          {['wifi', 'cost', 'visa', 'climate', 'social'].map(metric => (
+            <div key={metric} className="grid grid-cols-5 gap-4 items-center">
+              <div className="font-medium text-gray-700">
+                {metric === 'wifi' && 'WiFi速度'}
+                {metric === 'cost' && '生活成本'}
+                {metric === 'visa' && '签证便利'}
+                {metric === 'climate' && '气候舒适'}
+                {metric === 'social' && '社交氛围'}
               </div>
+              {selectedCities.map(cityId => {
+                const city = comparisonData[cityId as keyof typeof comparisonData]
+                const score = city[metric as keyof typeof city] as number
+                return (
+                  <div key={cityId} className="text-center">
+                    <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getScoreBg(score)} ${getScoreColor(score)}`}>
+                      {score}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           ))}
         </div>
       )}
 
-      {selectedCities.length === 0 && (
-        <div className="text-center py-8">
-          <BarChart3Icon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500">选择2-4个城市进行对比</p>
-          <button
-            onClick={() => setShowCitySelector(true)}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            添加城市
-          </button>
-        </div>
-      )}
-
       {/* City Selector Modal */}
       {showCitySelector && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-900">选择城市</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">选择城市</h3>
+              <button
+                onClick={() => setShowCitySelector(false)}
+                className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {availableCities.map(city => (
                 <button
-                  onClick={() => setShowCitySelector(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  key={city.id}
+                  onClick={() => addCity(city.id)}
+                  disabled={selectedCities.includes(city.id)}
+                  className="w-full p-3 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <XIcon className="h-6 w-6" />
+                  <div className="font-medium text-gray-900">{city.name}</div>
+                  <div className="text-sm text-gray-500">{city.country}</div>
                 </button>
-              </div>
-              
-              <div className="space-y-2">
-                {cities
-                  .filter(city => !selectedCities.find(c => c.id === city.id))
-                  .map((city) => (
-                    <button
-                      key={city.id}
-                      onClick={() => addCity(city)}
-                      className="w-full p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <span className="text-xl">{getCountryFlag(city.country_code)}</span>
-                        <div>
-                          <div className="font-medium text-gray-900">{city.name}</div>
-                          <div className="text-sm text-gray-500">{city.country}</div>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-              </div>
+              ))}
             </div>
           </div>
         </div>
