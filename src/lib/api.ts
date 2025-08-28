@@ -3,9 +3,27 @@ import { supabase, City, Vote, User, Place, PlaceVote, PlaceReview } from './sup
 // Time related APIs
 export async function getWorldTime(timezone: string) {
   try {
-    const response = await fetch(`/api/time?timezone=${encodeURIComponent(timezone)}`)
-    if (!response.ok) throw new Error('Failed to fetch time')
-    return await response.json()
+    const response = await fetch(`http://worldtimeapi.org/api/timezone/${timezone}`)
+    if (!response.ok) {
+      throw new Error('Failed to fetch time data')
+    }
+    const data = await response.json()
+    
+    // Format time for display
+    const dateTime = new Date(data.datetime)
+    const time = dateTime.toLocaleTimeString('en-US', { 
+      hour12: false, 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    })
+    const date = dateTime.toLocaleDateString()
+    
+    return {
+      time,
+      date,
+      timezone: data.timezone,
+      utc_offset: data.utc_offset
+    }
   } catch (error) {
     console.error('Error fetching world time:', error)
     return null
@@ -15,9 +33,15 @@ export async function getWorldTime(timezone: string) {
 // Weather related APIs
 export async function getWeather(lat: number, lon: number) {
   try {
-    const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}`)
-    if (!response.ok) throw new Error('Failed to fetch weather')
-    return await response.json()
+    // In a real app, you'd use a server-side API route to fetch this
+    // For now, return mock data
+    const mockWeather = {
+      temperature: Math.floor(Math.random() * 30) + 10, // 10-40°C
+      condition: ['Sunny', 'Cloudy', 'Rainy', 'Partly Cloudy'][Math.floor(Math.random() * 4)],
+      icon: '01d'
+    }
+    
+    return mockWeather
   } catch (error) {
     console.error('Error fetching weather:', error)
     return null
@@ -53,13 +77,13 @@ export async function getTopCities(limit: number = 10): Promise<City[]> {
   
   try {
     const { data, error } = await supabase
-      .from('city_ratings')
-      .select('*')
-      .order('avg_overall_rating', { ascending: false })
+      .from('city_ratings') // This is a view that calculates average ratings
+      .select('*, cities(*)')
+      .order('average_rating', { ascending: false })
       .limit(limit)
     
     if (error) throw error
-    return data || []
+    return data?.map((item: any) => item.cities) || []
   } catch (error) {
     console.error('Error fetching top cities:', error)
     return []
@@ -97,7 +121,7 @@ export async function submitVote(voteData: Omit<Vote, 'id' | 'created_at'>): Pro
   try {
     const { error } = await supabase
       .from('votes')
-      .upsert(voteData, { onConflict: 'city_id,user_id' })
+      .insert(voteData)
     
     if (error) throw error
     return true
@@ -116,10 +140,10 @@ export async function getPlacesByCity(cityId: string): Promise<Place[]> {
   
   try {
     const { data, error } = await supabase
-      .from('place_ratings')
+      .from('places')
       .select('*')
       .eq('city_id', cityId)
-      .order('upvotes', { ascending: false })
+      .order('created_at', { ascending: false })
     
     if (error) throw error
     return data || []
@@ -137,16 +161,15 @@ export async function getPlacesByCategory(category: string, cityId?: string): Pr
   
   try {
     let query = supabase
-      .from('place_ratings')
+      .from('places')
       .select('*')
       .eq('category', category)
-      .order('upvotes', { ascending: false })
     
     if (cityId) {
       query = query.eq('city_id', cityId)
     }
     
-    const { data, error } = await query
+    const { data, error } = await query.order('created_at', { ascending: false })
     
     if (error) throw error
     return data || []
@@ -186,7 +209,7 @@ export async function submitPlaceVote(voteData: Omit<PlaceVote, 'id' | 'created_
   try {
     const { error } = await supabase
       .from('place_votes')
-      .upsert(voteData, { onConflict: 'place_id,user_id' })
+      .insert(voteData)
     
     if (error) throw error
     return true
@@ -227,14 +250,13 @@ export async function searchPlaces(query: string, cityId?: string): Promise<Plac
     let supabaseQuery = supabase
       .from('places')
       .select('*')
-      .textSearch('name', query)
-      .order('created_at', { ascending: false })
+      .or(`name.ilike.%${query}%,description.ilike.%${query}%`)
     
     if (cityId) {
       supabaseQuery = supabaseQuery.eq('city_id', cityId)
     }
     
-    const { data, error } = await supabaseQuery
+    const { data, error } = await supabaseQuery.order('created_at', { ascending: false })
     
     if (error) throw error
     return data || []
@@ -247,97 +269,79 @@ export async function searchPlaces(query: string, cityId?: string): Promise<Plac
 // Utility functions
 export async function getCurrentLocation(): Promise<{ lat: number; lon: number; city: string; country: string } | null> {
   return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      resolve(null)
-      return
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords
-        
-        try {
-          // 使用反向地理编码获取城市信息
-          const response = await fetch(
-            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-          )
-          const data = await response.json()
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords
           
+          try {
+            // Use reverse geocoding to get city and country
+            const response = await fetch(
+              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+            )
+            
+            if (response.ok) {
+              const data = await response.json()
+              resolve({
+                lat: latitude,
+                lon: longitude,
+                city: data.city || 'Unknown City',
+                country: data.countryName || 'Unknown Country'
+              })
+            } else {
+              // Fallback to coordinates only
+              resolve({
+                lat: latitude,
+                lon: longitude,
+                city: 'Unknown City',
+                country: 'Unknown Country'
+              })
+            }
+          } catch (error) {
+            console.error('Error in reverse geocoding:', error)
+            resolve({
+              lat: latitude,
+              lon: longitude,
+              city: 'Unknown City',
+              country: 'Unknown Country'
+            })
+          }
+        },
+        (error) => {
+          console.error('Geolocation error:', error)
+          // Fallback to default location (Osaka, Japan)
           resolve({
-            lat: latitude,
-            lon: longitude,
-            city: data.city || 'Unknown',
-            country: data.countryName || 'Unknown'
+            lat: 34.6937,
+            lon: 135.5023,
+            city: 'Osaka',
+            country: 'Japan'
           })
-        } catch (error) {
-          resolve({
-            lat: latitude,
-            lon: longitude,
-            city: 'Unknown',
-            country: 'Unknown'
-          })
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000 // 5 minutes
         }
-      },
-      () => {
-        resolve(null)
-      }
-    )
+      )
+    } else {
+      console.error('Geolocation not supported')
+      // Fallback to default location
+      resolve({
+        lat: 34.6937,
+        lon: 135.5023,
+        city: 'Osaka',
+        country: 'Japan'
+      })
+    }
   })
-}
-
-export function calculateVisaDays(visaExpiry: string): number {
-  const today = new Date()
-  const expiryDate = new Date(visaExpiry)
-  const diffTime = expiryDate.getTime() - today.getTime()
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  return Math.max(0, diffDays)
 }
 
 // New: Place recommendation related utility functions
 export function getCategoryIcon(category: string): string {
   const icons = {
-    cafe: '☕',
-    coworking: '💻',
-    coliving: '🏠',
-    restaurant: '🍽',
-    outdoor: '🌳',
-    other: '📍'
+    cafe: '☕', coworking: '💻', coliving: '🏠', restaurant: '🍽', outdoor: '🌳', other: '📍'
   }
-  return icons[category as keyof typeof icons] || '📍'
-}
-
-export function getCategoryName(category: string): string {
-  const names = {
-    cafe: '咖啡馆',
-    coworking: 'Co-working',
-    coliving: 'Coliving',
-    restaurant: '餐馆',
-    outdoor: '户外',
-    other: '其他'
-  }
-  return names[category as keyof typeof names] || '其他'
-}
-
-export function getPriceLevelText(level: number): string {
-  return '$'.repeat(level)
-}
-
-export function getNoiseLevelText(level: string): string {
-  const levels = {
-    quiet: '安静',
-    moderate: '适中',
-    loud: '嘈杂'
-  }
-  return levels[level as keyof typeof levels] || '未知'
-}
-
-export function getSocialAtmosphereText(level: string): string {
-  const levels = {
-    low: '低',
-    medium: '中',
-    high: '高'
-  }
-  return levels[level as keyof typeof levels] || '未知'
+  return icons[category as keyof typeof icons] || icons.other
 }
 
 // New: Get popular places
@@ -349,13 +353,13 @@ export async function getTopPlaces(limit: number = 10): Promise<Place[]> {
   
   try {
     const { data, error } = await supabase
-      .from('place_ratings')
-      .select('*')
-      .order('upvotes', { ascending: false })
+      .from('place_ratings') // This is a view that calculates average ratings for places
+      .select('*, places(*)')
+      .order('average_rating', { ascending: false })
       .limit(limit)
     
     if (error) throw error
-    return data || []
+    return data?.map((item: any) => item.places) || []
   } catch (error) {
     console.error('Error fetching top places:', error)
     return []
@@ -371,7 +375,7 @@ export async function getUserPlaces(userId: string): Promise<Place[]> {
   
   try {
     const { data, error } = await supabase
-      .from('place_ratings')
+      .from('places')
       .select('*')
       .eq('submitted_by', userId)
       .order('created_at', { ascending: false })
@@ -382,4 +386,32 @@ export async function getUserPlaces(userId: string): Promise<Place[]> {
     console.error('Error fetching user places:', error)
     return []
   }
+}
+
+// Timezone mapping function
+export function getTimezoneFromCoordinates(lat: number, lon: number): string {
+  // This is a simplified timezone mapping
+  // In a real app, you'd use a more sophisticated timezone database
+  
+  // Asia
+  if (lat >= 20 && lat <= 50 && lon >= 70 && lon <= 140) {
+    if (lon >= 100 && lon <= 140) return 'Asia/Tokyo' // Japan
+    if (lon >= 70 && lon <= 100) return 'Asia/Shanghai' // China
+    return 'Asia/Tokyo'
+  }
+  
+  // Europe
+  if (lat >= 35 && lat <= 70 && lon >= -10 && lon <= 40) {
+    return 'Europe/London'
+  }
+  
+  // North America
+  if (lat >= 25 && lat <= 70 && lon >= -170 && lon <= -50) {
+    if (lon >= -80 && lon <= -50) return 'America/New_York'
+    if (lon >= -125 && lon <= -80) return 'America/Los_Angeles'
+    return 'America/New_York'
+  }
+  
+  // Default to UTC
+  return 'UTC'
 }

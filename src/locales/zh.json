@@ -10,20 +10,31 @@
   },
   "home": {
     "title": "数字游民信息中心",
-    "subtitle": "您的数字游民综合指南",
-    "description": "为数字游民提供签证信息、税务指导、必备工具，并与全球游民社区建立联系。",
+    "subtitle": "数字游民的全面指南",
+    "description": "查找签证信息、税务指导、必备工具，并与全球游民社区建立联系。",
+    "currentLocation": "你的位置",
+    "lastUpdated": "最后更新",
+    "refreshData": "刷新数据",
+    "localTime": "当地时间",
+    "weather": "天气",
+    "wifiSpeed": "WiFi速度",
+    "visaRemaining": "签证剩余天数",
+    "setupVisa": "需要设置",
+    "setupVisaTitle": "设置你的签证信息",
+    "setupVisaDescription": "添加签证详情以跟踪剩余天数并获取提醒",
+    "setupVisaButton": "设置签证",
     "exploreTools": "探索工具",
     "browseCities": "浏览城市",
     "features": {
-      "title": "您需要的一切",
-      "subtitle": "数字游民旅程的综合资源",
+      "title": "你需要的一切",
+      "subtitle": "数字游民旅程的全面资源",
       "essentialTools": {
         "title": "必备工具",
         "description": "数字银行、保险和远程工作平台"
       },
       "nomadCities": {
         "title": "游民城市",
-        "description": "热门目的地，包含签证和成本信息"
+        "description": "提供签证和成本信息的受欢迎目的地"
       },
       "taxGuidance": {
         "title": "税务指导",
@@ -35,7 +46,7 @@
       },
       "community": {
         "title": "社区",
-        "description": "与全球数字游民建立联系"
+        "description": "与全球数字游民同伴建立联系"
       }
     },
     "stats": {
@@ -47,18 +58,18 @@
       "communitySupport": "社区支持"
     },
     "testimonials": {
-      "title": "游民怎么说",
+      "title": "游民们怎么说",
       "subtitle": "来自我们社区的真实体验"
     },
     "cta": {
-      "title": "准备开始您的旅程？",
-      "description": "探索我们的综合资源并加入全球数字游民社区。",
+      "title": "准备开始你的旅程了吗？",
+      "description": "探索我们的全面资源并加入全球数字游民社区。",
       "button": "开始使用"
     }
   },
   "tools": {
     "title": "游民必备工具",
-    "description": "数字游民实际使用的精选工具和服务。从银行到保险，远程工作平台到语言学习 - 您游民生活方式所需的一切。",
+    "description": "数字游民实际使用的精选工具和服务。从银行到保险，远程工作平台到语言学习 - 游民生活方式所需的一切。",
     "categories": {
       "banking": "银行服务",
       "insurance": "保险服务",
@@ -67,7 +78,7 @@
     },
     "missingTool": {
       "title": "缺少工具？",
-      "description": "我们不断更新推荐。有应该出现在这个列表中的最爱工具吗？",
+      "description": "我们不断更新推荐。有你喜欢的工具应该出现在这个列表中吗？",
       "button": "建议工具"
     }
   },
@@ -75,7 +86,7 @@
     "title": "游民城市",
     "description": "发现最适合数字游民的城市。每个目的地都提供独特的机会，从经济实惠的生活到充满活力的社区和优秀的基础设施。",
     "planningDestination": {
-      "title": "规划您的下一个目的地？",
+      "title": "计划下一个目的地？",
       "description": "获取每个城市的详细签证信息、成本分解和社区见解。",
       "button": "获取城市指南"
     },
@@ -112,12 +123,12 @@
       "publicTransport": "公共交通",
       "taxi": "出租车",
       "scooterRental": "摩托车租赁",
-      "popularDishes": "热门当地菜肴"
+      "popularDishes": "热门当地菜"
     },
     "practical": {
       "title": "实用信息",
       "essentialInfo": "基本信息",
-      "emergencyContacts": "紧急联系人",
+      "emergencyContacts": "紧急联系",
       "bestTimeToVisit": "最佳访问时间",
       "language": "语言",
       "currency": "货币",
@@ -153,7 +164,7 @@
     "categories": {
       "visa": "签证",
       "moving": "搬家",
-      "cohabitation": "同居"
+      "cohabitation": "共同生活"
     }
   },
   "community": {
@@ -175,10 +186,114 @@
     "getCityGuide": "获取城市指南",
     "nomadScore": "游民评分",
     "costOfLiving": "生活成本",
-    "internet": "网络",
+    "internet": "互联网",
     "safety": "安全",
     "visa": "签证",
     "highlights": "亮点",
     "localTips": "当地提示"
+  },
+  "about": {
+    "title": "关于 NOMAD.NOW",
+    "subtitle": "数字游民最重要的信息工具 - 时间、位置、决策支持",
+    "mission": {
+      "title": "我们的使命",
+      "description": "让数字游民的生活更简单、更高效、更有趣"
+    },
+    "features": {
+      "title": "核心功能",
+      "globalInfo": {
+        "title": "全球信息",
+        "description": "实时时间、天气、WiFi速度和其他关键信息"
+      },
+      "communityDriven": {
+        "title": "社区驱动",
+        "description": "基于用户投票和推荐的城市排名"
+      },
+      "lifeExperience": {
+        "title": "生活体验",
+        "description": "从数据工具升级到生活体验社区"
+      }
+    },
+    "team": {
+      "title": "团队",
+      "description": "NOMAD.NOW 由一群热爱旅行的数字游民创建，他们了解这个社区的需求和挑战"
+    }
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "有问题、建议或合作意向？我们很乐意听取您的意见",
+    "form": {
+      "title": "发送消息",
+      "name": "姓名",
+      "email": "邮箱",
+      "subject": "主题",
+      "message": "消息",
+      "send": "发送消息",
+      "sending": "发送中..."
+    },
+    "info": {
+      "title": "联系信息",
+      "email": "邮箱",
+      "website": "网站"
+    },
+    "responseTime": {
+      "title": "回复时间",
+      "general": "一般咨询",
+      "technical": "技术问题",
+      "partnership": "合作"
+    },
+    "faq": {
+      "title": "常见问题",
+      "addCity": {
+        "question": "如何添加新城市？",
+        "answer": "您可以为现有城市投票或联系我们添加新城市。"
+      },
+      "reportBug": {
+        "question": "如何报告错误？",
+        "answer": "请使用联系表单并选择\"错误报告\"作为主题。"
+      },
+      "languages": {
+        "question": "支持哪些语言？",
+        "answer": "目前支持中文、英文、西班牙语和日语，更多语言正在开发中。"
+      }
+    }
+  },
+  "components": {
+    "notificationSystem": {
+      "title": "通知",
+      "markAsRead": "标记为已读",
+      "markAllAsRead": "全部标记为已读",
+      "noNotifications": "暂无通知"
+    },
+    "communitySection": {
+      "title": "社区",
+      "online": "在线",
+      "local": "本地",
+      "joinCommunity": "加入社区",
+      "attendEvent": "参加活动",
+      "discoverMore": "发现更多社区"
+    },
+    "premiumFeatures": {
+      "title": "高级功能",
+      "subtitle": "解锁更多专业功能以增强您的数字游民体验",
+      "monthly": "月付",
+      "yearly": "年付",
+      "upgrade": "升级到高级版",
+      "trial": "7天免费试用 • 随时取消 • 无隐藏费用"
+    },
+    "cityComparison": {
+      "title": "城市对比",
+      "selectCities": "选择2-4个城市进行对比",
+      "startComparison": "开始对比",
+      "addCity": "添加城市",
+      "exportPDF": "导出PDF",
+      "metrics": {
+        "wifi": "WiFi速度",
+        "cost": "生活成本",
+        "visa": "签证便利性",
+        "climate": "气候舒适度",
+        "social": "社交氛围"
+      }
+    }
   }
 } 
