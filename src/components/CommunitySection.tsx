@@ -12,21 +12,21 @@ export default function CommunitySection() {
     {
       name: 'Digital Nomads Facebook Group',
       members: '125K+',
-      description: t('community.online.facebook.description'),
+      description: t('community.onlineCommunities.facebook.description'),
       url: '#',
       icon: '💬'
     },
     {
       name: 'Nomad List Community',
       members: '50K+',
-      description: t('community.online.nomadlist.description'),
+      description: t('community.onlineCommunities.nomadlist.description'),
       url: '#',
       icon: '🌍'
     },
     {
       name: 'Reddit r/digitalnomad',
       members: '1.2M+',
-      description: t('community.online.reddit.description'),
+      description: t('community.onlineCommunities.reddit.description'),
       url: '#',
       icon: '📱'
     }
