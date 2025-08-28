@@ -420,7 +420,24 @@
         "description": "Meetup regular de nómadas digitales en Kioto",
         "location": "Cerca de la Estación de Kioto"
       }
-    }
+    },
+    "lightweightSocial": {
+      "title": "Charla",
+      "whosInCity": "¿Quién está en esta ciudad?",
+      "messageBoard": "Tablero de Mensajes",
+      "messagePlaceholder": "Comparte algo con la comunidad...",
+      "noMessages": "Aún no hay mensajes",
+      "startConversation": "¡Sé el primero en iniciar una conversación!",
+      "available": "disponible",
+      "coffeeMeetup": "Café",
+      "busy": "Ocupado",
+      "noOnlineUsers": "No hay usuarios en línea",
+      "checkLater": "Vuelve más tarde",
+      "footer": "Funciones sociales ligeras para nómadas digitales"
+    },
+    "nextEvent": "Próximo Evento",
+    "attendEvent": "Asistir al Evento",
+    "discoverMore": "Descubrir Más Comunidades"
   },
 
   "about": {
@@ -670,12 +687,7 @@
     "subscribe": "Suscribirse",
     "cancel": "Cancelar"
   },
-  "home": {
-    "quickVote": {
-      "voteSubmitted": "Votado {vote} para {type}",
-      "ratingSubmitted": "Calificado {rating} estrellas"
-    }
-  },
+
 
   "common": {
     "viewDetails": "Ver Detalles",
