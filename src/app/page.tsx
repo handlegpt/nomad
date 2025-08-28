@@ -7,6 +7,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
 import TestNavigation from '@/components/TestNavigation'
+import SimpleTest from '@/components/SimpleTest'
 import CurrentLocationCard from '@/components/CurrentLocationCard'
 import CityRanking from '@/components/CityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
@@ -36,6 +37,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <TestNavigation />
+      <SimpleTest />
       {/* Header */}
       <Header />
 
