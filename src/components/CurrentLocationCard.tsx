@@ -166,15 +166,14 @@ export default function CurrentLocationCard() {
         </button>
       </div>
 
-      {/* Current Status Grid */}
+      {/* Current Status Grid - Like time.is style */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Local Time */}
         <div className="text-center p-4 bg-blue-50 rounded-xl">
           <div className="text-3xl font-bold text-blue-600 mb-2">
-            {time?.time || '--:--'}
+            🕒 {time?.time || '--:--'}
           </div>
           <div className="text-sm text-gray-600 flex items-center justify-center">
-            <Clock className="h-4 w-4 mr-1" />
             {t('home.localTime')}
           </div>
         </div>
@@ -182,10 +181,9 @@ export default function CurrentLocationCard() {
         {/* Weather */}
         <div className="text-center p-4 bg-green-50 rounded-xl">
           <div className="text-3xl font-bold text-green-600 mb-2">
-            {weather?.temperature ? `${weather.temperature}°C` : '--°C'}
+            🌤 {weather?.temperature ? `${weather.temperature}°C` : '--°C'}
           </div>
           <div className="text-sm text-gray-600 flex items-center justify-center">
-            <Cloud className="h-4 w-4 mr-1" />
             {t('home.weather')}
           </div>
         </div>
@@ -193,10 +191,9 @@ export default function CurrentLocationCard() {
         {/* WiFi Speed */}
         <div className="text-center p-4 bg-purple-50 rounded-xl">
           <div className="text-3xl font-bold text-purple-600 mb-2">
-            {wifiSpeed ? `${wifiSpeed}` : '--'}
+            ☕ {wifiSpeed ? `${wifiSpeed}` : '--'}
           </div>
           <div className="text-sm text-gray-600 flex items-center justify-center">
-            <Wifi className="h-4 w-4 mr-1" />
             {t('home.wifiSpeed')} (Mbps)
           </div>
         </div>
@@ -204,10 +201,9 @@ export default function CurrentLocationCard() {
         {/* Visa Status - Only show if user has visa data */}
         <div className="text-center p-4 bg-orange-50 rounded-xl">
           <div className="text-3xl font-bold text-orange-600 mb-2">
-            {getVisaStatus() ? '38' : '--'}
+            🛂 {getVisaStatus() ? '38' : '--'}
           </div>
           <div className="text-sm text-gray-600 flex items-center justify-center">
-            <Calendar className="h-4 w-4 mr-1" />
             {t('home.visaRemaining')}
           </div>
           {!getVisaStatus() && (

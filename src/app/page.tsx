@@ -13,6 +13,7 @@ import PersonalizedRecommendations from '@/components/PersonalizedRecommendation
 import CommunitySection from '@/components/CommunitySection'
 import PremiumFeatures from '@/components/PremiumFeatures'
 import CityComparison from '@/components/CityComparison'
+import NomadMeetup from '@/components/NomadMeetup'
 
 export default function HomePage() {
   const { t, locale } = useTranslation()
@@ -68,6 +69,9 @@ export default function HomePage() {
 
           {/* Personalized Recommendations */}
           <PersonalizedRecommendations />
+
+          {/* Nomad Meetup - Who's in this city */}
+          <NomadMeetup />
 
           {/* Community Section */}
           <CommunitySection />
