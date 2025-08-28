@@ -1,16 +1,20 @@
 # Multi-stage build - Build stage
 FROM node:20-alpine AS builder
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
 WORKDIR /app
 
-# Copy package files and lock file
+# Copy package files and lock file (keep package-lock.json for security)
 COPY package*.json ./
 COPY package-lock.json ./
 
 # Install all dependencies (including dev dependencies for build)
-RUN npm ci && npm cache clean --force
+# Use npm ci for reproducible builds and better security
+RUN npm ci --only=production && npm cache clean --force
 
-# Copy source code
+# Copy source code (excluding files in .dockerignore)
 COPY . .
 
 # Build application
@@ -24,7 +28,7 @@ RUN apk add --no-cache curl
 
 WORKDIR /app
 
-# Create non-root user
+# Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
@@ -36,25 +40,23 @@ COPY --from=builder /app/.next/static ./.next/static
 RUN mkdir -p public
 COPY --from=builder /app/public ./public
 
-# Copy environment example file
-COPY --from=builder /app/env.example ./env.example
+# Copy environment example file (if exists)
+COPY --from=builder /app/env.example ./env.example 2>/dev/null || true
 
-# Set user permissions
+# Set proper permissions
+RUN chown -R nextjs:nodejs /app
+
+# Switch to non-root user
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 3011
 
-ENV PORT 3000
+ENV PORT 3011
 ENV HOSTNAME "0.0.0.0"
 ENV NODE_ENV production
 
-# 设置默认环境变量（可以在运行时覆盖）
-ENV NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key-here"
-ENV NEXT_PUBLIC_OPENWEATHER_API_KEY="your-openweather-api-key-here"
-
-# Health check
+# Health check with proper timeout and retries
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/api/health || exit 1
+  CMD curl -f http://localhost:3011/api/health || exit 1
 
 CMD ["node", "server.js"] 
