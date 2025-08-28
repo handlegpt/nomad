@@ -1,6 +1,6 @@
 import { supabase, City, Vote, User, Place, PlaceVote, PlaceReview } from './supabase'
 
-// 时间相关API
+// Time related APIs
 export async function getWorldTime(timezone: string) {
   try {
     const response = await fetch(`/api/time?timezone=${encodeURIComponent(timezone)}`)
@@ -12,7 +12,7 @@ export async function getWorldTime(timezone: string) {
   }
 }
 
-// 天气相关API
+// Weather related APIs
 export async function getWeather(lat: number, lon: number) {
   try {
     const response = await fetch(`/api/weather?lat=${lat}&lon=${lon}`)
@@ -24,8 +24,13 @@ export async function getWeather(lat: number, lon: number) {
   }
 }
 
-// 城市相关API
+// City related APIs
 export async function getCities(): Promise<City[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     const { data, error } = await supabase
       .from('cities')
@@ -41,6 +46,11 @@ export async function getCities(): Promise<City[]> {
 }
 
 export async function getTopCities(limit: number = 10): Promise<City[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     const { data, error } = await supabase
       .from('city_ratings')
@@ -57,6 +67,11 @@ export async function getTopCities(limit: number = 10): Promise<City[]> {
 }
 
 export async function getCityById(id: string): Promise<City | null> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return null
+  }
+  
   try {
     const { data, error } = await supabase
       .from('cities')
@@ -72,8 +87,13 @@ export async function getCityById(id: string): Promise<City | null> {
   }
 }
 
-// 投票相关API
+// Vote related APIs
 export async function submitVote(voteData: Omit<Vote, 'id' | 'created_at'>): Promise<boolean> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return false
+  }
+  
   try {
     const { error } = await supabase
       .from('votes')
@@ -87,8 +107,13 @@ export async function submitVote(voteData: Omit<Vote, 'id' | 'created_at'>): Pro
   }
 }
 
-// 地点推荐相关API
+// Place recommendation related APIs
 export async function getPlacesByCity(cityId: string): Promise<Place[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     const { data, error } = await supabase
       .from('place_ratings')
@@ -105,6 +130,11 @@ export async function getPlacesByCity(cityId: string): Promise<Place[]> {
 }
 
 export async function getPlacesByCategory(category: string, cityId?: string): Promise<Place[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     let query = supabase
       .from('place_ratings')
@@ -127,6 +157,11 @@ export async function getPlacesByCategory(category: string, cityId?: string): Pr
 }
 
 export async function addPlace(placeData: Omit<Place, 'id' | 'created_at' | 'updated_at'>): Promise<Place | null> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return null
+  }
+  
   try {
     const { data, error } = await supabase
       .from('places')
@@ -143,6 +178,11 @@ export async function addPlace(placeData: Omit<Place, 'id' | 'created_at' | 'upd
 }
 
 export async function submitPlaceVote(voteData: Omit<PlaceVote, 'id' | 'created_at'>): Promise<boolean> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return false
+  }
+  
   try {
     const { error } = await supabase
       .from('place_votes')
@@ -157,6 +197,11 @@ export async function submitPlaceVote(voteData: Omit<PlaceVote, 'id' | 'created_
 }
 
 export async function addPlaceReview(reviewData: Omit<PlaceReview, 'id' | 'created_at'>): Promise<PlaceReview | null> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return null
+  }
+  
   try {
     const { data, error } = await supabase
       .from('place_reviews')
@@ -173,6 +218,11 @@ export async function addPlaceReview(reviewData: Omit<PlaceReview, 'id' | 'creat
 }
 
 export async function searchPlaces(query: string, cityId?: string): Promise<Place[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     let supabaseQuery = supabase
       .from('places')
@@ -194,7 +244,7 @@ export async function searchPlaces(query: string, cityId?: string): Promise<Plac
   }
 }
 
-// 工具函数
+// Utility functions
 export async function getCurrentLocation(): Promise<{ lat: number; lon: number; city: string; country: string } | null> {
   return new Promise((resolve) => {
     if (!navigator.geolocation) {
@@ -243,7 +293,7 @@ export function calculateVisaDays(visaExpiry: string): number {
   return Math.max(0, diffDays)
 }
 
-// 新增：地点推荐相关工具函数
+// New: Place recommendation related utility functions
 export function getCategoryIcon(category: string): string {
   const icons = {
     cafe: '☕',
@@ -290,8 +340,13 @@ export function getSocialAtmosphereText(level: string): string {
   return levels[level as keyof typeof levels] || '未知'
 }
 
-// 新增：获取热门地点
+// New: Get popular places
 export async function getTopPlaces(limit: number = 10): Promise<Place[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     const { data, error } = await supabase
       .from('place_ratings')
@@ -307,8 +362,13 @@ export async function getTopPlaces(limit: number = 10): Promise<Place[]> {
   }
 }
 
-// 新增：获取用户推荐的地点
+// New: Get user recommended places
 export async function getUserPlaces(userId: string): Promise<Place[]> {
+  if (!supabase) {
+    console.warn('Supabase client not available')
+    return []
+  }
+  
   try {
     const { data, error } = await supabase
       .from('place_ratings')

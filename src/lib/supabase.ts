@@ -1,8 +1,20 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Only create Supabase client on client side
+let supabase: any = null
+
+if (typeof window !== 'undefined') {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  
+  if (supabaseUrl && supabaseAnonKey) {
+    supabase = createClient(supabaseUrl, supabaseAnonKey)
+  } else {
+    console.warn('Supabase environment variables are not configured')
+  }
+}
+
+export { supabase }
 
 export interface City {
   id: string
@@ -41,7 +53,7 @@ export interface User {
   created_at: string
 }
 
-// 新增：地点推荐相关接口
+// Place recommendation related interfaces
 export interface Place {
   id: string
   name: string
@@ -53,7 +65,7 @@ export interface Place {
   description: string
   tags: string[]
   wifi_speed?: number
-  price_level: 1 | 2 | 3 | 4 | 5 // 1=便宜, 5=昂贵
+  price_level: 1 | 2 | 3 | 4 | 5 // 1=cheap, 5=expensive
   noise_level: 'quiet' | 'moderate' | 'loud'
   social_atmosphere: 'low' | 'medium' | 'high'
   submitted_by: string
