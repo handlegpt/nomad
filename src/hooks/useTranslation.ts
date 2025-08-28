@@ -52,12 +52,15 @@ export function useTranslation() {
   const loadTranslations = async (newLocale: Locale) => {
     setLoading(true)
     try {
+      console.log('🔍 Loading translations for locale:', newLocale)
       const trans = await import(`@/locales/${newLocale}.json`)
+      console.log('✅ Translations loaded:', trans.default)
       setTranslations(trans.default)
     } catch (error) {
-      console.error('Failed to load translations:', error)
+      console.error('❌ Failed to load translations:', error)
       // Fallback to English
       const fallback = await import('@/locales/en.json')
+      console.log('🔄 Using fallback translations:', fallback.default)
       setTranslations(fallback.default)
     } finally {
       setLoading(false)
@@ -71,10 +74,18 @@ export function useTranslation() {
   }
 
   const translate = (key: string, params?: Record<string, string>): string => {
-    if (loading) return key
+    if (loading) {
+      console.log('⏳ Translation loading, returning key:', key)
+      return key
+    }
     
     const keys = key.split('.')
-    let value: any = keys.reduce((obj, k) => obj?.[k], translations) || key
+    let value: any = keys.reduce((obj, k) => obj?.[k], translations)
+    
+    if (value === undefined || value === key) {
+      console.warn('⚠️ Translation key not found:', key, 'in locale:', locale)
+      return key
+    }
     
     // Ensure value is a string
     let result = String(value)
