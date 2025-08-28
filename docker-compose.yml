@@ -6,7 +6,7 @@ services:
     ports:
       - "3011:3000"  # 修改为3011端口
     env_file:
-      - .env.local
+      - .env
     environment:
       - NODE_ENV=production
       - PORT=3000
