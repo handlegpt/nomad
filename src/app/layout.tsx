@@ -6,21 +6,21 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'NOMAD.NOW - 数字游民工具平台',
+    default: 'NOMAD.NOW - Digital Nomad Tools',
     template: '%s | NOMAD.NOW'
   },
-  description: '为数字游民提供最实用的工具和信息，包括实时时间、天气、签证倒计时、城市推荐等功能。帮助你找到下一个理想的目的地。',
+  description: 'Essential tools and information for digital nomads, including real-time time, weather, visa countdown, city recommendations, and more. Help you find your next ideal destination.',
   keywords: [
-    '数字游民',
-    '远程工作',
-    '签证指南',
-    '城市推荐',
-    '生活成本',
-    'WiFi速度',
-    '旅游签证',
-    '数字游民签证',
-    '全球旅行',
-    '工作旅行'
+    'digital nomad',
+    'remote work',
+    'visa guide',
+    'city recommendations',
+    'cost of living',
+    'WiFi speed',
+    'travel visa',
+    'digital nomad visa',
+    'global travel',
+    'work travel'
   ],
   authors: [{ name: 'NOMAD.NOW Team' }],
   creator: 'NOMAD.NOW',
@@ -34,6 +34,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
     languages: {
+      'en': '/en',
       'zh': '/zh',
       'es': '/es',
       'ja': '/ja',
@@ -41,24 +42,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'zh_CN',
+    locale: 'en_US',
     url: 'https://nomad.now',
-    title: 'NOMAD.NOW - 数字游民工具平台',
-    description: '为数字游民提供最实用的工具和信息，包括实时时间、天气、签证倒计时、城市推荐等功能。',
+    title: 'NOMAD.NOW - Digital Nomad Tools',
+    description: 'Essential tools and information for digital nomads, including real-time time, weather, visa countdown, city recommendations, and more.',
     siteName: 'NOMAD.NOW',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'NOMAD.NOW - 数字游民工具平台',
+        alt: 'NOMAD.NOW - Digital Nomad Tools',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NOMAD.NOW - 数字游民工具平台',
-    description: '为数字游民提供最实用的工具和信息，包括实时时间、天气、签证倒计时、城市推荐等功能。',
+    title: 'NOMAD.NOW - Digital Nomad Tools',
+    description: 'Essential tools and information for digital nomads, including real-time time, weather, visa countdown, city recommendations, and more.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -85,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <head>
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -113,7 +114,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebApplication",
               "name": "NOMAD.NOW",
-              "description": "为数字游民提供最实用的工具和信息",
+              "description": "Essential tools and information for digital nomads",
               "url": "https://nomad.now",
               "applicationCategory": "TravelApplication",
               "operatingSystem": "Web",

@@ -21,12 +21,7 @@ export function getCurrentLocale(): Locale {
     return storedLocale
   }
 
-  // Finally, try to get from browser language
-  const browserLang = navigator.language.split('-')[0]
-  if (browserLang === 'zh' || browserLang === 'es' || browserLang === 'ja') {
-    return browserLang as Locale
-  }
-
+  // Always return default locale (English) instead of browser language
   return defaultLocale
 }
 

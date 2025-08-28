@@ -3,9 +3,12 @@
     "home": "首页",
     "tools": "工具",
     "cities": "城市",
+    "places": "探索地点",
+    "visaGuide": "签证指南",
     "tax": "税务",
     "guides": "指南",
     "community": "社区",
+    "dashboard": "数据统计",
     "language": "语言"
   },
   "home": {

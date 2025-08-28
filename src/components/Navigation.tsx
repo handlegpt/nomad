@@ -12,10 +12,10 @@ export default function Navigation() {
   const navigationItems = [
     { name: t('navigation.home'), href: '/', icon: HomeIcon },
     { name: t('navigation.cities'), href: '/cities', icon: MapPinIcon },
-    { name: '探索地点', href: '/places', icon: SearchIcon },
-    { name: '签证指南', href: '/visa-guide', icon: BookOpenIcon },
+    { name: t('navigation.places'), href: '/places', icon: SearchIcon },
+    { name: t('navigation.visaGuide'), href: '/visa-guide', icon: BookOpenIcon },
     { name: t('navigation.community'), href: '/community', icon: UsersIcon },
-    { name: '数据统计', href: '/dashboard', icon: BarChart3Icon }
+    { name: t('navigation.dashboard'), href: '/dashboard', icon: BarChart3Icon }
   ]
 
   return (

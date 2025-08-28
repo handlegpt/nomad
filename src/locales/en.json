@@ -3,9 +3,12 @@
     "home": "Home",
     "tools": "Tools",
     "cities": "Cities",
+    "places": "Places",
+    "visaGuide": "Visa Guide",
     "tax": "Tax",
     "guides": "Guides",
     "community": "Community",
+    "dashboard": "Dashboard",
     "language": "Language"
   },
   "home": {
