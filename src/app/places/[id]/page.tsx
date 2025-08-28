@@ -192,8 +192,8 @@ export default function PlaceDetailPage() {
                     <div className="flex items-center space-x-2 mt-2">
                       <div className="flex items-center space-x-1">
                         <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
-                        <span className="font-medium">{place.rating}</span>
-                        <span className="text-gray-500">({place.review_count})</span>
+                        <span className="font-medium">{place.rating || 0}</span>
+                        <span className="text-gray-500">({place.review_count || 0})</span>
                       </div>
                       <span className="text-gray-400">•</span>
                       <span className="text-gray-600">{getPriceLevelText(place.price_level)}</span>
@@ -206,14 +206,14 @@ export default function PlaceDetailPage() {
                     className="flex items-center space-x-1 text-green-600 hover:text-green-700"
                   >
                     <ThumbsUpIcon className="h-5 w-5" />
-                    <span className="font-medium">{place.upvotes}</span>
+                    <span className="font-medium">{place.upvotes || 0}</span>
                   </button>
                   <button
                     onClick={() => handleVote('downvote')}
                     className="flex items-center space-x-1 text-red-600 hover:text-red-700"
                   >
                     <ThumbsDownIcon className="h-5 w-5" />
-                    <span className="font-medium">{place.downvotes}</span>
+                    <span className="font-medium">{place.downvotes || 0}</span>
                   </button>
                 </div>
               </div>
@@ -340,7 +340,7 @@ export default function PlaceDetailPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <ThumbsUpIcon className="h-4 w-4 text-gray-400" />
-                  <span className="text-gray-600">推荐度：{place.upvotes - place.downvotes}</span>
+                  <span className="text-gray-600">推荐度：{(place.upvotes || 0) - (place.downvotes || 0)}</span>
                 </div>
               </div>
             </div>

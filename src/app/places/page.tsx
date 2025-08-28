@@ -195,7 +195,7 @@ export default function PlacesPage() {
                       </div>
                       <div className="flex items-center space-x-1">
                         <StarIcon className="h-4 w-4 text-yellow-400" />
-                        <span className="text-sm font-medium">{place.rating}</span>
+                        <span className="text-sm font-medium">{place.rating || 0}</span>
                       </div>
                     </div>
 
@@ -216,7 +216,7 @@ export default function PlacesPage() {
                       </div>
                       <div className="flex items-center space-x-1">
                         <UsersIcon className="h-4 w-4" />
-                        <span>{place.review_count} 评价</span>
+                        <span>{place.review_count || 0} 评价</span>
                       </div>
                     </div>
                   </div>
@@ -242,9 +242,9 @@ export default function PlacesPage() {
                       <div className="text-right">
                         <div className="flex items-center space-x-1">
                           <StarIcon className="h-4 w-4 text-yellow-400" />
-                          <span className="font-medium">{place.rating}</span>
+                          <span className="font-medium">{place.rating || 0}</span>
                         </div>
-                        <p className="text-sm text-gray-500">{place.review_count} 评价</p>
+                        <p className="text-sm text-gray-500">{place.review_count || 0} 评价</p>
                       </div>
                       <div className="text-right">
                         <div className="flex items-center space-x-4 text-sm text-gray-600">
