@@ -105,20 +105,20 @@ export default function PlaceDetailPage() {
 
   const getNoiseLevelText = (level: string) => {
     const levels = {
-      quiet: '安静',
-      moderate: '适中',
-      loud: '嘈杂'
+      quiet: t('places.details.quiet'),
+      moderate: t('places.details.moderate'),
+      loud: t('places.details.loud')
     }
-    return levels[level as keyof typeof levels] || '适中'
+    return levels[level as keyof typeof levels] || t('places.details.moderate')
   }
 
   const getSocialAtmosphereText = (level: string) => {
     const levels = {
-      low: '低',
-      medium: '中等',
-      high: '高'
+      low: t('places.details.low'),
+      medium: t('places.details.medium'),
+      high: t('places.details.high')
     }
-    return levels[level as keyof typeof levels] || '中等'
+    return levels[level as keyof typeof levels] || t('places.details.medium')
   }
 
   if (loading) {
@@ -126,7 +126,7 @@ export default function PlaceDetailPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">加载中...</p>
+          <p className="mt-4 text-gray-600">{t('common.loading')}</p>
         </div>
       </div>
     )
@@ -136,9 +136,9 @@ export default function PlaceDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">地方信息未找到</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('places.notFound.title')}</h1>
           <Link href="/places" className="text-blue-600 hover:text-blue-700">
-            返回地方列表
+            {t('places.notFound.backToList')}
           </Link>
         </div>
       </div>
@@ -161,11 +161,11 @@ export default function PlaceDetailPage() {
               <h1 className="text-2xl font-bold text-gray-900">{place.name}</h1>
               <p className="text-gray-600 flex items-center space-x-2">
                 <span>{getCategoryIcon(place.category)}</span>
-                <span>{place.category === 'cafe' ? '咖啡馆' : 
-                       place.category === 'coworking' ? 'Co-working空间' :
-                       place.category === 'coliving' ? 'Coliving' :
-                       place.category === 'restaurant' ? '餐厅' :
-                       place.category === 'outdoor' ? '户外' : '其他'}</span>
+                <span>{place.category === 'cafe' ? t('places.categories.cafe') : 
+                       place.category === 'coworking' ? t('places.categories.coworking') :
+                       place.category === 'coliving' ? t('places.categories.coliving') :
+                       place.category === 'restaurant' ? t('places.categories.restaurant') :
+                       place.category === 'outdoor' ? t('places.categories.outdoor') : t('places.categories.other')}</span>
               </p>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function PlaceDetailPage() {
                     <StarIcon className="h-5 w-5 text-yellow-400 fill-current" />
                     <span className="font-bold text-lg">{place.rating || 0}</span>
                   </div>
-                  <p className="text-sm text-gray-600">({place.review_count || 0} 条评价)</p>
+                  <p className="text-sm text-gray-600">({place.review_count || 0} {t('places.reviews')})</p>
                 </div>
               </div>
 
@@ -239,40 +239,40 @@ export default function PlaceDetailPage() {
                   <span className="font-medium">{place.downvotes || 0}</span>
                 </div>
                 <span className="text-sm text-gray-500">
-                  推荐度：{(place.upvotes || 0) - (place.downvotes || 0)}
+                  {t('places.recommendationScore')}: {(place.upvotes || 0) - (place.downvotes || 0)}
                 </span>
               </div>
             </div>
 
             {/* Details */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">详细信息</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">{t('places.details.title')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center space-x-3">
                   <WifiIcon className="h-5 w-5 text-blue-500" />
                   <div>
-                    <p className="text-sm text-gray-600">WiFi速度</p>
+                    <p className="text-sm text-gray-600">{t('places.details.wifiSpeed')}</p>
                     <p className="font-semibold">{place.wifi_speed || 'N/A'} Mbps</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <DollarSignIcon className="h-5 w-5 text-green-500" />
                   <div>
-                    <p className="text-sm text-gray-600">价格水平</p>
+                    <p className="text-sm text-gray-600">{t('places.details.priceLevel')}</p>
                     <p className="font-semibold">{getPriceLevelText(place.price_level)}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <UsersIcon className="h-5 w-5 text-purple-500" />
                   <div>
-                    <p className="text-sm text-gray-600">噪音水平</p>
+                    <p className="text-sm text-gray-600">{t('places.details.noiseLevel')}</p>
                     <p className="font-semibold">{getNoiseLevelText(place.noise_level)}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <UsersIcon className="h-5 w-5 text-orange-500" />
                   <div>
-                    <p className="text-sm text-gray-600">社交氛围</p>
+                    <p className="text-sm text-gray-600">{t('places.details.socialAtmosphere')}</p>
                     <p className="font-semibold">{getSocialAtmosphereText(place.social_atmosphere)}</p>
                   </div>
                 </div>

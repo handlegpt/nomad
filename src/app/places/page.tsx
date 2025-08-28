@@ -72,18 +72,18 @@ export default function PlacesPage() {
   })
 
   const categories = [
-    { id: 'all', name: '全部', icon: <MapPinIcon className="h-4 w-4" /> },
-    { id: 'cafe', name: '☕ 咖啡馆', icon: <MapPinIcon className="h-4 w-4" /> },
-    { id: 'coworking', name: '💻 Co-working', icon: <MonitorIcon className="h-4 w-4" /> },
-    { id: 'coliving', name: '🏠 Coliving', icon: <HomeIcon className="h-4 w-4" /> },
-    { id: 'restaurant', name: '🍽 餐馆', icon: <UtensilsIcon className="h-4 w-4" /> },
-    { id: 'outdoor', name: '🌳 户外', icon: <TreePine className="h-4 w-4" /> }
+    { id: 'all', name: t('places.categories.all'), icon: <MapPinIcon className="h-4 w-4" /> },
+    { id: 'cafe', name: t('places.categories.cafe'), icon: <MapPinIcon className="h-4 w-4" /> },
+    { id: 'coworking', name: t('places.categories.coworking'), icon: <MonitorIcon className="h-4 w-4" /> },
+    { id: 'coliving', name: t('places.categories.coliving'), icon: <HomeIcon className="h-4 w-4" /> },
+    { id: 'restaurant', name: t('places.categories.restaurant'), icon: <UtensilsIcon className="h-4 w-4" /> },
+    { id: 'outdoor', name: t('places.categories.outdoor'), icon: <TreePine className="h-4 w-4" /> }
   ]
 
   const sortOptions = [
-    { value: 'rating', label: '评分最高' },
-    { value: 'recent', label: '最新添加' },
-    { value: 'popular', label: '最受欢迎' }
+    { value: 'rating', label: t('places.sortBy.rating') },
+    { value: 'recent', label: t('places.sortBy.recent') },
+    { value: 'popular', label: t('places.sortBy.popular') }
   ]
 
   if (loading) {
@@ -92,7 +92,7 @@ export default function PlacesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-            <span className="ml-3 text-gray-600">Loading places...</span>
+            <span className="ml-3 text-gray-600">{t('common.loading')}</span>
           </div>
         </div>
       </div>
@@ -104,8 +104,8 @@ export default function PlacesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">推荐地点</h1>
-          <p className="text-gray-600">发现最适合数字游民的地点</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('places.title')}</h1>
+          <p className="text-gray-600">{t('places.description')}</p>
         </div>
 
         {/* Filters and Search */}
@@ -117,7 +117,7 @@ export default function PlacesPage() {
                 <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="搜索地点..."
+                  placeholder={t('places.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -214,10 +214,10 @@ export default function PlacesPage() {
                           <span>{getPriceLevelText(place.price_level)}</span>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <UsersIcon className="h-4 w-4" />
-                        <span>{place.review_count || 0} 评价</span>
-                      </div>
+                                              <div className="flex items-center space-x-1">
+                          <UsersIcon className="h-4 w-4" />
+                          <span>{place.review_count || 0} {t('places.reviews')}</span>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function PlacesPage() {
                           <StarIcon className="h-4 w-4 text-yellow-400" />
                           <span className="font-medium">{place.rating || 0}</span>
                         </div>
-                        <p className="text-sm text-gray-500">{place.review_count || 0} 评价</p>
+                        <p className="text-sm text-gray-500">{place.review_count || 0} {t('places.reviews')}</p>
                       </div>
                       <div className="text-right">
                         <div className="flex items-center space-x-4 text-sm text-gray-600">
@@ -274,8 +274,8 @@ export default function PlacesPage() {
             <div className="text-gray-400 mb-4">
               <MapPinIcon className="h-16 w-16 mx-auto" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到地点</h3>
-            <p className="text-gray-600">尝试调整搜索条件或添加新的地点</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('places.noResults.title')}</h3>
+            <p className="text-gray-600">{t('places.noResults.description')}</p>
           </div>
         )}
       </div>

@@ -225,6 +225,12 @@
     "addPlace": "Add Recommendation",
     "quickBrowse": "Quick Browse",
     "recommendations": "recommendations",
+    "recommendationScore": "Recommendation Score",
+    "reviews": "reviews",
+    "notFound": {
+      "title": "Place not found",
+      "backToList": "Back to places list"
+    },
     "categories": {
       "all": "All",
       "cafe": "☕ Cafe",
@@ -239,12 +245,24 @@
       "recent": "Most Recent",
       "popular": "Most Popular"
     },
+    "details": {
+      "title": "Details",
+      "wifiSpeed": "WiFi Speed",
+      "priceLevel": "Price Level",
+      "noiseLevel": "Noise Level",
+      "socialAtmosphere": "Social Atmosphere",
+      "quiet": "Quiet",
+      "moderate": "Moderate",
+      "loud": "Loud",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
     "noResults": {
       "title": "No places recommended yet",
       "description": "Be the first to recommend a great place!"
     },
-    "viewAll": "View all {count} places",
-    "reviews": "reviews"
+    "viewAll": "View all {count} places"
   },
   "cities": {
     "loading": "Loading city rankings...",
@@ -323,6 +341,7 @@
     "mexico": "Mexico"
   },
   "common": {
+    "loading": "Loading...",
     "learnMore": "Learn more",
     "viewDetails": "View Details",
     "back": "Back",
