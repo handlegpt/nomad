@@ -26,6 +26,15 @@
     "setupVisaTitle": "设置你的签证信息",
     "setupVisaDescription": "添加签证详情以跟踪剩余天数并获取提醒",
     "setupVisaButton": "设置签证",
+    "quickVote": {
+      "title": "参与投票",
+      "description": "根据你的体验为城市评分",
+      "currentCity": "为当前城市评分",
+      "like": "喜欢",
+      "dislike": "不喜欢",
+      "rateExperience": "评价你的体验",
+      "ratingHint": "点击评价你的整体体验"
+    },
     "exploreTools": "探索工具",
     "browseCities": "浏览城市",
     "features": {
@@ -88,6 +97,12 @@
   "cities": {
     "title": "游民城市",
     "description": "发现最适合数字游民的城市。每个目的地都提供独特的机会，从经济实惠的生活到充满活力的社区和优秀的基础设施。",
+    "loading": "正在加载城市排名...",
+    "votes": "票",
+    "quickUpvote": "快速点赞",
+    "quickDownvote": "快速点踩",
+    "voteDetails": "投票/详情",
+    "votingComingSoon": "投票功能即将推出！",
     "planningDestination": {
       "title": "计划下一个目的地？",
       "description": "获取每个城市的详细签证信息、成本分解和社区见解。",
@@ -335,6 +350,7 @@
     "mexico": "墨西哥"
   },
   "common": {
+    "loading": "加载中...",
     "learnMore": "了解更多",
     "viewDetails": "查看详情",
     "back": "返回",
