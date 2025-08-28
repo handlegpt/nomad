@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 // 生成6位数字验证码
 function generateVerificationCode(): string {
@@ -20,6 +17,10 @@ async function sendEmail(email: string, code: string): Promise<boolean> {
       return true
     }
 
+    // 动态导入Resend，避免构建时错误
+    const { Resend } = await import('resend')
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    
     const { data, error } = await resend.emails.send({
       from: 'NOMAD.NOW <noreply@yourdomain.com>',
       to: [email],
