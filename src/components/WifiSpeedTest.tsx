@@ -83,9 +83,9 @@ export default function WifiSpeedTest() {
       
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
-        setError(t('wifiSpeedTest.testCancelled'))
+        setError('测试已取消')
       } else {
-        setError(t('wifiSpeedTest.testFailed'))
+        setError('速度测试失败，请检查网络连接')
       }
     } finally {
       setIsTesting(false)
@@ -202,10 +202,10 @@ export default function WifiSpeedTest() {
 
   const getPhaseText = () => {
     switch (testPhase) {
-      case 'ping': return t('wifiSpeedTest.pingTest')
-      case 'download': return t('wifiSpeedTest.downloadTest')
-      case 'upload': return t('wifiSpeedTest.uploadTest')
-      case 'complete': return t('wifiSpeedTest.testComplete')
+      case 'ping': return '测试网络延迟...'
+      case 'download': return '测试下载速度...'
+      case 'upload': return '测试上传速度...'
+      case 'complete': return '测试完成'
       default: return ''
     }
   }
@@ -218,8 +218,8 @@ export default function WifiSpeedTest() {
             <Wifi className="h-5 w-5 text-blue-600" />
           </div>
                       <div>
-              <h3 className="text-lg font-bold text-gray-900">{t('wifiSpeedTest.title')}</h3>
-              <p className="text-sm text-gray-500">{t('wifiSpeedTest.description')}</p>
+              <h3 className="text-lg font-bold text-gray-900">WiFi速度测试</h3>
+              <p className="text-sm text-gray-500">测试当前网络连接速度</p>
             </div>
         </div>
         
@@ -247,7 +247,7 @@ export default function WifiSpeedTest() {
               onClick={cancelTest}
               className="mt-3 text-sm text-red-600 hover:text-red-700"
             >
-              {t('wifiSpeedTest.cancelTest')}
+              取消测试
             </button>
         </div>
       )}
@@ -272,7 +272,7 @@ export default function WifiSpeedTest() {
               <div className="text-2xl font-bold text-green-600">
                 {result.downloadSpeed} Mbps
               </div>
-              <div className="text-sm text-gray-600">{t('wifiSpeedTest.downloadSpeed')}</div>
+              <div className="text-sm text-gray-600">下载速度</div>
               <div className={`text-xs font-medium mt-1 ${getSpeedGrade(result.downloadSpeed).color}`}>
                 {getSpeedGrade(result.downloadSpeed).grade} - {getSpeedGrade(result.downloadSpeed).description}
               </div>
@@ -284,7 +284,7 @@ export default function WifiSpeedTest() {
               <div className="text-2xl font-bold text-blue-600">
                 {result.uploadSpeed} Mbps
               </div>
-              <div className="text-sm text-gray-600">{t('wifiSpeedTest.uploadSpeed')}</div>
+              <div className="text-sm text-gray-600">上传速度</div>
               <div className={`text-xs font-medium mt-1 ${getSpeedGrade(result.uploadSpeed).color}`}>
                 {getSpeedGrade(result.uploadSpeed).grade} - {getSpeedGrade(result.uploadSpeed).description}
               </div>
@@ -296,7 +296,7 @@ export default function WifiSpeedTest() {
               <div className="text-2xl font-bold text-purple-600">
                 {result.ping} ms
               </div>
-              <div className="text-sm text-gray-600">{t('wifiSpeedTest.ping')}</div>
+              <div className="text-sm text-gray-600">网络延迟</div>
               <div className={`text-xs font-medium mt-1 ${
                 result.ping < 50 ? 'text-green-600' : 
                 result.ping < 100 ? 'text-yellow-600' : 'text-red-600'
@@ -307,7 +307,7 @@ export default function WifiSpeedTest() {
           </div>
 
           <div className="mt-4 text-center text-xs text-gray-500">
-            {t('wifiSpeedTest.testTime')}: {result.timestamp.toLocaleString()}
+            测试时间: {result.timestamp.toLocaleString()}
           </div>
         </div>
       )}
@@ -326,12 +326,12 @@ export default function WifiSpeedTest() {
           {isTesting ? (
             <>
               <RefreshCw className="h-4 w-4 animate-spin" />
-              <span>{t('wifiSpeedTest.testing')}</span>
+              <span>测试中...</span>
             </>
           ) : (
             <>
               <Wifi className="h-4 w-4" />
-              <span>{t('wifiSpeedTest.startTest')}</span>
+              <span>开始测试</span>
             </>
           )}
         </button>
@@ -349,19 +349,19 @@ export default function WifiSpeedTest() {
       {/* 使用建议 */}
       {result && !isTesting && (
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h4 className="font-medium text-gray-900 mb-2">💡 {t('wifiSpeedTest.usageTips')}</h4>
+          <h4 className="font-medium text-gray-900 mb-2">💡 使用建议</h4>
           <ul className="text-sm text-gray-600 space-y-1">
             {result.downloadSpeed < 10 && (
-              <li>• {t('wifiSpeedTest.slowDownload')}</li>
+              <li>• 下载速度较慢，建议选择更快的网络或更换位置</li>
             )}
             {result.uploadSpeed < 5 && (
-              <li>• {t('wifiSpeedTest.slowUpload')}</li>
+              <li>• 上传速度较慢，可能影响视频会议和文件上传</li>
             )}
             {result.ping > 100 && (
-              <li>• {t('wifiSpeedTest.highPing')}</li>
+              <li>• 网络延迟较高，可能影响在线游戏和实时通信</li>
             )}
             {result.downloadSpeed >= 25 && result.uploadSpeed >= 10 && result.ping < 50 && (
-              <li>• {t('wifiSpeedTest.goodNetwork')}</li>
+              <li>• 网络状况良好，适合远程工作和在线会议</li>
             )}
           </ul>
         </div>
