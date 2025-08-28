@@ -59,7 +59,7 @@ export async function getWeather(lat: number, lon: number) {
 export async function getCities(): Promise<City[]> {
   if (!supabase) {
     devWarn('Supabase client not available - returning mock data')
-    // Return mock data when Supabase is not available
+    // Return comprehensive mock data when Supabase is not available
     return [
       {
         id: '1',
@@ -90,6 +90,126 @@ export async function getCities(): Promise<City[]> {
         wifi_speed: 50,
         created_at: '2024-01-01',
         updated_at: '2024-01-01'
+      },
+      {
+        id: '3',
+        name: 'Bali',
+        country: 'Indonesia',
+        country_code: 'ID',
+        timezone: 'Asia/Jakarta',
+        latitude: -8.3405,
+        longitude: 115.0920,
+        visa_days: 30,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1500,
+        wifi_speed: 40,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '4',
+        name: 'Tbilisi',
+        country: 'Georgia',
+        country_code: 'GE',
+        timezone: 'Asia/Tbilisi',
+        latitude: 41.7151,
+        longitude: 44.8271,
+        visa_days: 365,
+        visa_type: 'Visa Free',
+        cost_of_living: 1000,
+        wifi_speed: 80,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '5',
+        name: 'Mexico City',
+        country: 'Mexico',
+        country_code: 'MX',
+        timezone: 'America/Mexico_City',
+        latitude: 19.4326,
+        longitude: -99.1332,
+        visa_days: 180,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1800,
+        wifi_speed: 60,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '6',
+        name: 'Barcelona',
+        country: 'Spain',
+        country_code: 'ES',
+        timezone: 'Europe/Madrid',
+        latitude: 41.3851,
+        longitude: 2.1734,
+        visa_days: 90,
+        visa_type: 'Schengen Visa',
+        cost_of_living: 2500,
+        wifi_speed: 120,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '7',
+        name: 'Medellin',
+        country: 'Colombia',
+        country_code: 'CO',
+        timezone: 'America/Bogota',
+        latitude: 6.2442,
+        longitude: -75.5812,
+        visa_days: 90,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1400,
+        wifi_speed: 70,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '8',
+        name: 'Porto',
+        country: 'Portugal',
+        country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 41.1579,
+        longitude: -8.6291,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 1800,
+        wifi_speed: 100,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '9',
+        name: 'Bangkok',
+        country: 'Thailand',
+        country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 13.7563,
+        longitude: 100.5018,
+        visa_days: 30,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1600,
+        wifi_speed: 60,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '10',
+        name: 'Buenos Aires',
+        country: 'Argentina',
+        country_code: 'AR',
+        timezone: 'America/Argentina/Buenos_Aires',
+        latitude: -34.6118,
+        longitude: -58.3960,
+        visa_days: 90,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
       }
     ]
   }
@@ -111,7 +231,7 @@ export async function getCities(): Promise<City[]> {
 export async function getTopCities(limit: number = 10): Promise<City[]> {
   if (!supabase) {
     devWarn('Supabase client not available - returning mock data')
-    // Return mock data when Supabase is not available
+    // Return comprehensive mock data when Supabase is not available
     return [
       {
         id: '1',
@@ -137,6 +257,126 @@ export async function getTopCities(limit: number = 10): Promise<City[]> {
         latitude: 18.7883,
         longitude: 98.9853,
         visa_days: 60,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '3',
+        name: 'Bali',
+        country: 'Indonesia',
+        country_code: 'ID',
+        timezone: 'Asia/Jakarta',
+        latitude: -8.3405,
+        longitude: 115.0920,
+        visa_days: 30,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1500,
+        wifi_speed: 40,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '4',
+        name: 'Tbilisi',
+        country: 'Georgia',
+        country_code: 'GE',
+        timezone: 'Asia/Tbilisi',
+        latitude: 41.7151,
+        longitude: 44.8271,
+        visa_days: 365,
+        visa_type: 'Visa Free',
+        cost_of_living: 1000,
+        wifi_speed: 80,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '5',
+        name: 'Mexico City',
+        country: 'Mexico',
+        country_code: 'MX',
+        timezone: 'America/Mexico_City',
+        latitude: 19.4326,
+        longitude: -99.1332,
+        visa_days: 180,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1800,
+        wifi_speed: 60,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '6',
+        name: 'Barcelona',
+        country: 'Spain',
+        country_code: 'ES',
+        timezone: 'Europe/Madrid',
+        latitude: 41.3851,
+        longitude: 2.1734,
+        visa_days: 90,
+        visa_type: 'Schengen Visa',
+        cost_of_living: 2500,
+        wifi_speed: 120,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '7',
+        name: 'Medellin',
+        country: 'Colombia',
+        country_code: 'CO',
+        timezone: 'America/Bogota',
+        latitude: 6.2442,
+        longitude: -75.5812,
+        visa_days: 90,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1400,
+        wifi_speed: 70,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '8',
+        name: 'Porto',
+        country: 'Portugal',
+        country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 41.1579,
+        longitude: -8.6291,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 1800,
+        wifi_speed: 100,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '9',
+        name: 'Bangkok',
+        country: 'Thailand',
+        country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 13.7563,
+        longitude: 100.5018,
+        visa_days: 30,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1600,
+        wifi_speed: 60,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '10',
+        name: 'Buenos Aires',
+        country: 'Argentina',
+        country_code: 'AR',
+        timezone: 'America/Argentina/Buenos_Aires',
+        latitude: -34.6118,
+        longitude: -58.3960,
+        visa_days: 90,
         visa_type: 'Tourist Visa',
         cost_of_living: 1200,
         wifi_speed: 50,

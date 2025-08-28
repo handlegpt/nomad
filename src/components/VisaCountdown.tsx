@@ -65,13 +65,69 @@ export default function VisaCountdown({ visaExpiry, country, visaType }: VisaCou
 
   const getRecommendations = () => {
     if (daysLeft <= 0) {
-      return ['立即联系移民局', '考虑申请延期', '准备离境计划']
+      return [
+        '立即联系移民局了解延期选项',
+        '考虑申请其他类型签证',
+        '准备离境计划'
+      ]
     } else if (daysLeft <= 7) {
-      return ['申请签证延期', '准备离境', '联系移民律师']
+      return [
+        '立即申请签证延期',
+        '准备离境机票',
+        '联系移民律师咨询'
+      ]
     } else if (daysLeft <= 30) {
-      return ['规划下一步', '了解延期政策', '准备必要文件']
+      return [
+        '开始准备签证延期材料',
+        '研究其他签证选项',
+        '制定备选计划'
+      ]
     } else {
-      return ['继续享受旅行', '关注政策变化', '规划下次续签']
+      return [
+        '继续享受当前签证',
+        '提前规划下一个目的地',
+        '考虑申请长期签证'
+      ]
+    }
+  }
+
+  const getNextSteps = () => {
+    if (daysLeft <= 0) {
+      return {
+        priority: '紧急',
+        actions: [
+          { action: '联系移民局', urgency: '立即' },
+          { action: '申请签证延期', urgency: '今天' },
+          { action: '准备离境', urgency: '本周内' }
+        ]
+      }
+    } else if (daysLeft <= 7) {
+      return {
+        priority: '高',
+        actions: [
+          { action: '申请延期', urgency: '明天' },
+          { action: '准备文件', urgency: '本周' },
+          { action: '联系律师', urgency: '本周' }
+        ]
+      }
+    } else if (daysLeft <= 30) {
+      return {
+        priority: '中',
+        actions: [
+          { action: '准备材料', urgency: '下周' },
+          { action: '研究选项', urgency: '本月' },
+          { action: '制定计划', urgency: '本月' }
+        ]
+      }
+    } else {
+      return {
+        priority: '低',
+        actions: [
+          { action: '关注政策', urgency: '持续' },
+          { action: '规划续签', urgency: '提前3个月' },
+          { action: '准备文件', urgency: '提前2个月' }
+        ]
+      }
     }
   }
 
@@ -102,10 +158,35 @@ export default function VisaCountdown({ visaExpiry, country, visaType }: VisaCou
         </div>
       </div>
 
+      {/* Next Steps */}
+      <div className="border-t border-gray-200 pt-4">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="font-medium text-gray-900">下一步行动</h4>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            getNextSteps().priority === '紧急' ? 'bg-red-100 text-red-700' :
+            getNextSteps().priority === '高' ? 'bg-orange-100 text-orange-700' :
+            getNextSteps().priority === '中' ? 'bg-yellow-100 text-yellow-700' :
+            'bg-green-100 text-green-700'
+          }`}>
+            {getNextSteps().priority}优先级
+          </span>
+        </div>
+        <div className="space-y-2">
+          {getNextSteps().actions.map((action, index) => (
+            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <span className="text-sm font-medium text-gray-700">{action.action}</span>
+              <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">
+                {action.urgency}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Recommendations */}
       {status !== 'safe' && (
-        <div className="border-t border-gray-200 pt-4">
-          <h4 className="font-medium text-gray-900 mb-3">建议行动:</h4>
+        <div className="border-t border-gray-200 pt-4 mt-4">
+          <h4 className="font-medium text-gray-900 mb-3">详细建议:</h4>
           <ul className="space-y-2">
             {getRecommendations().map((rec, index) => (
               <li key={index} className="flex items-center space-x-2 text-sm text-gray-600">
@@ -119,11 +200,11 @@ export default function VisaCountdown({ visaExpiry, country, visaType }: VisaCou
 
       {/* Quick Actions */}
       <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="flex space-x-3">
-          <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+        <div className="grid grid-cols-2 gap-3">
+          <button className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
             设置提醒
           </button>
-          <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
+          <button className="border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
             查看政策
           </button>
         </div>

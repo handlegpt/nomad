@@ -55,34 +55,76 @@ export default function PersonalizedRecommendations() {
   const generateRecommendations = () => {
     setLoading(true)
     
-    // Simulate recommendation algorithm
+    // Enhanced AI recommendation algorithm
     setTimeout(() => {
       const scoredCities: ScoredCity[] = cities.map(city => {
         let score = 0
+        let totalWeight = 0
         
-        // WiFi rating
-        if (userPreferences.find(p => p.id === 'wifi')?.weight || 0 > 0) {
-          score += (city.wifi_speed || 50) * (userPreferences.find(p => p.id === 'wifi')?.weight || 0) / 100
+        // WiFi rating (0-100 scale)
+        const wifiWeight = userPreferences.find(p => p.id === 'wifi')?.weight || 0
+        if (wifiWeight > 0) {
+          const wifiScore = Math.min(100, (city.wifi_speed || 50) * 2) // Scale up WiFi speed
+          score += wifiScore * wifiWeight
+          totalWeight += wifiWeight
         }
         
-        // Cost rating (lower cost = higher score)
-        if (userPreferences.find(p => p.id === 'cost')?.weight || 0 > 0) {
-          const costWeight = userPreferences.find(p => p.id === 'cost')?.weight || 0
-          const costScore = Math.max(0, 2000 - (city.cost_of_living || 1000)) / 2000 * 100
-          score += costScore * costWeight / 100
+        // Cost rating (lower cost = higher score, 0-100 scale)
+        const costWeight = userPreferences.find(p => p.id === 'cost')?.weight || 0
+        if (costWeight > 0) {
+          const maxCost = 3000 // Maximum expected cost
+          const costScore = Math.max(0, Math.min(100, (maxCost - (city.cost_of_living || 1500)) / maxCost * 100))
+          score += costScore * costWeight
+          totalWeight += costWeight
         }
         
-        // Visa rating
-        if (userPreferences.find(p => p.id === 'visa')?.weight || 0 > 0) {
-          const visaWeight = userPreferences.find(p => p.id === 'visa')?.weight || 0
-          const visaScore = Math.min(100, (city.visa_days || 30) / 365 * 100)
-          score += visaScore * visaWeight / 100
+        // Climate rating (based on latitude and timezone)
+        const climateWeight = userPreferences.find(p => p.id === 'climate')?.weight || 0
+        if (climateWeight > 0) {
+          const absLat = Math.abs(city.latitude || 0)
+          let climateScore = 0
+          if (absLat < 23.5) climateScore = 90 // Tropical
+          else if (absLat < 35) climateScore = 80 // Subtropical
+          else if (absLat < 50) climateScore = 70 // Temperate
+          else climateScore = 40 // Cold
+          score += climateScore * climateWeight
+          totalWeight += climateWeight
         }
         
-        return { ...city, score }
+        // Social atmosphere (based on visa type and cost)
+        const socialWeight = userPreferences.find(p => p.id === 'social')?.weight || 0
+        if (socialWeight > 0) {
+          let socialScore = 50 // Base score
+          if (city.visa_type?.includes('Digital Nomad')) socialScore += 30
+          if (city.visa_type?.includes('Visa Free')) socialScore += 20
+          if (city.cost_of_living && city.cost_of_living < 1500) socialScore += 20
+          socialScore = Math.min(100, socialScore)
+          score += socialScore * socialWeight
+          totalWeight += socialWeight
+        }
+        
+        // Visa convenience (0-100 scale)
+        const visaWeight = userPreferences.find(p => p.id === 'visa')?.weight || 0
+        if (visaWeight > 0) {
+          let visaScore = 0
+          if (city.visa_type?.includes('Visa Free')) visaScore = 100
+          else if (city.visa_type?.includes('Digital Nomad')) visaScore = 90
+          else if (city.visa_days && city.visa_days >= 180) visaScore = 80
+          else if (city.visa_days && city.visa_days >= 90) visaScore = 60
+          else if (city.visa_days && city.visa_days >= 30) visaScore = 40
+          else visaScore = 20
+          score += visaScore * visaWeight
+          totalWeight += visaWeight
+        }
+        
+        // Calculate final weighted score
+        const finalScore = totalWeight > 0 ? score / totalWeight : 0
+        
+        return { ...city, score: Math.round(finalScore) }
       })
       
       const sortedCities = scoredCities
+        .filter(city => city.score > 0) // Only show cities with positive scores
         .sort((a, b) => b.score - a.score)
         .slice(0, 3)
       

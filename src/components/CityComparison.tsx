@@ -1,53 +1,55 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BarChart3, Download, Plus, X } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { getCities } from '@/lib/api'
+import { City } from '@/lib/supabase'
 
 export default function CityComparison() {
   const { t } = useTranslation()
   const [selectedCities, setSelectedCities] = useState<string[]>([])
   const [showCitySelector, setShowCitySelector] = useState(false)
+  const [cities, setCities] = useState<City[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const availableCities = [
-    { id: 'tokyo', name: t('cities.tokyo'), country: t('cities.japan') },
-    { id: 'osaka', name: t('cities.osaka'), country: t('cities.japan') },
-    { id: 'bangkok', name: t('cities.bangkok'), country: t('cities.thailand') },
-    { id: 'chiang-mai', name: t('cities.chiangMai'), country: t('cities.thailand') },
-    { id: 'bali', name: t('cities.bali'), country: t('cities.indonesia') },
-    { id: 'portugal', name: t('cities.lisbon'), country: t('cities.portugal') },
-    { id: 'barcelona', name: t('cities.barcelona'), country: t('cities.spain') },
-    { id: 'mexico-city', name: t('cities.mexicoCity'), country: t('cities.mexico') }
-  ]
+  useEffect(() => {
+    fetchCities()
+  }, [])
 
-  const comparisonData = {
-    'tokyo': {
-      name: '东京',
-      country: '日本',
-      wifi: 85,
-      cost: 2500,
-      visa: 90,
-      climate: 75,
-      social: 80
-    },
-    'osaka': {
-      name: '大阪',
-      country: '日本',
-      wifi: 80,
-      cost: 2000,
-      visa: 90,
-      climate: 70,
-      social: 75
-    },
-    'bangkok': {
-      name: '曼谷',
-      country: '泰国',
-      wifi: 70,
-      cost: 1200,
-      visa: 30,
-      climate: 85,
-      social: 90
+  const fetchCities = async () => {
+    try {
+      const data = await getCities()
+      setCities(data)
+    } catch (error) {
+      console.error('Error fetching cities:', error)
+    } finally {
+      setLoading(false)
     }
+  }
+
+  const getCountryFlag = (countryCode: string) => {
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0))
+    return String.fromCodePoint(...codePoints)
+  }
+
+  const getClimateScore = (latitude: number) => {
+    const absLat = Math.abs(latitude)
+    if (absLat < 23.5) return 90 // Tropical
+    if (absLat < 35) return 80 // Subtropical
+    if (absLat < 50) return 70 // Temperate
+    return 40 // Cold
+  }
+
+  const getSocialScore = (city: City) => {
+    let score = 50 // Base score
+    if (city.visa_type?.includes('Digital Nomad')) score += 30
+    if (city.visa_type?.includes('Visa Free')) score += 20
+    if (city.cost_of_living && city.cost_of_living < 1500) score += 20
+    return Math.min(100, score)
   }
 
   const addCity = (cityId: string) => {
@@ -98,15 +100,20 @@ export default function CityComparison() {
         </div>
       </div>
 
-      {selectedCities.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-500">加载城市数据中...</p>
+        </div>
+      ) : selectedCities.length === 0 ? (
         <div className="text-center py-8">
           <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 mb-4">选择2-4个城市进行对比</p>
+          <p className="text-gray-500 mb-4">{t('cityComparison.select2To4Cities')}</p>
           <button
             onClick={() => setShowCitySelector(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            开始对比
+            {t('cityComparison.addCityButton')}
           </button>
         </div>
       ) : (
@@ -115,12 +122,13 @@ export default function CityComparison() {
           <div className="grid grid-cols-5 gap-4">
             <div className="font-semibold text-gray-900">指标</div>
             {selectedCities.map(cityId => {
-              const city = comparisonData[cityId as keyof typeof comparisonData]
+              const city = cities.find(c => c.id === cityId)
+              if (!city) return null
               return (
                 <div key={cityId} className="relative">
                   <div className="text-center">
                     <div className="font-semibold text-gray-900">{city.name}</div>
-                    <div className="text-sm text-gray-500">{city.country}</div>
+                    <div className="text-sm text-gray-500">{getCountryFlag(city.country_code)} {city.country}</div>
                   </div>
                   <button
                     onClick={() => removeCity(cityId)}
@@ -134,22 +142,28 @@ export default function CityComparison() {
           </div>
 
           {/* Comparison Rows */}
-          {['wifi', 'cost', 'visa', 'climate', 'social'].map(metric => (
-            <div key={metric} className="grid grid-cols-5 gap-4 items-center">
-              <div className="font-medium text-gray-700">
-                {metric === 'wifi' && 'WiFi速度'}
-                {metric === 'cost' && '生活成本'}
-                {metric === 'visa' && '签证便利'}
-                {metric === 'climate' && '气候舒适'}
-                {metric === 'social' && '社交氛围'}
-              </div>
+          {[
+            { key: 'wifi', label: 'WiFi速度 (Mbps)', getValue: (city: City) => city.wifi_speed || 0 },
+            { key: 'cost', label: '生活成本 ($/月)', getValue: (city: City) => city.cost_of_living || 0 },
+            { key: 'visa', label: '签证天数', getValue: (city: City) => city.visa_days || 0 },
+            { key: 'climate', label: '气候评分', getValue: (city: City) => getClimateScore(city.latitude || 0) },
+            { key: 'social', label: '社交氛围', getValue: (city: City) => getSocialScore(city) }
+          ].map(metric => (
+            <div key={metric.key} className="grid grid-cols-5 gap-4 items-center">
+              <div className="font-medium text-gray-700">{metric.label}</div>
               {selectedCities.map(cityId => {
-                const city = comparisonData[cityId as keyof typeof comparisonData]
-                const score = city[metric as keyof typeof city] as number
+                const city = cities.find(c => c.id === cityId)
+                if (!city) return <div key={cityId}></div>
+                const value = metric.getValue(city)
+                const score = metric.key === 'cost' ? Math.max(0, Math.min(100, (3000 - value) / 30)) : 
+                             metric.key === 'visa' ? Math.min(100, value / 3.65) : value
                 return (
                   <div key={cityId} className="text-center">
                     <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getScoreBg(score)} ${getScoreColor(score)}`}>
-                      {score}
+                      {metric.key === 'wifi' ? `${value} Mbps` :
+                       metric.key === 'cost' ? `$${value}` :
+                       metric.key === 'visa' ? `${value} 天` :
+                       `${Math.round(score)}`}
                     </div>
                   </div>
                 )
@@ -174,7 +188,7 @@ export default function CityComparison() {
             </div>
             
             <div className="space-y-2 max-h-64 overflow-y-auto">
-              {availableCities.map(city => (
+              {cities.map(city => (
                 <button
                   key={city.id}
                   onClick={() => addCity(city.id)}
@@ -182,7 +196,7 @@ export default function CityComparison() {
                   className="w-full p-3 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <div className="font-medium text-gray-900">{city.name}</div>
-                  <div className="text-sm text-gray-500">{city.country}</div>
+                  <div className="text-sm text-gray-500">{getCountryFlag(city.country_code)} {city.country}</div>
                 </button>
               ))}
             </div>
