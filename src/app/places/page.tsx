@@ -172,15 +172,15 @@ export default function PlacesPage() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('places.title')}</h1>
-              <p className="text-gray-600">{t('places.description')}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t('places.title')}</h1>
+              <p className="text-sm sm:text-base text-gray-600">{t('places.description')}</p>
             </div>
             <button
               onClick={() => setShowAddForm(true)}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
             >
               <PlusIcon className="h-5 w-5" />
               <span>{t('places.addPlace')}</span>
@@ -189,71 +189,72 @@ export default function PlacesPage() {
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex flex-col lg:flex-row gap-4">
+        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="space-y-4">
             {/* Search */}
-            <div className="flex-1">
-              <div className="relative">
-                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder={t('places.searchPlaceholder')}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+            <div className="relative">
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder={t('places.searchPlaceholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
             </div>
 
             {/* Category Filter */}
-            <div className="flex gap-2 overflow-x-auto">
+            <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
               {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg whitespace-nowrap transition-colors text-sm ${
                     selectedCategory === category.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
                   {category.icon}
-                  <span>{category.name}</span>
+                  <span className="hidden sm:inline">{category.name}</span>
+                  <span className="sm:hidden">{category.name.split(' ')[0]}</span>
                 </button>
               ))}
             </div>
 
-            {/* Sort */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              {sortOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            {/* Sort and View Mode */}
+            <div className="flex items-center justify-between">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              >
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-            {/* View Mode */}
-            <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 transition-colors ${
-                  viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                <GridIcon className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 transition-colors ${
-                  viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                <ListIcon className="h-5 w-5" />
-              </button>
+              {/* View Mode */}
+              <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 transition-colors ${
+                    viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <GridIcon className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 transition-colors ${
+                    viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <ListIcon className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -267,42 +268,42 @@ export default function PlacesPage() {
 
         {/* Places Grid/List */}
         {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {sortedPlaces.map((place) => (
               <Link key={place.id} href={`/places/${place.id}`}>
                 <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
+                  <div className="p-4 sm:p-6">
+                    <div className="flex items-start justify-between mb-3 sm:mb-4">
                       <div className="flex items-center space-x-2">
-                        <span className="text-2xl">{getCategoryIcon(place.category)}</span>
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{place.name}</h3>
-                          <p className="text-sm text-gray-600">{getCategoryName(place.category)}</p>
+                        <span className="text-xl sm:text-2xl">{getCategoryIcon(place.category)}</span>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{place.name}</h3>
+                          <p className="text-xs sm:text-sm text-gray-600">{getCategoryName(place.category)}</p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <StarIcon className="h-4 w-4 text-yellow-400" />
-                        <span className="text-sm font-medium">{place.rating || 0}</span>
+                      <div className="flex items-center space-x-1 flex-shrink-0">
+                        <StarIcon className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-400" />
+                        <span className="text-xs sm:text-sm font-medium">{place.rating || 0}</span>
                       </div>
                     </div>
 
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">{place.description}</p>
+                    <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">{place.description}</p>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500">
-                      <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0 text-xs sm:text-sm text-gray-500">
+                      <div className="flex items-center space-x-3 sm:space-x-4">
                         {place.wifi_speed && (
                           <div className="flex items-center space-x-1">
-                            <WifiIcon className="h-4 w-4" />
+                            <WifiIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                             <span>{place.wifi_speed} Mbps</span>
                           </div>
                         )}
                         <div className="flex items-center space-x-1">
-                          <DollarSignIcon className="h-4 w-4" />
+                          <DollarSignIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                           <span>{getPriceLevelText(place.price_level)}</span>
                         </div>
                       </div>
                       <div className="flex items-center space-x-1">
-                        <UsersIcon className="h-4 w-4" />
+                        <UsersIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                         <span>{place.review_count || 0} {t('places.reviews')}</span>
                       </div>
                     </div>
@@ -312,37 +313,37 @@ export default function PlacesPage() {
             ))}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {sortedPlaces.map((place) => (
               <Link key={place.id} href={`/places/${place.id}`}>
-                <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <span className="text-3xl">{getCategoryIcon(place.category)}</span>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">{place.name}</h3>
-                        <p className="text-sm text-gray-600">{getCategoryName(place.category)}</p>
-                        <p className="text-gray-600 text-sm mt-1">{place.address}</p>
+                <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+                    <div className="flex items-start space-x-3 sm:space-x-4">
+                      <span className="text-2xl sm:text-3xl flex-shrink-0">{getCategoryIcon(place.category)}</span>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">{place.name}</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">{getCategoryName(place.category)}</p>
+                        <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate">{place.address}</p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-6">
+                    <div className="flex items-center justify-between sm:justify-end space-x-4 sm:space-x-6">
                       <div className="text-right">
                         <div className="flex items-center space-x-1">
-                          <StarIcon className="h-4 w-4 text-yellow-400" />
-                          <span className="font-medium">{place.rating || 0}</span>
+                          <StarIcon className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-400" />
+                          <span className="text-xs sm:text-sm font-medium">{place.rating || 0}</span>
                         </div>
-                        <p className="text-sm text-gray-500">{place.review_count || 0} {t('places.reviews')}</p>
+                        <p className="text-xs sm:text-sm text-gray-500">{place.review_count || 0} {t('places.reviews')}</p>
                       </div>
                       <div className="text-right">
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <div className="flex flex-col sm:flex-row items-end sm:items-center space-y-1 sm:space-y-0 sm:space-x-4 text-xs sm:text-sm text-gray-600">
                           {place.wifi_speed && (
                             <div className="flex items-center space-x-1">
-                              <WifiIcon className="h-4 w-4" />
+                              <WifiIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                               <span>{place.wifi_speed} Mbps</span>
                             </div>
                           )}
                           <div className="flex items-center space-x-1">
-                            <DollarSignIcon className="h-4 w-4" />
+                            <DollarSignIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                             <span>{getPriceLevelText(place.price_level)}</span>
                           </div>
                         </div>

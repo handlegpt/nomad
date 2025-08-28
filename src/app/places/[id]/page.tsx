@@ -149,19 +149,19 @@ export default function PlaceDetailPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center space-x-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex items-center space-x-3 sm:space-x-4">
             <button
               onClick={() => router.back()}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ArrowLeftIcon className="h-5 w-5 text-gray-600" />
             </button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{place.name}</h1>
-              <p className="text-gray-600 flex items-center space-x-2">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900 truncate">{place.name}</h1>
+              <p className="text-sm sm:text-base text-gray-600 flex items-center space-x-2">
                 <span>{getCategoryIcon(place.category)}</span>
-                <span>{place.category === 'cafe' ? t('places.categories.cafe') : 
+                <span className="truncate">{place.category === 'cafe' ? t('places.categories.cafe') : 
                        place.category === 'coworking' ? t('places.categories.coworking') :
                        place.category === 'coliving' ? t('places.categories.coliving') :
                        place.category === 'hostel' ? t('places.categories.hostel') :
@@ -179,26 +179,26 @@ export default function PlaceDetailPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Basic Info */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-2">{place.name}</h2>
-                  <p className="text-gray-600 flex items-center space-x-2">
-                    <MapPinIcon className="h-4 w-4" />
-                    <span>{place.address}</span>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 space-y-3 sm:space-y-0">
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{place.name}</h2>
+                  <p className="text-sm text-gray-600 flex items-center space-x-2">
+                    <MapPinIcon className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{place.address}</span>
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex-shrink-0">
                   <div className="flex items-center space-x-1 mb-1">
-                    <StarIcon className="h-5 w-5 text-yellow-400 fill-current" />
-                    <span className="font-bold text-lg">{place.rating || 0}</span>
+                    <StarIcon className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400 fill-current" />
+                    <span className="font-bold text-base sm:text-lg">{place.rating || 0}</span>
                   </div>
-                  <p className="text-sm text-gray-600">({place.review_count || 0} {t('places.reviews')})</p>
+                  <p className="text-xs sm:text-sm text-gray-600">({place.review_count || 0} {t('places.reviews')})</p>
                 </div>
               </div>
 
