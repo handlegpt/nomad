@@ -8,19 +8,16 @@ if (typeof window !== 'undefined') {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   
-  // Debug: Log environment variables (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🔍 Debug - Supabase URL:', supabaseUrl ? 'Set' : 'Not set')
-    console.log('🔍 Debug - Supabase Key:', supabaseAnonKey ? 'Set' : 'Not set')
-  }
+  // Debug: Log environment variables (always show for debugging)
+  console.log('🔍 Debug - Supabase URL:', supabaseUrl ? 'Set' : 'Not set')
+  console.log('🔍 Debug - Supabase Key:', supabaseAnonKey ? 'Set' : 'Not set')
+  console.log('🔍 Debug - NODE_ENV:', process.env.NODE_ENV)
   
   if (supabaseUrl && supabaseAnonKey) {
     supabase = createClient(supabaseUrl, supabaseAnonKey)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('✅ Supabase client created successfully')
-    }
-  } else if (!hasWarned && process.env.NODE_ENV === 'development') {
-    console.warn('🔧 Supabase environment variables are not configured - using mock data for development')
+    console.log('✅ Supabase client created successfully')
+  } else {
+    console.warn('🔧 Supabase environment variables are not configured - using mock data')
     hasWarned = true
   }
 }

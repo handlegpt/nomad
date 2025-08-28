@@ -10,7 +10,7 @@ const devWarn = (message: string) => {
 // Time related APIs
 export async function getWorldTime(timezone: string) {
   try {
-    const response = await fetch(`http://worldtimeapi.org/api/timezone/${timezone}`)
+    const response = await fetch(`https://worldtimeapi.org/api/timezone/${timezone}`)
     if (!response.ok) {
       throw new Error('Failed to fetch time data')
     }
