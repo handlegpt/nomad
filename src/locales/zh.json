@@ -545,14 +545,7 @@
       "attendEvent": "参加活动",
       "discoverMore": "发现更多社区"
     },
-    "premiumFeatures": {
-      "title": "高级功能",
-      "subtitle": "解锁更多专业功能以增强您的数字游民体验",
-      "monthly": "月付",
-      "yearly": "年付",
-      "upgrade": "升级到高级版",
-      "trial": "7天免费试用 • 随时取消 • 无隐藏费用"
-    },
+
     "cityComparison": {
       "title": "城市对比",
       "selectCities": "选择2-4个城市进行对比",
