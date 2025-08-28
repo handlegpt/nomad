@@ -219,6 +219,20 @@
         "location": "京都站附近"
       }
     },
+    "local": {
+      "osaka": {
+        "description": "大阪本地数字游民聚会",
+        "location": "大阪市中心"
+      },
+      "tokyo": {
+        "description": "东京远程工作者社区",
+        "location": "涩谷区"
+      },
+      "kyoto": {
+        "description": "京都数字游民定期聚会",
+        "location": "京都站附近"
+      }
+    },
     "lightweightSocial": {
       "title": "闲聊",
       "whosInCity": "谁在这座城市？",
@@ -245,6 +259,7 @@
     "description": "发现最适合数字游民的地点",
     "searchPlaceholder": "搜索地点...",
     "addPlace": "添加地点",
+    "quickBrowse": "快速浏览",
     "categories": {
       "all": "全部",
       "cafe": "☕ 咖啡馆",
