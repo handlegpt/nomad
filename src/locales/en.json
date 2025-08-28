@@ -363,14 +363,7 @@
     "viewAll": "View all {count} places",
     "foundResults": "Found {count} places"
   },
-  "cities": {
-    "loading": "Loading city rankings...",
-    "votes": "votes",
-    "quickUpvote": "Quick upvote",
-    "quickDownvote": "Quick downvote",
-    "voteDetails": "Vote/Details",
-    "votingComingSoon": "Voting functionality coming soon!"
-  },
+
   "recommendations": {
     "title": "AI Personalized Recommendations",
     "generate": "Generate Recommendations",
@@ -424,22 +417,7 @@
     "startComparison": "Start Comparison"
   },
 
-  "cities": {
-    "tokyo": "Tokyo",
-    "osaka": "Osaka",
-    "bangkok": "Bangkok",
-    "chiangMai": "Chiang Mai",
-    "bali": "Bali",
-    "lisbon": "Lisbon",
-    "barcelona": "Barcelona",
-    "mexicoCity": "Mexico City",
-    "japan": "Japan",
-    "thailand": "Thailand",
-    "indonesia": "Indonesia",
-    "portugal": "Portugal",
-    "spain": "Spain",
-    "mexico": "Mexico"
-  },
+
   "common": {
     "loading": "Loading...",
     "learnMore": "Learn more",
@@ -499,12 +477,7 @@
     "subscribe": "Subscribe",
     "cancel": "Cancel"
   },
-  "home": {
-    "quickVote": {
-      "voteSubmitted": "Voted {vote} for {type}",
-      "ratingSubmitted": "Rated {rating} stars"
-    }
-  },
+
   "about": {
     "title": "About NOMAD.NOW",
     "subtitle": "The most important information tool for digital nomads - time, location, decision support",
