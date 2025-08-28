@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { MenuIcon, XIcon } from 'lucide-react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslation } from '@/hooks/useTranslation'
 import LanguageSwitcher from './LanguageSwitcher'
+import FixedLink from './FixedLink'
 
 export default function MobileMenu() {
   const { t } = useTranslation()
@@ -69,7 +69,7 @@ export default function MobileMenu() {
                     const isActive = pathname === item.href
                     
                     return (
-                      <Link
+                      <FixedLink
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsOpen(false)}
@@ -81,7 +81,7 @@ export default function MobileMenu() {
                       >
                         <div className="font-medium">{item.name}</div>
                         <div className="text-sm text-gray-500 mt-1">{item.description}</div>
-                      </Link>
+                      </FixedLink>
                     )
                   })}
                 </div>

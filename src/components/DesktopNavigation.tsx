@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslation } from '@/hooks/useTranslation'
+import FixedLink from './FixedLink'
 
 export default function DesktopNavigation() {
   const { t } = useTranslation()
@@ -34,7 +34,7 @@ export default function DesktopNavigation() {
         const isActive = pathname === item.href
         
         return (
-          <Link
+          <FixedLink
             key={item.name}
             href={item.href}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -44,7 +44,7 @@ export default function DesktopNavigation() {
             }`}
           >
             {item.name}
-          </Link>
+          </FixedLink>
         )
       })}
     </nav>
