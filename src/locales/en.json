@@ -549,9 +549,10 @@
         "question": "How to report errors?",
         "answer": "Please use the contact form and select 'Bug Report' as the subject."
       },
-          "languages": {
-      "question": "What languages are supported?",
-      "answer": "Currently supports Chinese, English, Spanish and Japanese, with more languages in development."
+      "languages": {
+        "question": "What languages are supported?",
+        "answer": "Currently supports Chinese, English, Spanish and Japanese, with more languages in development."
+      }
     }
   },
   "setup": {
@@ -559,8 +560,28 @@
   },
   "voteModal": {
     "pleaseProvideRating": "Please provide at least an overall rating",
-    "submitFailed": "Failed to submit vote, please try again"
-    }
+    "submitFailed": "Failed to submit vote, please try again",
+    "title": "Vote for {city}",
+    "overallRating": "Overall Rating",
+    "overallDescription": "How was your overall experience in this city?",
+    "wifiQuality": "WiFi Quality",
+    "wifiDescription": "Internet speed and stability",
+    "socialAtmosphere": "Social Atmosphere",
+    "socialDescription": "Local people and nomad community",
+    "valueForMoney": "Value for Money",
+    "valueDescription": "Cost of living vs quality",
+    "climateComfort": "Climate Comfort",
+    "climateDescription": "Weather and seasonal changes",
+    "clickToRate": "Click stars to rate",
+    "notRecommended": "Not recommended",
+    "average": "Average",
+    "recommended": "Recommended",
+    "highlyRecommended": "Highly recommended",
+    "shareExperience": "Share your experience (optional)",
+    "experiencePlaceholder": "Tell us about your experience in this city...",
+    "cancel": "Cancel",
+    "submitVote": "Submit Vote",
+    "submitting": "Submitting..."
   },
   "meetup": {
     "title": "Who's in this city?",

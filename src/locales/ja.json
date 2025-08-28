@@ -504,7 +504,28 @@
   },
   "voteModal": {
     "pleaseProvideRating": "少なくとも総合評価を入力してください",
-    "submitFailed": "投票の送信に失敗しました。もう一度お試しください"
+    "submitFailed": "投票の送信に失敗しました。もう一度お試しください",
+    "title": "{city}に投票",
+    "overallRating": "総合評価",
+    "overallDescription": "この都市での全体的な体験はいかがでしたか？",
+    "wifiQuality": "WiFi品質",
+    "wifiDescription": "インターネット速度と安定性",
+    "socialAtmosphere": "社会的雰囲気",
+    "socialDescription": "地元の人々とノマドコミュニティ",
+    "valueForMoney": "コストパフォーマンス",
+    "valueDescription": "生活費と品質の比較",
+    "climateComfort": "気候の快適さ",
+    "climateDescription": "天気と季節の変化",
+    "clickToRate": "星をクリックして評価",
+    "notRecommended": "おすすめしません",
+    "average": "普通",
+    "recommended": "おすすめ",
+    "highlyRecommended": "強くおすすめ",
+    "shareExperience": "体験を共有（任意）",
+    "experiencePlaceholder": "この都市での体験について教えてください...",
+    "cancel": "キャンセル",
+    "submitVote": "投票を送信",
+    "submitting": "送信中..."
   },
 
   "home": {

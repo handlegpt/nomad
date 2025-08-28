@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { XIcon, StarIcon, WifiIcon, UsersIcon, DollarSignIcon, CloudIcon } from 'lucide-react'
 import { submitVote } from '@/lib/api'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface VoteModalProps {
   city: {
@@ -18,37 +19,38 @@ interface VoteModalProps {
 const ratingCategories = [
   {
     id: 'overall',
-    label: '总体评分',
+    labelKey: 'voteModal.overallRating',
     icon: StarIcon,
-    description: '这个城市的整体体验如何？'
+    descriptionKey: 'voteModal.overallDescription'
   },
   {
     id: 'wifi',
-    label: 'WiFi质量',
+    labelKey: 'voteModal.wifiQuality',
     icon: WifiIcon,
-    description: '网络速度和稳定性'
+    descriptionKey: 'voteModal.wifiDescription'
   },
   {
     id: 'social',
-    label: '社交氛围',
+    labelKey: 'voteModal.socialAtmosphere',
     icon: UsersIcon,
-    description: '当地人和游民社区'
+    descriptionKey: 'voteModal.socialDescription'
   },
   {
     id: 'value',
-    label: '性价比',
+    labelKey: 'voteModal.valueForMoney',
     icon: DollarSignIcon,
-    description: '生活成本与质量对比'
+    descriptionKey: 'voteModal.valueDescription'
   },
   {
     id: 'climate',
-    label: '气候舒适度',
+    labelKey: 'voteModal.climateComfort',
     icon: CloudIcon,
-    description: '天气和季节变化'
+    descriptionKey: 'voteModal.climateDescription'
   }
 ]
 
 export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: VoteModalProps) {
+  const { t } = useTranslation()
   const [ratings, setRatings] = useState({
     overall: 0,
     wifi: 0,
@@ -99,11 +101,11 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
   }
 
   const getRatingDescription = (rating: number) => {
-    if (rating === 0) return '点击星星评分'
-    if (rating <= 2) return '不推荐'
-    if (rating <= 3) return '一般'
-    if (rating <= 4) return '推荐'
-    return '强烈推荐'
+    if (rating === 0) return t('voteModal.clickToRate')
+    if (rating <= 2) return t('voteModal.notRecommended')
+    if (rating <= 3) return t('voteModal.average')
+    if (rating <= 4) return t('voteModal.recommended')
+    return t('voteModal.highlyRecommended')
   }
 
   if (!isOpen) return null
@@ -115,7 +117,7 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-bold text-gray-900">为 {city.name} 投票</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t('voteModal.title', { city: city.name })}</h2>
               <p className="text-gray-600">{city.country}</p>
             </div>
             <button
@@ -137,8 +139,8 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
                   <div className="flex items-center space-x-2">
                     <IconComponent className="h-5 w-5 text-blue-500" />
                     <div>
-                      <h3 className="font-semibold text-gray-900">{category.label}</h3>
-                      <p className="text-sm text-gray-600">{category.description}</p>
+                      <h3 className="font-semibold text-gray-900">{t(category.labelKey)}</h3>
+                      <p className="text-sm text-gray-600">{t(category.descriptionKey)}</p>
                     </div>
                   </div>
                   
@@ -169,12 +171,12 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
           {/* Comment */}
           <div className="mt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              分享你的体验（可选）
+              {t('voteModal.shareExperience')}
             </label>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="告诉我们你在这个城市的经历..."
+              placeholder={t('voteModal.experiencePlaceholder')}
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
             />
@@ -186,14 +188,14 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
               onClick={onClose}
               className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              取消
+              {t('voteModal.cancel')}
             </button>
             <button
               onClick={handleSubmit}
               disabled={submitting || ratings.overall === 0}
               className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting ? '提交中...' : '提交投票'}
+              {submitting ? t('voteModal.submitting') : t('voteModal.submitVote')}
             </button>
           </div>
         </div>

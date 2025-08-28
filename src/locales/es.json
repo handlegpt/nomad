@@ -470,7 +470,28 @@
   },
   "voteModal": {
     "pleaseProvideRating": "Por favor proporciona al menos una calificación general",
-    "submitFailed": "Error al enviar el voto, por favor intenta de nuevo"
+    "submitFailed": "Error al enviar el voto, por favor intenta de nuevo",
+    "title": "Votar por {city}",
+    "overallRating": "Calificación General",
+    "overallDescription": "¿Cómo fue tu experiencia general en esta ciudad?",
+    "wifiQuality": "Calidad WiFi",
+    "wifiDescription": "Velocidad y estabilidad de internet",
+    "socialAtmosphere": "Atmósfera Social",
+    "socialDescription": "Gente local y comunidad nómada",
+    "valueForMoney": "Relación Calidad-Precio",
+    "valueDescription": "Costo de vida vs calidad",
+    "climateComfort": "Comodidad Climática",
+    "climateDescription": "Clima y cambios estacionales",
+    "clickToRate": "Haz clic en las estrellas para calificar",
+    "notRecommended": "No recomendado",
+    "average": "Promedio",
+    "recommended": "Recomendado",
+    "highlyRecommended": "Altamente recomendado",
+    "shareExperience": "Comparte tu experiencia (opcional)",
+    "experiencePlaceholder": "Cuéntanos sobre tu experiencia en esta ciudad...",
+    "cancel": "Cancelar",
+    "submitVote": "Enviar Voto",
+    "submitting": "Enviando..."
   },
 
   "cities": {

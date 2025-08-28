@@ -473,7 +473,28 @@
   },
   "voteModal": {
     "pleaseProvideRating": "请至少提供一个总体评分",
-    "submitFailed": "投票提交失败，请重试"
+    "submitFailed": "投票提交失败，请重试",
+    "title": "为 {city} 投票",
+    "overallRating": "总体评分",
+    "overallDescription": "这个城市的整体体验如何？",
+    "wifiQuality": "WiFi质量",
+    "wifiDescription": "网络速度和稳定性",
+    "socialAtmosphere": "社交氛围",
+    "socialDescription": "当地人和游民社区",
+    "valueForMoney": "性价比",
+    "valueDescription": "生活成本与质量对比",
+    "climateComfort": "气候舒适度",
+    "climateDescription": "天气和季节变化",
+    "clickToRate": "点击星星评分",
+    "notRecommended": "不推荐",
+    "average": "一般",
+    "recommended": "推荐",
+    "highlyRecommended": "强烈推荐",
+    "shareExperience": "分享你的体验（可选）",
+    "experiencePlaceholder": "告诉我们你在这个城市的经历...",
+    "cancel": "取消",
+    "submitVote": "提交投票",
+    "submitting": "提交中..."
   },
   "components": {
     "notificationSystem": {
