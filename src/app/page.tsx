@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Globe, Users, TrendingUp, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
+import HeroSection from '@/components/HeroSection'
 import CurrentLocationCard from '@/components/CurrentLocationCard'
 import CityRanking from '@/components/CityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
@@ -36,91 +37,114 @@ export default function HomePage() {
       {/* Header */}
       <Header />
 
-      {/* Main Content - Minimal Design */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-6">
-          {/* Core Information Card - Like time.is */}
-          <CurrentLocationCard />
+      {/* Hero Section */}
+      <HeroSection />
 
-          {/* Nomad Hot Cities Ranking - Simplified */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900 flex items-center">
-                🌍 {t('home.features.nomadCities.title')}
-              </h2>
-              <Link href="/cities" className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
-                {t('common.viewDetails')}
-                <ArrowRight className="h-4 w-4 ml-1" />
-              </Link>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="space-y-12">
+          {/* Core Information Card */}
+          <section className="animate-fade-in">
+            <CurrentLocationCard />
+          </section>
+
+          {/* Nomad Hot Cities Ranking */}
+          <section className="animate-fade-in">
+            <div className="card card-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                  🌍 {t('home.features.nomadCities.title')}
+                </h2>
+                <Link href="/cities" className="btn btn-md btn-primary">
+                  {t('common.viewDetails')}
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Link>
+              </div>
+              <CityRanking limit={5} />
             </div>
-            <CityRanking limit={5} />
-          </div>
+          </section>
 
           {/* Quick Vote Section */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">✍️ {t('home.quickVote.title')}</h3>
-            <p className="text-sm text-gray-600 mb-4">{t('home.quickVote.description')}</p>
-            <div className="space-y-4">
-              {/* Current City Vote */}
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">{t('home.quickVote.currentCity')}</h4>
-                <div className="flex space-x-3">
-                  <button 
-                    onClick={() => handleQuickVote('current', 'like')}
-                    className="flex items-center space-x-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors"
-                  >
-                    <span>🔼</span>
-                    <span>{t('home.quickVote.like')}</span>
-                  </button>
-                  <button 
-                    onClick={() => handleQuickVote('current', 'dislike')}
-                    className="flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
-                  >
-                    <span>🔽</span>
-                    <span>{t('home.quickVote.dislike')}</span>
-                  </button>
-                </div>
-              </div>
-              
-              {/* Quick Rating */}
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">{t('home.quickVote.rateExperience')}</h4>
-                <div className="flex space-x-2">
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                    <button
-                      key={rating}
-                      onClick={() => handleQuickRating(rating)}
-                      className="flex items-center justify-center w-10 h-10 border border-gray-300 rounded-lg hover:bg-yellow-50 hover:border-yellow-300 transition-colors"
+          <section className="animate-fade-in">
+            <div className="card card-lg">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">✍️ {t('home.quickVote.title')}</h3>
+              <p className="text-gray-600 mb-6">{t('home.quickVote.description')}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Current City Vote */}
+                <div className="card card-sm bg-gradient-to-br from-green-50 to-blue-50">
+                  <h4 className="font-semibold text-gray-900 mb-4">{t('home.quickVote.currentCity')}</h4>
+                  <div className="flex space-x-3">
+                    <button 
+                      onClick={() => handleQuickVote('current', 'like')}
+                      className="btn btn-md bg-green-500 hover:bg-green-600 text-white flex-1"
                     >
-                      <span className="text-lg">⭐</span>
+                      <span className="text-lg mr-2">🔼</span>
+                      <span>{t('home.quickVote.like')}</span>
                     </button>
-                  ))}
+                    <button 
+                      onClick={() => handleQuickVote('current', 'dislike')}
+                      className="btn btn-md bg-red-500 hover:bg-red-600 text-white flex-1"
+                    >
+                      <span className="text-lg mr-2">🔽</span>
+                      <span>{t('home.quickVote.dislike')}</span>
+                    </button>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">{t('home.quickVote.ratingHint')}</p>
+                
+                {/* Quick Rating */}
+                <div className="card card-sm bg-gradient-to-br from-yellow-50 to-orange-50">
+                  <h4 className="font-semibold text-gray-900 mb-4">{t('home.quickVote.rateExperience')}</h4>
+                  <div className="flex space-x-2 mb-3">
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <button
+                        key={rating}
+                        onClick={() => handleQuickRating(rating)}
+                        className="btn btn-sm bg-white hover:bg-yellow-100 border border-yellow-300 text-yellow-600"
+                      >
+                        <span className="text-lg">⭐</span>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600">{t('home.quickVote.ratingHint')}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Nomad Tip - Prominent */}
-          <NomadTip />
+          {/* Nomad Tip */}
+          <section className="animate-fade-in">
+            <NomadTip />
+          </section>
 
           {/* Place Recommendations */}
-          <HomePlaceRecommendations />
+          <section className="animate-fade-in">
+            <HomePlaceRecommendations />
+          </section>
 
           {/* Personalized Recommendations */}
-          <PersonalizedRecommendations />
+          <section className="animate-fade-in">
+            <PersonalizedRecommendations />
+          </section>
 
           {/* City Comparison Tool */}
-          <CityComparison />
+          <section className="animate-fade-in">
+            <CityComparison />
+          </section>
 
           {/* Nomad Meetup */}
-          <NomadMeetup />
+          <section className="animate-fade-in">
+            <NomadMeetup />
+          </section>
 
           {/* Community Section */}
-          <CommunitySection />
+          <section className="animate-fade-in">
+            <CommunitySection />
+          </section>
 
-          {/* Premium Features - Bottom */}
-          <PremiumFeatures />
+          {/* Premium Features */}
+          <section className="animate-fade-in">
+            <PremiumFeatures />
+          </section>
         </div>
       </main>
     </div>

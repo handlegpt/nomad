@@ -52,8 +52,8 @@ export default function MobileMenu() {
 
       {/* Mobile menu overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50">
-          <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-xl">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 animate-fade-in">
+          <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-xl animate-slide-in">
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
@@ -77,10 +77,10 @@ export default function MobileMenu() {
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsOpen(false)}
-                        className={`block p-4 rounded-xl transition-colors ${
+                        className={`block p-4 rounded-xl transition-colors min-h-[60px] flex flex-col justify-center ${
                           isActive
                             ? 'bg-blue-50 text-blue-600 border border-blue-200'
-                            : 'text-gray-700 hover:bg-gray-50'
+                            : 'text-gray-700 hover:bg-gray-50 active:bg-gray-100'
                         }`}
                       >
                         <div className="font-medium">{item.name}</div>

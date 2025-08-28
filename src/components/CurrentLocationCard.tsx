@@ -145,7 +145,7 @@ export default function CurrentLocationCard() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+    <div className="card card-lg">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <MapPin className="h-5 w-5 text-blue-500" />
