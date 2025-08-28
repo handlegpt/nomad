@@ -29,8 +29,11 @@
     "quickVote": {
       "title": "Participate in Voting",
       "description": "Rate cities based on your experience",
+      "currentCity": "Rate Current City",
       "like": "Like",
-      "dislike": "Dislike"
+      "dislike": "Dislike",
+      "rateExperience": "Rate Your Experience",
+      "ratingHint": "Click to rate your overall experience"
     },
     "moreFeatures": "More Features",
     "exploreTools": "Explore Tools",
@@ -95,6 +98,23 @@
   "cities": {
     "title": "Nomad Cities",
     "description": "Discover the best cities for digital nomads. Each destination offers unique opportunities, from affordable living to vibrant communities and excellent infrastructure.",
+    "searchPlaceholder": "Search cities or countries...",
+    "filters": {
+      "all": "All Cities",
+      "visaFree": "Visa Free/Long Stay",
+      "digitalNomad": "Digital Nomad Visa",
+      "lowCost": "Low Cost"
+    },
+    "costOfLiving": "Cost of Living",
+    "wifiSpeed": "WiFi Speed",
+    "visaType": "Visa Type",
+    "stayDays": "Stay Days",
+    "viewDetails": "View Details",
+    "vote": "Vote",
+    "noResults": {
+      "title": "No matching cities found",
+      "description": "Try adjusting your search terms or filters"
+    },
     "planningDestination": {
       "title": "Planning Your Next Destination?",
       "description": "Get detailed visa information, cost breakdowns, and community insights for each city.",

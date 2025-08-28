@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react'
 import { SearchIcon, StarIcon, WifiIcon, DollarSignIcon, CloudIcon, UsersIcon } from 'lucide-react'
 import { getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
+import { useTranslation } from '@/hooks/useTranslation'
+import Link from 'next/link'
 
 export default function CitiesPage() {
+  const { t } = useTranslation()
   const [cities, setCities] = useState<City[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -53,6 +56,13 @@ export default function CitiesPage() {
     return 'text-red-600'
   }
 
+  const handleVote = (cityId: string) => {
+    // TODO: Implement voting functionality
+    console.log('Voting for city:', cityId)
+    // In production, this would call an API to record the vote
+    alert('Voting functionality coming soon!')
+  }
+
   if (loading) {
   return (
       <div className="min-h-screen bg-gray-50">
@@ -75,7 +85,7 @@ export default function CitiesPage() {
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">🌍 城市探索</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">🌍 {t('cities.title')}</h1>
           
           {/* Search and Filter */}
           <div className="flex flex-col sm:flex-row gap-4">
@@ -83,7 +93,7 @@ export default function CitiesPage() {
               <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="搜索城市或国家..."
+                placeholder={t('cities.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -95,10 +105,10 @@ export default function CitiesPage() {
               onChange={(e) => setFilter(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="all">所有城市</option>
-              <option value="visa-free">免签/长签</option>
-              <option value="digital-nomad">数字游民签证</option>
-              <option value="low-cost">低成本</option>
+              <option value="all">{t('cities.filters.all')}</option>
+              <option value="visa-free">{t('cities.filters.visaFree')}</option>
+              <option value="digital-nomad">{t('cities.filters.digitalNomad')}</option>
+              <option value="low-cost">{t('cities.filters.lowCost')}</option>
             </select>
                       </div>
                     </div>
@@ -127,7 +137,7 @@ export default function CitiesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <DollarSignIcon className="h-4 w-4 text-green-500" />
-                      <span className="text-sm text-gray-600">生活成本</span>
+                      <span className="text-sm text-gray-600">{t('cities.costOfLiving')}</span>
                     </div>
                     <span className="font-semibold text-gray-900">
                       ${city.cost_of_living || 'N/A'}
@@ -137,7 +147,7 @@ export default function CitiesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <WifiIcon className="h-4 w-4 text-blue-500" />
-                      <span className="text-sm text-gray-600">WiFi速度</span>
+                      <span className="text-sm text-gray-600">{t('cities.wifiSpeed')}</span>
                     </div>
                     <span className="font-semibold text-gray-900">
                       {city.wifi_speed || 'N/A'} Mbps
@@ -147,7 +157,7 @@ export default function CitiesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <UsersIcon className="h-4 w-4 text-purple-500" />
-                      <span className="text-sm text-gray-600">签证类型</span>
+                      <span className="text-sm text-gray-600">{t('cities.visaType')}</span>
                     </div>
                     <span className="text-sm font-medium text-gray-900">
                       {city.visa_type}
@@ -157,7 +167,7 @@ export default function CitiesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <CloudIcon className="h-4 w-4 text-orange-500" />
-                      <span className="text-sm text-gray-600">停留天数</span>
+                      <span className="text-sm text-gray-600">{t('cities.stayDays')}</span>
                     </div>
                     <span className={`font-semibold ${getVisaColor(city.visa_days)}`}>
                       {city.visa_days} 天
@@ -165,14 +175,20 @@ export default function CitiesPage() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex space-x-2">
-                  <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
-                    查看详情
+                                <div className="mt-6 flex space-x-2">
+                  <Link 
+                    href={`/cities/${city.id}`}
+                    className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium text-center"
+                  >
+                    {t('cities.viewDetails')}
+                  </Link>
+                  <button 
+                    onClick={() => handleVote(city.id)}
+                    className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+                  >
+                    {t('cities.vote')}
                   </button>
-                  <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-                    投票
-                  </button>
-                        </div>
+                </div>
                         </div>
                       </div>
                     ))}
@@ -181,8 +197,8 @@ export default function CitiesPage() {
         {filteredCities.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 text-6xl mb-4">🌍</div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到匹配的城市</h3>
-            <p className="text-gray-600">尝试调整搜索条件或筛选器</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('cities.noResults.title')}</h3>
+            <p className="text-gray-600">{t('cities.noResults.description')}</p>
           </div>
         )}
       </div>
