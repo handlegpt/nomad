@@ -98,6 +98,12 @@
   "cities": {
     "title": "Nomad Cities",
     "description": "Discover the best cities for digital nomads. Each destination offers unique opportunities, from affordable living to vibrant communities and excellent infrastructure.",
+    "loading": "Loading city rankings...",
+    "votes": "votes",
+    "quickUpvote": "Quick upvote",
+    "quickDownvote": "Quick downvote",
+    "voteDetails": "Vote/Details",
+    "votingComingSoon": "Voting functionality coming soon!",
     "searchPlaceholder": "Search cities or countries...",
     "filters": {
       "all": "All Cities",
@@ -271,6 +277,20 @@
       }
     },
     "localCommunities": {
+      "osaka": {
+        "description": "Osaka local digital nomad meetup",
+        "location": "Osaka City Center"
+      },
+      "tokyo": {
+        "description": "Tokyo remote worker community",
+        "location": "Shibuya District"
+      },
+      "kyoto": {
+        "description": "Kyoto digital nomad regular meetup",
+        "location": "Near Kyoto Station"
+      }
+    },
+    "local": {
       "osaka": {
         "description": "Osaka local digital nomad meetup",
         "location": "Osaka City Center"
