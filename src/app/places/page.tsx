@@ -20,26 +20,8 @@ import {
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { getPlacesByCity, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
+import { Place } from '@/lib/supabase'
 import Link from 'next/link'
-
-interface Place {
-  id: string
-  name: string
-  category: string
-  address: string
-  description: string
-  tags: string[]
-  wifi_speed?: number
-  price_level: number
-  noise_level: string
-  social_atmosphere: string
-  upvotes: number
-  downvotes: number
-  rating: number
-  review_count: number
-  submitted_by: string
-  created_at: string
-}
 
 export default function PlacesPage() {
   const { t } = useTranslation()
@@ -79,11 +61,11 @@ export default function PlacesPage() {
   const sortedPlaces = [...filteredPlaces].sort((a, b) => {
     switch (sortBy) {
       case 'rating':
-        return b.rating - a.rating
+        return (b.rating || 0) - (a.rating || 0)
       case 'recent':
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       case 'popular':
-        return (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)
+        return ((b.upvotes || 0) - (b.downvotes || 0)) - ((a.upvotes || 0) - (a.downvotes || 0))
       default:
         return 0
     }

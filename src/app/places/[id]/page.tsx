@@ -24,25 +24,7 @@ import {
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { getPlacesByCity, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
-
-interface Place {
-  id: string
-  name: string
-  category: string
-  address: string
-  description: string
-  tags: string[]
-  wifi_speed?: number
-  price_level: number
-  noise_level: string
-  social_atmosphere: string
-  upvotes: number
-  downvotes: number
-  rating: number
-  review_count: number
-  submitted_by: string
-  created_at: string
-}
+import { Place } from '@/lib/supabase'
 
 interface Review {
   id: string
