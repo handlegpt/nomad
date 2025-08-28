@@ -205,7 +205,7 @@ export default function PlacesPage() {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
-            {t('places.foundResults', { count: sortedPlaces.length })}
+            {t('places.foundResults', { count: sortedPlaces.length.toString() })}
           </p>
         </div>
 
