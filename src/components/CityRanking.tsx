@@ -119,8 +119,8 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
     setShowVoteModal(true)
   }
 
-  const handleVoteSubmitted = (voteData: any) => {
-    console.log('Vote submitted:', voteData)
+  const handleVoteSubmitted = () => {
+    console.log('Vote submitted')
     setShowVoteModal(false)
     setSelectedCity(null)
   }
@@ -201,7 +201,7 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
         <VoteModal
           isOpen={showVoteModal}
           onClose={() => setShowVoteModal(false)}
-          onSubmit={handleVoteSubmitted}
+          onVoteSubmitted={handleVoteSubmitted}
           city={selectedCity}
         />
       )}
