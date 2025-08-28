@@ -423,12 +423,7 @@
     "subscribe": "订阅",
     "cancel": "取消"
   },
-  "home": {
-    "quickVote": {
-      "voteSubmitted": "已为 {type} 投票 {vote}",
-      "ratingSubmitted": "已评分 {rating} 星"
-    }
-  },
+
   "about": {
     "title": "关于 NOMAD.NOW",
     "subtitle": "数字游民最重要的信息工具 - 时间、位置、决策支持",
@@ -501,6 +496,14 @@
   },
   "setup": {
     "settingsSaved": "设置已保存！"
+  },
+  "meetup": {
+    "title": "谁在这座城市？",
+    "createMeetup": "创建聚会",
+    "onlineNomads": "在线游民",
+    "available": "可约见",
+    "coffeeMeetup": "约咖啡",
+    "busy": "忙碌中"
   },
   "voteModal": {
     "pleaseProvideRating": "请至少提供一个总体评分",
