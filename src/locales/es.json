@@ -30,6 +30,15 @@
     "setupVisaTitle": "Configurar Información de Visa",
     "setupVisaDescription": "Configura la fecha de vencimiento de tu visa para rastrear los días restantes",
     "setupVisaButton": "Configurar Visa",
+    "quickVote": {
+      "title": "Participar en Votación",
+      "description": "Califica ciudades según tu experiencia",
+      "currentCity": "Calificar Ciudad Actual",
+      "like": "Me Gusta",
+      "dislike": "No Me Gusta",
+      "rateExperience": "Calificar tu Experiencia",
+      "ratingHint": "Haz clic para calificar tu experiencia general"
+    },
     "refreshData": "Actualizar Datos",
     "exploreTools": "Explorar Herramientas",
     "browseCities": "Explorar Ciudades",
@@ -175,6 +184,12 @@
   "cities": {
     "title": "Ciudades Nómadas",
     "subtitle": "Destinos populares para nómadas digitales",
+    "loading": "Cargando rankings de ciudades...",
+    "votes": "votos",
+    "quickUpvote": "Voto rápido positivo",
+    "quickDownvote": "Voto rápido negativo",
+    "voteDetails": "Votar/Detalles",
+    "votingComingSoon": "¡Funcionalidad de votación próximamente!",
     "barcelona": {
       "name": "Barcelona, España",
       "country": "España",
@@ -391,6 +406,20 @@
         "Nómadas Digitales Ciudad de México",
         "Nómadas Digitales Barcelona"
       ]
+    },
+    "local": {
+      "osaka": {
+        "description": "Meetup local de nómadas digitales en Osaka",
+        "location": "Centro de Osaka"
+      },
+      "tokyo": {
+        "description": "Comunidad de trabajadores remotos en Tokio",
+        "location": "Distrito de Shibuya"
+      },
+      "kyoto": {
+        "description": "Meetup regular de nómadas digitales en Kioto",
+        "location": "Cerca de la Estación de Kioto"
+      }
     }
   },
 
@@ -468,6 +497,14 @@
   "setup": {
     "settingsSaved": "¡Configuración guardada!"
   },
+  "meetup": {
+    "title": "¿Quién está en esta ciudad?",
+    "createMeetup": "Crear Meetup",
+    "onlineNomads": "Nómadas en Línea",
+    "available": "Disponible",
+    "coffeeMeetup": "Café",
+    "busy": "Ocupado"
+  },
   "voteModal": {
     "pleaseProvideRating": "Por favor proporciona al menos una calificación general",
     "submitFailed": "Error al enviar el voto, por favor intenta de nuevo",
@@ -494,14 +531,7 @@
     "submitting": "Enviando..."
   },
 
-  "cities": {
-    "loading": "Cargando rankings de ciudades...",
-    "votes": "votos",
-    "quickUpvote": "Voto rápido positivo",
-    "quickDownvote": "Voto rápido negativo",
-    "voteDetails": "Votar/Detalles",
-    "votingComingSoon": "¡Funcionalidad de votación próximamente!"
-  },
+
 
   "recommendations": {
     "title": "Recomendaciones Personalizadas IA",
@@ -556,28 +586,14 @@
     "startComparison": "Comenzar Comparación"
   },
 
-  "cities": {
-    "tokyo": "Tokio",
-    "osaka": "Osaka",
-    "bangkok": "Bangkok",
-    "chiangMai": "Chiang Mai",
-    "bali": "Bali",
-    "lisbon": "Lisboa",
-    "barcelona": "Barcelona",
-    "mexicoCity": "Ciudad de México",
-    "japan": "Japón",
-    "thailand": "Tailandia",
-    "indonesia": "Indonesia",
-    "portugal": "Portugal",
-    "spain": "España",
-    "mexico": "México"
-  },
+
 
   "places": {
     "title": "Lugares Recomendados",
     "description": "Descubre los mejores lugares para nómadas digitales",
     "searchPlaceholder": "Buscar lugares...",
     "addPlace": "Agregar Lugar",
+    "quickBrowse": "Navegación Rápida",
     "categories": {
       "all": "Todos",
       "cafe": "☕ Café",
