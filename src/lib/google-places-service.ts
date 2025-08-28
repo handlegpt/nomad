@@ -53,24 +53,27 @@ export class GooglePlacesService {
   
   private formatForDisplay(places: any[]) {
     return places.map(place => ({
-      id: place.place_id,
+      id: `google_${place.place_id}`,
       name: place.name,
-      address: place.vicinity,
-      rating: place.rating || 0,
-      reviewCount: place.user_ratings_total || 0,
-      priceLevel: this.getPriceLevel(place.price_level),
       category: this.determineCategory(place),
+      city_id: 'osaka', // 默认城市，实际使用时应该传入
+      address: place.vicinity || place.formatted_address || 'Address not available',
+      latitude: place.geometry?.location?.lat || 0,
+      longitude: place.geometry?.location?.lng || 0,
       description: this.generateDescription(place),
       tags: this.generateTags(place),
-      wifiSpeed: this.estimateWifiSpeed(place),
-      priceLevelText: this.getPriceLevelText(place.price_level),
-      noiseLevel: this.estimateNoiseLevel(place),
-      socialAtmosphere: this.estimateSocialAtmosphere(place),
-      upvotes: Math.floor(Math.random() * 50) + 10, // 模拟数据
+      wifi_speed: this.estimateWifiSpeed(place),
+      price_level: this.getPriceLevel(place.price_level),
+      noise_level: this.estimateNoiseLevel(place),
+      social_atmosphere: this.estimateSocialAtmosphere(place),
+      submitted_by: 'Google Places',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      rating: place.rating || 0,
+      review_count: place.user_ratings_total || 0,
+      upvotes: Math.floor(Math.random() * 50) + 10,
       downvotes: Math.floor(Math.random() * 5),
-      recommendedBy: this.generateRandomName(), // 模拟推荐者
-      isFromGoogle: true,
-      created_at: new Date().toISOString()
+      isFromGoogle: true
     }));
   }
   
@@ -180,22 +183,22 @@ export class GooglePlacesService {
     }
   }
   
-  private estimateNoiseLevel(place: any): string {
+  private estimateNoiseLevel(place: any): 'quiet' | 'moderate' | 'loud' {
     const name = place.name.toLowerCase();
     
-    if (name.includes('library') || name.includes('quiet')) return '安静';
-    if (name.includes('coffee') || name.includes('cafe')) return '适中';
-    return '适中';
+    if (name.includes('library') || name.includes('quiet')) return 'quiet';
+    if (name.includes('coffee') || name.includes('cafe')) return 'moderate';
+    return 'moderate';
   }
   
-  private estimateSocialAtmosphere(place: any): string {
+  private estimateSocialAtmosphere(place: any): 'low' | 'medium' | 'high' {
     const name = place.name.toLowerCase();
     
-    if (name.includes('wework')) return '社交高';
-    if (name.includes('starbucks')) return '社交中';
-    if (name.includes('library')) return '社交低';
-    if (name.includes('nomad')) return '社交高';
-    return '社交中';
+    if (name.includes('wework')) return 'high';
+    if (name.includes('starbucks')) return 'medium';
+    if (name.includes('library')) return 'low';
+    if (name.includes('nomad')) return 'high';
+    return 'medium';
   }
   
   private generateRandomName(): string {

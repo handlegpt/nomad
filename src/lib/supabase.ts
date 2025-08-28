@@ -57,7 +57,7 @@ export interface User {
 export interface Place {
   id: string
   name: string
-  category: 'cafe' | 'coworking' | 'coliving' | 'restaurant' | 'outdoor' | 'other'
+  category: 'cafe' | 'coworking' | 'coliving' | 'hostel' | 'hotel' | 'restaurant' | 'library' | 'park' | 'university' | 'shopping' | 'other'
   city_id: string
   address: string
   latitude: number
@@ -76,6 +76,8 @@ export interface Place {
   downvotes?: number
   rating?: number
   review_count?: number
+  // Google Places integration
+  isFromGoogle?: boolean
 }
 
 export interface PlaceVote {
