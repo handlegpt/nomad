@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { 
-  UserGroupIcon, 
-  ChatBubbleLeftRightIcon, 
-  GlobeAltIcon,
-  CalendarIcon,
-  MapPinIcon,
-  UsersIcon
-} from '@heroicons/react/24/outline';
+  Users, 
+  MessageSquare, 
+  Globe,
+  Calendar,
+  MapPin,
+  UserGroup
+} from 'lucide-react';
 
 export default function CommunityPage() {
   const [activeCategory, setActiveCategory] = useState('telegram');
@@ -183,14 +183,14 @@ export default function CommunityPage() {
                     <p className="text-gray-600 text-sm mb-3">{community.description}</p>
                   </div>
                   <div className="flex items-center">
-                    <UsersIcon className="h-5 w-5 text-blue-600 mr-1" />
+                    <Users className="h-5 w-5 text-blue-600 mr-1" />
                     <span className="text-sm text-gray-600">{community.members}</span>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center text-sm text-gray-600">
-                    <GlobeAltIcon className="h-4 w-4 mr-2" />
+                    <Globe className="h-4 w-4 mr-2" />
                     <span>{community.language}</span>
                   </div>
 
@@ -224,7 +224,7 @@ export default function CommunityPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-6 bg-blue-50 rounded-lg">
               <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <ChatBubbleLeftRightIcon className="h-6 w-6 text-white" />
+                <MessageSquare className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Be Active</h3>
               <p className="text-sm text-gray-600">
@@ -234,7 +234,7 @@ export default function CommunityPage() {
 
             <div className="text-center p-6 bg-green-50 rounded-lg">
               <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPinIcon className="h-6 w-6 text-white" />
+                <MapPin className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Attend Meetups</h3>
               <p className="text-sm text-gray-600">
@@ -244,7 +244,7 @@ export default function CommunityPage() {
 
             <div className="text-center p-6 bg-purple-50 rounded-lg">
               <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CalendarIcon className="h-6 w-6 text-white" />
+                <Calendar className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Stay Updated</h3>
               <p className="text-sm text-gray-600">
