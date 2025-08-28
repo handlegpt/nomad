@@ -79,7 +79,7 @@ chmod +x deploy.sh
 ```
 
 ### 4. 访问网站
-打开浏览器访问: http://localhost:3000
+打开浏览器访问: http://localhost:3011
 
 ## 🔧 手动配置
 
@@ -110,7 +110,7 @@ cp env.example .env.local
 npm run dev
 ```
 
-访问 [http://localhost:3000](http://localhost:3000)
+访问 [http://localhost:3011](http://localhost:3011)
 
 ## 🏗️ 项目结构
 

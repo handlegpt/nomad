@@ -4,7 +4,7 @@ services:
   nomad-now:
     build: .
     ports:
-      - "3000:3000"
+      - "3011:3000"  # 修改为3011端口
     environment:
       - NODE_ENV=production
       - PORT=3000

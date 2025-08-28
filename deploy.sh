@@ -46,10 +46,10 @@ sleep 15
 
 # 检查服务状态
 echo "🔍 检查服务状态..."
-if curl -f http://localhost:3000/api/health > /dev/null 2>&1; then
+if curl -f http://localhost:3011/api/health > /dev/null 2>&1; then
     echo "✅ 部署成功！"
-    echo "🌐 访问地址: http://localhost:3000"
-    echo "📊 健康检查: http://localhost:3000/api/health"
+    echo "🌐 访问地址: http://localhost:3011"
+    echo "📊 健康检查: http://localhost:3011/api/health"
 else
     echo "❌ 部署失败，请检查日志："
     docker-compose logs
