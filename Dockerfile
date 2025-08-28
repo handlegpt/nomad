@@ -42,9 +42,8 @@ COPY --from=builder /app/.next/static ./.next/static
 RUN mkdir -p public
 COPY --from=builder /app/public ./public
 
-# Copy environment files
+# Copy environment example file
 COPY --from=builder /app/env.example ./env.example
-COPY --from=builder /app/.env ./.env
 
 # Set proper permissions
 RUN chown -R nextjs:nodejs /app
