@@ -26,6 +26,42 @@
     "setupVisaTitle": "设置你的签证信息",
     "setupVisaDescription": "添加签证详情以跟踪剩余天数并获取提醒",
     "setupVisaButton": "设置签证",
+    "wifiSpeedTest": {
+      "title": "WiFi速度测试",
+      "description": "测试当前网络连接速度",
+      "startTest": "开始测试",
+      "testing": "测试中...",
+      "cancelTest": "取消测试",
+      "testCancelled": "测试已取消",
+      "testFailed": "速度测试失败，请检查网络连接",
+      "pingTest": "测试网络延迟...",
+      "downloadTest": "测试下载速度...",
+      "uploadTest": "测试上传速度...",
+      "testComplete": "测试完成",
+      "downloadSpeed": "下载速度",
+      "uploadSpeed": "上传速度",
+      "ping": "网络延迟",
+      "testTime": "测试时间",
+      "clearResult": "清除结果",
+      "usageTips": "使用建议",
+      "slowDownload": "下载速度较慢，建议选择更快的网络或更换位置",
+      "slowUpload": "上传速度较慢，可能影响视频会议和文件上传",
+      "highPing": "网络延迟较高，可能影响在线游戏和实时通信",
+      "goodNetwork": "网络状况良好，适合远程工作和在线会议",
+      "speedGrades": {
+        "A+": "极快",
+        "A": "很快",
+        "B": "良好",
+        "C": "一般",
+        "D": "较慢",
+        "F": "很慢"
+      },
+      "pingQuality": {
+        "excellent": "优秀",
+        "good": "良好",
+        "slow": "较慢"
+      }
+    },
     "quickVote": {
       "title": "参与投票",
       "description": "根据你的体验为城市评分",

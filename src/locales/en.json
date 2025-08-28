@@ -26,6 +26,42 @@
     "setupVisaTitle": "Setup Your Visa Information",
     "setupVisaDescription": "Add your visa details to track remaining days and get reminders",
     "setupVisaButton": "Setup Visa",
+    "wifiSpeedTest": {
+      "title": "WiFi Speed Test",
+      "description": "Test your current network connection speed",
+      "startTest": "Start Test",
+      "testing": "Testing...",
+      "cancelTest": "Cancel Test",
+      "testCancelled": "Test cancelled",
+      "testFailed": "Speed test failed, please check your network connection",
+      "pingTest": "Testing network latency...",
+      "downloadTest": "Testing download speed...",
+      "uploadTest": "Testing upload speed...",
+      "testComplete": "Test complete",
+      "downloadSpeed": "Download Speed",
+      "uploadSpeed": "Upload Speed",
+      "ping": "Network Latency",
+      "testTime": "Test Time",
+      "clearResult": "Clear Result",
+      "usageTips": "Usage Tips",
+      "slowDownload": "Download speed is slow, consider choosing a faster network or changing location",
+      "slowUpload": "Upload speed is slow, may affect video calls and file uploads",
+      "highPing": "High network latency, may affect online gaming and real-time communication",
+      "goodNetwork": "Network condition is good, suitable for remote work and online meetings",
+      "speedGrades": {
+        "A+": "Excellent",
+        "A": "Very Fast",
+        "B": "Good",
+        "C": "Average",
+        "D": "Slow",
+        "F": "Very Slow"
+      },
+      "pingQuality": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "slow": "Slow"
+      }
+    },
     "quickVote": {
       "title": "Participate in Voting",
       "description": "Rate cities based on your experience",

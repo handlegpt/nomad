@@ -17,6 +17,7 @@ import CityComparison from '@/components/CityComparison'
 import NomadMeetup from '@/components/NomadMeetup'
 import HomePlaceRecommendations from '@/components/HomePlaceRecommendations'
 import NomadTip from '@/components/NomadTip'
+import WifiSpeedTest from '@/components/WifiSpeedTest'
 
 export default function HomePage() {
   const { t, locale } = useTranslation()
@@ -126,6 +127,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* WiFi Speed Test - New Feature */}
+          <WifiSpeedTest />
 
           {/* Nomad Tip - Prominent */}
           <NomadTip />
