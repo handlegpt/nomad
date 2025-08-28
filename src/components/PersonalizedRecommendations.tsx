@@ -165,35 +165,35 @@ export default function PersonalizedRecommendations() {
                       <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
                       <span className="font-semibold text-gray-900">{Math.round(city.score)}</span>
                     </div>
-                    <div className="text-xs text-gray-500">匹配度</div>
+                    <div className="text-xs text-gray-500">{t('recommendations.matchScore')}</div>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-gray-600">WiFi速度：</span>
+                    <span className="text-gray-600">{t('recommendations.wifiSpeed')}：</span>
                     <span className="font-medium">{city.wifi_speed || 'N/A'} Mbps</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">生活成本：</span>
+                    <span className="text-gray-600">{t('recommendations.costOfLiving')}：</span>
                     <span className="font-medium">${city.cost_of_living || 'N/A'}/月</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">签证类型：</span>
+                    <span className="text-gray-600">{t('recommendations.visaType')}：</span>
                     <span className="font-medium">{city.visa_type}</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">停留天数：</span>
-                    <span className="font-medium">{city.visa_days} 天</span>
+                    <span className="text-gray-600">{t('recommendations.stayDays')}：</span>
+                    <span className="font-medium">{city.visa_days} {t('recommendations.days')}</span>
                   </div>
                 </div>
                 
                 <div className="mt-3 flex space-x-2">
                   <button className="flex-1 bg-blue-600 text-white py-2 px-3 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
-                    查看详情
+                    {t('recommendations.viewDetails')}
                   </button>
                   <button className="flex-1 border border-gray-300 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-                    添加到收藏
+                    {t('recommendations.addToFavorites')}
                   </button>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export default function PersonalizedRecommendations() {
       {recommendations.length === 0 && !loading && (
         <div className="text-center py-8">
           <SparklesIcon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500">设置你的偏好，获取个性化城市推荐</p>
+          <p className="text-gray-500">{t('recommendations.setPreferences')}</p>
         </div>
       )}
     </div>

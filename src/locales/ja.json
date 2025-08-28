@@ -509,7 +509,16 @@
     "generate": "推奨を生成",
     "generating": "生成中...",
     "preferences": "あなたの設定",
-    "recommendedCities": "あなたにおすすめの都市"
+    "recommendedCities": "あなたにおすすめの都市",
+    "matchScore": "マッチスコア",
+    "wifiSpeed": "WiFi速度",
+    "costOfLiving": "生活費",
+    "visaType": "ビザタイプ",
+    "stayDays": "滞在日数",
+    "days": "日",
+    "viewDetails": "詳細を見る",
+    "addToFavorites": "お気に入りに追加",
+    "setPreferences": "設定を調整してパーソナライズされた都市推奨を取得"
   },
 
   "places": {
@@ -534,7 +543,8 @@
       "title": "場所が見つかりません",
       "description": "検索条件を調整するか、新しい場所を追加してください"
     },
-    "viewAll": "{count}件の場所をすべて表示"
+    "viewAll": "{count}件の場所をすべて表示",
+    "reviews": "レビュー"
   },
 
   "navigation": {
@@ -546,6 +556,49 @@
   "common": {
     "viewDetails": "詳細を見る",
     "learnMore": "詳細を見る"
+  },
+
+  "notifications": {
+    "title": "通知",
+    "welcome": "NOMAD.NOWへようこそ！",
+    "visaExpiry": "あなたのビザは30日後に期限切れになります",
+    "noNotifications": "通知はありません",
+    "markAsRead": "既読にする",
+    "markAllAsRead": "すべて既読にする"
+  },
+
+  "mobileMenu": {
+    "title": "メニュー",
+    "homeDescription": "現在地と基本情報を表示",
+    "citiesDescription": "世界中の都市を探索",
+    "visaDescription": "各国のビザ申請ガイド",
+    "communityDescription": "他のノマドと交流",
+    "dashboardDescription": "プラットフォームデータを表示",
+    "languageSettings": "言語設定",
+    "quickSetup": "クイック設定",
+    "aboutUs": "私たちについて",
+    "contactUs": "お問い合わせ"
+  },
+
+  "nomadTip": {
+    "title": "ノマドのヒント",
+    "portugalVisa": "ポルトガルでは、デジタルノマドビザで1年間の滞在が可能で、更新可能です。",
+    "thailandVisa": "タイのデジタルノマドビザには月収最低$2,000が必要です。",
+    "lisbonWifi": "リスボンのカフェは一般的にWiFi速度が速く、リモートワークに適しています。",
+    "chiangMaiCost": "チェンマイの生活費はバンコクより30%安いですが、インターネット速度は少し遅いです。",
+    "georgiaVisa": "ジョージアはほとんどの国に1年間のビザなし入国を提供し、ノマドに最適です。",
+    "categories": {
+      "visa": "ビザ",
+      "work": "仕事",
+      "life": "生活"
+    },
+    "subscribeButton": "メールリマインダーを購読 → ビザ期限切れ/都市推奨を取得",
+    "subscriptionSettings": "購読設定",
+    "emailPlaceholder": "メールアドレスを入力",
+    "visaReminder": "ビザ期限切れリマインダー",
+    "cityRecommendations": "都市推奨",
+    "subscribe": "購読",
+    "cancel": "キャンセル"
   },
 
   "components": {

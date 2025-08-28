@@ -20,6 +20,17 @@
     "title": "Centro de Información para Nómadas Digitales",
     "subtitle": "Tu guía completa para nómadas digitales",
     "description": "Encuentra información de visa, orientación fiscal, herramientas esenciales y conéctate con la comunidad global de nómadas.",
+    "currentLocation": "Ubicación Actual",
+    "lastUpdated": "Última Actualización",
+    "localTime": "Hora Local",
+    "weather": "Clima",
+    "wifiSpeed": "Velocidad WiFi",
+    "visaRemaining": "Días Restantes de Visa",
+    "setupVisa": "Configurar Visa",
+    "setupVisaTitle": "Configurar Información de Visa",
+    "setupVisaDescription": "Configura la fecha de vencimiento de tu visa para rastrear los días restantes",
+    "setupVisaButton": "Configurar Visa",
+    "refreshData": "Actualizar Datos",
     "exploreTools": "Explorar Herramientas",
     "browseCities": "Explorar Ciudades",
     "features": {
@@ -447,6 +458,141 @@
       "languages": {
         "question": "¿Qué idiomas son compatibles?",
         "answer": "Actualmente soporta chino, inglés, español y japonés, con más idiomas en desarrollo."
+      }
+    }
+  },
+
+  "cities": {
+    "loading": "Cargando rankings de ciudades...",
+    "votes": "votos",
+    "quickUpvote": "Voto rápido positivo",
+    "quickDownvote": "Voto rápido negativo",
+    "voteDetails": "Votar/Detalles"
+  },
+
+  "recommendations": {
+    "title": "Recomendaciones Personalizadas IA",
+    "generate": "Generar Recomendaciones",
+    "generating": "Generando...",
+    "preferences": "Tus Preferencias",
+    "recommendedCities": "Ciudades Recomendadas para Ti",
+    "matchScore": "Puntuación de Coincidencia",
+    "wifiSpeed": "Velocidad WiFi",
+    "costOfLiving": "Costo de Vida",
+    "visaType": "Tipo de Visa",
+    "stayDays": "Días de Estadía",
+    "days": "días",
+    "viewDetails": "Ver Detalles",
+    "addToFavorites": "Agregar a Favoritos",
+    "setPreferences": "Configura tus preferencias para obtener recomendaciones de ciudades personalizadas"
+  },
+
+  "places": {
+    "title": "Lugares Recomendados",
+    "description": "Descubre los mejores lugares para nómadas digitales",
+    "searchPlaceholder": "Buscar lugares...",
+    "addPlace": "Agregar Lugar",
+    "categories": {
+      "all": "Todos",
+      "cafe": "☕ Café",
+      "coworking": "💻 Co-working",
+      "coliving": "🏠 Co-living",
+      "restaurant": "🍽 Restaurante",
+      "outdoor": "🌳 Exterior"
+    },
+    "sortBy": {
+      "rating": "Mejor Calificación",
+      "recent": "Más Reciente",
+      "popular": "Más Popular"
+    },
+    "noResults": {
+      "title": "No se encontraron lugares",
+      "description": "Intenta ajustar tus criterios de búsqueda o agrega un nuevo lugar"
+    },
+    "viewAll": "Ver todos los {count} lugares",
+    "reviews": "reseñas"
+  },
+
+  "navigation": {
+    "places": "Lugares",
+    "visaGuide": "Guía de Visas",
+    "dashboard": "Panel de Control"
+  },
+
+  "notifications": {
+    "title": "Notificaciones",
+    "welcome": "¡Bienvenido a NOMAD.NOW!",
+    "visaExpiry": "Tu visa expirará en 30 días",
+    "noNotifications": "Sin notificaciones",
+    "markAsRead": "Marcar como leído",
+    "markAllAsRead": "Marcar todo como leído"
+  },
+
+  "mobileMenu": {
+    "title": "Menú",
+    "homeDescription": "Ver ubicación actual e información básica",
+    "citiesDescription": "Explorar ciudades globales",
+    "visaDescription": "Guías de solicitud de visa para varios países",
+    "communityDescription": "Conectarse con otros nómadas",
+    "dashboardDescription": "Ver datos de la plataforma",
+    "languageSettings": "Configuración de Idioma",
+    "quickSetup": "Configuración Rápida",
+    "aboutUs": "Acerca de Nosotros",
+    "contactUs": "Contáctanos"
+  },
+
+  "nomadTip": {
+    "title": "Consejos Nómadas",
+    "portugalVisa": "En Portugal, la visa de nómada digital permite una estadía de 1 año y es renovable.",
+    "thailandVisa": "La visa de nómada digital de Tailandia requiere un ingreso mensual mínimo de $2,000.",
+    "lisbonWifi": "Los cafés en Lisboa generalmente tienen velocidades WiFi rápidas, adecuadas para trabajo remoto.",
+    "chiangMaiCost": "El costo de vida en Chiang Mai es 30% menor que en Bangkok, pero la velocidad de internet es ligeramente más lenta.",
+    "georgiaVisa": "Georgia ofrece entrada sin visa de 1 año para la mayoría de países, perfecto para nómadas.",
+    "categories": {
+      "visa": "Visa",
+      "work": "Trabajo",
+      "life": "Vida"
+    },
+    "subscribeButton": "Suscribirse a recordatorios por email → Obtener vencimiento de visa/recomendaciones de ciudades",
+    "subscriptionSettings": "Configuración de Suscripción",
+    "emailPlaceholder": "Ingresar dirección de email",
+    "visaReminder": "Recordatorios de vencimiento de visa",
+    "cityRecommendations": "Recomendaciones de ciudades",
+    "subscribe": "Suscribirse",
+    "cancel": "Cancelar"
+  },
+
+  "community": {
+    "title": "Comunidad",
+    "online": "En Línea",
+    "local": "Local",
+    "joinCommunity": "Unirse a la Comunidad",
+    "attendEvent": "Asistir al Evento",
+    "discoverMore": "Descubrir Más Comunidades",
+    "nextEvent": "Próximo Evento",
+    "online": {
+      "facebook": {
+        "description": "El grupo de Facebook de nómadas digitales más grande del mundo"
+      },
+      "nomadlist": {
+        "description": "Comunidad activa basada en Nomad List"
+      },
+      "reddit": {
+        "description": "Área de discusión de nómadas digitales en Reddit"
+      }
+    },
+    "local": {
+      "osaka": {
+        "description": "Meetup local de nómadas digitales de Osaka",
+        "location": "Centro de la Ciudad de Osaka"
+      },
+      "tokyo": {
+        "description": "Comunidad de trabajadores remotos de Tokio",
+        "location": "Distrito de Shibuya"
+      },
+      "kyoto": {
+        "description": "Meetup regular de nómadas digitales de Kioto",
+        "location": "Cerca de la Estación de Kioto"
       }
     }
   },

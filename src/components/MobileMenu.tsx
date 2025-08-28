@@ -16,27 +16,27 @@ export default function MobileMenu() {
     {
       name: t('navigation.home'),
       href: '/',
-      description: '查看当前位置和基本信息'
+      description: t('mobileMenu.homeDescription')
     },
     {
       name: t('navigation.cities'),
       href: '/cities',
-      description: '探索全球城市'
+      description: t('mobileMenu.citiesDescription')
     },
     {
-      name: '签证指南',
+      name: t('navigation.visaGuide'),
       href: '/visa-guide',
-      description: '各国签证申请指南'
+      description: t('mobileMenu.visaDescription')
     },
     {
       name: t('navigation.community'),
       href: '/community',
-      description: '与其他游民交流'
+      description: t('mobileMenu.communityDescription')
     },
     {
-      name: '数据统计',
+      name: t('navigation.dashboard'),
       href: '/dashboard',
-      description: '查看平台数据'
+      description: t('mobileMenu.dashboardDescription')
     }
   ]
 
@@ -57,7 +57,7 @@ export default function MobileMenu() {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">菜单</h2>
+                <h2 className="text-lg font-semibold text-gray-900">{t('mobileMenu.title')}</h2>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -95,7 +95,7 @@ export default function MobileMenu() {
               <div className="p-6 border-t border-gray-200">
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">语言设置</h3>
+                    <h3 className="text-sm font-medium text-gray-900 mb-2">{t('mobileMenu.languageSettings')}</h3>
                     <LanguageSwitcher />
                   </div>
                   
@@ -105,21 +105,21 @@ export default function MobileMenu() {
                       className="block text-sm text-gray-600 hover:text-gray-900"
                       onClick={() => setIsOpen(false)}
                     >
-                      快速设置
+                      {t('mobileMenu.quickSetup')}
                     </Link>
                     <Link
                       href="/about"
                       className="block text-sm text-gray-600 hover:text-gray-900"
                       onClick={() => setIsOpen(false)}
                     >
-                      关于我们
+                      {t('mobileMenu.aboutUs')}
                     </Link>
                     <Link
                       href="/contact"
                       className="block text-sm text-gray-600 hover:text-gray-900"
                       onClick={() => setIsOpen(false)}
                     >
-                      联系我们
+                      {t('mobileMenu.contactUs')}
                     </Link>
                   </div>
                 </div>

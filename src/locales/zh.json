@@ -233,7 +233,8 @@
       "title": "没有找到地点",
       "description": "尝试调整搜索条件或添加新的地点"
     },
-    "viewAll": "查看全部 {count} 个地点"
+    "viewAll": "查看全部 {count} 个地点",
+    "reviews": "评价"
   },
   "cities": {
     "loading": "加载城市榜单...",
@@ -247,7 +248,16 @@
     "generate": "生成推荐",
     "generating": "生成中...",
     "preferences": "你的偏好设置",
-    "recommendedCities": "为你推荐的城市"
+    "recommendedCities": "为你推荐的城市",
+    "matchScore": "匹配度",
+    "wifiSpeed": "WiFi速度",
+    "costOfLiving": "生活成本",
+    "visaType": "签证类型",
+    "stayDays": "停留天数",
+    "days": "天",
+    "viewDetails": "查看详情",
+    "addToFavorites": "添加到收藏",
+    "setPreferences": "设置你的偏好，获取个性化城市推荐"
   },
   "common": {
     "learnMore": "了解更多",
@@ -263,6 +273,49 @@
     "visa": "签证",
     "highlights": "亮点",
     "localTips": "当地提示"
+  },
+
+  "notifications": {
+    "title": "通知",
+    "welcome": "欢迎使用 NOMAD.NOW！",
+    "visaExpiry": "您的签证将在30天后到期",
+    "noNotifications": "暂无通知",
+    "markAsRead": "标记已读",
+    "markAllAsRead": "全部标记为已读"
+  },
+
+  "mobileMenu": {
+    "title": "菜单",
+    "homeDescription": "查看当前位置和基本信息",
+    "citiesDescription": "探索全球城市",
+    "visaDescription": "各国签证申请指南",
+    "communityDescription": "与其他游民交流",
+    "dashboardDescription": "查看平台数据",
+    "languageSettings": "语言设置",
+    "quickSetup": "快速设置",
+    "aboutUs": "关于我们",
+    "contactUs": "联系我们"
+  },
+
+  "nomadTip": {
+    "title": "Nomad 小贴士",
+    "portugalVisa": "在葡萄牙，数字游民签证允许停留1年并可续签。",
+    "thailandVisa": "泰国的数字游民签证需要月收入至少$2,000。",
+    "lisbonWifi": "里斯本的咖啡馆WiFi速度普遍很快，适合远程工作。",
+    "chiangMaiCost": "清迈的生活成本比曼谷低30%，但网速稍慢。",
+    "georgiaVisa": "格鲁吉亚对大多数国家提供1年免签，非常适合游民。",
+    "categories": {
+      "visa": "签证",
+      "work": "工作",
+      "life": "生活"
+    },
+    "subscribeButton": "订阅邮件提醒 → 获取签证到期/城市推荐",
+    "subscriptionSettings": "订阅设置",
+    "emailPlaceholder": "输入邮箱地址",
+    "visaReminder": "签证到期提醒",
+    "cityRecommendations": "城市推荐",
+    "subscribe": "订阅",
+    "cancel": "取消"
   },
   "about": {
     "title": "关于 NOMAD.NOW",

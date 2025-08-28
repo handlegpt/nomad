@@ -233,7 +233,8 @@
       "title": "No places found",
       "description": "Try adjusting your search criteria or add a new place"
     },
-    "viewAll": "View all {count} places"
+    "viewAll": "View all {count} places",
+    "reviews": "reviews"
   },
   "cities": {
     "loading": "Loading city rankings...",
@@ -247,7 +248,16 @@
     "generate": "Generate Recommendations",
     "generating": "Generating...",
     "preferences": "Your Preferences",
-    "recommendedCities": "Recommended Cities for You"
+    "recommendedCities": "Recommended Cities for You",
+    "matchScore": "Match Score",
+    "wifiSpeed": "WiFi Speed",
+    "costOfLiving": "Cost of Living",
+    "visaType": "Visa Type",
+    "stayDays": "Stay Days",
+    "days": "days",
+    "viewDetails": "View Details",
+    "addToFavorites": "Add to Favorites",
+    "setPreferences": "Set your preferences to get personalized city recommendations"
   },
   "common": {
     "learnMore": "Learn more",
@@ -263,6 +273,49 @@
     "visa": "Visa",
     "highlights": "Highlights",
     "localTips": "Local Tips"
+  },
+
+  "notifications": {
+    "title": "Notifications",
+    "welcome": "Welcome to NOMAD.NOW!",
+    "visaExpiry": "Your visa will expire in 30 days",
+    "noNotifications": "No notifications",
+    "markAsRead": "Mark as read",
+    "markAllAsRead": "Mark all as read"
+  },
+
+  "mobileMenu": {
+    "title": "Menu",
+    "homeDescription": "View current location and basic information",
+    "citiesDescription": "Explore global cities",
+    "visaDescription": "Visa application guides for various countries",
+    "communityDescription": "Connect with other nomads",
+    "dashboardDescription": "View platform data",
+    "languageSettings": "Language Settings",
+    "quickSetup": "Quick Setup",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us"
+  },
+
+  "nomadTip": {
+    "title": "Nomad Tips",
+    "portugalVisa": "In Portugal, the digital nomad visa allows a 1-year stay and is renewable.",
+    "thailandVisa": "Thailand's digital nomad visa requires a minimum monthly income of $2,000.",
+    "lisbonWifi": "Cafes in Lisbon generally have fast WiFi speeds, suitable for remote work.",
+    "chiangMaiCost": "Chiang Mai's cost of living is 30% lower than Bangkok, but internet speed is slightly slower.",
+    "georgiaVisa": "Georgia offers 1-year visa-free entry for most countries, perfect for nomads.",
+    "categories": {
+      "visa": "Visa",
+      "work": "Work",
+      "life": "Life"
+    },
+    "subscribeButton": "Subscribe to email reminders → Get visa expiry/city recommendations",
+    "subscriptionSettings": "Subscription Settings",
+    "emailPlaceholder": "Enter email address",
+    "visaReminder": "Visa expiry reminders",
+    "cityRecommendations": "City recommendations",
+    "subscribe": "Subscribe",
+    "cancel": "Cancel"
   },
   "about": {
     "title": "About NOMAD.NOW",
