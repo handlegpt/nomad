@@ -128,9 +128,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* WiFi Speed Test - New Feature */}
-          <WifiSpeedTest />
-
           {/* Nomad Tip - Prominent */}
           <NomadTip />
 

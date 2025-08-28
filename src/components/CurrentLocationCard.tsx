@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { MapPin, RefreshCw, Clock, Cloud, Wifi, Calendar } from 'lucide-react'
+import { MapPin, RefreshCw, Clock, Cloud, Wifi, Calendar, X } from 'lucide-react'
 import { getCurrentLocation, getWorldTime, getWeather, getTimezoneFromCoordinates } from '@/lib/api'
 import { useTranslation } from '@/hooks/useTranslation'
+import WifiSpeedTest from './WifiSpeedTest'
 
 interface LocationData {
   city: string
@@ -32,6 +33,7 @@ export default function CurrentLocationCard() {
 
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(new Date())
+  const [showWifiTest, setShowWifiTest] = useState(false)
 
   // Get current location and initialize data
   useEffect(() => {
@@ -166,7 +168,7 @@ export default function CurrentLocationCard() {
       </div>
 
       {/* Current Status Grid - Like time.is style */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Local Time */}
         <div className="text-center p-3 bg-blue-50 rounded-lg">
           <div className="text-2xl font-bold text-blue-600 mb-1">
@@ -186,6 +188,19 @@ export default function CurrentLocationCard() {
             {t('home.weather')}
           </div>
         </div>
+        
+        {/* WiFi Speed Test */}
+        <button 
+          onClick={() => setShowWifiTest(true)}
+          className="text-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer"
+        >
+          <div className="text-2xl font-bold text-purple-600 mb-1">
+            ☕ WiFi
+          </div>
+          <div className="text-xs text-gray-600">
+            速度测试
+          </div>
+        </button>
         
         {/* Visa Status - Only show if user has visa data */}
         <div className="text-center p-3 bg-orange-50 rounded-lg">
@@ -221,6 +236,26 @@ export default function CurrentLocationCard() {
             <button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
               {t('home.setupVisaButton')}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* WiFi Speed Test Modal */}
+      {showWifiTest && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h3 className="text-lg font-bold text-gray-900">WiFi速度测试</h3>
+              <button
+                onClick={() => setShowWifiTest(false)}
+                className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <WifiSpeedTest />
+            </div>
           </div>
         </div>
       )}
