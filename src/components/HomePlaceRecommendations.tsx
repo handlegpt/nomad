@@ -11,8 +11,8 @@ import {
   PlusIcon
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import { getPlacesByCity } from '@/lib/api'
-import { Place } from '@/lib/supabase'
+import { getPlacesByCity, getCities } from '@/lib/api'
+import { Place, City } from '@/lib/supabase'
 import Link from 'next/link'
 
 export default function HomePlaceRecommendations() {
@@ -27,22 +27,47 @@ export default function HomePlaceRecommendations() {
   const loadTopPlaces = async () => {
     setLoading(true)
     try {
-      // 获取当前城市的热门地点
-      const data = await getPlacesByCity('osaka') // 默认大阪
-      const transformedData: Place[] = data.map((item: any) => ({
-        ...item,
-        upvotes: item.upvotes || 0,
-        downvotes: item.downvotes || 0,
-        rating: item.rating || 0,
-        review_count: item.review_count || 0
-      }))
+      // 先获取所有城市，找到大阪的ID
+      const cities = await getCities()
+      const osakaCity = cities.find((city: City) => city.name.toLowerCase() === 'osaka')
       
-      // 按评分排序，取前6个
-      const topPlaces = transformedData
-        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-        .slice(0, 6)
-      
-      setPlaces(topPlaces)
+      if (!osakaCity) {
+        console.log('⚠️ Osaka city not found, using first available city')
+        // 如果找不到大阪，使用第一个城市
+        const firstCity = cities[0]
+        if (firstCity) {
+          const data = await getPlacesByCity(firstCity.id)
+          const transformedData: Place[] = data.map((item: any) => ({
+            ...item,
+            upvotes: item.upvotes || 0,
+            downvotes: item.downvotes || 0,
+            rating: item.rating || 0,
+            review_count: item.review_count || 0
+          }))
+          
+          const topPlaces = transformedData
+            .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+            .slice(0, 6)
+          
+          setPlaces(topPlaces)
+        }
+      } else {
+        // 使用大阪的ID获取地点
+        const data = await getPlacesByCity(osakaCity.id)
+        const transformedData: Place[] = data.map((item: any) => ({
+          ...item,
+          upvotes: item.upvotes || 0,
+          downvotes: item.downvotes || 0,
+          rating: item.rating || 0,
+          review_count: item.review_count || 0
+        }))
+        
+        const topPlaces = transformedData
+          .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+          .slice(0, 6)
+        
+        setPlaces(topPlaces)
+      }
     } catch (error) {
       console.error('Error loading places:', error)
     } finally {

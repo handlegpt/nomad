@@ -23,8 +23,8 @@ import {
   ShoppingBag
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import { getPlacesByCity, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
-import { Place } from '@/lib/supabase'
+import { getPlacesByCity, getCities, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
+import { Place, City } from '@/lib/supabase'
 import Link from 'next/link'
 import AddPlaceForm from '@/components/AddPlaceForm'
 
@@ -50,8 +50,23 @@ export default function PlacesPage() {
     try {
       let allPlaces = []
       
+      // 如果cityId是UUID格式，直接使用；否则通过城市名称查找ID
+      let targetCityId = cityId
+      if (cityId && !cityId.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+        // 不是UUID格式，通过城市名称查找
+        const cities = await getCities()
+        const targetCity = cities.find((city: City) => city.name.toLowerCase() === cityId.toLowerCase())
+        if (targetCity) {
+          targetCityId = targetCity.id
+        } else {
+          // 如果找不到指定城市，使用大阪
+          const osakaCity = cities.find((city: City) => city.name.toLowerCase() === 'osaka')
+          targetCityId = osakaCity?.id || cities[0]?.id
+        }
+      }
+      
       // 加载本地数据
-      const localPlaces = await getPlacesByCity(cityId || 'osaka')
+      const localPlaces = await getPlacesByCity(targetCityId || '')
       allPlaces.push(...localPlaces)
       
       // 如果本地数据不足，加载 Google 数据
