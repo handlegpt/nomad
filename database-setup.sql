@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS public.cities (
     cost_of_living INTEGER DEFAULT 2000,
     wifi_speed INTEGER DEFAULT 50,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(name, country)
 );
 
 -- 2. Create places table
