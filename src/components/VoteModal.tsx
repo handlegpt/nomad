@@ -68,7 +68,7 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
 
   const handleSubmit = async () => {
     if (ratings.overall === 0) {
-      alert('请至少给出总体评分')
+      alert('Please provide at least an overall rating')
       return
     }
 
@@ -76,23 +76,23 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
     try {
       await submitVote({
         city_id: city.id,
-        user_id: 'anonymous', // 这里应该使用真实的用户ID
-        rating: ratings.overall,
+        user_id: 'anonymous', // Should use real user ID here
+        overall_rating: ratings.overall,
         wifi_rating: ratings.wifi || ratings.overall,
         social_rating: ratings.social || ratings.overall,
         value_rating: ratings.value || ratings.overall,
         climate_rating: ratings.climate || ratings.overall,
-        comment: comment.trim() || undefined
+        comment: comment.trim() || ''
       })
       
       onVoteSubmitted()
       onClose()
-      // 重置表单
+      // Reset form
       setRatings({ overall: 0, wifi: 0, social: 0, value: 0, climate: 0 })
       setComment('')
     } catch (error) {
       console.error('Error submitting vote:', error)
-      alert('投票提交失败，请重试')
+      alert('Failed to submit vote, please try again')
     } finally {
       setSubmitting(false)
     }
