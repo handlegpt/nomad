@@ -323,4 +323,4 @@ MIT License
 - [OpenWeatherMap API](https://openweathermap.org/api)
 - [World Time API](http://worldtimeapi.org)
 - [Tailwind CSS](https://tailwindcss.com)
-- [Lucide React](https://lucide.dev) 
+- [Lucide React](https://lucide.dev)
