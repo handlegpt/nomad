@@ -12,7 +12,7 @@ import {
   MonitorIcon,
   HomeIcon,
   UtensilsIcon,
-  TreeIcon
+  TreePine
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 
@@ -42,7 +42,7 @@ export default function AddPlaceForm({ isOpen, onClose, onSubmit }: AddPlaceForm
     { id: 'coworking', name: '💻 Co-working', icon: <MonitorIcon className="h-4 w-4" /> },
     { id: 'coliving', name: '🏠 Coliving', icon: <HomeIcon className="h-4 w-4" /> },
     { id: 'restaurant', name: '🍽 餐馆', icon: <UtensilsIcon className="h-4 w-4" /> },
-    { id: 'outdoor', name: '🌳 户外', icon: <TreeIcon className="h-4 w-4" /> },
+    { id: 'outdoor', name: '🌳 户外', icon: <TreePine className="h-4 w-4" /> },
     { id: 'other', name: '📍 其他', icon: <MapPinIcon className="h-4 w-4" /> }
   ]
 

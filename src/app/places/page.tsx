@@ -12,7 +12,7 @@ import {
   MonitorIcon,
   HomeIcon,
   UtensilsIcon,
-  TreeIcon
+  TreePine
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import PlaceRecommendations from '@/components/PlaceRecommendations'
@@ -119,7 +119,7 @@ export default function PlacesPage() {
       case 'coworking': return <MonitorIcon className="h-5 w-5" />
       case 'coliving': return <HomeIcon className="h-5 w-5" />
       case 'restaurant': return <UtensilsIcon className="h-5 w-5" />
-      case 'outdoor': return <TreeIcon className="h-5 w-5" />
+      case 'outdoor': return <TreePine className="h-5 w-5" />
       default: return <MapPinIcon className="h-5 w-5" />
     }
   }
@@ -262,7 +262,7 @@ export default function PlacesPage() {
                   { category: 'coworking', name: 'Co-working', count: 8, icon: <MonitorIcon className="h-6 w-6" /> },
                   { category: 'coliving', name: 'Coliving', count: 12, icon: <HomeIcon className="h-6 w-6" /> },
                   { category: 'restaurant', name: '餐馆', count: 20, icon: <UtensilsIcon className="h-6 w-6" /> },
-                  { category: 'outdoor', name: '户外', count: 6, icon: <TreeIcon className="h-6 w-6" /> }
+                  { category: 'outdoor', name: '户外', count: 6, icon: <TreePine className="h-6 w-6" /> }
                 ].map((item) => (
                   <div
                     key={item.category}

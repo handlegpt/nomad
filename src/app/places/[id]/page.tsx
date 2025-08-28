@@ -19,7 +19,7 @@ import {
   MonitorIcon,
   HomeIcon,
   UtensilsIcon,
-  TreeIcon,
+  TreePine,
   ArrowLeftIcon
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -133,7 +133,7 @@ export default function PlaceDetailPage() {
       case 'coworking': return <MonitorIcon className="h-6 w-6" />
       case 'coliving': return <HomeIcon className="h-6 w-6" />
       case 'restaurant': return <UtensilsIcon className="h-6 w-6" />
-      case 'outdoor': return <TreeIcon className="h-6 w-6" />
+      case 'outdoor': return <TreePine className="h-6 w-6" />
       default: return <MapPinIcon className="h-6 w-6" />
     }
   }

@@ -16,7 +16,7 @@ import {
   MonitorIcon,
   HomeIcon,
   UtensilsIcon,
-  TreeIcon,
+  TreePine,
   SearchIcon,
   FilterIcon,
   SortAscIcon
@@ -155,7 +155,7 @@ export default function PlaceRecommendations({ cityId }: { cityId: string }) {
       case 'coworking': return <MonitorIcon className="h-5 w-5" />
       case 'coliving': return <HomeIcon className="h-5 w-5" />
       case 'restaurant': return <UtensilsIcon className="h-5 w-5" />
-      case 'outdoor': return <TreeIcon className="h-5 w-5" />
+      case 'outdoor': return <TreePine className="h-5 w-5" />
       default: return <MapPinIcon className="h-5 w-5" />
     }
   }
@@ -265,7 +265,7 @@ export default function PlaceRecommendations({ cityId }: { cityId: string }) {
     { id: 'coworking', name: '💻 Co-working', icon: <MonitorIcon className="h-4 w-4" /> },
     { id: 'coliving', name: '🏠 Coliving', icon: <HomeIcon className="h-4 w-4" /> },
     { id: 'restaurant', name: '🍽 餐馆', icon: <UtensilsIcon className="h-4 w-4" /> },
-    { id: 'outdoor', name: '🌳 户外', icon: <TreeIcon className="h-4 w-4" /> }
+    { id: 'outdoor', name: '🌳 户外', icon: <TreePine className="h-4 w-4" /> }
   ]
 
   return (

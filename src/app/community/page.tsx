@@ -6,8 +6,7 @@ import {
   MessageSquare, 
   Globe,
   Calendar,
-  MapPin,
-  UserGroup
+  MapPin
 } from 'lucide-react';
 
 export default function CommunityPage() {
