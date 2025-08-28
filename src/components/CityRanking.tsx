@@ -129,7 +129,7 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
     return (
       <div className="text-center py-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="text-gray-600 mt-2">加载城市榜单...</p>
+        <p className="text-gray-600 mt-2">{t('cities.loading')}</p>
       </div>
     )
   }
@@ -163,7 +163,7 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
                   <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
                   <span className="font-bold text-gray-900">{city.avg_overall_rating}</span>
                 </div>
-                <div className="text-xs text-gray-500">({city.vote_count}票)</div>
+                <div className="text-xs text-gray-500">({city.vote_count} {t('cities.votes')})</div>
               </div>
 
               {/* Quick Vote Buttons */}
@@ -171,14 +171,14 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
                 <button
                   onClick={() => handleQuickVote(city.id, 'up')}
                   className="p-1 text-green-600 hover:text-green-700 hover:bg-green-100 rounded"
-                  title="快速点赞"
+                  title={t('cities.quickUpvote')}
                 >
                   <ThumbsUpIcon className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => handleQuickVote(city.id, 'down')}
                   className="p-1 text-red-600 hover:text-red-700 hover:bg-red-100 rounded"
-                  title="快速点踩"
+                  title={t('cities.quickDownvote')}
                 >
                   <ThumbsDownIcon className="h-4 w-4" />
                 </button>
@@ -189,7 +189,7 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
                 onClick={() => handleDetailedVote(city)}
                 className="px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
               >
-                投票/详情
+                {t('cities.voteDetails')}
               </button>
             </div>
           </div>

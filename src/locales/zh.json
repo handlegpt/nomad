@@ -204,6 +204,20 @@
     },
     "viewAll": "查看全部 {count} 个地点"
   },
+  "cities": {
+    "loading": "加载城市榜单...",
+    "votes": "票",
+    "quickUpvote": "快速点赞",
+    "quickDownvote": "快速点踩",
+    "voteDetails": "投票/详情"
+  },
+  "recommendations": {
+    "title": "AI 个性化推荐",
+    "generate": "生成推荐",
+    "generating": "生成中...",
+    "preferences": "你的偏好设置",
+    "recommendedCities": "为你推荐的城市"
+  },
   "common": {
     "learnMore": "了解更多",
     "viewDetails": "查看详情",

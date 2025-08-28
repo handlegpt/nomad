@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { SparklesIcon, MapPinIcon, StarIcon, FilterIcon } from 'lucide-react'
 import { getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface Preference {
   id: string
@@ -16,14 +17,15 @@ interface ScoredCity extends City {
 }
 
 const preferences: Preference[] = [
-  { id: 'wifi', label: 'WiFi质量', weight: 0 },
-  { id: 'cost', label: '生活成本', weight: 0 },
-  { id: 'climate', label: '气候舒适度', weight: 0 },
-  { id: 'social', label: '社交氛围', weight: 0 },
-  { id: 'visa', label: '签证便利性', weight: 0 }
+  { id: 'wifi', label: 'WiFi Quality', weight: 0 },
+  { id: 'cost', label: 'Cost of Living', weight: 0 },
+  { id: 'climate', label: 'Climate Comfort', weight: 0 },
+  { id: 'social', label: 'Social Atmosphere', weight: 0 },
+  { id: 'visa', label: 'Visa Convenience', weight: 0 }
 ]
 
 export default function PersonalizedRecommendations() {
+  const { t } = useTranslation()
   const [cities, setCities] = useState<City[]>([])
   const [userPreferences, setUserPreferences] = useState(preferences)
   const [recommendations, setRecommendations] = useState<ScoredCity[]>([])
@@ -102,14 +104,14 @@ export default function PersonalizedRecommendations() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 flex items-center">
           <SparklesIcon className="h-5 w-5 text-purple-500 mr-2" />
-          AI 个性化推荐
+          {t('recommendations.title')}
         </h2>
         <button
           onClick={generateRecommendations}
           disabled={loading}
           className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 text-sm font-medium"
         >
-          {loading ? '生成中...' : '生成推荐'}
+          {loading ? t('recommendations.generating') : t('recommendations.generate')}
         </button>
       </div>
 
@@ -117,7 +119,7 @@ export default function PersonalizedRecommendations() {
       <div className="mb-6">
         <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
           <FilterIcon className="h-4 w-4 mr-2" />
-          你的偏好设置
+          {t('recommendations.preferences')}
         </h3>
         <div className="space-y-4">
           {userPreferences.map((preference) => (
@@ -142,7 +144,7 @@ export default function PersonalizedRecommendations() {
       {/* Recommendations */}
       {recommendations.length > 0 && (
         <div>
-          <h3 className="font-semibold text-gray-900 mb-4">为你推荐的城市</h3>
+          <h3 className="font-semibold text-gray-900 mb-4">{t('recommendations.recommendedCities')}</h3>
           <div className="space-y-4">
             {recommendations.map((city, index) => (
               <div key={city.id} className="p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">

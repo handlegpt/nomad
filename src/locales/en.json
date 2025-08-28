@@ -204,6 +204,20 @@
     },
     "viewAll": "View all {count} places"
   },
+  "cities": {
+    "loading": "Loading city rankings...",
+    "votes": "votes",
+    "quickUpvote": "Quick upvote",
+    "quickDownvote": "Quick downvote",
+    "voteDetails": "Vote/Details"
+  },
+  "recommendations": {
+    "title": "AI Personalized Recommendations",
+    "generate": "Generate Recommendations",
+    "generating": "Generating...",
+    "preferences": "Your Preferences",
+    "recommendedCities": "Recommended Cities for You"
+  },
   "common": {
     "learnMore": "Learn more",
     "viewDetails": "View Details",
