@@ -107,8 +107,8 @@ export default function PlaceDetailPage() {
       if (!prev) return prev
       return {
         ...prev,
-        upvotes: voteType === 'upvote' ? prev.upvotes + 1 : prev.upvotes,
-        downvotes: voteType === 'downvote' ? prev.downvotes + 1 : prev.downvotes
+        upvotes: voteType === 'upvote' ? (prev.upvotes || 0) + 1 : (prev.upvotes || 0),
+        downvotes: voteType === 'downvote' ? (prev.downvotes || 0) + 1 : (prev.downvotes || 0)
       }
     })
   }
