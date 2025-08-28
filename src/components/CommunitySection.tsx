@@ -12,21 +12,21 @@ export default function CommunitySection() {
     {
       name: 'Digital Nomads Facebook Group',
       members: '125K+',
-      description: '全球最大的数字游民Facebook群组',
+      description: t('community.online.facebook.description'),
       url: '#',
       icon: '💬'
     },
     {
       name: 'Nomad List Community',
       members: '50K+',
-      description: '基于Nomad List的活跃社区',
+      description: t('community.online.nomadlist.description'),
       url: '#',
       icon: '🌍'
     },
     {
       name: 'Reddit r/digitalnomad',
       members: '1.2M+',
-      description: 'Reddit上的数字游民讨论区',
+      description: t('community.online.reddit.description'),
       url: '#',
       icon: '📱'
     }
@@ -36,25 +36,25 @@ export default function CommunitySection() {
     {
       name: 'Osaka Digital Nomads',
       members: '500+',
-      description: '大阪本地数字游民聚会',
+      description: t('community.local.osaka.description'),
       nextEvent: '2024-01-15',
-      location: '大阪市中心',
+      location: t('community.local.osaka.location'),
       icon: '🏯'
     },
     {
       name: 'Tokyo Remote Workers',
       members: '1.2K+',
-      description: '东京远程工作者社区',
+      description: t('community.local.tokyo.description'),
       nextEvent: '2024-01-20',
-      location: '涩谷区',
+      location: t('community.local.tokyo.location'),
       icon: '🗼'
     },
     {
       name: 'Kyoto Nomad Meetup',
       members: '300+',
-      description: '京都数字游民定期聚会',
+      description: t('community.local.kyoto.description'),
       nextEvent: '2024-01-25',
-      location: '京都站附近',
+      location: t('community.local.kyoto.location'),
       icon: '⛩️'
     }
   ]
@@ -64,7 +64,7 @@ export default function CommunitySection() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 flex items-center">
           <Users className="h-6 w-6 mr-2 text-blue-600" />
-          社区
+          {t('community.title')}
         </h2>
         <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
           <button
@@ -75,7 +75,7 @@ export default function CommunitySection() {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            在线
+            {t('community.online')}
           </button>
           <button
             onClick={() => setActiveTab('local')}
@@ -85,7 +85,7 @@ export default function CommunitySection() {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            本地
+            {t('community.local')}
           </button>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function CommunitySection() {
                     href={community.url}
                     className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                   >
-                    加入社区 →
+                    {t('community.joinCommunity')} →
                   </a>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function CommunitySection() {
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-1" />
-                      <span>下次活动: {community.nextEvent}</span>
+                      <span>{t('community.nextEvent')}: {community.nextEvent}</span>
                     </div>
                     <div className="flex items-center">
                       <MapPin className="h-4 w-4 mr-1" />
@@ -156,7 +156,7 @@ export default function CommunitySection() {
                     </div>
                   </div>
                   <button className="mt-2 text-sm text-green-600 hover:text-green-700 font-medium">
-                    参加活动 →
+                    {t('community.attendEvent')} →
                   </button>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export default function CommunitySection() {
       <div className="mt-6 pt-4 border-t border-gray-200">
         <div className="text-center">
           <button className="text-blue-600 hover:text-blue-700 font-medium">
-            发现更多社区 →
+            {t('community.discoverMore')} →
           </button>
         </div>
       </div>

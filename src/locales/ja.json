@@ -352,8 +352,39 @@
   },
 
   "community": {
-    "title": "ノマドコミュニティ",
+    "title": "コミュニティ",
     "subtitle": "ノマド仲間とつながる",
+    "online": "オンライン",
+    "local": "ローカル",
+    "joinCommunity": "コミュニティに参加",
+    "attendEvent": "イベントに参加",
+    "discoverMore": "より多くのコミュニティを発見",
+    "nextEvent": "次のイベント",
+    "online": {
+      "facebook": {
+        "description": "世界最大のデジタルノマドFacebookグループ"
+      },
+      "nomadlist": {
+        "description": "Nomad Listベースのアクティブコミュニティ"
+      },
+      "reddit": {
+        "description": "Redditのデジタルノマドディスカッションエリア"
+      }
+    },
+    "local": {
+      "osaka": {
+        "description": "大阪ローカルデジタルノマドミートアップ",
+        "location": "大阪市センター"
+      },
+      "tokyo": {
+        "description": "東京リモートワーカーコミュニティ",
+        "location": "渋谷区"
+      },
+      "kyoto": {
+        "description": "京都デジタルノマド定期的ミートアップ",
+        "location": "京都駅近く"
+      }
+    },
     "telegram": {
       "title": "Telegramグループ",
       "groups": [
@@ -449,6 +480,72 @@
         "answer": "現在、中国語、英語、スペイン語、日本語をサポートしており、より多くの言語が開発中です。"
       }
     }
+  },
+
+  "home": {
+    "currentLocation": "現在地",
+    "lastUpdated": "最終更新",
+    "localTime": "現地時間",
+    "weather": "天気",
+    "wifiSpeed": "WiFi速度",
+    "visaRemaining": "ビザ残り日数",
+    "setupVisa": "ビザ情報を設定",
+    "setupVisaTitle": "ビザ情報を設定",
+    "setupVisaDescription": "ビザの有効期限を設定して、残り日数を追跡しましょう",
+    "setupVisaButton": "ビザを設定",
+    "refreshData": "データを更新"
+  },
+
+  "cities": {
+    "loading": "都市ランキングを読み込み中...",
+    "votes": "票",
+    "quickUpvote": "クイックアップボート",
+    "quickDownvote": "クイックダウンボート",
+    "voteDetails": "投票/詳細"
+  },
+
+  "recommendations": {
+    "title": "AIパーソナライズ推奨",
+    "generate": "推奨を生成",
+    "generating": "生成中...",
+    "preferences": "あなたの設定",
+    "recommendedCities": "あなたにおすすめの都市"
+  },
+
+  "places": {
+    "title": "おすすめの場所",
+    "description": "デジタルノマドに最適な場所を発見",
+    "searchPlaceholder": "場所を検索...",
+    "addPlace": "場所を追加",
+    "categories": {
+      "all": "すべて",
+      "cafe": "☕ カフェ",
+      "coworking": "💻 コワーキング",
+      "coliving": "🏠 コリビング",
+      "restaurant": "🍽 レストラン",
+      "outdoor": "🌳 アウトドア"
+    },
+    "sortBy": {
+      "rating": "評価順",
+      "recent": "最新順",
+      "popular": "人気順"
+    },
+    "noResults": {
+      "title": "場所が見つかりません",
+      "description": "検索条件を調整するか、新しい場所を追加してください"
+    },
+    "viewAll": "{count}件の場所をすべて表示"
+  },
+
+  "navigation": {
+    "places": "場所",
+    "visaGuide": "ビザガイド",
+    "dashboard": "ダッシュボード"
+  },
+
+  "common": {
+    "viewDetails": "詳細を見る",
+    "learnMore": "詳細を見る"
   },
 
   "components": {

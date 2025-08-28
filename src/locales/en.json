@@ -171,8 +171,39 @@
     }
   },
   "community": {
-    "title": "Nomad Community",
+    "title": "Community",
     "description": "Connect with digital nomads worldwide",
+    "online": "Online",
+    "local": "Local",
+    "joinCommunity": "Join Community",
+    "attendEvent": "Attend Event",
+    "discoverMore": "Discover More Communities",
+    "nextEvent": "Next Event",
+    "online": {
+      "facebook": {
+        "description": "The world's largest digital nomad Facebook group"
+      },
+      "nomadlist": {
+        "description": "Active community based on Nomad List"
+      },
+      "reddit": {
+        "description": "Digital nomad discussion area on Reddit"
+      }
+    },
+    "local": {
+      "osaka": {
+        "description": "Osaka local digital nomad meetup",
+        "location": "Osaka City Center"
+      },
+      "tokyo": {
+        "description": "Tokyo remote worker community",
+        "location": "Shibuya District"
+      },
+      "kyoto": {
+        "description": "Kyoto digital nomad regular meetup",
+        "location": "Near Kyoto Station"
+      }
+    },
     "categories": {
       "telegram": "Telegram",
       "discord": "Discord",

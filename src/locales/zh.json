@@ -171,8 +171,39 @@
     }
   },
   "community": {
-    "title": "游民社区",
+    "title": "社区",
     "description": "与全球数字游民建立联系",
+    "online": "在线",
+    "local": "本地",
+    "joinCommunity": "加入社区",
+    "attendEvent": "参加活动",
+    "discoverMore": "发现更多社区",
+    "nextEvent": "下次活动",
+    "online": {
+      "facebook": {
+        "description": "全球最大的数字游民Facebook群组"
+      },
+      "nomadlist": {
+        "description": "基于Nomad List的活跃社区"
+      },
+      "reddit": {
+        "description": "Reddit上的数字游民讨论区"
+      }
+    },
+    "local": {
+      "osaka": {
+        "description": "大阪本地数字游民聚会",
+        "location": "大阪市中心"
+      },
+      "tokyo": {
+        "description": "东京远程工作者社区",
+        "location": "涩谷区"
+      },
+      "kyoto": {
+        "description": "京都数字游民定期聚会",
+        "location": "京都站附近"
+      }
+    },
     "categories": {
       "telegram": "Telegram",
       "discord": "Discord",
