@@ -10,8 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY package-lock.json ./
 
-# Copy environment file for build
-COPY .env ./
+# Environment variables will be passed via docker-compose
 
 # Install all dependencies (including dev dependencies for build)
 # Use npm ci for reproducible builds and better security
