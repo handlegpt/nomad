@@ -550,8 +550,14 @@
       "cafe": "☕ Café",
       "coworking": "💻 Co-working",
       "coliving": "🏠 Co-living",
+      "hostel": "🏨 Hostal",
+      "hotel": "🏢 Hotel",
       "restaurant": "🍽 Restaurante",
-      "outdoor": "🌳 Exterior"
+      "library": "📚 Biblioteca",
+      "park": "🌳 Parque",
+      "university": "🎓 Universidad",
+      "shopping": "🛍 Centro Comercial",
+      "other": "📍 Otro"
     },
     "sortBy": {
       "rating": "Mejor Calificación",

@@ -16,7 +16,11 @@ import {
   MonitorIcon,
   HomeIcon,
   UtensilsIcon,
-  TreePine
+  TreePine,
+  CoffeeIcon,
+  BookOpen,
+  GraduationCap,
+  ShoppingBag
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { getPlacesByCity, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
@@ -44,13 +48,59 @@ export default function PlacesPage() {
   const loadPlaces = async () => {
     setLoading(true)
     try {
-      const data = await getPlacesByCity(cityId || 'osaka')
-      setPlaces(data)
+      let allPlaces = []
+      
+      // 加载本地数据
+      const localPlaces = await getPlacesByCity(cityId || 'osaka')
+      allPlaces.push(...localPlaces)
+      
+      // 如果本地数据不足，加载 Google 数据
+      if (localPlaces.length < 5) {
+        try {
+          const googlePlaces = await fetchGooglePlaces(cityId || 'osaka')
+          allPlaces.push(...googlePlaces)
+        } catch (error) {
+          console.error('Error loading Google Places:', error)
+        }
+      }
+      
+      // 去重和排序
+      const uniquePlaces = removeDuplicates(allPlaces)
+      const sortedPlaces = sortPlaces(uniquePlaces)
+      
+      setPlaces(sortedPlaces)
     } catch (error) {
       console.error('Error loading places:', error)
     } finally {
       setLoading(false)
     }
+  }
+  
+  const fetchGooglePlaces = async (city: string) => {
+    const response = await fetch(`/api/places/google?city=${city}`)
+    const data = await response.json()
+    return data.places || []
+  }
+  
+  const removeDuplicates = (places: Place[]) => {
+    const seen = new Set()
+    return places.filter(place => {
+      const key = place.name + place.address
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+  }
+  
+  const sortPlaces = (places: Place[]) => {
+    return places.sort((a, b) => {
+      // 优先显示本地推荐
+      if (a.isFromGoogle && !b.isFromGoogle) return 1
+      if (!a.isFromGoogle && b.isFromGoogle) return -1
+      
+      // 然后按评分排序
+      return (b.rating || 0) - (a.rating || 0)
+    })
   }
 
   const handleAddPlace = async (placeData: any) => {
@@ -86,11 +136,17 @@ export default function PlacesPage() {
 
   const categories = [
     { id: 'all', name: t('places.categories.all'), icon: <MapPinIcon className="h-4 w-4" /> },
-    { id: 'cafe', name: t('places.categories.cafe'), icon: <MapPinIcon className="h-4 w-4" /> },
+    { id: 'cafe', name: t('places.categories.cafe'), icon: <CoffeeIcon className="h-4 w-4" /> },
     { id: 'coworking', name: t('places.categories.coworking'), icon: <MonitorIcon className="h-4 w-4" /> },
     { id: 'coliving', name: t('places.categories.coliving'), icon: <HomeIcon className="h-4 w-4" /> },
+    { id: 'hostel', name: t('places.categories.hostel'), icon: <HomeIcon className="h-4 w-4" /> },
+    { id: 'hotel', name: t('places.categories.hotel'), icon: <HomeIcon className="h-4 w-4" /> },
     { id: 'restaurant', name: t('places.categories.restaurant'), icon: <UtensilsIcon className="h-4 w-4" /> },
-    { id: 'outdoor', name: t('places.categories.outdoor'), icon: <TreePine className="h-4 w-4" /> }
+    { id: 'library', name: t('places.categories.library'), icon: <BookOpen className="h-4 w-4" /> },
+    { id: 'park', name: t('places.categories.park'), icon: <TreePine className="h-4 w-4" /> },
+    { id: 'university', name: t('places.categories.university'), icon: <GraduationCap className="h-4 w-4" /> },
+    { id: 'shopping', name: t('places.categories.shopping'), icon: <ShoppingBag className="h-4 w-4" /> },
+    { id: 'other', name: t('places.categories.other'), icon: <MapPinIcon className="h-4 w-4" /> }
   ]
 
   const sortOptions = [

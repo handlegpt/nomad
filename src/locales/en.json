@@ -309,8 +309,13 @@
       "cafe": "☕ Cafe",
       "coworking": "💻 Co-working",
       "coliving": "🏠 Coliving",
+      "hostel": "🏨 Hostel",
+      "hotel": "🏢 Hotel",
       "restaurant": "🍽 Restaurant",
-      "outdoor": "🌳 Outdoor",
+      "library": "📚 Library",
+      "park": "🌳 Park",
+      "university": "🎓 University",
+      "shopping": "🛍 Shopping Center",
       "other": "📍 Other"
     },
     "sortBy": {

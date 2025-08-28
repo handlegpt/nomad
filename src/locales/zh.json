@@ -235,8 +235,14 @@
       "cafe": "☕ 咖啡馆",
       "coworking": "💻 Co-working",
       "coliving": "🏠 Coliving",
+      "hostel": "🏨 青年旅社",
+      "hotel": "🏢 酒店",
       "restaurant": "🍽 餐馆",
-      "outdoor": "🌳 户外"
+      "library": "📚 图书馆",
+      "park": "🌳 公园",
+      "university": "🎓 大学",
+      "shopping": "🛍 购物中心",
+      "other": "📍 其他"
     },
     "sortBy": {
       "rating": "评分最高",
