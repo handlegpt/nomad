@@ -53,7 +53,8 @@ export function useTranslation() {
     setLoading(true)
     try {
       console.log('🔍 Loading translations for locale:', newLocale)
-      const trans = await import(`@/locales/${newLocale}.json`)
+      // Add cache busting parameter to force reload
+      const trans = await import(`@/locales/${newLocale}.json?v=${Date.now()}`)
       console.log('✅ Translations loaded:', trans.default)
       setTranslations(trans.default)
     } catch (error) {
