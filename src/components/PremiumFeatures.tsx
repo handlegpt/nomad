@@ -85,14 +85,11 @@ export default function PremiumFeatures() {
       {/* Pricing */}
       <div className="text-center mb-6">
         <div className="flex items-center justify-center space-x-2 mb-2">
-          <span className="text-3xl font-bold text-gray-900">¥{currentPlan.price}</span>
-          <span className="text-gray-600">/{currentPlan.period}</span>
+          <span className="text-3xl font-bold text-gray-900">{t('premiumFeatures.comingSoon')}</span>
         </div>
-        {currentPlan.savings && (
-          <span className="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full font-medium">
-            {currentPlan.savings}
-          </span>
-        )}
+        <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full font-medium">
+          🚀 {t('premiumFeatures.comingSoon')}
+        </span>
       </div>
 
       {/* Features */}
@@ -114,15 +111,15 @@ export default function PremiumFeatures() {
       </div>
 
       {/* CTA Button */}
-      <button className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 px-6 rounded-xl font-medium hover:from-yellow-500 hover:to-orange-600 transition-all duration-200 flex items-center justify-center">
+      <button className="w-full bg-gradient-to-r from-blue-400 to-blue-600 text-white py-3 px-6 rounded-xl font-medium hover:from-blue-500 hover:to-blue-700 transition-all duration-200 flex items-center justify-center">
         <Crown className="h-5 w-5 mr-2" />
-        {t('premiumFeatures.upgrade')}
+        {t('premiumFeatures.comingSoon')}
       </button>
 
       {/* Additional Info */}
       <div className="mt-4 text-center">
         <p className="text-xs text-gray-500">
-          {t('premiumFeatures.trial')}
+          {t('premiumFeatures.comingSoonDesc')}
         </p>
       </div>
     </div>

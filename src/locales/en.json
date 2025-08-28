@@ -406,7 +406,9 @@
     "dataAnalysis": "Advanced Data Analysis",
     "dataAnalysisDesc": "Detailed cost and quality of life analysis",
     "upgrade": "Upgrade to Premium",
-    "trial": "7-day free trial • Cancel anytime • No hidden fees"
+    "trial": "7-day free trial • Cancel anytime • No hidden fees",
+    "comingSoon": "Coming Soon",
+    "comingSoonDesc": "Stay tuned for more exciting features"
   },
 
   "cityComparison": {

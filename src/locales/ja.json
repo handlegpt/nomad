@@ -634,7 +634,9 @@
     "dataAnalysis": "高度なデータ分析",
     "dataAnalysisDesc": "詳細なコストと生活の質の分析",
     "upgrade": "プレミアムにアップグレード",
-    "trial": "7日間無料トライアル • いつでもキャンセル可能 • 隠れた料金なし"
+    "trial": "7日間無料トライアル • いつでもキャンセル可能 • 隠れた料金なし",
+    "comingSoon": "近日公開",
+    "comingSoonDesc": "より多くのエキサイティングな機能をお楽しみに"
   },
 
   "cityComparison": {

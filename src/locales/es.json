@@ -592,7 +592,9 @@
     "dataAnalysis": "Análisis de Datos Avanzado",
     "dataAnalysisDesc": "Análisis detallado de costo y calidad de vida",
     "upgrade": "Actualizar a Premium",
-    "trial": "Prueba gratuita de 7 días • Cancela en cualquier momento • Sin cargos ocultos"
+    "trial": "Prueba gratuita de 7 días • Cancela en cualquier momento • Sin cargos ocultos",
+    "comingSoon": "Próximamente",
+    "comingSoonDesc": "Mantente atento para más funciones emocionantes"
   },
 
   "cityComparison": {
