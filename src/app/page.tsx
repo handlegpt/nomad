@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
 import TestNavigation from '@/components/TestNavigation'
 import SimpleTest from '@/components/SimpleTest'
+import LinkTest from '@/components/LinkTest'
 import CurrentLocationCard from '@/components/CurrentLocationCard'
 import CityRanking from '@/components/CityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
@@ -38,6 +39,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <TestNavigation />
       <SimpleTest />
+      <LinkTest />
       {/* Header */}
       <Header />
 

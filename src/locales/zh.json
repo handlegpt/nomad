@@ -585,8 +585,10 @@
     "cityComparison": {
       "title": "城市对比",
       "selectCities": "选择2-4个城市进行对比",
+      "select2To4Cities": "选择2-4个城市进行对比",
       "startComparison": "开始对比",
       "addCity": "添加城市",
+      "addCityButton": "添加城市",
       "exportPDF": "导出PDF",
       "metrics": {
         "wifi": "WiFi速度",
