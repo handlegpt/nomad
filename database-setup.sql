@@ -1,7 +1,7 @@
 -- NOMAD.NOW Database Setup
--- 运行此SQL文件来创建必要的数据库表
+-- Run this SQL file to create the necessary database tables
 
--- 1. 创建cities表
+-- 1. Create cities table
 CREATE TABLE IF NOT EXISTS public.cities (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS public.cities (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 2. 创建places表
+-- 2. Create places table
 CREATE TABLE IF NOT EXISTS public.places (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS public.places (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 3. 创建users表
+-- 3. Create users table
 CREATE TABLE IF NOT EXISTS public.users (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS public.users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 4. 创建verification_codes表
+-- 4. Create verification_codes table
 CREATE TABLE IF NOT EXISTS public.verification_codes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS public.verification_codes (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 5. 创建user_visas表
+-- 5. Create user_visas table
 CREATE TABLE IF NOT EXISTS public.user_visas (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS public.user_visas (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 6. 创建user_favorites表
+-- 6. Create user_favorites table
 CREATE TABLE IF NOT EXISTS public.user_favorites (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS public.user_favorites (
     UNIQUE(user_id, city_id)
 );
 
--- 7. 创建votes表
+-- 7. Create votes table
 CREATE TABLE IF NOT EXISTS public.votes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS public.votes (
     UNIQUE(user_id, city_id)
 );
 
--- 8. 创建place_votes表
+-- 8. Create place_votes table
 CREATE TABLE IF NOT EXISTS public.place_votes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS public.place_votes (
     UNIQUE(user_id, place_id)
 );
 
--- 9. 创建place_reviews表
+-- 9. Create place_reviews table
 CREATE TABLE IF NOT EXISTS public.place_reviews (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS public.place_reviews (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 10. 插入示例城市数据
+-- 10. Insert sample city data
 INSERT INTO public.cities (name, country, country_code, timezone, latitude, longitude, visa_days, visa_type, cost_of_living, wifi_speed) VALUES
 ('Lisbon', 'Portugal', 'PT', 'Europe/Lisbon', 38.7223, -9.1393, 365, 'Digital Nomad Visa', 2000, 100),
 ('Chiang Mai', 'Thailand', 'TH', 'Asia/Bangkok', 18.7883, 98.9853, 60, 'Tourist Visa', 1200, 50),
@@ -156,7 +156,7 @@ INSERT INTO public.cities (name, country, country_code, timezone, latitude, long
 ('Mexico City', 'Mexico', 'MX', 'America/Mexico_City', 19.4326, -99.1332, 180, 'Tourist Visa', 1800, 50)
 ON CONFLICT (name, country) DO NOTHING;
 
--- 11. 创建索引以提高查询性能
+-- 11. Create indexes to improve query performance
 CREATE INDEX IF NOT EXISTS idx_cities_country ON public.cities(country);
 CREATE INDEX IF NOT EXISTS idx_cities_timezone ON public.cities(timezone);
 CREATE INDEX IF NOT EXISTS idx_places_city_id ON public.places(city_id);
@@ -168,7 +168,7 @@ CREATE INDEX IF NOT EXISTS idx_user_favorites_user_id ON public.user_favorites(u
 CREATE INDEX IF NOT EXISTS idx_votes_user_id ON public.votes(user_id);
 CREATE INDEX IF NOT EXISTS idx_votes_city_id ON public.votes(city_id);
 
--- 12. 启用Row Level Security (RLS)
+-- 12. Enable Row Level Security (RLS)
 ALTER TABLE public.cities ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.places ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
@@ -179,36 +179,36 @@ ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.place_votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.place_reviews ENABLE ROW LEVEL SECURITY;
 
--- 13. 创建RLS策略
--- 允许所有人读取cities和places
+-- 13. Create RLS policies
+-- Allow public read access to cities and places
 CREATE POLICY "Allow public read access to cities" ON public.cities FOR SELECT USING (true);
 CREATE POLICY "Allow public read access to places" ON public.places FOR SELECT USING (true);
 
--- 允许所有人创建verification_codes
+-- Allow public access to verification_codes
 CREATE POLICY "Allow public insert to verification_codes" ON public.verification_codes FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public select from verification_codes" ON public.verification_codes FOR SELECT USING (true);
 CREATE POLICY "Allow public update verification_codes" ON public.verification_codes FOR UPDATE USING (true);
 CREATE POLICY "Allow public delete from verification_codes" ON public.verification_codes FOR DELETE USING (true);
 
--- 允许所有人创建和读取votes
+-- Allow public access to votes
 CREATE POLICY "Allow public insert to votes" ON public.votes FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public select from votes" ON public.votes FOR SELECT USING (true);
 CREATE POLICY "Allow public update votes" ON public.votes FOR UPDATE USING (true);
 CREATE POLICY "Allow public delete from votes" ON public.votes FOR DELETE USING (true);
 
--- 允许所有人创建和读取place_votes
+-- Allow public access to place_votes
 CREATE POLICY "Allow public insert to place_votes" ON public.place_votes FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public select from place_votes" ON public.place_votes FOR SELECT USING (true);
 CREATE POLICY "Allow public update place_votes" ON public.place_votes FOR UPDATE USING (true);
 CREATE POLICY "Allow public delete from place_votes" ON public.place_votes FOR DELETE USING (true);
 
--- 允许所有人创建和读取place_reviews
+-- Allow public access to place_reviews
 CREATE POLICY "Allow public insert to place_reviews" ON public.place_reviews FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public select from place_reviews" ON public.place_reviews FOR SELECT USING (true);
 CREATE POLICY "Allow public update place_reviews" ON public.place_reviews FOR UPDATE USING (true);
 CREATE POLICY "Allow public delete from place_reviews" ON public.place_reviews FOR DELETE USING (true);
 
--- 用户相关表的策略（需要认证）
+-- User-related table policies (require authentication)
 CREATE POLICY "Users can view own profile" ON public.users FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "Users can update own profile" ON public.users FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Users can insert own profile" ON public.users FOR INSERT WITH CHECK (auth.uid() = id);
@@ -222,7 +222,7 @@ CREATE POLICY "Users can view own favorites" ON public.user_favorites FOR SELECT
 CREATE POLICY "Users can insert own favorites" ON public.user_favorites FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can delete own favorites" ON public.user_favorites FOR DELETE USING (auth.uid() = user_id);
 
--- 14. 创建函数来更新updated_at时间戳
+-- 14. Create function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -231,12 +231,12 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- 15. 创建触发器
+-- 15. Create triggers
 CREATE TRIGGER update_cities_updated_at BEFORE UPDATE ON public.cities FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_places_updated_at BEFORE UPDATE ON public.places FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON public.users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_user_visas_updated_at BEFORE UPDATE ON public.user_visas FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_place_reviews_updated_at BEFORE UPDATE ON public.place_reviews FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- 完成！
+-- Complete!
 SELECT 'Database setup completed successfully!' as status;
