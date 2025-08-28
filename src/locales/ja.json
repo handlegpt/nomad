@@ -20,6 +20,26 @@
     "title": "デジタルノマド情報ハブ",
     "subtitle": "デジタルノマドの包括的ガイド",
     "description": "ビザ情報、税金ガイダンス、必須ツールを見つけ、グローバルノマドコミュニティとつながりましょう。",
+    "currentLocation": "現在地",
+    "lastUpdated": "最終更新",
+    "refreshData": "データ更新",
+    "localTime": "現地時間",
+    "weather": "天気",
+    "wifiSpeed": "WiFi速度",
+    "visaRemaining": "ビザ残り日数",
+    "setupVisa": "ビザ設定",
+    "setupVisaTitle": "ビザ情報を設定",
+    "setupVisaDescription": "ビザの有効期限を設定して残り日数を追跡",
+    "setupVisaButton": "ビザを設定",
+    "quickVote": {
+      "title": "投票に参加",
+      "description": "体験に基づいて都市を評価",
+      "currentCity": "現在の都市を評価",
+      "like": "いいね",
+      "dislike": "いや",
+      "rateExperience": "体験を評価",
+      "ratingHint": "クリックして全体的な体験を評価"
+    },
     "exploreTools": "ツールを探索",
     "browseCities": "都市を閲覧",
     "features": {
@@ -164,6 +184,12 @@
   "cities": {
     "title": "ノマド都市",
     "subtitle": "デジタルノマドの人気目的地",
+    "loading": "都市ランキングを読み込み中...",
+    "votes": "票",
+    "quickUpvote": "クイックアップボート",
+    "quickDownvote": "クイックダウンボート",
+    "voteDetails": "投票/詳細",
+    "votingComingSoon": "投票機能が近日公開予定！",
     "barcelona": {
       "name": "バルセロナ、スペイン",
       "country": "スペイン",
@@ -399,6 +425,20 @@
         "location": "京都駅近く"
       }
     },
+    "local": {
+      "osaka": {
+        "description": "大阪ローカルデジタルノマドミートアップ",
+        "location": "大阪市センター"
+      },
+      "tokyo": {
+        "description": "東京リモートワーカーコミュニティ",
+        "location": "渋谷区"
+      },
+      "kyoto": {
+        "description": "京都デジタルノマド定期的ミートアップ",
+        "location": "京都駅近く"
+      }
+    },
     "telegram": {
       "title": "Telegramグループ",
       "groups": [
@@ -502,6 +542,14 @@
   "setup": {
     "settingsSaved": "設定が保存されました！"
   },
+  "meetup": {
+    "title": "この街に誰がいますか？",
+    "createMeetup": "ミートアップを作成",
+    "onlineNomads": "オンラインノマド",
+    "available": "利用可能",
+    "coffeeMeetup": "コーヒーミートアップ",
+    "busy": "忙しい"
+  },
   "voteModal": {
     "pleaseProvideRating": "少なくとも総合評価を入力してください",
     "submitFailed": "投票の送信に失敗しました。もう一度お試しください",
@@ -542,14 +590,7 @@
     "refreshData": "データを更新"
   },
 
-  "cities": {
-    "loading": "都市ランキングを読み込み中...",
-    "votes": "票",
-    "quickUpvote": "クイックアップボート",
-    "quickDownvote": "クイックダウンボート",
-    "voteDetails": "投票/詳細",
-    "votingComingSoon": "投票機能は近日公開予定です！"
-  },
+
 
   "recommendations": {
     "title": "AIパーソナライズ推奨",
@@ -604,28 +645,14 @@
     "startComparison": "比較を開始"
   },
 
-  "cities": {
-    "tokyo": "東京",
-    "osaka": "大阪",
-    "bangkok": "バンコク",
-    "chiangMai": "チェンマイ",
-    "bali": "バリ",
-    "lisbon": "リスボン",
-    "barcelona": "バルセロナ",
-    "mexicoCity": "メキシコシティ",
-    "japan": "日本",
-    "thailand": "タイ",
-    "indonesia": "インドネシア",
-    "portugal": "ポルトガル",
-    "spain": "スペイン",
-    "mexico": "メキシコ"
-  },
+
 
   "places": {
     "title": "おすすめの場所",
     "description": "デジタルノマドに最適な場所を発見",
     "searchPlaceholder": "場所を検索...",
     "addPlace": "場所を追加",
+    "quickBrowse": "クイックブラウズ",
     "categories": {
       "all": "すべて",
       "cafe": "☕ カフェ",
