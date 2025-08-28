@@ -137,6 +137,9 @@ export default function HomePage() {
           {/* Personalized Recommendations */}
           <PersonalizedRecommendations />
 
+          {/* City Comparison Tool */}
+          <CityComparison />
+
           {/* Nomad Meetup */}
           <NomadMeetup />
 
