@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Locale } from '@/i18n/config'
-import { t, getCurrentLocale, setLocale } from '@/i18n/utils'
+import { getCurrentLocale, setLocale } from '@/i18n/utils'
 
 export function useTranslation() {
   const [locale, setCurrentLocale] = useState<Locale>('en')
@@ -14,6 +14,40 @@ export function useTranslation() {
     setCurrentLocale(currentLocale)
     loadTranslations(currentLocale)
   }, [])
+
+  // Listen for URL changes
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const newLocale = getCurrentLocale()
+      if (newLocale !== locale) {
+        setCurrentLocale(newLocale)
+        loadTranslations(newLocale)
+      }
+    }
+
+    // Listen for popstate events (back/forward buttons)
+    window.addEventListener('popstate', handleUrlChange)
+    
+    // Listen for URL changes
+    const originalPushState = window.history.pushState
+    const originalReplaceState = window.history.replaceState
+    
+    window.history.pushState = function(...args) {
+      originalPushState.apply(window.history, args)
+      handleUrlChange()
+    }
+    
+    window.history.replaceState = function(...args) {
+      originalReplaceState.apply(window.history, args)
+      handleUrlChange()
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange)
+      window.history.pushState = originalPushState
+      window.history.replaceState = originalReplaceState
+    }
+  }, [locale])
 
   const loadTranslations = async (newLocale: Locale) => {
     setLoading(true)

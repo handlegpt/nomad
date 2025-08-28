@@ -1,16 +1,18 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { GlobeIcon, ChevronDownIcon } from 'lucide-react'
+import { Globe, ChevronDown } from 'lucide-react'
 import { Locale, locales, localeNames, localeFlags } from '@/i18n/config'
 import { getCurrentLocale, setLocale } from '@/i18n/utils'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface LanguageSwitcherProps {
   onLanguageChange?: (locale: Locale) => void
 }
 
 export default function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherProps) {
-  const [currentLocale, setCurrentLocale] = useState<Locale>('zh')
+  const { changeLocale } = useTranslation()
+  const [currentLocale, setCurrentLocale] = useState<Locale>('en')
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -18,14 +20,12 @@ export default function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherP
     setCurrentLocale(locale)
   }, [])
 
-  const handleLanguageChange = (locale: Locale) => {
+  const handleLanguageChange = async (locale: Locale) => {
     setCurrentLocale(locale)
     setLocale(locale)
+    await changeLocale(locale)
     setIsOpen(false)
     onLanguageChange?.(locale)
-    
-    // 刷新页面以应用新语言
-    window.location.reload()
   }
 
   return (
@@ -34,11 +34,11 @@ export default function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherP
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
       >
-        <GlobeIcon className="h-4 w-4" />
+        <Globe className="h-4 w-4" />
         <span className="text-sm font-medium">
           {localeFlags[currentLocale]} {localeNames[currentLocale]}
         </span>
-        <ChevronDownIcon className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
@@ -61,7 +61,7 @@ export default function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherP
         </div>
       )}
 
-      {/* 点击外部关闭 */}
+      {/* Click outside to close */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40"

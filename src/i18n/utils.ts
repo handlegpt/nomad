@@ -1,90 +1,53 @@
-import { Locale } from './config'
+import { Locale, defaultLocale } from './config'
 
-// 加载翻译文件
-const loadTranslations = async (locale: Locale) => {
-  try {
-    const translations = await import(`./translations/${locale}.json`)
-    return translations.default
-  } catch (error) {
-    console.error(`Failed to load translations for locale: ${locale}`, error)
-    // 回退到默认语言
-    const fallback = await import('./translations/zh.json')
-    return fallback.default
+const LOCALE_KEY = 'nomad-locale'
+
+export function getCurrentLocale(): Locale {
+  if (typeof window === 'undefined') {
+    return defaultLocale
   }
+
+  // First try to get from URL parameter
+  const urlParams = new URLSearchParams(window.location.search)
+  const urlLocale = urlParams.get('lang') as Locale
+  
+  if (urlLocale && ['en', 'zh', 'es', 'ja'].includes(urlLocale)) {
+    return urlLocale
+  }
+
+  // Then try to get from localStorage
+  const storedLocale = localStorage.getItem(LOCALE_KEY) as Locale
+  if (storedLocale && ['en', 'zh', 'es', 'ja'].includes(storedLocale)) {
+    return storedLocale
+  }
+
+  // Finally, try to get from browser language
+  const browserLang = navigator.language.split('-')[0]
+  if (browserLang === 'zh' || browserLang === 'es' || browserLang === 'ja') {
+    return browserLang as Locale
+  }
+
+  return defaultLocale
 }
 
-// 翻译函数
-export const t = (key: string, locale: Locale, params?: Record<string, string>) => {
-  return new Promise<string>(async (resolve) => {
-    try {
-      const translations = await loadTranslations(locale)
-      let value = key.split('.').reduce((obj, k) => obj?.[k], translations) || key
-      
-      // 替换参数
-      if (params) {
-        Object.entries(params).forEach(([param, replacement]) => {
-          value = value.replace(new RegExp(`{${param}}`, 'g'), replacement)
-        })
-      }
-      
-      resolve(value)
-    } catch (error) {
-      console.error('Translation error:', error)
-      resolve(key)
-    }
-  })
+export function setLocale(locale: Locale): void {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  // Save to localStorage
+  localStorage.setItem(LOCALE_KEY, locale)
+
+  // Update URL parameter
+  const url = new URL(window.location.href)
+  url.searchParams.set('lang', locale)
+  
+  // Update URL without reloading the page
+  window.history.replaceState({}, '', url.toString())
 }
 
-// 获取当前语言
-export const getCurrentLocale = (): Locale => {
-  if (typeof window === 'undefined') return 'zh'
-  
-  const saved = localStorage.getItem('nomad-locale') as Locale
-  if (saved && ['zh', 'es', 'ja'].includes(saved)) {
-    return saved
-  }
-  
-  // 从浏览器语言检测
-  const browserLang = navigator.language.toLowerCase()
-  if (browserLang.startsWith('zh')) return 'zh'
-  if (browserLang.startsWith('es')) return 'es'
-  if (browserLang.startsWith('ja')) return 'ja'
-  
-  return 'zh'
-}
-
-// 设置语言
-export const setLocale = (locale: Locale) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('nomad-locale', locale)
-  }
-}
-
-// 格式化日期
-export const formatDate = (date: string | Date, locale: Locale) => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }
-  
-  const localeMap = {
-    zh: 'zh-CN',
-    es: 'es-ES',
-    ja: 'ja-JP'
-  }
-  
-  return dateObj.toLocaleDateString(localeMap[locale], options)
-}
-
-// 格式化数字
-export const formatNumber = (num: number, locale: Locale) => {
-  const localeMap = {
-    zh: 'zh-CN',
-    es: 'es-ES',
-    ja: 'ja-JP'
-  }
-  
-  return num.toLocaleString(localeMap[locale])
+export function t(key: string, params?: Record<string, string>): string {
+  // This function is kept for backward compatibility
+  // The actual translation logic is now in the useTranslation hook
+  return key
 }

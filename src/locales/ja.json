@@ -16,8 +16,40 @@
     "community": "コミュニティ"
   },
 
+  "home": {
+    "title": "デジタルノマド情報ハブ",
+    "subtitle": "デジタルノマドの包括的ガイド",
+    "description": "ビザ情報、税金ガイダンス、必須ツールを見つけ、グローバルノマドコミュニティとつながりましょう。",
+    "exploreTools": "ツールを探索",
+    "browseCities": "都市を閲覧",
+    "features": {
+      "title": "必要なすべて",
+      "subtitle": "デジタルノマドの旅のための包括的リソース",
+      "essentialTools": {
+        "title": "必須ツール",
+        "description": "デジタル銀行、保険、リモートワークプラットフォーム"
+      },
+      "nomadCities": {
+        "title": "ノマド都市",
+        "description": "ビザとコスト情報のある人気目的地"
+      },
+      "taxGuidance": {
+        "title": "税金ガイダンス",
+        "description": "183日ルールと二重課税条約"
+      },
+      "guides": {
+        "title": "ガイドとリソース",
+        "description": "ビザ申請、引っ越しチェックリスト、ヒント"
+      },
+      "community": {
+        "title": "コミュニティ",
+        "description": "世界中のデジタルノマド仲間とつながる"
+      }
+    }
+  },
+
   "tools": {
-    "title": "必須ツール",
+    "title": "ノマドの必須ツール",
     "subtitle": "デジタルノマドのツールとサービス",
     "banking": {
       "title": "銀行サービス",
@@ -348,6 +380,113 @@
         "メキシコシティデジタルノマド",
         "バルセロナデジタルノマド"
       ]
+    }
+  },
+
+  "about": {
+    "title": "NOMAD.NOWについて",
+    "subtitle": "デジタルノマドのための最も重要な情報ツール - 時間、場所、意思決定支援",
+    "mission": {
+      "title": "私たちの使命",
+      "description": "デジタルノマドの生活をよりシンプルで、効率的で、楽しくする"
+    },
+    "features": {
+      "title": "主要機能",
+      "globalInfo": {
+        "title": "グローバル情報",
+        "description": "リアルタイムの時間、天気、WiFi速度などの重要な情報"
+      },
+      "communityDriven": {
+        "title": "コミュニティ主導",
+        "description": "ユーザーの投票と推奨に基づく都市ランキング"
+      },
+      "lifeExperience": {
+        "title": "生活体験",
+        "description": "データツールから生活体験コミュニティへのアップグレード"
+      }
+    },
+    "team": {
+      "title": "チーム",
+      "description": "NOMAD.NOWは、このコミュニティのニーズと課題を理解する旅行好きのデジタルノマドのグループによって作成されています"
+    }
+  },
+
+  "contact": {
+    "title": "お問い合わせ",
+    "subtitle": "ご質問、ご提案、またはパートナーシップのご関心がございますか？お聞かせください",
+    "form": {
+      "title": "メッセージを送信",
+      "name": "お名前",
+      "email": "メールアドレス",
+      "subject": "件名",
+      "message": "メッセージ",
+      "send": "メッセージを送信",
+      "sending": "送信中..."
+    },
+    "info": {
+      "title": "連絡先情報",
+      "email": "メールアドレス",
+      "website": "ウェブサイト"
+    },
+    "responseTime": {
+      "title": "返信時間",
+      "general": "一般的なお問い合わせ",
+      "technical": "技術的な問題",
+      "partnership": "パートナーシップ"
+    },
+    "faq": {
+      "title": "よくある質問",
+      "addCity": {
+        "question": "新しい都市を追加するには？",
+        "answer": "既存の都市に投票するか、新しい都市を追加するためにご連絡ください。"
+      },
+      "reportBug": {
+        "question": "エラーを報告するには？",
+        "answer": "お問い合わせフォームを使用し、件名として「バグ報告」を選択してください。"
+      },
+      "languages": {
+        "question": "どの言語がサポートされていますか？",
+        "answer": "現在、中国語、英語、スペイン語、日本語をサポートしており、より多くの言語が開発中です。"
+      }
+    }
+  },
+
+  "components": {
+    "notificationSystem": {
+      "title": "通知",
+      "markAsRead": "既読にする",
+      "markAllAsRead": "すべて既読にする",
+      "noNotifications": "通知はありません"
+    },
+    "communitySection": {
+      "title": "コミュニティ",
+      "online": "オンライン",
+      "local": "ローカル",
+      "joinCommunity": "コミュニティに参加",
+      "attendEvent": "イベントに参加",
+      "discoverMore": "より多くのコミュニティを発見"
+    },
+    "premiumFeatures": {
+      "title": "プレミアム機能",
+      "subtitle": "デジタルノマドの体験を向上させるより多くの専門機能をアンロック",
+      "monthly": "月額",
+      "yearly": "年額",
+      "upgrade": "プレミアムにアップグレード",
+      "trial": "7日間無料トライアル • いつでもキャンセル可能 • 隠れた料金なし"
+    },
+    "cityComparison": {
+      "title": "都市比較",
+      "selectCities": "比較する2-4都市を選択",
+      "startComparison": "比較を開始",
+      "addCity": "都市を追加",
+      "exportPDF": "PDFをエクスポート",
+      "metrics": {
+        "wifi": "WiFi速度",
+        "cost": "生活費",
+        "visa": "ビザの利便性",
+        "climate": "気候の快適さ",
+        "social": "社会的雰囲気"
+      }
     }
   }
 } 
