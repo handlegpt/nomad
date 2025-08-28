@@ -10,7 +10,7 @@ if (typeof window !== 'undefined') {
   if (supabaseUrl && supabaseAnonKey) {
     supabase = createClient(supabaseUrl, supabaseAnonKey)
   } else {
-    console.warn('Supabase environment variables are not configured')
+    console.warn('Supabase environment variables are not configured - using mock data')
   }
 }
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
+import Link from 'next/link'
 import { MapPinIcon, WifiIcon, DollarSignIcon, CalendarIcon, StarIcon, UsersIcon, CloudIcon } from 'lucide-react'
 import { getCityById, submitVote } from '@/lib/api'
 import { City } from '@/lib/supabase'
@@ -184,6 +185,85 @@ export default function CityDetailPage() {
                 </p>
               </div>
             </div>
+
+            {/* Recommended Places */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900">推荐地点</h2>
+                <Link href={`/places?cityId=${city.id}`} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  查看全部 →
+                </Link>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Top Places */}
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-gray-900 text-sm">☕ 热门咖啡馆</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-sm">Blue Bottle Coffee</p>
+                        <p className="text-xs text-gray-600">WiFi: 100Mbps • 安静</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center space-x-1">
+                          <StarIcon className="h-3 w-3 text-yellow-400 fill-current" />
+                          <span className="text-xs font-medium">4.8</span>
+                        </div>
+                        <p className="text-xs text-gray-500">$$</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-sm">Starbucks Reserve</p>
+                        <p className="text-xs text-gray-600">WiFi: 80Mbps • 适中</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center space-x-1">
+                          <StarIcon className="h-3 w-3 text-yellow-400 fill-current" />
+                          <span className="text-xs font-medium">4.5</span>
+                        </div>
+                        <p className="text-xs text-gray-500">$$</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-gray-900 text-sm">💻 Co-working空间</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-sm">WeWork Osaka</p>
+                        <p className="text-xs text-gray-600">WiFi: 500Mbps • 专业</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center space-x-1">
+                          <StarIcon className="h-3 w-3 text-yellow-400 fill-current" />
+                          <span className="text-xs font-medium">4.7</span>
+                        </div>
+                        <p className="text-xs text-gray-500">$$$</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-sm">Regus Business Center</p>
+                        <p className="text-xs text-gray-600">WiFi: 300Mbps • 安静</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center space-x-1">
+                          <StarIcon className="h-3 w-3 text-yellow-400 fill-current" />
+                          <span className="text-xs font-medium">4.3</span>
+                        </div>
+                        <p className="text-xs text-gray-500">$$$</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Column - Sidebar */}
@@ -201,6 +281,69 @@ export default function CityDetailPage() {
                 <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
                   寻找Co-working空间
                 </button>
+              </div>
+            </div>
+
+            {/* Recommended Services */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <h3 className="font-semibold text-gray-900 mb-4">推荐服务</h3>
+              <div className="space-y-4">
+                {/* Insurance */}
+                <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <span className="text-blue-600 text-lg">🛡️</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">旅行保险</p>
+                        <p className="text-sm text-gray-600">SafetyWing - 数字游民专用</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-green-600">$42/月</p>
+                      <p className="text-xs text-gray-500">全球覆盖</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Visa Services */}
+                <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <span className="text-green-600 text-lg">📋</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">签证服务</p>
+                        <p className="text-sm text-gray-600">iVisa - 专业签证申请</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-green-600">从$25</p>
+                      <p className="text-xs text-gray-500">快速处理</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Co-working Spaces */}
+                <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <span className="text-purple-600 text-lg">💻</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Co-working空间</p>
+                        <p className="text-sm text-gray-600">WeWork - 全球网络</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-green-600">从$200/月</p>
+                      <p className="text-xs text-gray-500">灵活会员</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

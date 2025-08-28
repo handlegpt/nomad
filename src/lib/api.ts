@@ -51,8 +51,40 @@ export async function getWeather(lat: number, lon: number) {
 // City related APIs
 export async function getCities(): Promise<City[]> {
   if (!supabase) {
-    console.warn('Supabase client not available')
-    return []
+    console.warn('Supabase client not available - returning mock data')
+    // Return mock data when Supabase is not available
+    return [
+      {
+        id: '1',
+        name: 'Lisbon',
+        country: 'Portugal',
+        country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 38.7223,
+        longitude: -9.1393,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 2000,
+        wifi_speed: 100,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '2',
+        name: 'Chiang Mai',
+        country: 'Thailand',
+        country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 18.7883,
+        longitude: 98.9853,
+        visa_days: 60,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      }
+    ]
   }
   
   try {
@@ -71,8 +103,40 @@ export async function getCities(): Promise<City[]> {
 
 export async function getTopCities(limit: number = 10): Promise<City[]> {
   if (!supabase) {
-    console.warn('Supabase client not available')
-    return []
+    console.warn('Supabase client not available - returning mock data')
+    // Return mock data when Supabase is not available
+    return [
+      {
+        id: '1',
+        name: 'Lisbon',
+        country: 'Portugal',
+        country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 38.7223,
+        longitude: -9.1393,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 2000,
+        wifi_speed: 100,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '2',
+        name: 'Chiang Mai',
+        country: 'Thailand',
+        country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 18.7883,
+        longitude: 98.9853,
+        visa_days: 60,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      }
+    ].slice(0, limit)
   }
   
   try {
@@ -289,6 +353,20 @@ export async function searchPlaces(query: string, cityId?: string): Promise<Plac
 // Utility functions
 export async function getCurrentLocation(): Promise<{ lat: number; lon: number; city: string; country: string } | null> {
   return new Promise((resolve) => {
+    // Check if we're in a secure context (HTTPS or localhost)
+    const isSecureContext = window.location.protocol === 'https:' || window.location.hostname === 'localhost'
+    
+    if (!isSecureContext) {
+      console.warn('Geolocation requires HTTPS or localhost - using default location')
+      resolve({
+        lat: 34.6937,
+        lon: 135.5023,
+        city: 'Osaka',
+        country: 'Japan'
+      })
+      return
+    }
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -338,7 +416,7 @@ export async function getCurrentLocation(): Promise<{ lat: number; lon: number; 
           })
         },
         {
-          enableHighAccuracy: true,
+          enableHighAccuracy: false, // Changed to false to avoid permission issues
           timeout: 10000,
           maximumAge: 300000 // 5 minutes
         }
