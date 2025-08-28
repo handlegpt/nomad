@@ -20,11 +20,11 @@ export default function PersonalizedRecommendations() {
   const { t } = useTranslation()
   
   const preferences: Preference[] = [
-    { id: 'wifi', label: t('preferences.wifiQuality'), weight: 0 },
-    { id: 'cost', label: t('preferences.costOfLiving'), weight: 0 },
-    { id: 'climate', label: t('preferences.climateComfort'), weight: 0 },
-    { id: 'social', label: t('preferences.socialAtmosphere'), weight: 0 },
-    { id: 'visa', label: t('preferences.visaConvenience'), weight: 0 }
+    { id: 'wifi', label: t('preferences.wifiQuality'), weight: 20 },
+    { id: 'cost', label: t('preferences.costOfLiving'), weight: 25 },
+    { id: 'climate', label: t('preferences.climateComfort'), weight: 20 },
+    { id: 'social', label: t('preferences.socialAtmosphere'), weight: 15 },
+    { id: 'visa', label: t('preferences.visaConvenience'), weight: 20 }
   ]
   const [cities, setCities] = useState<City[]>([])
   const [userPreferences, setUserPreferences] = useState(preferences)
@@ -50,6 +50,49 @@ export default function PersonalizedRecommendations() {
         pref.id === id ? { ...pref, weight } : pref
       )
     )
+  }
+
+  const applyPreset = (preset: string) => {
+    const presets = {
+      'budget': [
+        { id: 'wifi', weight: 15 },
+        { id: 'cost', weight: 40 },
+        { id: 'climate', weight: 20 },
+        { id: 'social', weight: 15 },
+        { id: 'visa', weight: 10 }
+      ],
+      'digital': [
+        { id: 'wifi', weight: 35 },
+        { id: 'cost', weight: 20 },
+        { id: 'climate', weight: 15 },
+        { id: 'social', weight: 20 },
+        { id: 'visa', weight: 10 }
+      ],
+      'social': [
+        { id: 'wifi', weight: 15 },
+        { id: 'cost', weight: 20 },
+        { id: 'climate', weight: 20 },
+        { id: 'social', weight: 35 },
+        { id: 'visa', weight: 10 }
+      ],
+      'balanced': [
+        { id: 'wifi', weight: 20 },
+        { id: 'cost', weight: 25 },
+        { id: 'climate', weight: 20 },
+        { id: 'social', weight: 15 },
+        { id: 'visa', weight: 20 }
+      ]
+    }
+    
+    const selectedPreset = presets[preset as keyof typeof presets]
+    if (selectedPreset) {
+      setUserPreferences(prev => 
+        prev.map(pref => {
+          const presetItem = selectedPreset.find(p => p.id === pref.id)
+          return presetItem ? { ...pref, weight: presetItem.weight } : pref
+        })
+      )
+    }
   }
 
   const generateRecommendations = () => {
@@ -163,6 +206,38 @@ export default function PersonalizedRecommendations() {
           <FilterIcon className="h-4 w-4 mr-2" />
           {t('recommendations.preferences')}
         </h3>
+        
+        {/* Preset Options */}
+        <div className="mb-4">
+          <p className="text-sm text-gray-600 mb-3">快速选择偏好配置：</p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => applyPreset('budget')}
+              className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm"
+            >
+              预算优先
+            </button>
+            <button
+              onClick={() => applyPreset('digital')}
+              className="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm"
+            >
+              数字游民
+            </button>
+            <button
+              onClick={() => applyPreset('social')}
+              className="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm"
+            >
+              社交优先
+            </button>
+            <button
+              onClick={() => applyPreset('balanced')}
+              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+            >
+              平衡配置
+            </button>
+          </div>
+        </div>
+        
         <div className="space-y-4">
           {userPreferences.map((preference) => (
             <div key={preference.id} className="space-y-2">
