@@ -41,21 +41,21 @@ export default function ContactPage() {
           <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">联系我们</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('contact.title')}</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            有任何问题、建议或合作意向？我们很乐意听到您的声音
+            {t('contact.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">发送消息</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('contact.form.title')}</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  姓名 *
+                  {t('contact.form.name')} *
                 </label>
                 <input
                   type="text"
@@ -71,7 +71,7 @@ export default function ContactPage() {
               
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  邮箱 *
+                  {t('contact.form.email')} *
                 </label>
                 <input
                   type="email"
@@ -87,7 +87,7 @@ export default function ContactPage() {
               
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  主题 *
+                  {t('contact.form.subject')} *
                 </label>
                 <select
                   id="subject"
@@ -108,7 +108,7 @@ export default function ContactPage() {
               
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  消息 *
+                  {t('contact.form.message')} *
                 </label>
                 <textarea
                   id="message"
@@ -130,12 +130,12 @@ export default function ContactPage() {
                 {submitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    发送中...
+                    {t('contact.form.sending')}
                   </>
                 ) : (
                   <>
                     <Send className="h-5 w-5 mr-2" />
-                    发送消息
+                    {t('contact.form.send')}
                   </>
                 )}
               </button>
@@ -146,7 +146,7 @@ export default function ContactPage() {
           <div className="space-y-6">
             {/* General Contact */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">联系方式</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t('contact.info.title')}</h3>
               
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
@@ -154,7 +154,7 @@ export default function ContactPage() {
                     <Mail className="h-6 w-6 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">邮箱</h4>
+                    <h4 className="font-semibold text-gray-900">{t('contact.info.email')}</h4>
                     <p className="text-gray-600">hello@nomad.now</p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
                     <Globe className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">网站</h4>
+                    <h4 className="font-semibold text-gray-900">{t('contact.info.website')}</h4>
                     <p className="text-gray-600">nomad.now</p>
                   </div>
                 </div>
@@ -173,19 +173,19 @@ export default function ContactPage() {
 
             {/* Response Time */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">回复时间</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t('contact.responseTime.title')}</h3>
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">一般咨询</span>
+                  <span className="text-gray-600">{t('contact.responseTime.general')}</span>
                   <span className="font-semibold text-gray-900">24小时内</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">技术问题</span>
+                  <span className="text-gray-600">{t('contact.responseTime.technical')}</span>
                   <span className="font-semibold text-gray-900">48小时内</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">合作意向</span>
+                  <span className="text-gray-600">{t('contact.responseTime.partnership')}</span>
                   <span className="font-semibold text-gray-900">3个工作日内</span>
                 </div>
               </div>
@@ -193,27 +193,27 @@ export default function ContactPage() {
 
             {/* FAQ */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">常见问题</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t('contact.faq.title')}</h3>
               
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">如何添加新的城市？</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">{t('contact.faq.addCity.question')}</h4>
                   <p className="text-sm text-gray-600">
-                    您可以通过投票系统为现有城市评分，或联系我们添加新城市。
+                    {t('contact.faq.addCity.answer')}
                   </p>
                 </div>
                 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">如何报告错误？</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">{t('contact.faq.reportBug.question')}</h4>
                   <p className="text-sm text-gray-600">
-                    请通过联系表单选择"问题反馈"主题，我们会尽快处理。
+                    {t('contact.faq.reportBug.answer')}
                   </p>
                 </div>
                 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">支持哪些语言？</h4>
+                  <h4 className="font-semibold text-gray-900 mb-2">{t('contact.faq.languages.question')}</h4>
                   <p className="text-sm text-gray-600">
-                    目前支持中文、英文、西班牙语和日语，更多语言正在开发中。
+                    {t('contact.faq.languages.answer')}
                   </p>
                 </div>
               </div>

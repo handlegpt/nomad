@@ -14,9 +14,9 @@ export default function AboutPage() {
           <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <Globe className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">关于 NOMAD.NOW</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('about.title')}</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            为数字游民打造的最重要的信息工具 - 时间、位置、决策支持
+            {t('about.subtitle')}
           </p>
         </div>
 
@@ -24,9 +24,9 @@ export default function AboutPage() {
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
           <div className="text-center mb-8">
             <Target className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">我们的使命</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('about.mission.title')}</h2>
             <p className="text-lg text-gray-600">
-              让数字游民的生活更简单、更高效、更有趣
+              {t('about.mission.description')}
             </p>
           </div>
           
@@ -35,9 +35,9 @@ export default function AboutPage() {
               <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Globe className="h-6 w-6 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">全球信息</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t('about.features.globalInfo.title')}</h3>
               <p className="text-sm text-gray-600">
-                实时时间、天气、WiFi速度等关键信息
+                {t('about.features.globalInfo.description')}
               </p>
             </div>
             
@@ -45,9 +45,9 @@ export default function AboutPage() {
               <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Users className="h-6 w-6 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">社区驱动</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t('about.features.communityDriven.title')}</h3>
               <p className="text-sm text-gray-600">
-                基于用户投票和推荐的城市排名
+                {t('about.features.communityDriven.description')}
               </p>
             </div>
             
@@ -55,9 +55,9 @@ export default function AboutPage() {
               <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <Heart className="h-6 w-6 text-white" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">生活体验</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">{t('about.features.lifeExperience.title')}</h3>
               <p className="text-sm text-gray-600">
-                从数据工具升级为生活体验社区
+                {t('about.features.lifeExperience.description')}
               </p>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default function AboutPage() {
 
         {/* Features */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">核心功能</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t('about.features.title')}</h2>
           
           <div className="space-y-6">
             <div className="flex items-start space-x-4">
@@ -120,9 +120,9 @@ export default function AboutPage() {
 
         {/* Team */}
         <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">团队</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t('about.team.title')}</h2>
           <p className="text-center text-gray-600 mb-8">
-            NOMAD.NOW 由一群热爱旅行的数字游民创建，我们理解这个群体的需求和挑战
+            {t('about.team.description')}
           </p>
           
           <div className="text-center">

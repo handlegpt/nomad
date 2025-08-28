@@ -16,8 +16,40 @@
     "community": "Comunidad"
   },
 
+  "home": {
+    "title": "Centro de Información para Nómadas Digitales",
+    "subtitle": "Tu guía completa para nómadas digitales",
+    "description": "Encuentra información de visa, orientación fiscal, herramientas esenciales y conéctate con la comunidad global de nómadas.",
+    "exploreTools": "Explorar Herramientas",
+    "browseCities": "Explorar Ciudades",
+    "features": {
+      "title": "Todo lo que Necesitas",
+      "subtitle": "Recursos completos para tu viaje como nómada digital",
+      "essentialTools": {
+        "title": "Herramientas Esenciales",
+        "description": "Banca digital, seguros y plataformas de trabajo remoto"
+      },
+      "nomadCities": {
+        "title": "Ciudades Nómadas",
+        "description": "Destinos populares con información de visa y costos"
+      },
+      "taxGuidance": {
+        "title": "Orientación Fiscal",
+        "description": "Regla de 183 días y tratados de doble imposición"
+      },
+      "guides": {
+        "title": "Guías y Recursos",
+        "description": "Solicitudes de visa, listas de verificación y consejos"
+      },
+      "community": {
+        "title": "Comunidad",
+        "description": "Conéctate con compañeros nómadas digitales en todo el mundo"
+      }
+    }
+  },
+
   "tools": {
-    "title": "Herramientas Esenciales",
+    "title": "Herramientas Esenciales para Nómadas",
     "subtitle": "Herramientas y servicios para nómadas digitales",
     "banking": {
       "title": "Banca",
@@ -348,6 +380,113 @@
         "Nómadas Digitales Ciudad de México",
         "Nómadas Digitales Barcelona"
       ]
+    }
+  },
+
+  "about": {
+    "title": "Acerca de NOMAD.NOW",
+    "subtitle": "La herramienta de información más importante para nómadas digitales - tiempo, ubicación, apoyo para decisiones",
+    "mission": {
+      "title": "Nuestra Misión",
+      "description": "Hacer la vida de los nómadas digitales más simple, eficiente y divertida"
+    },
+    "features": {
+      "title": "Características Principales",
+      "globalInfo": {
+        "title": "Información Global",
+        "description": "Tiempo en tiempo real, clima, velocidad WiFi y otra información clave"
+      },
+      "communityDriven": {
+        "title": "Impulsado por la Comunidad",
+        "description": "Rankings de ciudades basados en votos y recomendaciones de usuarios"
+      },
+      "lifeExperience": {
+        "title": "Experiencia de Vida",
+        "description": "Actualizar de herramientas de datos a comunidad de experiencia de vida"
+      }
+    },
+    "team": {
+      "title": "Equipo",
+      "description": "NOMAD.NOW es creado por un grupo de nómadas digitales amantes de los viajes que entienden las necesidades y desafíos de esta comunidad"
+    }
+  },
+
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "¿Tienes preguntas, sugerencias o intereses de asociación? Nos encantaría escuchar de ti",
+    "form": {
+      "title": "Enviar Mensaje",
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "send": "Enviar Mensaje",
+      "sending": "Enviando..."
+    },
+    "info": {
+      "title": "Información de Contacto",
+      "email": "Correo Electrónico",
+      "website": "Sitio Web"
+    },
+    "responseTime": {
+      "title": "Tiempo de Respuesta",
+      "general": "Consulta General",
+      "technical": "Problemas Técnicos",
+      "partnership": "Asociación"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "addCity": {
+        "question": "¿Cómo agregar nuevas ciudades?",
+        "answer": "Puedes votar por ciudades existentes o contactarnos para agregar nuevas ciudades."
+      },
+      "reportBug": {
+        "question": "¿Cómo reportar errores?",
+        "answer": "Por favor usa el formulario de contacto y selecciona 'Reporte de Error' como asunto."
+      },
+      "languages": {
+        "question": "¿Qué idiomas son compatibles?",
+        "answer": "Actualmente soporta chino, inglés, español y japonés, con más idiomas en desarrollo."
+      }
+    }
+  },
+
+  "components": {
+    "notificationSystem": {
+      "title": "Notificaciones",
+      "markAsRead": "Marcar como leído",
+      "markAllAsRead": "Marcar todo como leído",
+      "noNotifications": "Sin notificaciones"
+    },
+    "communitySection": {
+      "title": "Comunidad",
+      "online": "En Línea",
+      "local": "Local",
+      "joinCommunity": "Unirse a la Comunidad",
+      "attendEvent": "Asistir al Evento",
+      "discoverMore": "Descubrir Más Comunidades"
+    },
+    "premiumFeatures": {
+      "title": "Características Premium",
+      "subtitle": "Desbloquea más características profesionales para mejorar tu experiencia como nómada digital",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "upgrade": "Actualizar a Premium",
+      "trial": "Prueba gratuita de 7 días • Cancela en cualquier momento • Sin cargos ocultos"
+    },
+    "cityComparison": {
+      "title": "Comparación de Ciudades",
+      "selectCities": "Selecciona 2-4 ciudades para comparar",
+      "startComparison": "Comenzar Comparación",
+      "addCity": "Agregar Ciudad",
+      "exportPDF": "Exportar PDF",
+      "metrics": {
+        "wifi": "Velocidad WiFi",
+        "cost": "Costo de Vida",
+        "visa": "Conveniencia de Visa",
+        "climate": "Comodidad Climática",
+        "social": "Atmósfera Social"
+      }
     }
   }
 } 

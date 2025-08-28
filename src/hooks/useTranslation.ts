@@ -5,7 +5,7 @@ import { Locale } from '@/i18n/config'
 import { t, getCurrentLocale, setLocale } from '@/i18n/utils'
 
 export function useTranslation() {
-  const [locale, setCurrentLocale] = useState<Locale>('zh')
+  const [locale, setCurrentLocale] = useState<Locale>('en')
   const [translations, setTranslations] = useState<Record<string, any>>({})
   const [loading, setLoading] = useState(true)
 
@@ -18,12 +18,12 @@ export function useTranslation() {
   const loadTranslations = async (newLocale: Locale) => {
     setLoading(true)
     try {
-      const trans = await import(`@/i18n/translations/${newLocale}.json`)
+      const trans = await import(`@/locales/${newLocale}.json`)
       setTranslations(trans.default)
     } catch (error) {
       console.error('Failed to load translations:', error)
-      // 回退到中文
-      const fallback = await import('@/i18n/translations/zh.json')
+      // Fallback to English
+      const fallback = await import('@/locales/en.json')
       setTranslations(fallback.default)
     } finally {
       setLoading(false)
