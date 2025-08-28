@@ -639,6 +639,20 @@
         "description": "Área de discusión de nómadas digitales en Reddit"
       }
     },
+    "lightweightSocial": {
+      "title": "Social Ligero",
+      "whosInCity": "¿Quién está en esta ciudad?",
+      "messageBoard": "Tablero de Mensajes",
+      "messagePlaceholder": "Comparte algo con la comunidad...",
+      "noMessages": "Aún no hay mensajes",
+      "startConversation": "¡Sé el primero en iniciar una conversación!",
+      "available": "disponible",
+      "coffeeMeetup": "Café",
+      "busy": "Ocupado",
+      "noOnlineUsers": "No hay usuarios en línea",
+      "checkLater": "Vuelve más tarde",
+      "footer": "Funciones sociales ligeras para nómadas digitales"
+    },
     "local": {
       "osaka": {
         "description": "Meetup local de nómadas digitales de Osaka",

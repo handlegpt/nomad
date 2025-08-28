@@ -371,6 +371,20 @@
         "description": "Redditのデジタルノマドディスカッションエリア"
       }
     },
+    "lightweightSocial": {
+      "title": "軽量ソーシャル",
+      "whosInCity": "この街に誰がいますか？",
+      "messageBoard": "メッセージボード",
+      "messagePlaceholder": "コミュニティと何かを共有...",
+      "noMessages": "まだメッセージがありません",
+      "startConversation": "最初に会話を始めましょう！",
+      "available": "利用可能",
+      "coffeeMeetup": "コーヒーミートアップ",
+      "busy": "忙しい",
+      "noOnlineUsers": "オンラインユーザーがいません",
+      "checkLater": "後でもう一度確認してください",
+      "footer": "デジタルノマドのための軽量ソーシャル機能"
+    },
     "local": {
       "osaka": {
         "description": "大阪ローカルデジタルノマドミートアップ",

@@ -13,21 +13,10 @@ interface Message {
   location: string
 }
 
-interface OnlineUser {
-  id: string
-  name: string
-  avatar: string
-  status: 'online' | 'offline'
-  lastSeen: string
-  isAvailable: boolean
-  interests: string[]
-}
-
 export default function CommunitySection() {
   const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<'local' | 'social'>('local')
   const [messages, setMessages] = useState<Message[]>([])
-  const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([])
   const [newMessage, setNewMessage] = useState('')
   const [currentCity, setCurrentCity] = useState('Osaka, Japan')
 
@@ -60,47 +49,7 @@ export default function CommunitySection() {
       }
     ]
 
-    const mockUsers: OnlineUser[] = [
-      {
-        id: '1',
-        name: 'Sarah Chen',
-        avatar: 'SC',
-        status: 'online',
-        lastSeen: '2分钟前',
-        isAvailable: true,
-        interests: ['咖啡', '摄影']
-      },
-      {
-        id: '2',
-        name: 'Alex Rodriguez',
-        avatar: 'AR',
-        status: 'online',
-        lastSeen: '5分钟前',
-        isAvailable: true,
-        interests: ['创业', '旅行']
-      },
-      {
-        id: '3',
-        name: 'Yuki Tanaka',
-        avatar: 'YT',
-        status: 'offline',
-        lastSeen: '1小时前',
-        isAvailable: false,
-        interests: ['设计', '音乐']
-      },
-      {
-        id: '4',
-        name: 'Emma Wilson',
-        avatar: 'EW',
-        status: 'online',
-        lastSeen: '刚刚',
-        isAvailable: true,
-        interests: ['写作', '瑜伽']
-      }
-    ]
-
     setMessages(mockMessages)
-    setOnlineUsers(mockUsers)
   }, [])
 
   const handleSendMessage = () => {
@@ -116,11 +65,6 @@ export default function CommunitySection() {
       setMessages([message, ...messages])
       setNewMessage('')
     }
-  }
-
-  const handleMeetupRequest = (userId: string) => {
-    console.log('Requesting meetup with user:', userId)
-    // 这里可以打开聊天窗口或发送消息
   }
 
   const localCommunities = [
@@ -223,77 +167,9 @@ export default function CommunitySection() {
       )}
 
       {activeTab === 'social' && (
-        <div className="space-y-6">
-          {/* Who's in this city? Section */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-gray-900">{t('community.lightweightSocial.whosInCity')}</h3>
-              <span className="text-sm text-gray-500">
-                {onlineUsers.filter(u => u.isAvailable).length} {t('community.lightweightSocial.available')}
-              </span>
-            </div>
-
-            <div className="space-y-3">
-              {onlineUsers.filter(user => user.status === 'online').map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${
-                      user.isAvailable ? 'bg-green-500' : 'bg-gray-400'
-                    }`}>
-                      {user.avatar}
-                    </div>
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <h5 className="font-medium text-gray-900">{user.name}</h5>
-                        <span className={`w-2 h-2 rounded-full ${
-                          user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
-                        }`}></span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <Clock className="h-3 w-3" />
-                        <span>{user.lastSeen}</span>
-                      </div>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {user.interests.slice(0, 2).map((interest, index) => (
-                          <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                            {interest}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    {user.isAvailable ? (
-                      <button
-                        onClick={() => handleMeetupRequest(user.id)}
-                        className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm"
-                      >
-                        <Coffee className="h-3 w-3" />
-                        <span>{t('community.lightweightSocial.coffeeMeetup')}</span>
-                      </button>
-                    ) : (
-                      <span className="text-sm text-gray-500">{t('community.lightweightSocial.busy')}</span>
-                    )}
-                    <button className="p-1 text-gray-400 hover:text-gray-600">
-                      <MessageSquare className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {onlineUsers.filter(user => user.status === 'online').length === 0 && (
-              <div className="text-center py-8">
-                <Users className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-gray-600">{t('community.lightweightSocial.noOnlineUsers')}</p>
-                <p className="text-sm text-gray-500">{t('community.lightweightSocial.checkLater')}</p>
-              </div>
-            )}
-          </div>
-
+        <div className="space-y-4">
           {/* Message Board Section */}
-          <div className="pt-4 border-t border-gray-200">
+          <div>
             <h3 className="font-bold text-gray-900 mb-4">{t('community.lightweightSocial.messageBoard')}</h3>
             
             {/* Message Input */}
@@ -315,7 +191,7 @@ export default function CommunitySection() {
             </div>
 
             {/* Messages */}
-            <div className="space-y-3 max-h-48 overflow-y-auto">
+            <div className="space-y-3 max-h-64 overflow-y-auto">
               {messages.map((message) => (
                 <div key={message.id} className="p-3 border border-gray-200 rounded-lg">
                   <div className="flex items-start space-x-3">
@@ -339,10 +215,10 @@ export default function CommunitySection() {
             </div>
 
             {messages.length === 0 && (
-              <div className="text-center py-6">
-                <MessageSquare className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600">{t('community.lightweightSocial.noMessages')}</p>
-                <p className="text-xs text-gray-500">{t('community.lightweightSocial.startConversation')}</p>
+              <div className="text-center py-8">
+                <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                <p className="text-gray-600">{t('community.lightweightSocial.noMessages')}</p>
+                <p className="text-sm text-gray-500">{t('community.lightweightSocial.startConversation')}</p>
               </div>
             )}
           </div>
