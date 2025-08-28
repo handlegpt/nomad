@@ -34,7 +34,7 @@ interface UserSettings {
 }
 
 export default function SetupPage() {
-  const { t, locale, setLocale } = useTranslation()
+  const { t, locale, changeLocale } = useTranslation()
   const [activeTab, setActiveTab] = useState<'profile' | 'preferences' | 'visa'>('profile')
   const [saving, setSaving] = useState(false)
   const [settings, setSettings] = useState<UserSettings>({
@@ -74,7 +74,7 @@ export default function SetupPage() {
     
     // 更新语言设置
     if (settings.preferences.language !== locale) {
-      setLocale(settings.preferences.language)
+      changeLocale(settings.preferences.language as any)
     }
     
     setSaving(false)
