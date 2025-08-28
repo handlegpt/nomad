@@ -28,11 +28,7 @@ export default function MobileMenu() {
       href: '/visa-guide',
       description: t('mobileMenu.visaDescription')
     },
-    {
-      name: t('navigation.community'),
-      href: '/community',
-      description: t('mobileMenu.communityDescription')
-    },
+
     {
       name: t('navigation.dashboard'),
       href: '/dashboard',

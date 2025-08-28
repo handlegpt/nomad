@@ -21,10 +21,7 @@ export default function DesktopNavigation() {
       name: t('navigation.visaGuide'),
       href: '/visa-guide',
     },
-    {
-      name: t('navigation.community'),
-      href: '/community',
-    },
+
     {
       name: t('navigation.dashboard'),
       href: '/dashboard',
