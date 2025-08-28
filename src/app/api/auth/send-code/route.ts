@@ -67,29 +67,67 @@ async function sendEmail(email: string, code: string): Promise<boolean> {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('🔍 API Route: /api/auth/send-code called')
+  
   try {
-    const { email } = await request.json()
+    const body = await request.json()
+    console.log('📧 Request body:', body)
+    
+    const { email } = body
 
     if (!email || !email.includes('@')) {
+      console.log('❌ Invalid email:', email)
       return NextResponse.json(
         { message: '请输入有效的邮箱地址' },
         { status: 400 }
       )
     }
+    
+    console.log('✅ Valid email received:', email)
 
     // 生成验证码
     const verificationCode = generateVerificationCode()
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10分钟后过期
+    
+    console.log('🔐 Generated verification code:', verificationCode)
+    console.log('⏰ Expires at:', expiresAt.toISOString())
+
+    // 检查Supabase连接
+    console.log('🔍 Checking Supabase connection...')
+    const { data: testConnection } = await supabase
+      .from('verification_codes')
+      .select('count')
+      .limit(1)
+    
+    if (testConnection === null) {
+      console.error('❌ Supabase connection failed')
+      return NextResponse.json(
+        { message: '数据库连接失败，请重试' },
+        { status: 500 }
+      )
+    }
+    
+    console.log('✅ Supabase connection successful')
 
     // 检查是否已有未过期的验证码
-    const { data: existingCode } = await supabase
+    console.log('🔍 Checking for existing verification codes...')
+    const { data: existingCode, error: selectError } = await supabase
       .from('verification_codes')
       .select('*')
       .eq('email', email)
       .gt('expires_at', new Date().toISOString())
       .single()
+      
+    if (selectError && selectError.code !== 'PGRST116') {
+      console.error('❌ Error checking existing codes:', selectError)
+      return NextResponse.json(
+        { message: '数据库查询失败，请重试' },
+        { status: 500 }
+      )
+    }
 
     if (existingCode) {
+      console.log('🔄 Updating existing verification code...')
       // 如果存在未过期的验证码，更新它
       const { error: updateError } = await supabase
         .from('verification_codes')
@@ -101,13 +139,15 @@ export async function POST(request: NextRequest) {
         .eq('id', existingCode.id)
 
       if (updateError) {
-        console.error('更新验证码失败:', updateError)
+        console.error('❌ 更新验证码失败:', updateError)
         return NextResponse.json(
           { message: '发送验证码失败，请重试' },
           { status: 500 }
         )
       }
+      console.log('✅ Verification code updated successfully')
     } else {
+      console.log('🆕 Creating new verification code...')
       // 创建新的验证码记录
       const { error: insertError } = await supabase
         .from('verification_codes')
@@ -118,24 +158,28 @@ export async function POST(request: NextRequest) {
         })
 
       if (insertError) {
-        console.error('创建验证码失败:', insertError)
+        console.error('❌ 创建验证码失败:', insertError)
         return NextResponse.json(
           { message: '发送验证码失败，请重试' },
           { status: 500 }
         )
       }
+      console.log('✅ Verification code created successfully')
     }
 
     // 发送邮件
+    console.log('📧 Sending email...')
     const emailSent = await sendEmail(email, verificationCode)
 
     if (!emailSent) {
+      console.error('❌ Email sending failed')
       return NextResponse.json(
         { message: '邮件发送失败，请重试' },
         { status: 500 }
       )
     }
 
+    console.log('✅ Email sent successfully')
     return NextResponse.json({
       message: '验证码已发送到您的邮箱',
       success: true
