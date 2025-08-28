@@ -352,93 +352,42 @@ export async function searchPlaces(query: string, cityId?: string): Promise<Plac
 
 // Utility functions
 export async function getCurrentLocation(): Promise<{ lat: number; lon: number; city: string; country: string } | null> {
-  return new Promise((resolve) => {
-    // Check if we're in a secure context (HTTPS or localhost)
-    const isSecureContext = window.location.protocol === 'https:' || window.location.hostname === 'localhost'
-    const isProduction = process.env.NODE_ENV === 'production'
+  try {
+    // Use IP-based geolocation instead of browser geolocation
+    const response = await fetch('https://api.ipapi.com/api/check?access_key=free')
     
-    // In production, if not HTTPS, show a message but still allow geolocation
-    if (isProduction && !isSecureContext) {
-      console.warn('Geolocation works better with HTTPS - some features may be limited')
-    }
-    
-    // Only block geolocation if not secure and not in production
-    if (!isSecureContext && !isProduction) {
-      console.warn('Geolocation requires HTTPS or localhost - using default location')
-      resolve({
-        lat: 34.6937,
-        lon: 135.5023,
-        city: 'Osaka',
-        country: 'Japan'
-      })
-      return
-    }
-    
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords
-          
-          try {
-            // Use reverse geocoding to get city and country
-            const response = await fetch(
-              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-            )
-            
-            if (response.ok) {
-              const data = await response.json()
-              resolve({
-                lat: latitude,
-                lon: longitude,
-                city: data.city || 'Unknown City',
-                country: data.countryName || 'Unknown Country'
-              })
-            } else {
-              // Fallback to coordinates only
-              resolve({
-                lat: latitude,
-                lon: longitude,
-                city: 'Unknown City',
-                country: 'Unknown Country'
-              })
-            }
-          } catch (error) {
-            console.error('Error in reverse geocoding:', error)
-            resolve({
-              lat: latitude,
-              lon: longitude,
-              city: 'Unknown City',
-              country: 'Unknown Country'
-            })
-          }
-        },
-        (error) => {
-          console.error('Geolocation error:', error)
-          // Fallback to default location (Osaka, Japan)
-          resolve({
-            lat: 34.6937,
-            lon: 135.5023,
-            city: 'Osaka',
-            country: 'Japan'
-          })
-        },
-        {
-          enableHighAccuracy: false, // Changed to false to avoid permission issues
-          timeout: 10000,
-          maximumAge: 300000 // 5 minutes
-        }
-      )
+    if (response.ok) {
+      const data = await response.json()
+      return {
+        lat: data.latitude || 34.6937,
+        lon: data.longitude || 135.5023,
+        city: data.city || 'Osaka',
+        country: data.country_name || 'Japan'
+      }
     } else {
-      console.error('Geolocation not supported')
-      // Fallback to default location
-      resolve({
-        lat: 34.6937,
-        lon: 135.5023,
-        city: 'Osaka',
-        country: 'Japan'
-      })
+      // Fallback to a free IP geolocation service
+      const fallbackResponse = await fetch('https://ipapi.co/json/')
+      if (fallbackResponse.ok) {
+        const fallbackData = await fallbackResponse.json()
+        return {
+          lat: fallbackData.latitude || 34.6937,
+          lon: fallbackData.longitude || 135.5023,
+          city: fallbackData.city || 'Osaka',
+          country: fallbackData.country_name || 'Japan'
+        }
+      }
     }
-  })
+  } catch (error) {
+    console.error('Error getting location from IP:', error)
+  }
+  
+  // Final fallback to default location
+  return {
+    lat: 34.6937,
+    lon: 135.5023,
+    city: 'Osaka',
+    country: 'Japan'
+  }
 }
 
 // New: Place recommendation related utility functions
