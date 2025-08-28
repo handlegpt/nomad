@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Mail, Lock, ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock, ArrowLeft, Eye, EyeOff, Globe } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
+import Logo from '@/components/Logo'
 
 export default function LoginPage() {
   const { t } = useTranslation()
@@ -108,7 +109,11 @@ export default function LoginPage() {
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">欢迎回来</h1>
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <Logo size="lg" linkToHome={false} />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">欢迎回来</h2>
             <p className="text-gray-600">使用邮箱验证码登录您的账户</p>
           </div>
 

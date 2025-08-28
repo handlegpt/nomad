@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
+import Logo from '@/components/Logo'
 import { getCurrentUser, User as UserType } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 
@@ -215,9 +216,7 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <Link href="/" className="text-xl font-bold text-gray-900">
-                NOMAD.NOW
-              </Link>
+              <Logo size="sm" linkToHome={true} />
               <span className="text-gray-400">|</span>
               <span className="text-gray-600">用户后台</span>
             </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Globe, Users, TrendingUp, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import Logo from '@/components/Logo'
 import Navigation from '@/components/Navigation'
 import NotificationSystem from '@/components/NotificationSystem'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -40,15 +41,7 @@ export default function HomePage() {
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Globe className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">NOMAD.NOW</h1>
-                <p className="text-xs text-gray-500">digital nomad tools</p>
-              </div>
-            </div>
+            <Logo size="md" />
             
             <div className="flex items-center space-x-3">
               <div className="hidden lg:block">
