@@ -29,7 +29,7 @@ export default function CurrentLocationCard() {
   const [location, setLocation] = useState<LocationData | null>(null)
   const [weather, setWeather] = useState<WeatherData | null>(null)
   const [time, setTime] = useState<TimeData | null>(null)
-  const [wifiSpeed, setWifiSpeed] = useState<number | null>(null)
+
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(new Date())
 
@@ -77,8 +77,7 @@ export default function CurrentLocationCard() {
         // Get current time
         await updateTime()
 
-        // Simulate WiFi speed (in real app, this would be from a speed test API)
-        setWifiSpeed(Math.floor(Math.random() * 100) + 50) // 50-150 Mbps
+
       }
     } catch (error) {
       console.error('Error initializing data:', error)
@@ -167,7 +166,7 @@ export default function CurrentLocationCard() {
       </div>
 
       {/* Current Status Grid - Like time.is style */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Local Time */}
         <div className="text-center p-3 bg-blue-50 rounded-lg">
           <div className="text-2xl font-bold text-blue-600 mb-1">
@@ -185,16 +184,6 @@ export default function CurrentLocationCard() {
           </div>
           <div className="text-xs text-gray-600">
             {t('home.weather')}
-          </div>
-        </div>
-        
-        {/* WiFi Speed */}
-        <div className="text-center p-3 bg-purple-50 rounded-lg">
-          <div className="text-2xl font-bold text-purple-600 mb-1">
-            ☕ {wifiSpeed ? `${wifiSpeed}` : '--'}
-          </div>
-          <div className="text-xs text-gray-600">
-            {t('home.wifiSpeed')} (Mbps)
           </div>
         </div>
         
