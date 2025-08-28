@@ -53,16 +53,38 @@ export function useTranslation() {
     setLoading(true)
     try {
       console.log('🔍 Loading translations for locale:', newLocale)
-      // Add cache busting parameter to force reload
-      const trans = await import(`@/locales/${newLocale}.json?v=${Date.now()}`)
+      
+      // Import translations based on locale
+      let trans: any
+      switch (newLocale) {
+        case 'zh':
+          trans = await import('@/locales/zh.json')
+          break
+        case 'es':
+          trans = await import('@/locales/es.json')
+          break
+        case 'ja':
+          trans = await import('@/locales/ja.json')
+          break
+        case 'en':
+        default:
+          trans = await import('@/locales/en.json')
+          break
+      }
+      
       console.log('✅ Translations loaded:', trans.default)
       setTranslations(trans.default)
     } catch (error) {
       console.error('❌ Failed to load translations:', error)
       // Fallback to English
-      const fallback = await import('@/locales/en.json')
-      console.log('🔄 Using fallback translations:', fallback.default)
-      setTranslations(fallback.default)
+      try {
+        const fallback = await import('@/locales/en.json')
+        console.log('🔄 Using fallback translations:', fallback.default)
+        setTranslations(fallback.default)
+      } catch (fallbackError) {
+        console.error('❌ Failed to load fallback translations:', fallbackError)
+        setTranslations({})
+      }
     } finally {
       setLoading(false)
     }
