@@ -26,7 +26,8 @@
     "profile": "プロフィール",
     "logout": "ログアウト",
     "login": "ログイン",
-    "register": "登録"
+    "register": "登録",
+    "viewDetails": "詳細を表示"
   },
   "navigation": {
     "home": "ホーム",
@@ -68,7 +69,23 @@
     "businessCooperation": "ビジネス協力",
     "privacyPolicy": "プライバシーポリシー",
     "termsOfService": "利用規約",
-    "copyright": "© 2024 nomad.now. デジタルノマドのためのツールプラットフォーム。"
+    "copyright": "© 2024 nomad.now. デジタルノマドのためのツールプラットフォーム。",
+    "features": {
+      "nomadCities": {
+        "title": "ノマド人気都市ランキング"
+      }
+    },
+    "quickVote": {
+      "title": "クイック投票",
+      "description": "現在の都市の体験を簡単に評価してください",
+      "currentCity": "現在の都市",
+      "like": "いいね",
+      "dislike": "よくない",
+      "rateExperience": "体験を評価",
+      "ratingHint": "星をクリックして評価してください",
+      "voteSubmitted": "投票が送信されました：{vote} - {type}",
+      "ratingSubmitted": "評価が送信されました：{rating}星"
+    }
   },
   "visaCountdown": {
     "title": "ビザカウントダウン",

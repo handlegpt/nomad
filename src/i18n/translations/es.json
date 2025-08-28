@@ -26,7 +26,8 @@
     "profile": "Perfil",
     "logout": "Cerrar sesión",
     "login": "Iniciar sesión",
-    "register": "Registrarse"
+    "register": "Registrarse",
+    "viewDetails": "Ver detalles"
   },
   "navigation": {
     "home": "Inicio",
@@ -68,7 +69,23 @@
     "businessCooperation": "Cooperación comercial",
     "privacyPolicy": "Política de privacidad",
     "termsOfService": "Términos de servicio",
-    "copyright": "© 2024 nomad.now. Plataforma de herramientas para nómadas digitales."
+    "copyright": "© 2024 nomad.now. Plataforma de herramientas para nómadas digitales.",
+    "features": {
+      "nomadCities": {
+        "title": "Ranking de ciudades populares para nómadas"
+      }
+    },
+    "quickVote": {
+      "title": "Voto rápido",
+      "description": "Evalúa fácilmente tu experiencia en la ciudad actual",
+      "currentCity": "Ciudad actual",
+      "like": "Me gusta",
+      "dislike": "No me gusta",
+      "rateExperience": "Calificar experiencia",
+      "ratingHint": "Haz clic en las estrellas para calificar",
+      "voteSubmitted": "Voto enviado: {vote} - {type}",
+      "ratingSubmitted": "Calificación enviada: {rating} estrellas"
+    }
   },
   "visaCountdown": {
     "title": "Cuenta regresiva de visa",

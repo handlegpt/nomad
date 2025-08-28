@@ -26,7 +26,8 @@
     "profile": "个人资料",
     "logout": "退出登录",
     "login": "登录",
-    "register": "注册"
+    "register": "注册",
+    "viewDetails": "查看详情"
   },
   "navigation": {
     "home": "首页",
@@ -68,7 +69,23 @@
     "businessCooperation": "商务合作",
     "privacyPolicy": "隐私政策",
     "termsOfService": "服务条款",
-    "copyright": "© 2024 nomad.now. 为数字游民打造的工具平台。"
+    "copyright": "© 2024 nomad.now. 为数字游民打造的工具平台。",
+    "features": {
+      "nomadCities": {
+        "title": "Nomad 热门城市推荐榜单"
+      }
+    },
+    "quickVote": {
+      "title": "快速投票",
+      "description": "快速评价你当前城市的体验",
+      "currentCity": "当前城市",
+      "like": "点赞",
+      "dislike": "踩",
+      "rateExperience": "评价体验",
+      "ratingHint": "点击星星进行评分",
+      "voteSubmitted": "投票已提交：{vote} - {type}",
+      "ratingSubmitted": "评分已提交：{rating}星"
+    }
   },
   "visaCountdown": {
     "title": "签证倒计时",
