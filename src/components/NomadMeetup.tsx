@@ -106,7 +106,7 @@ export default function NomadMeetup() {
             <Coffee className="h-5 w-5 text-blue-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900">谁在这座城市？</h3>
+            <h3 className="font-bold text-gray-900">{t('meetup.title')}</h3>
             <p className="text-sm text-gray-600 flex items-center">
               <MapPin className="h-3 w-3 mr-1" />
               {currentCity}
@@ -118,7 +118,7 @@ export default function NomadMeetup() {
           className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
         >
           <Plus className="h-4 w-4" />
-          <span>发起见面</span>
+          <span>{t('meetup.createMeetup')}</span>
         </button>
       </div>
 
@@ -127,10 +127,10 @@ export default function NomadMeetup() {
         <div className="flex items-center justify-between">
           <h4 className="font-medium text-gray-900 flex items-center">
             <Users className="h-4 w-4 mr-2" />
-            在线数字游民 ({users.filter(u => u.status === 'online').length})
+            {t('meetup.onlineNomads')} ({users.filter(u => u.status === 'online').length})
           </h4>
           <span className="text-sm text-gray-500">
-            {users.filter(u => u.isAvailable).length} 人可约
+            {users.filter(u => u.isAvailable).length} {t('meetup.available')}
           </span>
         </div>
 
@@ -171,10 +171,10 @@ export default function NomadMeetup() {
                     className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm"
                   >
                     <Coffee className="h-3 w-3" />
-                    <span>约咖啡</span>
+                                         <span>{t('meetup.coffeeMeetup')}</span>
                   </button>
                 ) : (
-                  <span className="text-sm text-gray-500">忙碌中</span>
+                                     <span className="text-sm text-gray-500">{t('meetup.busy')}</span>
                 )}
                 <button className="p-1 text-gray-400 hover:text-gray-600">
                   <MessageSquare className="h-4 w-4" />

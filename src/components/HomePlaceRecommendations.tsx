@@ -64,14 +64,14 @@ export default function HomePlaceRecommendations() {
 
   const getCategoryName = (category: string) => {
     const names = {
-      cafe: '咖啡馆',
-      coworking: 'Co-working',
-      coliving: 'Coliving',
-      restaurant: '餐馆',
-      outdoor: '户外',
-      other: '其他'
+      cafe: t('places.categories.cafe'),
+      coworking: t('places.categories.coworking'),
+      coliving: t('places.categories.coliving'),
+      restaurant: t('places.categories.restaurant'),
+      outdoor: t('places.categories.outdoor'),
+      other: t('places.categories.other')
     }
-    return names[category as keyof typeof names] || '其他'
+    return names[category as keyof typeof names] || t('places.categories.other')
   }
 
   const getPriceLevelText = (level: number) => {
@@ -102,8 +102,8 @@ export default function HomePlaceRecommendations() {
             <MapPinIcon className="h-5 w-5 text-purple-600" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Nomad 地方推荐</h2>
-            <p className="text-sm text-gray-600">发现最适合远程办公的地方</p>
+            <h2 className="text-xl font-bold text-gray-900">{t('places.title')}</h2>
+            <p className="text-sm text-gray-600">{t('places.description')}</p>
           </div>
         </div>
         <div className="flex items-center space-x-3">
@@ -111,7 +111,7 @@ export default function HomePlaceRecommendations() {
             href="/places"
             className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
           >
-            <span>查看全部</span>
+            <span>{t('common.viewDetails')}</span>
             <ArrowRightIcon className="h-4 w-4" />
           </Link>
           <Link
@@ -119,7 +119,7 @@ export default function HomePlaceRecommendations() {
             className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
           >
             <PlusIcon className="h-4 w-4" />
-            <span>添加推荐</span>
+            <span>{t('places.addPlace')}</span>
           </Link>
         </div>
       </div>
@@ -158,7 +158,7 @@ export default function HomePlaceRecommendations() {
               </div>
               <div className="flex items-center space-x-1">
                 <UsersIcon className="h-3 w-3" />
-                <span>{(place.upvotes || 0) - (place.downvotes || 0)} 推荐</span>
+                <span>{(place.upvotes || 0) - (place.downvotes || 0)} {t('places.recommendations')}</span>
               </div>
             </div>
 
@@ -182,29 +182,29 @@ export default function HomePlaceRecommendations() {
       {places.length === 0 && (
         <div className="text-center py-8">
           <div className="text-gray-400 text-4xl mb-3">📍</div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">还没有地方推荐</h3>
-          <p className="text-gray-600 mb-4">成为第一个推荐好地方的人！</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t('places.noResults.title')}</h3>
+          <p className="text-gray-600 mb-4">{t('places.noResults.description')}</p>
           <Link
             href="/places"
             className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
             <PlusIcon className="h-4 w-4" />
-            <span>添加第一个推荐</span>
+            <span>{t('places.addPlace')}</span>
           </Link>
         </div>
       )}
 
       {/* Categories Quick Access */}
       <div className="mt-6 pt-4 border-t border-gray-200">
-        <h4 className="font-medium text-gray-900 mb-3">快速浏览</h4>
+        <h4 className="font-medium text-gray-900 mb-3">{t('places.quickBrowse')}</h4>
         <div className="flex flex-wrap gap-2">
-          {[
-            { id: 'cafe', name: '☕ 咖啡馆', color: 'bg-orange-100 text-orange-700' },
-            { id: 'coworking', name: '💻 Co-working', color: 'bg-blue-100 text-blue-700' },
-            { id: 'coliving', name: '🏠 Coliving', color: 'bg-green-100 text-green-700' },
-            { id: 'restaurant', name: '🍽 餐馆', color: 'bg-red-100 text-red-700' },
-            { id: 'outdoor', name: '🌳 户外', color: 'bg-purple-100 text-purple-700' }
-          ].map((category) => (
+                      {[
+              { id: 'cafe', name: t('places.categories.cafe'), color: 'bg-orange-100 text-orange-700' },
+              { id: 'coworking', name: t('places.categories.coworking'), color: 'bg-blue-100 text-blue-700' },
+              { id: 'coliving', name: t('places.categories.coliving'), color: 'bg-green-100 text-green-700' },
+              { id: 'restaurant', name: t('places.categories.restaurant'), color: 'bg-red-100 text-red-700' },
+              { id: 'outdoor', name: t('places.categories.outdoor'), color: 'bg-purple-100 text-purple-700' }
+            ].map((category) => (
             <Link
               key={category.id}
               href={`/places?category=${category.id}`}

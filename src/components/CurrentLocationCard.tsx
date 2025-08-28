@@ -144,12 +144,12 @@ export default function CurrentLocationCard() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <MapPin className="h-6 w-6 text-blue-500" />
+          <MapPin className="h-5 w-5 text-blue-500" />
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-gray-900">
               📍 {t('home.currentLocation')}: {location?.city}, {location?.country}
             </h2>
             <p className="text-sm text-gray-500">
@@ -167,43 +167,43 @@ export default function CurrentLocationCard() {
       </div>
 
       {/* Current Status Grid - Like time.is style */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Local Time */}
-        <div className="text-center p-4 bg-blue-50 rounded-xl">
-          <div className="text-3xl font-bold text-blue-600 mb-2">
+        <div className="text-center p-3 bg-blue-50 rounded-lg">
+          <div className="text-2xl font-bold text-blue-600 mb-1">
             🕒 {time?.time || '--:--'}
           </div>
-          <div className="text-sm text-gray-600 flex items-center justify-center">
+          <div className="text-xs text-gray-600">
             {t('home.localTime')}
           </div>
         </div>
         
         {/* Weather */}
-        <div className="text-center p-4 bg-green-50 rounded-xl">
-          <div className="text-3xl font-bold text-green-600 mb-2">
+        <div className="text-center p-3 bg-green-50 rounded-lg">
+          <div className="text-2xl font-bold text-green-600 mb-1">
             🌤 {weather?.temperature ? `${weather.temperature}°C` : '--°C'}
           </div>
-          <div className="text-sm text-gray-600 flex items-center justify-center">
+          <div className="text-xs text-gray-600">
             {t('home.weather')}
           </div>
         </div>
         
         {/* WiFi Speed */}
-        <div className="text-center p-4 bg-purple-50 rounded-xl">
-          <div className="text-3xl font-bold text-purple-600 mb-2">
+        <div className="text-center p-3 bg-purple-50 rounded-lg">
+          <div className="text-2xl font-bold text-purple-600 mb-1">
             ☕ {wifiSpeed ? `${wifiSpeed}` : '--'}
           </div>
-          <div className="text-sm text-gray-600 flex items-center justify-center">
+          <div className="text-xs text-gray-600">
             {t('home.wifiSpeed')} (Mbps)
           </div>
         </div>
         
         {/* Visa Status - Only show if user has visa data */}
-        <div className="text-center p-4 bg-orange-50 rounded-xl">
-          <div className="text-3xl font-bold text-orange-600 mb-2">
+        <div className="text-center p-3 bg-orange-50 rounded-lg">
+          <div className="text-2xl font-bold text-orange-600 mb-1">
             🛂 {getVisaStatus() ? '38' : '--'}
           </div>
-          <div className="text-sm text-gray-600 flex items-center justify-center">
+          <div className="text-xs text-gray-600">
             {t('home.visaRemaining')}
           </div>
           {!getVisaStatus() && (

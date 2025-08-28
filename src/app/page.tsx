@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Globe, Users, TrendingUp, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import Navigation from '@/components/Navigation'
@@ -15,6 +16,7 @@ import PremiumFeatures from '@/components/PremiumFeatures'
 import CityComparison from '@/components/CityComparison'
 import NomadMeetup from '@/components/NomadMeetup'
 import HomePlaceRecommendations from '@/components/HomePlaceRecommendations'
+import NomadTip from '@/components/NomadTip'
 
 export default function HomePage() {
   const { t, locale } = useTranslation()
@@ -50,41 +52,65 @@ export default function HomePage() {
 
       {/* Main Content - Minimal Design */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Core Information Card - Like time.is */}
           <CurrentLocationCard />
 
-          {/* Nomad Hot Cities Ranking */}
+          {/* Nomad Hot Cities Ranking - Simplified */}
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-gray-900 flex items-center">
                 🌍 {t('home.features.nomadCities.title')}
               </h2>
-              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
+              <Link href="/cities" className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
                 {t('common.viewDetails')}
                 <ArrowRight className="h-4 w-4 ml-1" />
-              </button>
+              </Link>
             </div>
             <CityRanking limit={5} />
           </div>
 
-          {/* Nomad Place Recommendations */}
-          <HomePlaceRecommendations />
+          {/* Quick Vote Section */}
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">✍️ {t('home.quickVote.title')}</h3>
+            <p className="text-sm text-gray-600 mb-4">{t('home.quickVote.description')}</p>
+            <div className="flex space-x-3">
+              <button className="flex items-center space-x-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors">
+                <span>🔼</span>
+                <span>{t('home.quickVote.like')}</span>
+              </button>
+              <button className="flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors">
+                <span>🔽</span>
+                <span>{t('home.quickVote.dislike')}</span>
+              </button>
+            </div>
+          </div>
 
-          {/* Personalized Recommendations */}
-          <PersonalizedRecommendations />
+          {/* Nomad Tip - Prominent */}
+          <NomadTip />
 
-          {/* Nomad Meetup - Who's in this city */}
-          <NomadMeetup />
+          {/* Secondary Features - Collapsible */}
+          <details className="bg-white rounded-2xl shadow-lg border border-gray-100">
+            <summary className="p-6 cursor-pointer hover:bg-gray-50 transition-colors">
+              <h3 className="text-lg font-bold text-gray-900">🔍 {t('home.moreFeatures')}</h3>
+            </summary>
+            <div className="px-6 pb-6 space-y-6">
+              {/* Place Recommendations */}
+              <HomePlaceRecommendations />
+              
+              {/* Personalized Recommendations */}
+              <PersonalizedRecommendations />
+              
+              {/* Nomad Meetup */}
+              <NomadMeetup />
+              
+              {/* Community Section */}
+              <CommunitySection />
+            </div>
+          </details>
 
-          {/* Community Section */}
-          <CommunitySection />
-
-          {/* Premium Features */}
+          {/* Premium Features - Bottom */}
           <PremiumFeatures />
-
-          {/* City Comparison Tool */}
-          <CityComparison />
         </div>
       </main>
     </div>

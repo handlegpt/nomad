@@ -26,6 +26,13 @@
     "setupVisaTitle": "Setup Your Visa Information",
     "setupVisaDescription": "Add your visa details to track remaining days and get reminders",
     "setupVisaButton": "Setup Visa",
+    "quickVote": {
+      "title": "Participate in Voting",
+      "description": "Rate cities based on your experience",
+      "like": "Like",
+      "dislike": "Dislike"
+    },
+    "moreFeatures": "More Features",
     "exploreTools": "Explore Tools",
     "browseCities": "Browse Cities",
     "features": {
@@ -212,17 +219,20 @@
     }
   },
   "places": {
-    "title": "Recommended Places",
-    "description": "Discover the best places for digital nomads",
+    "title": "Nomad Place Recommendations",
+    "description": "Discover the best places for remote work",
     "searchPlaceholder": "Search places...",
-    "addPlace": "Add Place",
+    "addPlace": "Add Recommendation",
+    "quickBrowse": "Quick Browse",
+    "recommendations": "recommendations",
     "categories": {
       "all": "All",
       "cafe": "☕ Cafe",
       "coworking": "💻 Co-working",
       "coliving": "🏠 Coliving",
       "restaurant": "🍽 Restaurant",
-      "outdoor": "🌳 Outdoor"
+      "outdoor": "🌳 Outdoor",
+      "other": "📍 Other"
     },
     "sortBy": {
       "rating": "Highest Rating",
@@ -230,8 +240,8 @@
       "popular": "Most Popular"
     },
     "noResults": {
-      "title": "No places found",
-      "description": "Try adjusting your search criteria or add a new place"
+      "title": "No places recommended yet",
+      "description": "Be the first to recommend a great place!"
     },
     "viewAll": "View all {count} places",
     "reviews": "reviews"
@@ -435,6 +445,14 @@
         "answer": "Currently supports Chinese, English, Spanish and Japanese, with more languages in development."
       }
     }
+  },
+  "meetup": {
+    "title": "Who's in this city?",
+    "createMeetup": "Create Meetup",
+    "onlineNomads": "Online Nomads",
+    "available": "available",
+    "coffeeMeetup": "Coffee Meetup",
+    "busy": "Busy"
   },
   "components": {
     "notificationSystem": {
