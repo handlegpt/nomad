@@ -130,25 +130,17 @@ export default function HomePage() {
           {/* Nomad Tip - Prominent */}
           <NomadTip />
 
-          {/* Secondary Features - Collapsible */}
-          <details className="bg-white rounded-2xl shadow-lg border border-gray-100">
-            <summary className="p-6 cursor-pointer hover:bg-gray-50 transition-colors">
-              <h3 className="text-lg font-bold text-gray-900">🔍 {t('home.moreFeatures')}</h3>
-            </summary>
-            <div className="px-6 pb-6 space-y-6">
-              {/* Place Recommendations */}
-              <HomePlaceRecommendations />
-              
-              {/* Personalized Recommendations */}
-              <PersonalizedRecommendations />
-              
-              {/* Nomad Meetup */}
-              <NomadMeetup />
-              
-              {/* Community Section */}
-              <CommunitySection />
-            </div>
-          </details>
+          {/* Place Recommendations */}
+          <HomePlaceRecommendations />
+
+          {/* Personalized Recommendations */}
+          <PersonalizedRecommendations />
+
+          {/* Nomad Meetup */}
+          <NomadMeetup />
+
+          {/* Community Section */}
+          <CommunitySection />
 
           {/* Premium Features - Bottom */}
           <PremiumFeatures />
