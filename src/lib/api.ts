@@ -344,6 +344,40 @@ export function getCategoryIcon(category: string): string {
   return icons[category as keyof typeof icons] || icons.other
 }
 
+export function getCategoryName(category: string): string {
+  const names = {
+    cafe: '咖啡馆',
+    coworking: 'Co-working',
+    coliving: 'Coliving',
+    restaurant: '餐馆',
+    outdoor: '户外',
+    other: '其他'
+  }
+  return names[category as keyof typeof names] || '其他'
+}
+
+export function getPriceLevelText(level: number): string {
+  return '$'.repeat(level)
+}
+
+export function getNoiseLevelText(level: string): string {
+  const levels = {
+    quiet: '安静',
+    moderate: '适中',
+    loud: '嘈杂'
+  }
+  return levels[level as keyof typeof levels] || '未知'
+}
+
+export function getSocialAtmosphereText(level: string): string {
+  const levels = {
+    low: '低',
+    medium: '中',
+    high: '高'
+  }
+  return levels[level as keyof typeof levels] || '未知'
+}
+
 // New: Get popular places
 export async function getTopPlaces(limit: number = 10): Promise<Place[]> {
   if (!supabase) {
