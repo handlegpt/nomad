@@ -53,19 +53,23 @@ export default function PlaceDetailPage() {
       id: placeId,
       name: 'Blue Bottle Coffee',
       category: 'cafe',
+      city_id: 'osaka',
       address: '大阪市中央区心斋桥1-1-1',
+      latitude: 34.6937,
+      longitude: 135.5023,
       description: '环境安静，WiFi稳定，咖啡品质很好，适合长时间工作。这里有很多数字游民在工作，氛围很好。咖啡师很专业，咖啡豆都是精选的。座位舒适，有足够的插座。',
       tags: ['安静', 'WiFi快', '咖啡好', '插座多', '氛围好'],
       wifi_speed: 85,
       price_level: 3,
       noise_level: 'quiet',
       social_atmosphere: 'low',
+      submitted_by: '张三',
+      created_at: '2024-01-15',
+      updated_at: '2024-01-15',
       upvotes: 45,
       downvotes: 2,
       rating: 4.8,
-      review_count: 23,
-      submitted_by: '张三',
-      created_at: '2024-01-15'
+      review_count: 23
     }
 
     const mockReviews: Review[] = [
