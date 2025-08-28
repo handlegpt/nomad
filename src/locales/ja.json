@@ -372,7 +372,7 @@
       }
     },
     "lightweightSocial": {
-      "title": "軽量ソーシャル",
+      "title": "おしゃべり",
       "whosInCity": "この街に誰がいますか？",
       "messageBoard": "メッセージボード",
       "messagePlaceholder": "コミュニティと何かを共有...",
@@ -385,7 +385,7 @@
       "checkLater": "後でもう一度確認してください",
       "footer": "デジタルノマドのための軽量ソーシャル機能"
     },
-    "local": {
+    "localCommunities": {
       "osaka": {
         "description": "大阪ローカルデジタルノマドミートアップ",
         "location": "大阪市センター"
@@ -611,6 +611,7 @@
       "description": "検索条件を調整するか、新しい場所を追加してください"
     },
     "viewAll": "{count}件の場所をすべて表示",
+    "foundResults": "{count}件の場所が見つかりました",
     "reviews": "レビュー"
   },
 

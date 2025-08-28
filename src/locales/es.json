@@ -563,6 +563,7 @@
       "description": "Intenta ajustar tus criterios de búsqueda o agrega un nuevo lugar"
     },
     "viewAll": "Ver todos los {count} lugares",
+    "foundResults": "Encontrados {count} lugares",
     "reviews": "reseñas"
   },
 
@@ -640,7 +641,7 @@
       }
     },
     "lightweightSocial": {
-      "title": "Social Ligero",
+      "title": "Charla",
       "whosInCity": "¿Quién está en esta ciudad?",
       "messageBoard": "Tablero de Mensajes",
       "messagePlaceholder": "Comparte algo con la comunidad...",
@@ -653,7 +654,7 @@
       "checkLater": "Vuelve más tarde",
       "footer": "Funciones sociales ligeras para nómadas digitales"
     },
-    "local": {
+    "localCommunities": {
       "osaka": {
         "description": "Meetup local de nómadas digitales de Osaka",
         "location": "Centro de la Ciudad de Osaka"

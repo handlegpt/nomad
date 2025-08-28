@@ -188,7 +188,7 @@ export default function CitiesPage() {
                   >
                     {t('cities.vote')}
                   </button>
-                </div>
+                        </div>
                         </div>
                       </div>
                     ))}

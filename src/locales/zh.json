@@ -190,7 +190,7 @@
         "description": "Reddit上的数字游民讨论区"
       }
     },
-    "local": {
+    "localCommunities": {
       "osaka": {
         "description": "大阪本地数字游民聚会",
         "location": "大阪市中心"
@@ -205,7 +205,7 @@
       }
     },
     "lightweightSocial": {
-      "title": "轻量化社交",
+      "title": "闲聊",
       "whosInCity": "谁在这座城市？",
       "messageBoard": "留言板",
       "messagePlaceholder": "与社区分享一些内容...",
@@ -248,6 +248,7 @@
       "description": "尝试调整搜索条件或添加新的地点"
     },
     "viewAll": "查看全部 {count} 个地点",
+    "foundResults": "找到 {count} 个地点",
     "reviews": "评价"
   },
   "cities": {

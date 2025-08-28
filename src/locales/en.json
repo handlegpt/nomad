@@ -246,7 +246,7 @@
     "discoverMore": "Discover More Communities",
     "nextEvent": "Next Event",
     "lightweightSocial": {
-      "title": "Lightweight Social",
+      "title": "Small Talk",
       "whosInCity": "Who's in this city?",
       "messageBoard": "Message Board",
       "messagePlaceholder": "Share something with the community...",
@@ -270,7 +270,7 @@
         "description": "Digital nomad discussion area on Reddit"
       }
     },
-    "local": {
+    "localCommunities": {
       "osaka": {
         "description": "Osaka local digital nomad meetup",
         "location": "Osaka City Center"
@@ -335,7 +335,8 @@
       "title": "No places recommended yet",
       "description": "Be the first to recommend a great place!"
     },
-    "viewAll": "View all {count} places"
+    "viewAll": "View all {count} places",
+    "foundResults": "Found {count} places"
   },
   "cities": {
     "loading": "Loading city rankings...",

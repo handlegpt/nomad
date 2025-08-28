@@ -22,6 +22,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { getPlacesByCity, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
 import { Place } from '@/lib/supabase'
 import Link from 'next/link'
+import AddPlaceForm from '@/components/AddPlaceForm'
 
 export default function PlacesPage() {
   const { t } = useTranslation()
@@ -34,6 +35,7 @@ export default function PlacesPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [sortBy, setSortBy] = useState<'rating' | 'recent' | 'popular'>('rating')
+  const [showAddForm, setShowAddForm] = useState(false)
 
   useEffect(() => {
     loadPlaces()
@@ -48,6 +50,17 @@ export default function PlacesPage() {
       console.error('Error loading places:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleAddPlace = async (placeData: any) => {
+    try {
+      // TODO: 实现添加地点的API调用
+      console.log('Adding new place:', placeData)
+      // 重新加载地点列表
+      await loadPlaces()
+    } catch (error) {
+      console.error('Error adding place:', error)
     }
   }
 
@@ -104,8 +117,19 @@ export default function PlacesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('places.title')}</h1>
-          <p className="text-gray-600">{t('places.description')}</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('places.title')}</h1>
+              <p className="text-gray-600">{t('places.description')}</p>
+            </div>
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <PlusIcon className="h-5 w-5" />
+              <span>{t('places.addPlace')}</span>
+            </button>
+          </div>
         </div>
 
         {/* Filters and Search */}
@@ -178,6 +202,13 @@ export default function PlacesPage() {
           </div>
         </div>
 
+        {/* Results Count */}
+        <div className="mb-6">
+          <p className="text-gray-600">
+            {t('places.foundResults', { count: sortedPlaces.length })}
+          </p>
+        </div>
+
         {/* Places Grid/List */}
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -214,10 +245,10 @@ export default function PlacesPage() {
                           <span>{getPriceLevelText(place.price_level)}</span>
                         </div>
                       </div>
-                                              <div className="flex items-center space-x-1">
-                          <UsersIcon className="h-4 w-4" />
-                          <span>{place.review_count || 0} {t('places.reviews')}</span>
-                        </div>
+                      <div className="flex items-center space-x-1">
+                        <UsersIcon className="h-4 w-4" />
+                        <span>{place.review_count || 0} {t('places.reviews')}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -276,8 +307,22 @@ export default function PlacesPage() {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">{t('places.noResults.title')}</h3>
             <p className="text-gray-600">{t('places.noResults.description')}</p>
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="mt-4 flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+            >
+              <PlusIcon className="h-5 w-5" />
+              <span>{t('places.addPlace')}</span>
+            </button>
           </div>
         )}
+
+        {/* Add Place Form Modal */}
+        <AddPlaceForm
+          isOpen={showAddForm}
+          onClose={() => setShowAddForm(false)}
+          onSubmit={handleAddPlace}
+        />
       </div>
     </div>
   )
