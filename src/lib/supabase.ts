@@ -1,22 +1,19 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Only create Supabase client on client side
+// Create Supabase client for both client and server side
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 let supabase: any = null
 let hasWarned = false
 
-if (typeof window !== 'undefined') {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  
-  // Debug: Log environment variables (always show for debugging)
-  console.log('🔍 Debug - Supabase URL:', supabaseUrl ? 'Set' : 'Not set')
-  console.log('🔍 Debug - Supabase Key:', supabaseAnonKey ? 'Set' : 'Not set')
-  console.log('🔍 Debug - NODE_ENV:', process.env.NODE_ENV)
-  
-  if (supabaseUrl && supabaseAnonKey) {
-    supabase = createClient(supabaseUrl, supabaseAnonKey)
-    console.log('✅ Supabase client created successfully')
-  } else {
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey)
+  if (typeof window !== 'undefined') {
+    console.log('✅ Supabase client created successfully (client side)')
+  }
+} else {
+  if (typeof window !== 'undefined') {
     console.warn('🔧 Supabase environment variables are not configured - using mock data')
     hasWarned = true
   }

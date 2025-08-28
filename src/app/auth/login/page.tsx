@@ -208,10 +208,7 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
-              还没有账户？{' '}
-              <Link href="/auth/register" className="text-blue-600 hover:text-blue-700 font-medium">
-                立即注册
-              </Link>
+              使用邮箱验证码即可登录，无需注册
             </p>
           </div>
         </div>
