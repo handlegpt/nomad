@@ -1,5 +1,12 @@
 import { supabase, City, Vote, User, Place, PlaceVote, PlaceReview } from './supabase'
 
+// Helper function to log warnings only in development
+const devWarn = (message: string) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(message)
+  }
+}
+
 // Time related APIs
 export async function getWorldTime(timezone: string) {
   try {
@@ -51,7 +58,7 @@ export async function getWeather(lat: number, lon: number) {
 // City related APIs
 export async function getCities(): Promise<City[]> {
   if (!supabase) {
-    console.warn('Supabase client not available - returning mock data')
+    devWarn('Supabase client not available - returning mock data')
     // Return mock data when Supabase is not available
     return [
       {
@@ -103,7 +110,7 @@ export async function getCities(): Promise<City[]> {
 
 export async function getTopCities(limit: number = 10): Promise<City[]> {
   if (!supabase) {
-    console.warn('Supabase client not available - returning mock data')
+    devWarn('Supabase client not available - returning mock data')
     // Return mock data when Supabase is not available
     return [
       {
