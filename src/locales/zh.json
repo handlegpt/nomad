@@ -180,6 +180,30 @@
       "meetups": "聚会"
     }
   },
+  "places": {
+    "title": "推荐地点",
+    "description": "发现最适合数字游民的地点",
+    "searchPlaceholder": "搜索地点...",
+    "addPlace": "添加地点",
+    "categories": {
+      "all": "全部",
+      "cafe": "☕ 咖啡馆",
+      "coworking": "💻 Co-working",
+      "coliving": "🏠 Coliving",
+      "restaurant": "🍽 餐馆",
+      "outdoor": "🌳 户外"
+    },
+    "sortBy": {
+      "rating": "评分最高",
+      "recent": "最新添加",
+      "popular": "最受欢迎"
+    },
+    "noResults": {
+      "title": "没有找到地点",
+      "description": "尝试调整搜索条件或添加新的地点"
+    },
+    "viewAll": "查看全部 {count} 个地点"
+  },
   "common": {
     "learnMore": "了解更多",
     "viewDetails": "查看详情",

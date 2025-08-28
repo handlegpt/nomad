@@ -85,18 +85,18 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
   const displayedPlaces = limit ? sortedPlaces.slice(0, limit) : sortedPlaces
 
   const categories = [
-    { id: 'all', name: '全部', icon: <MapPinIcon className="h-4 w-4" /> },
-    { id: 'cafe', name: '☕ 咖啡馆', icon: <MapPinIcon className="h-4 w-4" /> },
-    { id: 'coworking', name: '💻 Co-working', icon: <MonitorIcon className="h-4 w-4" /> },
-    { id: 'coliving', name: '🏠 Coliving', icon: <HomeIcon className="h-4 w-4" /> },
-    { id: 'restaurant', name: '🍽 餐馆', icon: <UtensilsIcon className="h-4 w-4" /> },
-    { id: 'outdoor', name: '🌳 户外', icon: <TreePine className="h-4 w-4" /> }
+    { id: 'all', name: t('places.categories.all'), icon: <MapPinIcon className="h-4 w-4" /> },
+    { id: 'cafe', name: t('places.categories.cafe'), icon: <MapPinIcon className="h-4 w-4" /> },
+    { id: 'coworking', name: t('places.categories.coworking'), icon: <MonitorIcon className="h-4 w-4" /> },
+    { id: 'coliving', name: t('places.categories.coliving'), icon: <HomeIcon className="h-4 w-4" /> },
+    { id: 'restaurant', name: t('places.categories.restaurant'), icon: <UtensilsIcon className="h-4 w-4" /> },
+    { id: 'outdoor', name: t('places.categories.outdoor'), icon: <TreePine className="h-4 w-4" /> }
   ]
 
   const sortOptions = [
-    { value: 'rating', label: '评分最高' },
-    { value: 'recent', label: '最新添加' },
-    { value: 'popular', label: '最受欢迎' }
+    { value: 'rating', label: t('places.sortBy.rating') },
+    { value: 'recent', label: t('places.sortBy.recent') },
+    { value: 'popular', label: t('places.sortBy.popular') }
   ]
 
   const handleAddPlace = async (placeData: any) => {
@@ -120,15 +120,15 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">推荐地点</h3>
-          <p className="text-sm text-gray-600">发现最适合数字游民的地点</p>
+          <h3 className="text-lg font-semibold text-gray-900">{t('places.title')}</h3>
+          <p className="text-sm text-gray-600">{t('places.description')}</p>
         </div>
         <button
           onClick={() => setShowAddForm(true)}
           className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
         >
           <PlusIcon className="h-4 w-4" />
-          <span>添加地点</span>
+          <span>{t('places.addPlace')}</span>
         </button>
       </div>
 
@@ -140,7 +140,7 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="搜索地点..."
+              placeholder={t('places.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -292,8 +292,8 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
           <div className="text-gray-400 mb-4">
             <MapPinIcon className="h-16 w-16 mx-auto" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到地点</h3>
-          <p className="text-gray-600">尝试调整搜索条件或添加新的地点</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t('places.noResults.title')}</h3>
+          <p className="text-gray-600">{t('places.noResults.description')}</p>
         </div>
       )}
 
@@ -301,7 +301,7 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
       {limit && sortedPlaces.length > limit && (
         <div className="text-center">
           <button className="text-blue-600 hover:text-blue-700 font-medium flex items-center mx-auto">
-            查看全部 {sortedPlaces.length} 个地点
+            {t('places.viewAll', { count: String(sortedPlaces.length) })}
             <ArrowRightIcon className="h-4 w-4 ml-1" />
           </button>
         </div>

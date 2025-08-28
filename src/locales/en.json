@@ -180,6 +180,30 @@
       "meetups": "Meetups"
     }
   },
+  "places": {
+    "title": "Recommended Places",
+    "description": "Discover the best places for digital nomads",
+    "searchPlaceholder": "Search places...",
+    "addPlace": "Add Place",
+    "categories": {
+      "all": "All",
+      "cafe": "☕ Cafe",
+      "coworking": "💻 Co-working",
+      "coliving": "🏠 Coliving",
+      "restaurant": "🍽 Restaurant",
+      "outdoor": "🌳 Outdoor"
+    },
+    "sortBy": {
+      "rating": "Highest Rating",
+      "recent": "Most Recent",
+      "popular": "Most Popular"
+    },
+    "noResults": {
+      "title": "No places found",
+      "description": "Try adjusting your search criteria or add a new place"
+    },
+    "viewAll": "View all {count} places"
+  },
   "common": {
     "learnMore": "Learn more",
     "viewDetails": "View Details",
