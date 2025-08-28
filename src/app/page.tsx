@@ -4,11 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Globe, Users, TrendingUp, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import Logo from '@/components/Logo'
-import Navigation from '@/components/Navigation'
-import NotificationSystem from '@/components/NotificationSystem'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
-import MobileMenu from '@/components/MobileMenu'
+import Header from '@/components/Header'
 import CurrentLocationCard from '@/components/CurrentLocationCard'
 import CityRanking from '@/components/CityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
@@ -37,24 +33,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Minimal Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex items-center justify-between">
-            <Logo size="md" />
-            
-            <div className="flex items-center space-x-3">
-              <div className="hidden lg:block">
-                <NotificationSystem />
-              </div>
-              <div className="hidden lg:block">
-                <LanguageSwitcher />
-              </div>
-              <MobileMenu />
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Header */}
+      <Header />
 
       {/* Main Content - Minimal Design */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

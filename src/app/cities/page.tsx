@@ -5,6 +5,7 @@ import { SearchIcon, StarIcon, WifiIcon, DollarSignIcon, CloudIcon, UsersIcon } 
 import { getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
+import Header from '@/components/Header'
 import Link from 'next/link'
 
 export default function CitiesPage() {
@@ -87,37 +88,38 @@ export default function CitiesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">🌍 {t('cities.title')}</h1>
-          
-          {/* Search and Filter */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder={t('cities.searchPlaceholder')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+            {/* Header */}
+      <Header />
+      
+      {/* Page Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">🌍 {t('cities.title')}</h1>
+        
+        {/* Search and Filter */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="relative flex-1">
+            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder={t('cities.searchPlaceholder')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
 
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="all">{t('cities.filters.all')}</option>
-              <option value="visa-free">{t('cities.filters.visaFree')}</option>
-              <option value="digital-nomad">{t('cities.filters.digitalNomad')}</option>
-              <option value="low-cost">{t('cities.filters.lowCost')}</option>
-            </select>
-                      </div>
-                    </div>
-                  </div>
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="all">{t('cities.filters.all')}</option>
+            <option value="visa-free">{t('cities.filters.visaFree')}</option>
+            <option value="digital-nomad">{t('cities.filters.digitalNomad')}</option>
+            <option value="low-cost">{t('cities.filters.lowCost')}</option>
+          </select>
+        </div>
+      </div>
 
       {/* Cities Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
