@@ -12,21 +12,21 @@ export default function CommunitySection() {
     {
       name: 'Digital Nomads Facebook Group',
       members: '125K+',
-      description: t('community.onlineCommunities.facebook.description'),
+      descriptionKey: 'community.onlineCommunities.facebook.description',
       url: '#',
       icon: '💬'
     },
     {
       name: 'Nomad List Community',
       members: '50K+',
-      description: t('community.onlineCommunities.nomadlist.description'),
+      descriptionKey: 'community.onlineCommunities.nomadlist.description',
       url: '#',
       icon: '🌍'
     },
     {
       name: 'Reddit r/digitalnomad',
       members: '1.2M+',
-      description: t('community.onlineCommunities.reddit.description'),
+      descriptionKey: 'community.onlineCommunities.reddit.description',
       url: '#',
       icon: '📱'
     }
@@ -36,25 +36,25 @@ export default function CommunitySection() {
     {
       name: 'Osaka Digital Nomads',
       members: '500+',
-      description: t('community.local.osaka.description'),
+      descriptionKey: 'community.local.osaka.description',
       nextEvent: '2024-01-15',
-      location: t('community.local.osaka.location'),
+      locationKey: 'community.local.osaka.location',
       icon: '🏯'
     },
     {
       name: 'Tokyo Remote Workers',
       members: '1.2K+',
-      description: t('community.local.tokyo.description'),
+      descriptionKey: 'community.local.tokyo.description',
       nextEvent: '2024-01-20',
-      location: t('community.local.tokyo.location'),
+      locationKey: 'community.local.tokyo.location',
       icon: '🗼'
     },
     {
       name: 'Kyoto Nomad Meetup',
       members: '300+',
-      description: t('community.local.kyoto.description'),
+      descriptionKey: 'community.local.kyoto.description',
       nextEvent: '2024-01-25',
-      location: t('community.local.kyoto.location'),
+      locationKey: 'community.local.kyoto.location',
       icon: '⛩️'
     }
   ]
@@ -109,7 +109,7 @@ export default function CommunitySection() {
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-2">
-                    {community.description}
+                    {t(community.descriptionKey)}
                   </p>
                   <a
                     href={community.url}
@@ -143,7 +143,7 @@ export default function CommunitySection() {
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-2">
-                    {community.description}
+                    {t(community.descriptionKey)}
                   </p>
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <div className="flex items-center">
@@ -152,7 +152,7 @@ export default function CommunitySection() {
                     </div>
                     <div className="flex items-center">
                       <MapPin className="h-4 w-4 mr-1" />
-                      <span>{community.location}</span>
+                      <span>{t(community.locationKey)}</span>
                     </div>
                   </div>
                   <button className="mt-2 text-sm text-green-600 hover:text-green-700 font-medium">
