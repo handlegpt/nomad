@@ -27,10 +27,11 @@
 - **多语言**: 自定义i18n系统
 - **部署**: Docker + Docker Compose
 
-## 🌍 多语言支持
+## �� 多语言支持
 
 ### 支持的语言
-- 🇨🇳 **中文** (zh) - 默认语言
+- 🇺🇸 **英语** (en) - 默认语言
+- 🇨🇳 **中文** (zh) - 简体中文
 - 🇪🇸 **西班牙语** (es) - Español
 - 🇯🇵 **日语** (ja) - 日本語
 
@@ -42,15 +43,18 @@
 
 ### 翻译文件结构
 ```
+src/locales/
+├── en.json                      # 英语翻译
+├── zh.json                      # 中文翻译
+├── es.json                      # 西班牙语翻译
+└── ja.json                      # 日语翻译
+
 src/i18n/
 ├── config.ts                    # 语言配置
-├── utils.ts                     # 翻译工具函数
-├── translations/
-│   ├── zh.json                  # 中文翻译
-│   ├── es.json                  # 西班牙语翻译
-│   └── ja.json                  # 日语翻译
-└── hooks/
-    └── useTranslation.ts        # 翻译Hook
+└── utils.ts                     # 翻译工具函数
+
+src/hooks/
+└── useTranslation.ts            # 翻译Hook
 ```
 
 ## 📦 快速部署 (Docker)
@@ -62,28 +66,8 @@ cd nomad-now
 ```
 
 ### 2. 配置环境变量
-```bash
-# 运行配置脚本
-chmod +x setup-env.sh
-./setup-env.sh
-```
 
-按提示输入你的API密钥：
-- Supabase URL 和 Anon Key
-- OpenWeather API Key
-
-### 3. 一键部署
-```bash
-chmod +x deploy.sh
-./deploy.sh
-```
-
-### 4. 访问网站
-打开浏览器访问: http://localhost:3011
-
-## 🔧 手动配置
-
-如果你想手动配置环境变量，请编辑 `docker-compose.yml` 文件：
+编辑 `docker-compose.yml` 文件，更新以下环境变量：
 
 ```yaml
 environment:
@@ -91,6 +75,56 @@ environment:
   - NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
   - NEXT_PUBLIC_OPENWEATHER_API_KEY=your-openweather-api-key-here
 ```
+
+### 3. 构建和启动
+
+```bash
+# 构建镜像
+docker-compose build
+
+# 启动服务
+docker-compose up -d
+```
+
+### 4. 访问网站
+打开浏览器访问: http://localhost:3011
+
+### 5. 常用命令
+
+```bash
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+
+# 重启服务
+docker-compose restart
+
+# 更新部署
+docker-compose up --build -d
+```
+
+## 🔧 环境变量配置
+
+### 必需的API密钥
+
+1. **Supabase 配置**
+   - 访问 [Supabase](https://supabase.com) 创建项目
+   - 获取项目 URL 和 Anon Key
+   - 配置数据库表结构（参考 `database/` 目录）
+
+2. **OpenWeather API**
+   - 访问 [OpenWeatherMap](https://openweathermap.org/api) 注册账号
+   - 获取免费 API Key
+
+### 环境变量说明
+
+| 变量名 | 说明 | 示例 |
+|--------|------|------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 项目 URL | `https://your-project.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase 匿名密钥 | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
+| `NEXT_PUBLIC_OPENWEATHER_API_KEY` | OpenWeather API 密钥 | `1234567890abcdef...` |
 
 ## 📦 本地开发
 
@@ -102,7 +136,7 @@ npm install
 2. 配置环境变量
 ```bash
 cp env.example .env.local
-# 编辑 .env.local 文件
+# 编辑 .env.local 文件，添加你的API密钥
 ```
 
 3. 启动开发服务器
@@ -110,217 +144,73 @@ cp env.example .env.local
 npm run dev
 ```
 
-访问 [http://localhost:3011](http://localhost:3011)
+4. 访问开发环境
+打开浏览器访问: http://localhost:3000
 
-## 🏗️ 项目结构
+## 🗄️ 数据库设置
 
-```
-src/
-├── app/                 # Next.js App Router
-│   ├── page.tsx        # 首页
-│   ├── setup/          # 快速设置页面
-│   ├── cities/         # 城市详情页
-│   └── layout.tsx      # 布局
-├── components/         # React组件
-│   ├── CurrentLocationCard.tsx      # 当前位置信息卡片
-│   ├── CityRanking.tsx             # 城市排行榜
-│   ├── VoteModal.tsx              # 投票模态框
-│   ├── NomadTip.tsx               # Nomad小贴士
-│   ├── CommunitySection.tsx       # 社区功能
-│   ├── PremiumFeatures.tsx        # 高级功能
-│   ├── VisaCountdown.tsx          # 签证倒计时
-│   ├── PersonalizedRecommendations.tsx # AI个性化推荐
-│   ├── CityComparison.tsx         # 城市对比工具
-│   └── LanguageSwitcher.tsx       # 语言切换器
-├── i18n/               # 多语言系统
-│   ├── config.ts       # 语言配置
-│   ├── utils.ts        # 翻译工具
-│   ├── translations/   # 翻译文件
-│   └── hooks/          # 翻译Hook
-├── lib/               # 工具库
-│   ├── api.ts         # API服务
-│   └── supabase.ts    # Supabase配置
-└── styles/            # 样式文件
-```
+### Supabase 表结构
 
-## 💡 核心功能
+项目使用以下数据表：
 
-### 1. 当前位置信息卡片
-- 显示用户当前位置
-- 实时时间（基于时区）
-- 当前天气状况
-- WiFi速度（模拟数据）
-- 签证剩余天数
+1. **cities** - 城市信息
+2. **users** - 用户信息
+3. **votes** - 城市投票
+4. **places** - 地点推荐
+5. **place_votes** - 地点投票
+6. **place_reviews** - 地点评价
 
-### 2. 签证倒计时提醒
-- 智能倒计时显示
-- 不同状态的颜色提示
-- 详细建议和行动指南
-- 邮件和日历提醒功能
+详细的数据库设置说明请参考 `database/` 目录。
 
-### 3. 城市投票榜单
-- 显示热门城市排名
-- 支持快速点赞/踩投票
-- 多维度详细评分（WiFi、社交、性价比、气候）
-- 实时更新排名
-- 城市搜索和筛选
+## 🔒 安全特性
 
-### 4. AI个性化推荐
-- 基于用户偏好设置
-- 多维度权重调整
-- 智能匹配算法
-- 个性化城市推荐
+- **Docker 安全**: 使用非 root 用户运行应用
+- **环境变量**: 敏感信息通过环境变量配置
+- **文件过滤**: 使用 `.dockerignore` 防止敏感文件泄露
+- **依赖安全**: 保留 `package-lock.json` 确保依赖版本一致性
+- **健康检查**: 内置健康检查端点 `/api/health`
 
-### 5. 城市对比工具
-- 支持2-4个城市对比
-- 可视化图表展示
-- 多维度指标对比
-- PDF导出功能（高级版）
+## 📊 监控和维护
 
-### 6. Nomad小贴士
-- 每日签证和生活小贴士
-- 邮件订阅功能
-- 签证到期提醒
-
-### 7. 社区功能
-- 轻量化社交动态
-- 用户分享当前位置和体验
-- 点赞和回复功能
-- 增加用户粘性
-
-### 8. 高级功能（盈利模式）
-- 城市对比报告导出
-- 签证到期提醒
-- 个性化推荐
-- 订阅制收费
-- Affiliate链接（住宿、签证、保险、Co-working）
-
-### 9. 快速设置向导
-- 3步快速设置
-- 个人信息收集
-- 偏好设置
-- 本地存储
-
-### 10. 多语言系统
-- 完整的中文、西班牙语、日语翻译
-- 自动语言检测
-- 语言偏好保存
-- 动态语言切换
-
-## 🎯 设计理念
-
-### 极简 + 社区的平衡
-- 首页保持极简，一眼看到关键信息
-- 城市榜单作为次要入口，避免信息过载
-- 投票机制增加用户参与度
-- 轻量化社交功能
-
-### 用户粘性设计
-- 签证倒计时提醒
-- 每日小贴士
-- 社区互动
-- 个性化推荐
-- 智能提醒系统
-
-### 盈利模式
-- **订阅制**: 月度$9.99，年度$99.99
-- **Affiliate**: 住宿、签证、保险、Co-working空间
-- **广告**: 精准投放，不影响用户体验
-
-### 国际化策略
-- **本地化**: 完整的多语言支持
-- **文化适应**: 针对不同地区的签证政策
-- **货币支持**: 多币种显示
-- **时区处理**: 智能时区转换
-
-## 🔧 开发指南
-
-### 添加新语言
-1. 在 `src/i18n/config.ts` 中添加新语言配置
-2. 创建翻译文件 `src/i18n/translations/[locale].json`
-3. 更新语言检测逻辑
-
-### 添加新城市
-1. 在 `database/init.sql` 中添加城市数据
-2. 确保包含所有必要字段（坐标、时区等）
-
-### 自定义API
-- 天气API: 修改 `src/lib/api.ts` 中的 `getWeather` 函数
-- 时间API: 修改 `getWorldTime` 函数
-- WiFi数据: 集成Ookla Speedtest API
-
-### 样式定制
-- 使用 Tailwind CSS 类名
-- 主要颜色: blue-600, purple-600
-- 圆角: rounded-2xl
-- 阴影: shadow-lg
-
-## 📈 部署
-
-### Docker部署（推荐）
+### 健康检查
 ```bash
-# 一键部署
-./deploy.sh
+curl http://localhost:3011/api/health
+```
 
-# 查看日志
+### 日志查看
+```bash
+# 查看应用日志
+docker-compose logs -f app
+
+# 查看所有服务日志
 docker-compose logs -f
-
-# 停止服务
-docker-compose down
-
-# 重启服务
-docker-compose restart
 ```
 
-### Vercel部署
-```bash
-npm run build
-vercel --prod
-```
+### 性能监控
+- 应用运行在端口 3011
+- 健康检查间隔: 30秒
+- 自动重启策略已配置
 
-## 🚀 未来规划
+## 🤝 贡献指南
 
-### 短期目标
-- [ ] 用户认证系统
-- [ ] 真实地理位置检测
-- [ ] 更多城市数据
-- [ ] 移动端优化
-- [ ] 实时聊天功能
-- [ ] 更多语言支持（英语、法语、德语）
-
-### 中期目标
-- [ ] AI个性化推荐优化
-- [ ] 城市详情页面
-- [ ] 多语言SEO优化
-- [ ] 移动应用开发
-- [ ] 数据分析和洞察
-- [ ] 本地化内容策略
-
-### 长期目标
-- [ ] 企业版功能
-- [ ] 全球社区建设
-- [ ] 高级AI功能
-- [ ] 生态系统建设
-- [ ] 区域化运营
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-### 翻译贡献
-如果你想帮助翻译，请：
 1. Fork 项目
-2. 添加或改进翻译文件
-3. 提交 Pull Request
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
 
 ## 📄 许可证
 
-MIT License
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
-## 🔗 相关链接
+## 🆘 支持
 
-- [Supabase](https://supabase.com)
-- [OpenWeatherMap API](https://openweathermap.org/api)
-- [World Time API](http://worldtimeapi.org)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Lucide React](https://lucide.dev)
+如果你遇到问题或有建议，请：
+
+1. 查看 [SECURITY.md](SECURITY.md) 了解安全政策
+2. 在 GitHub Issues 中报告问题
+3. 联系项目维护者
+
+---
+
+**NOMAD.NOW** - 让数字游民的生活更简单 🌍

@@ -12,7 +12,7 @@ COPY package-lock.json ./
 
 # Install all dependencies (including dev dependencies for build)
 # Use npm ci for reproducible builds and better security
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Copy source code (excluding files in .dockerignore)
 COPY . .

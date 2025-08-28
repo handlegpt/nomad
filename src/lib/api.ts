@@ -422,6 +422,21 @@ export async function getUserPlaces(userId: string): Promise<Place[]> {
   }
 }
 
+// Calculate visa days remaining
+export function calculateVisaDays(visaExpiry: string): number {
+  const expiryDate = new Date(visaExpiry)
+  const today = new Date()
+  
+  // Reset time to start of day for accurate day calculation
+  today.setHours(0, 0, 0, 0)
+  expiryDate.setHours(0, 0, 0, 0)
+  
+  const diffTime = expiryDate.getTime() - today.getTime()
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  
+  return diffDays
+}
+
 // Timezone mapping function
 export function getTimezoneFromCoordinates(lat: number, lon: number): string {
   // This is a simplified timezone mapping
