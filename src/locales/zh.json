@@ -287,14 +287,7 @@
     "foundResults": "找到 {count} 个地点",
     "reviews": "评价"
   },
-  "cities": {
-    "loading": "加载城市榜单...",
-    "votes": "票",
-    "quickUpvote": "快速点赞",
-    "quickDownvote": "快速点踩",
-    "voteDetails": "投票/详情",
-    "votingComingSoon": "投票功能即将推出！"
-  },
+
   "recommendations": {
     "title": "AI 个性化推荐",
     "generate": "生成推荐",
@@ -348,22 +341,7 @@
     "startComparison": "开始对比"
   },
 
-  "cities": {
-    "tokyo": "东京",
-    "osaka": "大阪",
-    "bangkok": "曼谷",
-    "chiangMai": "清迈",
-    "bali": "巴厘岛",
-    "lisbon": "里斯本",
-    "barcelona": "巴塞罗那",
-    "mexicoCity": "墨西哥城",
-    "japan": "日本",
-    "thailand": "泰国",
-    "indonesia": "印尼",
-    "portugal": "葡萄牙",
-    "spain": "西班牙",
-    "mexico": "墨西哥"
-  },
+
   "common": {
     "loading": "加载中...",
     "learnMore": "了解更多",
