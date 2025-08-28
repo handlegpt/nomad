@@ -66,28 +66,28 @@ export default function SetupPage() {
   const handleSave = async () => {
     setSaving(true)
     
-    // 模拟保存延迟
+    // Simulate save delay
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    // 保存到本地存储
+    // Save to local storage
     localStorage.setItem('userSettings', JSON.stringify(settings))
     
-    // 更新语言设置
+    // Update language settings
     if (settings.preferences.language !== locale) {
       changeLocale(settings.preferences.language as any)
     }
     
     setSaving(false)
     
-    // 显示成功消息
-    alert('设置已保存！')
+    // Show success message
+    alert('Settings saved!')
   }
 
   const updateSettings = (section: keyof UserSettings, field: string, value: any) => {
     setSettings(prev => ({
       ...prev,
       [section]: {
-        ...prev[section],
+        ...(prev[section] as any),
         [field]: value
       }
     }))
@@ -97,9 +97,9 @@ export default function SetupPage() {
     setSettings(prev => ({
       ...prev,
       [section]: {
-        ...prev[section],
+        ...(prev[section] as any),
         [subsection]: {
-          ...prev[section][subsection],
+          ...((prev[section] as any)[subsection] as any),
           [field]: value
         }
       }
@@ -124,15 +124,15 @@ export default function SetupPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">个人设置</h1>
-        <p className="text-gray-600">配置你的个人信息和偏好设置</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Personal Settings</h1>
+        <p className="text-gray-600">Configure your personal information and preferences</p>
       </div>
 
       {/* Tab Navigation */}
       <div className="flex space-x-2 mb-8">
-        <TabButton id="profile" label="个人资料" icon={UserIcon} />
-        <TabButton id="preferences" label="偏好设置" icon={PaletteIcon} />
-        <TabButton id="visa" label="签证信息" icon={ShieldIcon} />
+        <TabButton id="profile" label="Profile" icon={UserIcon} />
+        <TabButton id="preferences" label="Preferences" icon={PaletteIcon} />
+        <TabButton id="visa" label="Visa Info" icon={ShieldIcon} />
       </div>
 
       {/* Content */}
@@ -140,51 +140,51 @@ export default function SetupPage() {
         {/* Profile Tab */}
         {activeTab === 'profile' && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">个人资料</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">Profile</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  姓名
+                  Name
                 </label>
                 <input
                   type="text"
                   value={settings.profile.name}
                   onChange={(e) => updateSettings('profile', 'name', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="输入你的姓名"
+                  placeholder="Enter your name"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  邮箱
+                  Email
                 </label>
                 <input
                   type="email"
                   value={settings.profile.email}
                   onChange={(e) => updateSettings('profile', 'email', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="输入你的邮箱"
+                  placeholder="Enter your email"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  当前位置
+                  Current Location
                 </label>
                 <input
                   type="text"
                   value={settings.profile.currentLocation}
                   onChange={(e) => updateSettings('profile', 'currentLocation', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="例如：大阪，日本"
+                  placeholder="e.g., Osaka, Japan"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  时区
+                  Timezone
                 </label>
                 <select
                   value={settings.profile.timezone}
@@ -205,12 +205,12 @@ export default function SetupPage() {
         {/* Preferences Tab */}
         {activeTab === 'preferences' && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">偏好设置</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">Preferences</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  语言
+                  Language
                 </label>
                 <select
                   value={settings.preferences.language}
@@ -225,16 +225,16 @@ export default function SetupPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  主题
+                  Theme
                 </label>
                 <select
                   value={settings.preferences.theme}
                   onChange={(e) => updateSettings('preferences', 'theme', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="light">浅色</option>
-                  <option value="dark">深色</option>
-                  <option value="auto">跟随系统</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="auto">Auto</option>
                 </select>
               </div>
             </div>
@@ -242,15 +242,15 @@ export default function SetupPage() {
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
                 <BellIcon className="h-5 w-5 mr-2" />
-                通知设置
+                Notification Settings
               </h3>
               
               <div className="space-y-4">
                 {[
-                  { key: 'visaReminders', label: '签证到期提醒' },
-                  { key: 'cityRecommendations', label: '城市推荐' },
-                  { key: 'weeklyDigest', label: '每周摘要' },
-                  { key: 'emailUpdates', label: '邮件更新' }
+                  { key: 'visaReminders', label: 'Visa Expiry Reminders' },
+                  { key: 'cityRecommendations', label: 'City Recommendations' },
+                  { key: 'weeklyDigest', label: 'Weekly Digest' },
+                  { key: 'emailUpdates', label: 'Email Updates' }
                 ].map(({ key, label }) => (
                   <label key={key} className="flex items-center space-x-3">
                     <input
@@ -270,66 +270,66 @@ export default function SetupPage() {
         {/* Visa Tab */}
         {activeTab === 'visa' && (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">签证信息</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">Visa Information</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  护照国家
+                  Passport Country
                 </label>
                 <select
                   value={settings.visa.passportCountry}
                   onChange={(e) => updateSettings('visa', 'passportCountry', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">选择国家</option>
-                  <option value="CN">中国</option>
-                  <option value="US">美国</option>
-                  <option value="JP">日本</option>
-                  <option value="KR">韩国</option>
-                  <option value="SG">新加坡</option>
+                  <option value="">Select Country</option>
+                  <option value="CN">China</option>
+                  <option value="US">United States</option>
+                  <option value="JP">Japan</option>
+                  <option value="KR">South Korea</option>
+                  <option value="SG">Singapore</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  当前所在国家
+                  Current Country
                 </label>
                 <select
                   value={settings.visa.currentCountry}
                   onChange={(e) => updateSettings('visa', 'currentCountry', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">选择国家</option>
-                  <option value="JP">日本</option>
-                  <option value="TH">泰国</option>
-                  <option value="PT">葡萄牙</option>
-                  <option value="ES">西班牙</option>
-                  <option value="MX">墨西哥</option>
+                  <option value="">Select Country</option>
+                  <option value="JP">Japan</option>
+                  <option value="TH">Thailand</option>
+                  <option value="PT">Portugal</option>
+                  <option value="ES">Spain</option>
+                  <option value="MX">Mexico</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  签证类型
+                  Visa Type
                 </label>
                 <select
                   value={settings.visa.visaType}
                   onChange={(e) => updateSettings('visa', 'visaType', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">选择签证类型</option>
-                  <option value="tourist">旅游签证</option>
-                  <option value="business">商务签证</option>
-                  <option value="student">学生签证</option>
-                  <option value="work">工作签证</option>
-                  <option value="digital_nomad">数字游民签证</option>
+                  <option value="">Select Visa Type</option>
+                  <option value="tourist">Tourist Visa</option>
+                  <option value="business">Business Visa</option>
+                  <option value="student">Student Visa</option>
+                  <option value="work">Work Visa</option>
+                  <option value="digital_nomad">Digital Nomad Visa</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  到期日期
+                  Expiry Date
                 </label>
                 <input
                   type="date"
@@ -342,9 +342,9 @@ export default function SetupPage() {
 
             {settings.visa.expiryDate && (
               <div className="bg-blue-50 rounded-lg p-4">
-                <h4 className="font-medium text-blue-900 mb-2">签证状态</h4>
+                <h4 className="font-medium text-blue-900 mb-2">Visa Status</h4>
                 <p className="text-blue-700">
-                  距离签证到期还有 {Math.ceil((new Date(settings.visa.expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} 天
+                  Days until visa expiry: {Math.ceil((new Date(settings.visa.expiryDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))}
                 </p>
               </div>
             )}
@@ -359,7 +359,7 @@ export default function SetupPage() {
             className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             <SaveIcon className="h-4 w-4" />
-            <span>{saving ? '保存中...' : '保存设置'}</span>
+            <span>{saving ? 'Saving...' : 'Save Settings'}</span>
           </button>
         </div>
       </div>
