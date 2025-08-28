@@ -163,8 +163,44 @@ export async function getTopCities(limit: number = 10): Promise<City[]> {
 
 export async function getCityById(id: string): Promise<City | null> {
   if (!supabase) {
-    console.warn('Supabase client not available')
-    return null
+    console.warn('Supabase client not available - returning mock data')
+    // Return mock data when Supabase is not available
+    const mockCities = [
+      {
+        id: '1',
+        name: 'Lisbon',
+        country: 'Portugal',
+        country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 38.7223,
+        longitude: -9.1393,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 2000,
+        wifi_speed: 100,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      },
+      {
+        id: '2',
+        name: 'Chiang Mai',
+        country: 'Thailand',
+        country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 18.7883,
+        longitude: 98.9853,
+        visa_days: 60,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01',
+        updated_at: '2024-01-01'
+      }
+    ]
+    
+    // Find city by ID in mock data
+    const city = mockCities.find(c => c.id === id)
+    return city || null
   }
   
   try {

@@ -60,7 +60,12 @@ export default function CitiesPage() {
     // TODO: Implement voting functionality
     console.log('Voting for city:', cityId)
     // In production, this would call an API to record the vote
-    alert(t('cities.votingComingSoon'))
+    const city = cities.find(c => c.id === cityId)
+    if (city) {
+      alert(`感谢您对 ${city.name} 的关注！\n\n投票功能正在开发中，即将推出。\n\n您可以先查看城市详情了解更多信息。`)
+    } else {
+      alert(t('cities.votingComingSoon'))
+    }
   }
 
   if (loading) {
