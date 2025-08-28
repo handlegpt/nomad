@@ -8,6 +8,7 @@ import {
   Calendar,
   MapPin
 } from 'lucide-react';
+import Header from '@/components/Header';
 
 export default function CommunityPage() {
   const [activeCategory, setActiveCategory] = useState('telegram');
@@ -140,8 +141,9 @@ export default function CommunityPage() {
   const selectedCommunities = communities[activeCategory as keyof typeof communities];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Community</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -155,10 +157,10 @@ export default function CommunityPage() {
             <button
               key={category.key}
               onClick={() => setActiveCategory(category.key)}
-              className={`px-6 py-3 rounded-full font-medium transition-colors ${
+              className={`px-6 py-3 rounded-full font-medium transition-colors min-h-[44px] ${
                 activeCategory === category.key
                   ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 active:bg-gray-200'
               }`}
             >
               {category.label}
@@ -175,7 +177,7 @@ export default function CommunityPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {selectedCommunities.items.map((community, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+              <div key={index} className="card card-md hover:shadow-lg transition-shadow">
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">{community.name}</h3>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { SearchIcon, FilterIcon, BookOpenIcon, CalendarIcon, GlobeIcon, DollarSignIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import Header from '@/components/Header'
 
 interface VisaGuide {
   id: string
@@ -129,9 +130,11 @@ export default function VisaGuidePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      <Header />
+      
+      {/* Page Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center">
               <BookOpenIcon className="h-8 w-8 text-blue-500 mr-3" />
@@ -145,8 +148,8 @@ export default function VisaGuidePage() {
       </div>
 
       {/* Search and Filters */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="card card-lg">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="md:col-span-2">
@@ -195,10 +198,10 @@ export default function VisaGuidePage() {
       </div>
 
       {/* Visa Guides */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredGuides.map((guide) => (
-            <div key={guide.id} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div key={guide.id} className="card card-lg">
               {/* Header */}
               <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center justify-between mb-4">

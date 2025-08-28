@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
-import Logo from '@/components/Logo'
+import Header from '@/components/Header'
 import { getCurrentUser, User as UserType } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 
@@ -212,26 +212,22 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <Logo size="sm" linkToHome={true} />
-              <span className="text-gray-400">|</span>
-              <span className="text-gray-600">用户后台</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>退出登录</span>
-              </button>
-            </div>
+      <Header showNavigation={false} pageTitle="用户后台" showPageTitle={true} />
+      
+      {/* Logout Button */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-end">
+            <button
+              onClick={handleLogout}
+              className="btn btn-md btn-secondary"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              退出登录
+            </button>
           </div>
         </div>
-      </header>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

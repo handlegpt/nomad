@@ -52,8 +52,8 @@ export default function MobileMenu() {
 
       {/* Mobile menu overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 animate-fade-in">
-          <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-xl animate-slide-in">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 animate-fade-in" onClick={() => setIsOpen(false)}>
+          <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-xl animate-slide-in" onClick={(e) => e.stopPropagation()}>
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
