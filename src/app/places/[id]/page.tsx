@@ -93,7 +93,7 @@ export default function PlaceDetailPage() {
       coworking: '💻',
       coliving: '🏠',
       restaurant: '🍽',
-      outdoor: '🌳',
+      park: '🌳',
       other: '📍'
     }
     return icons[category as keyof typeof icons] || icons.other
@@ -164,8 +164,14 @@ export default function PlaceDetailPage() {
                 <span>{place.category === 'cafe' ? t('places.categories.cafe') : 
                        place.category === 'coworking' ? t('places.categories.coworking') :
                        place.category === 'coliving' ? t('places.categories.coliving') :
+                       place.category === 'hostel' ? t('places.categories.hostel') :
+                       place.category === 'hotel' ? t('places.categories.hotel') :
                        place.category === 'restaurant' ? t('places.categories.restaurant') :
-                       place.category === 'outdoor' ? t('places.categories.outdoor') : t('places.categories.other')}</span>
+                       place.category === 'library' ? t('places.categories.library') :
+                       place.category === 'park' ? t('places.categories.park') :
+                       place.category === 'university' ? t('places.categories.university') :
+                       place.category === 'shopping' ? t('places.categories.shopping') : 
+                       t('places.categories.other')}</span>
               </p>
             </div>
           </div>

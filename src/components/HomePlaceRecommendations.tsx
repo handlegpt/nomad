@@ -56,7 +56,7 @@ export default function HomePlaceRecommendations() {
       coworking: '💻',
       coliving: '🏠',
       restaurant: '🍽',
-      outdoor: '🌳',
+      park: '🌳',
       other: '📍'
     }
     return icons[category as keyof typeof icons] || icons.other
@@ -68,7 +68,7 @@ export default function HomePlaceRecommendations() {
       coworking: t('places.categories.coworking'),
       coliving: t('places.categories.coliving'),
       restaurant: t('places.categories.restaurant'),
-      outdoor: t('places.categories.outdoor'),
+      park: t('places.categories.park'),
       other: t('places.categories.other')
     }
     return names[category as keyof typeof names] || t('places.categories.other')
@@ -203,7 +203,7 @@ export default function HomePlaceRecommendations() {
               { id: 'coworking', name: t('places.categories.coworking'), color: 'bg-blue-100 text-blue-700' },
               { id: 'coliving', name: t('places.categories.coliving'), color: 'bg-green-100 text-green-700' },
               { id: 'restaurant', name: t('places.categories.restaurant'), color: 'bg-red-100 text-red-700' },
-              { id: 'outdoor', name: t('places.categories.outdoor'), color: 'bg-purple-100 text-purple-700' }
+              { id: 'park', name: t('places.categories.park'), color: 'bg-purple-100 text-purple-700' }
             ].map((category) => (
             <Link
               key={category.id}

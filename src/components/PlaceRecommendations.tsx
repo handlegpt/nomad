@@ -90,7 +90,7 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
     { id: 'coworking', name: t('places.categories.coworking'), icon: <MonitorIcon className="h-4 w-4" /> },
     { id: 'coliving', name: t('places.categories.coliving'), icon: <HomeIcon className="h-4 w-4" /> },
     { id: 'restaurant', name: t('places.categories.restaurant'), icon: <UtensilsIcon className="h-4 w-4" /> },
-    { id: 'outdoor', name: t('places.categories.outdoor'), icon: <TreePine className="h-4 w-4" /> }
+    { id: 'park', name: t('places.categories.park'), icon: <TreePine className="h-4 w-4" /> }
   ]
 
   const sortOptions = [
