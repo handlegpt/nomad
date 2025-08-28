@@ -474,7 +474,6 @@
   "voteModal": {
     "pleaseProvideRating": "请至少提供一个总体评分",
     "submitFailed": "投票提交失败，请重试"
-    }
   },
   "components": {
     "notificationSystem": {
