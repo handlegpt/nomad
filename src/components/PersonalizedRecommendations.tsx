@@ -11,6 +11,10 @@ interface Preference {
   weight: number
 }
 
+interface ScoredCity extends City {
+  score: number
+}
+
 const preferences: Preference[] = [
   { id: 'wifi', label: 'WiFi质量', weight: 0 },
   { id: 'cost', label: '生活成本', weight: 0 },
@@ -22,7 +26,7 @@ const preferences: Preference[] = [
 export default function PersonalizedRecommendations() {
   const [cities, setCities] = useState<City[]>([])
   const [userPreferences, setUserPreferences] = useState(preferences)
-  const [recommendations, setRecommendations] = useState<City[]>([])
+  const [recommendations, setRecommendations] = useState<ScoredCity[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -49,24 +53,24 @@ export default function PersonalizedRecommendations() {
   const generateRecommendations = () => {
     setLoading(true)
     
-    // 模拟推荐算法
+    // Simulate recommendation algorithm
     setTimeout(() => {
-      const scoredCities = cities.map(city => {
+      const scoredCities: ScoredCity[] = cities.map(city => {
         let score = 0
         
-        // WiFi评分
+        // WiFi rating
         if (userPreferences.find(p => p.id === 'wifi')?.weight || 0 > 0) {
           score += (city.wifi_speed || 50) * (userPreferences.find(p => p.id === 'wifi')?.weight || 0) / 100
         }
         
-        // 成本评分（成本越低分数越高）
+        // Cost rating (lower cost = higher score)
         if (userPreferences.find(p => p.id === 'cost')?.weight || 0 > 0) {
           const costWeight = userPreferences.find(p => p.id === 'cost')?.weight || 0
           const costScore = Math.max(0, 2000 - (city.cost_of_living || 1000)) / 2000 * 100
           score += costScore * costWeight / 100
         }
         
-        // 签证评分
+        // Visa rating
         if (userPreferences.find(p => p.id === 'visa')?.weight || 0 > 0) {
           const visaWeight = userPreferences.find(p => p.id === 'visa')?.weight || 0
           const visaScore = Math.min(100, (city.visa_days || 30) / 365 * 100)
