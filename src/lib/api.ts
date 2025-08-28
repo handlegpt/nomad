@@ -408,3 +408,328 @@ export async function addPlaceReview(placeId: string, userId: string, rating: nu
     return false
   }
 }
+
+// Legacy functions for backward compatibility
+export async function submitVote(voteData: Omit<Vote, 'id' | 'created_at'>): Promise<boolean> {
+  if (!supabase) {
+    console.error('❌ Supabase client not available')
+    return false
+  }
+
+  try {
+    console.log('🔍 Submitting vote...')
+    const { error } = await supabase
+      .from('votes')
+      .insert(voteData)
+
+    if (error) {
+      console.error('❌ Error submitting vote to Supabase:', error)
+      return false
+    }
+
+    console.log('✅ Successfully submitted vote to Supabase')
+    return true
+  } catch (error) {
+    console.error('❌ Failed to submit vote to Supabase:', error)
+    return false
+  }
+}
+
+export async function getPlacesByCity(cityId: string): Promise<Place[]> {
+  return getPlaces(cityId)
+}
+
+export async function getPlacesByCategory(category: string, cityId?: string): Promise<Place[]> {
+  if (!supabase) {
+    console.error('❌ Supabase client not available')
+    return []
+  }
+
+  try {
+    console.log(`🔍 Fetching places by category: ${category}`)
+    let query = supabase
+      .from('places')
+      .select('*')
+      .eq('category', category)
+      .order('created_at', { ascending: false })
+
+    if (cityId) {
+      query = query.eq('city_id', cityId)
+    }
+
+    const { data: places, error } = await query
+
+    if (error) {
+      console.error('❌ Error fetching places by category from Supabase:', error)
+      return []
+    }
+
+    if (places && places.length > 0) {
+      console.log(`✅ Successfully fetched ${places.length} places by category from Supabase`)
+      return places
+    }
+
+    console.log('⚠️ No places found for this category')
+    return []
+  } catch (error) {
+    console.error('❌ Failed to fetch places by category from Supabase:', error)
+    return []
+  }
+}
+
+export async function addPlace(placeData: Omit<Place, 'id' | 'created_at' | 'updated_at'>): Promise<Place | null> {
+  if (!supabase) {
+    console.error('❌ Supabase client not available')
+    return null
+  }
+
+  try {
+    console.log('🔍 Adding place...')
+    const { data: place, error } = await supabase
+      .from('places')
+      .insert(placeData)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('❌ Error adding place to Supabase:', error)
+      return null
+    }
+
+    console.log('✅ Successfully added place to Supabase')
+    return place
+  } catch (error) {
+    console.error('❌ Failed to add place to Supabase:', error)
+    return null
+  }
+}
+
+export async function searchPlaces(query: string, cityId?: string): Promise<Place[]> {
+  if (!supabase) {
+    console.error('❌ Supabase client not available')
+    return []
+  }
+
+  try {
+    console.log(`🔍 Searching places with query: ${query}`)
+    let supabaseQuery = supabase
+      .from('places')
+      .select('*')
+      .or(`name.ilike.%${query}%,description.ilike.%${query}%`)
+
+    if (cityId) {
+      supabaseQuery = supabaseQuery.eq('city_id', cityId)
+    }
+
+    const { data: places, error } = await supabaseQuery.order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('❌ Error searching places from Supabase:', error)
+      return []
+    }
+
+    if (places && places.length > 0) {
+      console.log(`✅ Successfully found ${places.length} places from search`)
+      return places
+    }
+
+    console.log('⚠️ No places found for this search query')
+    return []
+  } catch (error) {
+    console.error('❌ Failed to search places from Supabase:', error)
+    return []
+  }
+}
+
+// Utility functions
+export async function getCurrentLocation(): Promise<{ lat: number; lon: number; city: string; country: string } | null> {
+  try {
+    // Use IP-based geolocation instead of browser geolocation
+    const response = await fetch('https://api.ipapi.com/api/check?access_key=free')
+
+    if (response.ok) {
+      const data = await response.json()
+      return {
+        lat: data.latitude || 34.6937,
+        lon: data.longitude || 135.5023,
+        city: data.city || 'Osaka',
+        country: data.country_name || 'Japan'
+      }
+    } else {
+      // Fallback to a free IP geolocation service
+      const fallbackResponse = await fetch('https://ipapi.co/json/')
+      if (fallbackResponse.ok) {
+        const fallbackData = await fallbackResponse.json()
+        return {
+          lat: fallbackData.latitude || 34.6937,
+          lon: fallbackData.longitude || 135.5023,
+          city: fallbackData.city || 'Osaka',
+          country: fallbackData.country_name || 'Japan'
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error getting location from IP:', error)
+  }
+
+  // Final fallback to default location
+  return {
+    lat: 34.6937,
+    lon: 135.5023,
+    city: 'Osaka',
+    country: 'Japan'
+  }
+}
+
+export function getCategoryIcon(category: string): string {
+  const icons = {
+    cafe: '☕',
+    coworking: '💻',
+    coliving: '🏠',
+    restaurant: '🍽',
+    outdoor: '🌳',
+    other: '📍'
+  }
+  return icons[category as keyof typeof icons] || icons.other
+}
+
+export function getCategoryName(category: string): string {
+  const names = {
+    cafe: '咖啡馆',
+    coworking: 'Co-working',
+    coliving: 'Coliving',
+    restaurant: '餐馆',
+    outdoor: '户外',
+    other: '其他'
+  }
+  return names[category as keyof typeof names] || '其他'
+}
+
+export function getPriceLevelText(level: number): string {
+  return '$'.repeat(level)
+}
+
+export function getNoiseLevelText(level: string): string {
+  const levels = {
+    quiet: '安静',
+    moderate: '适中',
+    loud: '嘈杂'
+  }
+  return levels[level as keyof typeof levels] || '未知'
+}
+
+export function getSocialAtmosphereText(level: string): string {
+  const levels = {
+    low: '低',
+    medium: '中',
+    high: '高'
+  }
+  return levels[level as keyof typeof levels] || '未知'
+}
+
+export async function getTopPlaces(limit: number = 10): Promise<Place[]> {
+  if (!supabase) {
+    console.error('❌ Supabase client not available')
+    return []
+  }
+
+  try {
+    console.log(`🔍 Fetching top ${limit} places...`)
+    const { data: places, error } = await supabase
+      .from('places')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      console.error('❌ Error fetching top places from Supabase:', error)
+      return []
+    }
+
+    if (places && places.length > 0) {
+      console.log(`✅ Successfully fetched ${places.length} top places from Supabase`)
+      return places
+    }
+
+    console.log('⚠️ No top places found')
+    return []
+  } catch (error) {
+    console.error('❌ Failed to fetch top places from Supabase:', error)
+    return []
+  }
+}
+
+export async function getUserPlaces(userId: string): Promise<Place[]> {
+  if (!supabase) {
+    console.error('❌ Supabase client not available')
+    return []
+  }
+
+  try {
+    console.log(`🔍 Fetching places for user: ${userId}`)
+    const { data: places, error } = await supabase
+      .from('places')
+      .select('*')
+      .eq('submitted_by', userId)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('❌ Error fetching user places from Supabase:', error)
+      return []
+    }
+
+    if (places && places.length > 0) {
+      console.log(`✅ Successfully fetched ${places.length} user places from Supabase`)
+      return places
+    }
+
+    console.log('⚠️ No places found for this user')
+    return []
+  } catch (error) {
+    console.error('❌ Failed to fetch user places from Supabase:', error)
+    return []
+  }
+}
+
+// Calculate visa days remaining
+export function calculateVisaDays(visaExpiry: string): number {
+  const expiryDate = new Date(visaExpiry)
+  const today = new Date()
+
+  // Reset time to start of day for accurate day calculation
+  today.setHours(0, 0, 0, 0)
+  expiryDate.setHours(0, 0, 0, 0)
+
+  const diffTime = expiryDate.getTime() - today.getTime()
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+  return diffDays
+}
+
+// Timezone mapping function
+export function getTimezoneFromCoordinates(lat: number, lon: number): string {
+  // This is a simplified timezone mapping
+  // In a real app, you'd use a more sophisticated timezone database
+
+  // Asia
+  if (lat >= 20 && lat <= 50 && lon >= 70 && lon <= 140) {
+    if (lon >= 100 && lon <= 140) return 'Asia/Tokyo' // Japan
+    if (lon >= 70 && lon <= 100) return 'Asia/Shanghai' // China
+    return 'Asia/Tokyo'
+  }
+
+  // Europe
+  if (lat >= 35 && lat <= 70 && lon >= -10 && lon <= 40) {
+    return 'Europe/London'
+  }
+
+  // North America
+  if (lat >= 25 && lat <= 70 && lon >= -170 && lon <= -50) {
+    if (lon >= -80 && lon <= -50) return 'America/New_York'
+    if (lon >= -125 && lon <= -80) return 'America/Los_Angeles'
+    return 'America/New_York'
+  }
+
+  // Default to UTC
+  return 'UTC'
+}
