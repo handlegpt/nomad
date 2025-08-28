@@ -158,7 +158,7 @@ export default function WifiSpeedTest() {
       
       const endTime = performance.now()
       const elapsed = (endTime - startTime) / 1000
-      return Math.round((testData.length * 8) / (elapsed * 1000000))
+      return Math.round((testData.size * 8) / (elapsed * 1000000))
       
     } catch (error) {
       throw new Error('上传速度测试失败')
