@@ -16,16 +16,16 @@ interface ScoredCity extends City {
   score: number
 }
 
-const preferences: Preference[] = [
-  { id: 'wifi', label: t('preferences.wifiQuality'), weight: 0 },
-  { id: 'cost', label: t('preferences.costOfLiving'), weight: 0 },
-  { id: 'climate', label: t('preferences.climateComfort'), weight: 0 },
-  { id: 'social', label: t('preferences.socialAtmosphere'), weight: 0 },
-  { id: 'visa', label: t('preferences.visaConvenience'), weight: 0 }
-]
-
 export default function PersonalizedRecommendations() {
   const { t } = useTranslation()
+  
+  const preferences: Preference[] = [
+    { id: 'wifi', label: t('preferences.wifiQuality'), weight: 0 },
+    { id: 'cost', label: t('preferences.costOfLiving'), weight: 0 },
+    { id: 'climate', label: t('preferences.climateComfort'), weight: 0 },
+    { id: 'social', label: t('preferences.socialAtmosphere'), weight: 0 },
+    { id: 'visa', label: t('preferences.visaConvenience'), weight: 0 }
+  ]
   const [cities, setCities] = useState<City[]>([])
   const [userPreferences, setUserPreferences] = useState(preferences)
   const [recommendations, setRecommendations] = useState<ScoredCity[]>([])
