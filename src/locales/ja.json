@@ -606,7 +606,14 @@
     "days": "日",
     "viewDetails": "詳細を見る",
     "addToFavorites": "お気に入りに追加",
-    "setPreferences": "設定を調整してパーソナライズされた都市推奨を取得"
+    "setPreferences": "設定を調整してパーソナライズされた都市推奨を取得",
+    "quickPresets": "クイック設定プリセット：",
+    "presets": {
+      "budget": "予算重視",
+      "digital": "デジタルノマド",
+      "social": "社交重視",
+      "balanced": "バランス"
+    }
   },
 
   "preferences": {

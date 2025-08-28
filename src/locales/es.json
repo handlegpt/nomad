@@ -564,7 +564,14 @@
     "days": "días",
     "viewDetails": "Ver Detalles",
     "addToFavorites": "Agregar a Favoritos",
-    "setPreferences": "Configura tus preferencias para obtener recomendaciones de ciudades personalizadas"
+    "setPreferences": "Configura tus preferencias para obtener recomendaciones de ciudades personalizadas",
+    "quickPresets": "Configuraciones rápidas de preferencias:",
+    "presets": {
+      "budget": "Enfoque en Presupuesto",
+      "digital": "Nómada Digital",
+      "social": "Enfoque Social",
+      "balanced": "Equilibrado"
+    }
   },
 
   "preferences": {

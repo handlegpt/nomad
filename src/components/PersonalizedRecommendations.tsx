@@ -19,21 +19,26 @@ interface ScoredCity extends City {
 export default function PersonalizedRecommendations() {
   const { t } = useTranslation()
   
-  const preferences: Preference[] = [
-    { id: 'wifi', label: t('preferences.wifiQuality'), weight: 20 },
-    { id: 'cost', label: t('preferences.costOfLiving'), weight: 25 },
-    { id: 'climate', label: t('preferences.climateComfort'), weight: 20 },
-    { id: 'social', label: t('preferences.socialAtmosphere'), weight: 15 },
-    { id: 'visa', label: t('preferences.visaConvenience'), weight: 20 }
-  ]
   const [cities, setCities] = useState<City[]>([])
-  const [userPreferences, setUserPreferences] = useState(preferences)
+  const [userPreferences, setUserPreferences] = useState<Preference[]>([])
   const [recommendations, setRecommendations] = useState<ScoredCity[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetchCities()
   }, [])
+
+  useEffect(() => {
+    // Initialize preferences with translated labels
+    const preferences: Preference[] = [
+      { id: 'wifi', label: t('preferences.wifiQuality'), weight: 20 },
+      { id: 'cost', label: t('preferences.costOfLiving'), weight: 25 },
+      { id: 'climate', label: t('preferences.climateComfort'), weight: 20 },
+      { id: 'social', label: t('preferences.socialAtmosphere'), weight: 15 },
+      { id: 'visa', label: t('preferences.visaConvenience'), weight: 20 }
+    ]
+    setUserPreferences(preferences)
+  }, [t])
 
   const fetchCities = async () => {
     try {
@@ -209,31 +214,31 @@ export default function PersonalizedRecommendations() {
         
         {/* Preset Options */}
         <div className="mb-4">
-          <p className="text-sm text-gray-600 mb-3">快速选择偏好配置：</p>
+          <p className="text-sm text-gray-600 mb-3">{t('recommendations.quickPresets')}</p>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => applyPreset('budget')}
               className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm"
             >
-              预算优先
+              {t('recommendations.presets.budget')}
             </button>
             <button
               onClick={() => applyPreset('digital')}
               className="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm"
             >
-              数字游民
+              {t('recommendations.presets.digital')}
             </button>
             <button
               onClick={() => applyPreset('social')}
               className="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm"
             >
-              社交优先
+              {t('recommendations.presets.social')}
             </button>
             <button
               onClick={() => applyPreset('balanced')}
               className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
             >
-              平衡配置
+              {t('recommendations.presets.balanced')}
             </button>
           </div>
         </div>

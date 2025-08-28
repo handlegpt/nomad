@@ -414,7 +414,14 @@
     "days": "days",
     "viewDetails": "View Details",
     "addToFavorites": "Add to Favorites",
-    "setPreferences": "Set your preferences to get personalized city recommendations"
+    "setPreferences": "Set your preferences to get personalized city recommendations",
+    "quickPresets": "Quick preference presets:",
+    "presets": {
+      "budget": "Budget Focused",
+      "digital": "Digital Nomad",
+      "social": "Social Focused",
+      "balanced": "Balanced"
+    }
   },
 
   "preferences": {

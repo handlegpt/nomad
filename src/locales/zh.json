@@ -351,7 +351,14 @@
     "days": "天",
     "viewDetails": "查看详情",
     "addToFavorites": "添加到收藏",
-    "setPreferences": "设置你的偏好，获取个性化城市推荐"
+    "setPreferences": "设置你的偏好，获取个性化城市推荐",
+    "quickPresets": "快速选择偏好配置：",
+    "presets": {
+      "budget": "预算优先",
+      "digital": "数字游民",
+      "social": "社交优先",
+      "balanced": "平衡配置"
+    }
   },
 
   "preferences": {
