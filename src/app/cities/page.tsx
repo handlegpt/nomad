@@ -60,7 +60,7 @@ export default function CitiesPage() {
     // TODO: Implement voting functionality
     console.log('Voting for city:', cityId)
     // In production, this would call an API to record the vote
-    alert('Voting functionality coming soon!')
+    alert(t('cities.votingComingSoon'))
   }
 
   if (loading) {

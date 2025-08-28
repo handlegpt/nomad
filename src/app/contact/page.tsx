@@ -21,7 +21,7 @@ export default function ContactPage() {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    alert('消息已发送！我们会尽快回复您。')
+    alert(t('contact.form.successMessage'))
     setFormData({ name: '', email: '', subject: '', message: '' })
     setSubmitting(false)
   }
@@ -65,7 +65,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="您的姓名"
+                  placeholder={t('contact.form.namePlaceholder')}
                 />
               </div>
               
@@ -81,7 +81,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="your@email.com"
+                  placeholder={t('contact.form.emailPlaceholder')}
                 />
               </div>
               
@@ -118,7 +118,7 @@ export default function ContactPage() {
                   required
                   rows={6}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="请详细描述您的问题或建议..."
+                  placeholder={t('contact.form.messagePlaceholder')}
                 />
               </div>
               

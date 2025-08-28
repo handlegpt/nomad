@@ -24,17 +24,17 @@ export default function HomePage() {
   const handleQuickVote = (type: string, vote: string) => {
     console.log('Quick vote:', type, vote)
     // TODO: Implement quick voting functionality
-    alert(`Voted ${vote} for ${type}`)
+    alert(t('home.quickVote.voteSubmitted', { vote, type }))
   }
 
   const handleQuickRating = (rating: number) => {
     console.log('Quick rating:', rating)
     // TODO: Implement quick rating functionality
-    alert(`Rated ${rating} stars`)
+    alert(t('home.quickVote.ratingSubmitted', { rating: rating.toString() }))
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Minimal Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3">

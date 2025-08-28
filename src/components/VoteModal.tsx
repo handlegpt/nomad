@@ -68,7 +68,7 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
 
   const handleSubmit = async () => {
     if (ratings.overall === 0) {
-      alert('Please provide at least an overall rating')
+      alert(t('voteModal.pleaseProvideRating'))
       return
     }
 
@@ -92,7 +92,7 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
       setComment('')
     } catch (error) {
       console.error('Error submitting vote:', error)
-      alert('Failed to submit vote, please try again')
+      alert(t('voteModal.submitFailed'))
     } finally {
       setSubmitting(false)
     }

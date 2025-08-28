@@ -80,7 +80,7 @@ export default function SetupPage() {
     setSaving(false)
     
     // Show success message
-    alert('Settings saved!')
+    alert(t('setup.settingsSaved'))
   }
 
   const updateSettings = (section: keyof UserSettings, field: string, value: any) => {

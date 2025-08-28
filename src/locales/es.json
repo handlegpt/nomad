@@ -431,8 +431,12 @@
       "email": "Correo Electrónico",
       "subject": "Asunto",
       "message": "Mensaje",
-      "send": "Enviar Mensaje",
-      "sending": "Enviando..."
+          "send": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "successMessage": "¡Mensaje enviado! Te responderemos pronto.",
+    "namePlaceholder": "Tu nombre",
+    "emailPlaceholder": "tu@email.com",
+    "messagePlaceholder": "Por favor describe tu pregunta o sugerencia en detalle..."
     },
     "info": {
       "title": "Información de Contacto",
@@ -461,13 +465,22 @@
       }
     }
   },
+  "setup": {
+    "settingsSaved": "¡Configuración guardada!"
+  },
+  "voteModal": {
+    "pleaseProvideRating": "Por favor proporciona al menos una calificación general",
+    "submitFailed": "Error al enviar el voto, por favor intenta de nuevo"
+    }
+  },
 
   "cities": {
     "loading": "Cargando rankings de ciudades...",
     "votes": "votos",
     "quickUpvote": "Voto rápido positivo",
     "quickDownvote": "Voto rápido negativo",
-    "voteDetails": "Votar/Detalles"
+    "voteDetails": "Votar/Detalles",
+    "votingComingSoon": "¡Funcionalidad de votación próximamente!"
   },
 
   "recommendations": {
@@ -620,6 +633,12 @@
     "cityRecommendations": "Recomendaciones de ciudades",
     "subscribe": "Suscribirse",
     "cancel": "Cancelar"
+  },
+  "home": {
+    "quickVote": {
+      "voteSubmitted": "Votado {vote} para {type}",
+      "ratingSubmitted": "Calificado {rating} estrellas"
+    }
   },
 
   "common": {

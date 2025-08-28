@@ -262,7 +262,8 @@
     "votes": "票",
     "quickUpvote": "快速点赞",
     "quickDownvote": "快速点踩",
-    "voteDetails": "投票/详情"
+    "voteDetails": "投票/详情",
+    "votingComingSoon": "投票功能即将推出！"
   },
   "recommendations": {
     "title": "AI 个性化推荐",
@@ -391,6 +392,12 @@
     "subscribe": "订阅",
     "cancel": "取消"
   },
+  "home": {
+    "quickVote": {
+      "voteSubmitted": "已为 {type} 投票 {vote}",
+      "ratingSubmitted": "已评分 {rating} 星"
+    }
+  },
   "about": {
     "title": "关于 NOMAD.NOW",
     "subtitle": "数字游民最重要的信息工具 - 时间、位置、决策支持",
@@ -427,8 +434,12 @@
       "email": "邮箱",
       "subject": "主题",
       "message": "消息",
-      "send": "发送消息",
-      "sending": "发送中..."
+          "send": "发送消息",
+    "sending": "发送中...",
+    "successMessage": "消息已发送！我们会尽快回复您。",
+    "namePlaceholder": "您的姓名",
+    "emailPlaceholder": "your@email.com",
+    "messagePlaceholder": "请详细描述您的问题或建议..."
     },
     "info": {
       "title": "联系信息",
@@ -455,6 +466,14 @@
         "question": "支持哪些语言？",
         "answer": "目前支持中文、英文、西班牙语和日语，更多语言正在开发中。"
       }
+    }
+  },
+  "setup": {
+    "settingsSaved": "设置已保存！"
+  },
+  "voteModal": {
+    "pleaseProvideRating": "请至少提供一个总体评分",
+    "submitFailed": "投票提交失败，请重试"
     }
   },
   "components": {

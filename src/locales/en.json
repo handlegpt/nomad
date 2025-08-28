@@ -348,7 +348,8 @@
     "votes": "votes",
     "quickUpvote": "Quick upvote",
     "quickDownvote": "Quick downvote",
-    "voteDetails": "Vote/Details"
+    "voteDetails": "Vote/Details",
+    "votingComingSoon": "Voting functionality coming soon!"
   },
   "recommendations": {
     "title": "AI Personalized Recommendations",
@@ -478,6 +479,12 @@
     "subscribe": "Subscribe",
     "cancel": "Cancel"
   },
+  "home": {
+    "quickVote": {
+      "voteSubmitted": "Voted {vote} for {type}",
+      "ratingSubmitted": "Rated {rating} stars"
+    }
+  },
   "about": {
     "title": "About NOMAD.NOW",
     "subtitle": "The most important information tool for digital nomads - time, location, decision support",
@@ -514,8 +521,12 @@
       "email": "Email",
       "subject": "Subject",
       "message": "Message",
-      "send": "Send Message",
-      "sending": "Sending..."
+          "send": "Send Message",
+    "sending": "Sending...",
+    "successMessage": "Message sent! We'll get back to you soon.",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "messagePlaceholder": "Please describe your question or suggestion in detail..."
     },
     "info": {
       "title": "Contact Information",
@@ -538,10 +549,17 @@
         "question": "How to report errors?",
         "answer": "Please use the contact form and select 'Bug Report' as the subject."
       },
-      "languages": {
-        "question": "What languages are supported?",
-        "answer": "Currently supports Chinese, English, Spanish and Japanese, with more languages in development."
-      }
+          "languages": {
+      "question": "What languages are supported?",
+      "answer": "Currently supports Chinese, English, Spanish and Japanese, with more languages in development."
+    }
+  },
+  "setup": {
+    "settingsSaved": "Settings saved!"
+  },
+  "voteModal": {
+    "pleaseProvideRating": "Please provide at least an overall rating",
+    "submitFailed": "Failed to submit vote, please try again"
     }
   },
   "meetup": {
