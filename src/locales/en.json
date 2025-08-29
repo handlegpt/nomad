@@ -748,7 +748,8 @@
     "select": "Please select",
     "add": "Add",
     "cancel": "Cancel",
-    "submitting": "Submitting..."
+    "submitting": "Submitting...",
+    "viewDetails": "View Details"
   },
   "cities": {
     "title": "Cities",

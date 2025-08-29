@@ -889,6 +889,7 @@
     "select": "選択してください",
     "add": "追加",
     "cancel": "キャンセル",
-    "submitting": "送信中..."
+    "submitting": "送信中...",
+    "viewDetails": "詳細を見る"
   }
 } 

@@ -861,6 +861,7 @@
     "select": "Por favor selecciona",
     "add": "Agregar",
     "cancel": "Cancelar",
-    "submitting": "Enviando..."
+    "submitting": "Enviando...",
+    "viewDetails": "Ver Detalles"
   }
 } 

@@ -740,7 +740,8 @@
     "select": "请选择",
     "add": "添加",
     "cancel": "取消",
-    "submitting": "提交中..."
+    "submitting": "提交中...",
+    "viewDetails": "查看详情"
   },
   "cities": {
     "title": "城市列表",
