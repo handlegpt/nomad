@@ -14,6 +14,20 @@ import {
   type MeetupUser,
   type MeetupStats
 } from '@/lib/meetupApi'
+
+interface CommunityMessage {
+  id: string
+  userId: string
+  userName: string
+  userAvatar: string
+  content: string
+  timestamp: string
+  location: string
+  type: 'question' | 'info' | 'help' | 'general'
+  tags: string[]
+  likes: number
+  replies: CommunityMessage[]
+}
 import { validateForm, meetupFormRules, validateField } from '@/lib/formValidation'
 import UserProfileModal from './UserProfileModal'
 import MeetupHistory from './MeetupHistory'
@@ -38,11 +52,16 @@ export default function NomadMeetup() {
   const [showUserProfile, setShowUserProfile] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
-  const [activeTab, setActiveTab] = useState<'users' | 'history' | 'notifications'>('users')
+  const [activeTab, setActiveTab] = useState<'users' | 'history' | 'notifications' | 'community'>('users')
   
   // 表单验证状态
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
   const [isValidating, setIsValidating] = useState(false)
+  
+  // 社区聊天状态
+  const [communityMessages, setCommunityMessages] = useState<CommunityMessage[]>([])
+  const [newCommunityMessage, setNewCommunityMessage] = useState('')
+  const [messageType, setMessageType] = useState<'general' | 'question' | 'info' | 'help'>('general')
   
   const { addNotification } = useNotifications()
 
@@ -52,8 +71,95 @@ export default function NomadMeetup() {
     if (userLocation) {
       fetchUsers()
       fetchStats()
+      fetchCommunityMessages()
     }
   }, [userLocation])
+
+  const fetchCommunityMessages = async () => {
+    if (!userLocation) return
+    
+    try {
+      // 模拟获取社区消息数据
+      const mockMessages: CommunityMessage[] = [
+        {
+          id: '1',
+          userId: 'user1',
+          userName: 'Sarah Chen',
+          userAvatar: 'SC',
+          content: '有人知道大阪哪里有好的咖啡馆可以工作吗？WiFi要稳定的',
+          timestamp: '2分钟前',
+          location: userLocation.city,
+          type: 'question',
+          tags: ['WiFi', '咖啡馆', '工作'],
+          likes: 3,
+          replies: []
+        },
+        {
+          id: '2',
+          userId: 'user2',
+          userName: 'Alex Rodriguez',
+          userAvatar: 'AR',
+          content: '推荐心斋桥的Blue Bottle Coffee，WiFi很快，环境也不错',
+          timestamp: '5分钟前',
+          location: userLocation.city,
+          type: 'info',
+          tags: ['推荐', '咖啡馆'],
+          likes: 5,
+          replies: []
+        },
+        {
+          id: '3',
+          userId: 'user3',
+          userName: 'Yuki Tanaka',
+          userAvatar: 'YT',
+          content: '今天天气不错，有人想一起去大阪城公园走走吗？',
+          timestamp: '10分钟前',
+          location: userLocation.city,
+          type: 'general',
+          tags: ['户外', '公园'],
+          likes: 2,
+          replies: []
+        }
+      ]
+      
+      setCommunityMessages(mockMessages)
+    } catch (error) {
+      logError('Failed to fetch community messages', error, 'NomadMeetup')
+    }
+  }
+
+  const handleSendCommunityMessage = () => {
+    if (!user.isAuthenticated) {
+      addNotification({
+        type: 'warning',
+        message: t('meetup.pleaseLoginToMeetup')
+      })
+      return
+    }
+
+    if (newCommunityMessage.trim()) {
+      const message: CommunityMessage = {
+        id: Date.now().toString(),
+        userId: user.id || 'anonymous',
+        userName: user.name || 'You',
+        userAvatar: user.name ? user.name.substring(0, 2).toUpperCase() : 'YO',
+        content: newCommunityMessage,
+        timestamp: '刚刚',
+        location: userLocation ? userLocation.city : 'Unknown',
+        type: messageType,
+        tags: [],
+        likes: 0,
+        replies: []
+      }
+      
+      setCommunityMessages([message, ...communityMessages])
+      setNewCommunityMessage('')
+      addNotification({
+        type: 'success',
+        message: '消息已发送'
+      })
+    }
+  }
 
   const fetchUsers = async () => {
     if (!userLocation) return
@@ -370,6 +476,7 @@ export default function NomadMeetup() {
         <TabButton id="users" label={t('meetup.onlineUsers')} icon={Users} />
         <TabButton id="history" label={t('meetup.history')} icon={Calendar} />
         <TabButton id="notifications" label={t('meetup.notifications')} icon={Bell} count={3} />
+        <TabButton id="community" label={t('meetup.communityChat')} icon={MessageSquare} />
       </div>
 
       {/* Tab Content */}
@@ -501,6 +608,102 @@ export default function NomadMeetup() {
 
       {activeTab === 'notifications' && (
         <MeetupNotifications />
+      )}
+
+      {activeTab === 'community' && (
+        <div className="space-y-4">
+          {/* Message Input */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center space-x-2 mb-3">
+              <select
+                value={messageType}
+                onChange={(e) => setMessageType(e.target.value as any)}
+                className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="general">一般聊天</option>
+                <option value="question">问题求助</option>
+                <option value="info">信息分享</option>
+                <option value="help">紧急求助</option>
+              </select>
+            </div>
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={newCommunityMessage}
+                onChange={(e) => setNewCommunityMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendCommunityMessage()}
+                placeholder={t('meetup.messagePlaceholder')}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button
+                onClick={handleSendCommunityMessage}
+                disabled={!newCommunityMessage.trim()}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Messages */}
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {communityMessages.map((message) => (
+              <div key={message.id} className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="flex items-start space-x-3">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 text-sm font-medium">{message.userAvatar}</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="font-medium text-gray-900">{message.userName}</span>
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        message.type === 'question' ? 'bg-yellow-100 text-yellow-800' :
+                        message.type === 'info' ? 'bg-green-100 text-green-800' :
+                        message.type === 'help' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {message.type === 'question' ? '问题' :
+                         message.type === 'info' ? '信息' :
+                         message.type === 'help' ? '求助' : '聊天'}
+                      </span>
+                      <span className="text-xs text-gray-500">{message.timestamp}</span>
+                      <span className="text-xs text-gray-500 flex items-center">
+                        <MapPin className="h-3 w-3 mr-1" />
+                        {message.location}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-700 mb-2">{message.content}</p>
+                    {message.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {message.tags.map((tag, index) => (
+                          <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                      <button className="flex items-center space-x-1 hover:text-blue-600">
+                        <span>👍</span>
+                        <span>{message.likes}</span>
+                      </button>
+                      <button className="hover:text-blue-600">回复</button>
+                      <button className="hover:text-blue-600">分享</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {communityMessages.length === 0 && (
+            <div className="text-center py-8">
+              <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+              <p className="text-gray-600">{t('meetup.noMessages')}</p>
+              <p className="text-sm text-gray-500">{t('meetup.startConversation')}</p>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Meetup Form Modal */}
