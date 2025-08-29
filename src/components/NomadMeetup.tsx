@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw, MapPinOff } from 'lucide-react'
+import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw, MapPinOff, Calendar, Bell } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useNotifications, useUser } from '@/contexts/GlobalStateContext'
 import { logInfo, logError } from '@/lib/logger'
@@ -14,6 +14,9 @@ import {
   type MeetupUser,
   type MeetupStats
 } from '@/lib/meetupApi'
+import UserProfileModal from './UserProfileModal'
+import MeetupHistory from './MeetupHistory'
+import MeetupNotifications from './MeetupNotifications'
 
 export default function NomadMeetup() {
   const { t } = useTranslation()
@@ -28,6 +31,13 @@ export default function NomadMeetup() {
   const [refreshing, setRefreshing] = useState(false)
   const [sendingInvitation, setSendingInvitation] = useState(false)
   const [creatingMeetup, setCreatingMeetup] = useState(false)
+  
+  // 新增状态
+  const [selectedUser, setSelectedUser] = useState<MeetupUser | null>(null)
+  const [showUserProfile, setShowUserProfile] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [activeTab, setActiveTab] = useState<'users' | 'history' | 'notifications'>('users')
   
   const { addNotification } = useNotifications()
 
@@ -176,6 +186,30 @@ export default function NomadMeetup() {
     }
   }
 
+  const handleUserClick = (user: MeetupUser) => {
+    setSelectedUser(user)
+    setShowUserProfile(true)
+  }
+
+  const TabButton = ({ id, label, icon: Icon, count }: { id: string, label: string, icon: any, count?: number }) => (
+    <button
+      onClick={() => setActiveTab(id as any)}
+      className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+        activeTab === id
+          ? 'bg-blue-100 text-blue-700'
+          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+      }`}
+    >
+      <Icon className="h-4 w-4" />
+      <span>{label}</span>
+      {count && count > 0 && (
+        <span className="bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+          {count}
+        </span>
+      )}
+    </button>
+  )
+
   if (locationLoading) {
     return (
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
@@ -295,99 +329,121 @@ export default function NomadMeetup() {
         </div>
       </div>
 
-      {/* Online Users */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h4 className="font-medium text-gray-900 flex items-center">
-            <Users className="h-4 w-4 mr-2" />
-            {t('meetup.onlineNomads')} ({users.filter(u => u.status === 'online').length})
-          </h4>
-          <span className="text-sm text-gray-500">
-            {users.filter(u => u.isAvailable).length} {t('meetup.available')}
-          </span>
-        </div>
+      {/* Tab Navigation */}
+      <div className="flex space-x-2 mb-6">
+        <TabButton id="users" label={t('meetup.onlineUsers')} icon={Users} />
+        <TabButton id="history" label={t('meetup.history')} icon={Calendar} />
+        <TabButton id="notifications" label={t('meetup.notifications')} icon={Bell} count={3} />
+      </div>
 
-        <div className="space-y-3">
-          {users.filter(user => user.status === 'online').map((user) => (
-            <div key={user.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${
-                  user.isAvailable ? 'bg-green-500' : 'bg-gray-400'
-                }`}>
-                  {user.avatar}
-                </div>
-                <div>
+      {/* Tab Content */}
+      {activeTab === 'users' && (
+        <>
+          {/* Online Users */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="font-medium text-gray-900 flex items-center">
+                <Users className="h-4 w-4 mr-2" />
+                {t('meetup.onlineNomads')} ({users.filter(u => u.status === 'online').length})
+              </h4>
+              <span className="text-sm text-gray-500">
+                {users.filter(u => u.isAvailable).length} {t('meetup.available')}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {users.filter(user => user.status === 'online').map((user) => (
+                <div key={user.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => handleUserClick(user)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium cursor-pointer hover:opacity-80 transition-opacity ${
+                        user.isAvailable ? 'bg-green-500' : 'bg-gray-400'
+                      }`}>
+                      {user.avatar}
+                    </button>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <h5 className="font-medium text-gray-900">{user.name}</h5>
+                        <span className={`w-2 h-2 rounded-full ${
+                          user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
+                        }`}></span>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                        <Clock className="h-3 w-3" />
+                        <span>{user.lastSeen}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {user.interests.slice(0, 2).map((interest, index) => (
+                          <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                            {interest}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center space-x-2">
-                    <h5 className="font-medium text-gray-900">{user.name}</h5>
-                    <span className={`w-2 h-2 rounded-full ${
-                      user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
-                    }`}></span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Clock className="h-3 w-3" />
-                    <span>{user.lastSeen}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {user.interests.slice(0, 2).map((interest, index) => (
-                      <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                        {interest}
-                      </span>
-                    ))}
+                    {user.isAvailable ? (
+                      <button
+                        onClick={() => handleRequestMeetup(user.id)}
+                        disabled={sendingInvitation}
+                        className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm disabled:opacity-50"
+                      >
+                        {sendingInvitation ? (
+                          <RefreshCw className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <Coffee className="h-3 w-3" />
+                        )}
+                        <span>{t('meetup.coffeeMeetup')}</span>
+                      </button>
+                    ) : (
+                      <span className="text-sm text-gray-500">{t('meetup.busy')}</span>
+                    )}
+                    <button className="p-1 text-gray-400 hover:text-gray-600">
+                      <MessageSquare className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
+              ))}
+            </div>
+
+            {users.filter(user => user.status === 'online').length === 0 && (
+              <div className="text-center py-8">
+                <Coffee className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                <p className="text-gray-600">{t('meetup.noOnlineUsers')}</p>
+                <p className="text-sm text-gray-500">{t('meetup.checkLater')}</p>
               </div>
-              
-              <div className="flex items-center space-x-2">
-                {user.isAvailable ? (
-                  <button
-                    onClick={() => handleRequestMeetup(user.id)}
-                    disabled={sendingInvitation}
-                    className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm disabled:opacity-50"
-                  >
-                    {sendingInvitation ? (
-                      <RefreshCw className="h-3 w-3 animate-spin" />
-                    ) : (
-                      <Coffee className="h-3 w-3" />
-                    )}
-                    <span>{t('meetup.coffeeMeetup')}</span>
-                  </button>
-                ) : (
-                  <span className="text-sm text-gray-500">{t('meetup.busy')}</span>
-                )}
-                <button className="p-1 text-gray-400 hover:text-gray-600">
-                  <MessageSquare className="h-4 w-4" />
-                </button>
+            )}
+          </div>
+
+          {/* Quick Stats */}
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-lg font-bold text-gray-900">{stats?.totalUsers || 0}</p>
+                <p className="text-xs text-gray-600">{t('meetup.totalUsers')}</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-green-600">{stats?.availableUsers || 0}</p>
+                <p className="text-xs text-gray-600">{t('meetup.availableUsers')}</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-blue-600">{stats?.todayMeetups || 0}</p>
+                <p className="text-xs text-gray-600">{t('meetup.todayMeetups')}</p>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </>
+      )}
 
-        {users.filter(user => user.status === 'online').length === 0 && (
-          <div className="text-center py-8">
-            <Coffee className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <p className="text-gray-600">{t('meetup.noOnlineUsers')}</p>
-            <p className="text-sm text-gray-500">{t('meetup.checkLater')}</p>
-          </div>
-        )}
-      </div>
+      {activeTab === 'history' && (
+        <MeetupHistory />
+      )}
 
-      {/* Quick Stats */}
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-lg font-bold text-gray-900">{stats?.totalUsers || 0}</p>
-            <p className="text-xs text-gray-600">{t('meetup.totalUsers')}</p>
-          </div>
-          <div>
-            <p className="text-lg font-bold text-green-600">{stats?.availableUsers || 0}</p>
-            <p className="text-xs text-gray-600">{t('meetup.availableUsers')}</p>
-          </div>
-          <div>
-            <p className="text-lg font-bold text-blue-600">{stats?.todayMeetups || 0}</p>
-            <p className="text-xs text-gray-600">{t('meetup.todayMeetups')}</p>
-          </div>
-        </div>
-      </div>
+      {activeTab === 'notifications' && (
+        <MeetupNotifications />
+      )}
 
       {/* Meetup Form Modal */}
       {showMeetupForm && (
@@ -456,6 +512,16 @@ export default function NomadMeetup() {
           </div>
         </div>
       )}
+
+      {/* User Profile Modal */}
+      <UserProfileModal
+        user={selectedUser}
+        isOpen={showUserProfile}
+        onClose={() => {
+          setShowUserProfile(false)
+          setSelectedUser(null)
+        }}
+      />
     </div>
   )
 }
