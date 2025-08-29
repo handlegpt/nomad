@@ -633,7 +633,7 @@ export default function NomadMeetup() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="搜索消息、用户或标签..."
+                placeholder={t('meetup.searchPlaceholder')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
             </div>
@@ -643,18 +643,18 @@ export default function NomadMeetup() {
                 onChange={(e) => setFilterType(e.target.value as any)}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               >
-                <option value="all">全部类型</option>
-                <option value="general">一般聊天</option>
-                <option value="question">问题求助</option>
-                <option value="info">信息分享</option>
-                <option value="help">紧急求助</option>
+                <option value="all">{t('meetup.filterAll')}</option>
+                <option value="general">{t('meetup.filterGeneral')}</option>
+                <option value="question">{t('meetup.filterQuestion')}</option>
+                <option value="info">{t('meetup.filterInfo')}</option>
+                <option value="help">{t('meetup.filterHelp')}</option>
               </select>
             </div>
           </div>
 
           {/* Message Stats */}
           <div className="flex items-center justify-between text-sm text-gray-600">
-            <span>显示 {filteredMessages.length} / {communityMessages.length} 条消息</span>
+            <span>{t('meetup.messageStats', { filtered: filteredMessages.length, total: communityMessages.length })}</span>
             {(searchQuery || filterType !== 'all') && (
               <button
                 onClick={() => {
@@ -663,7 +663,7 @@ export default function NomadMeetup() {
                 }}
                 className="text-blue-600 hover:text-blue-700 transition-colors"
               >
-                清除筛选
+                {t('meetup.clearFilter')}
               </button>
             )}
           </div>
@@ -676,10 +676,10 @@ export default function NomadMeetup() {
                 onChange={(e) => setMessageType(e.target.value as any)}
                 className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="general">一般聊天</option>
-                <option value="question">问题求助</option>
-                <option value="info">信息分享</option>
-                <option value="help">紧急求助</option>
+                <option value="general">{t('meetup.filterGeneral')}</option>
+                <option value="question">{t('meetup.filterQuestion')}</option>
+                <option value="info">{t('meetup.filterInfo')}</option>
+                <option value="help">{t('meetup.filterHelp')}</option>
               </select>
             </div>
             <div className="flex space-x-2">
@@ -718,9 +718,9 @@ export default function NomadMeetup() {
                         message.type === 'help' ? 'bg-red-100 text-red-800' :
                         'bg-gray-100 text-gray-800'
                       }`}>
-                        {message.type === 'question' ? '问题' :
-                         message.type === 'info' ? '信息' :
-                         message.type === 'help' ? '求助' : '聊天'}
+                        {message.type === 'question' ? t('meetup.typeQuestion') :
+                         message.type === 'info' ? t('meetup.typeInfo') :
+                         message.type === 'help' ? t('meetup.typeHelp') : t('meetup.typeGeneral')}
                       </span>
                       <span className="text-xs text-gray-500 flex-shrink-0">{message.timestamp}</span>
                       <span className="text-xs text-gray-500 flex items-center flex-shrink-0">
@@ -741,22 +741,22 @@ export default function NomadMeetup() {
                     <div className="flex items-center space-x-4 text-xs text-gray-500">
                       <button 
                         className="flex items-center space-x-1 hover:text-blue-600 transition-colors"
-                        title="点赞"
+                        title={t('meetup.like')}
                       >
                         <span>👍</span>
                         <span>{message.likes}</span>
                       </button>
                       <button 
                         className="hover:text-blue-600 transition-colors"
-                        title="回复"
+                        title={t('meetup.reply')}
                       >
-                        回复
+                        {t('meetup.reply')}
                       </button>
                       <button 
                         className="hover:text-blue-600 transition-colors"
-                        title="分享"
+                        title={t('meetup.share')}
                       >
-                        分享
+                        {t('meetup.share')}
                       </button>
                     </div>
                   </div>
@@ -770,8 +770,8 @@ export default function NomadMeetup() {
               <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
               {searchQuery || filterType !== 'all' ? (
                 <>
-                  <p className="text-gray-600">没有找到匹配的消息</p>
-                  <p className="text-sm text-gray-500">尝试调整搜索条件或筛选器</p>
+                  <p className="text-gray-600">{t('meetup.noMatchingMessages')}</p>
+                  <p className="text-sm text-gray-500">{t('meetup.tryAdjustSearch')}</p>
                 </>
               ) : (
                 <>
