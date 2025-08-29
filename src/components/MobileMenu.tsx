@@ -96,27 +96,27 @@ export default function MobileMenu() {
                   </div>
                   
                   <div className="space-y-2">
-                    <Link
+                    <FixedLink
                       href="/setup"
                       className="block text-sm text-gray-600 hover:text-gray-900"
                       onClick={() => setIsOpen(false)}
                     >
                       {t('mobileMenu.quickSetup')}
-                    </Link>
-                    <Link
+                    </FixedLink>
+                    <FixedLink
                       href="/about"
                       className="block text-sm text-gray-600 hover:text-gray-900"
                       onClick={() => setIsOpen(false)}
                     >
                       {t('mobileMenu.aboutUs')}
-                    </Link>
-                    <Link
+                    </FixedLink>
+                    <FixedLink
                       href="/contact"
                       className="block text-sm text-gray-600 hover:text-gray-900"
                       onClick={() => setIsOpen(false)}
                     >
                       {t('mobileMenu.contactUs')}
-                    </Link>
+                    </FixedLink>
                   </div>
                 </div>
               </div>
