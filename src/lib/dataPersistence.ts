@@ -185,14 +185,17 @@ export class FavoritesManager {
   // 移除收藏
   removeFavorite(type: 'city' | 'place', itemId: string): void {
     const favorites = this.getFavorites(type)
-    const filtered = favorites.filter(fav => fav.id !== itemId)
-    this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
+    const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
+    if (Array.isArray(allFavorites)) {
+      const filtered = allFavorites.filter(fav => !(fav.type === type && fav.id === itemId))
+      this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
+    }
   }
 
   // 获取收藏列表
   getFavorites(type: 'city' | 'place'): any[] {
     const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
-    return allFavorites.filter(fav => fav.type === type)
+    return Array.isArray(allFavorites) ? allFavorites.filter(fav => fav.type === type) : []
   }
 
   // 检查是否已收藏
@@ -205,8 +208,10 @@ export class FavoritesManager {
   clearFavorites(type?: 'city' | 'place'): void {
     if (type) {
       const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
-      const filtered = allFavorites.filter(fav => fav.type !== type)
-      this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
+      if (Array.isArray(allFavorites)) {
+        const filtered = allFavorites.filter(fav => fav.type !== type)
+        this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
+      }
     } else {
       this.storage.remove(STORAGE_KEYS.USER_FAVORITES)
     }
@@ -258,8 +263,10 @@ export class VisaManager {
   // 删除签证
   removeVisa(visaId: string): void {
     const visas = this.getVisas()
-    const filtered = visas.filter(visa => visa.id !== visaId)
-    this.saveVisas(filtered)
+    if (Array.isArray(visas)) {
+      const filtered = visas.filter(visa => visa.id !== visaId)
+      this.saveVisas(filtered)
+    }
   }
 }
 
@@ -286,9 +293,9 @@ export class SearchHistoryManager {
     }
 
     // 移除重复项
-    const filtered = history.filter(item => 
+    const filtered = Array.isArray(history) ? history.filter(item => 
       !(item.query === query && item.type === type)
-    )
+    ) : []
 
     // 添加到开头
     filtered.unshift(newEntry)
@@ -304,6 +311,7 @@ export class SearchHistoryManager {
   // 获取搜索历史
   getSearchHistory(type?: 'city' | 'place'): any[] {
     const history = this.storage.get(STORAGE_KEYS.SEARCH_HISTORY) || []
+    if (!Array.isArray(history)) return []
     return type ? history.filter(item => item.type === type) : history
   }
 
@@ -311,8 +319,10 @@ export class SearchHistoryManager {
   clearSearchHistory(type?: 'city' | 'place'): void {
     if (type) {
       const history = this.getSearchHistory()
-      const filtered = history.filter(item => item.type !== type)
-      this.storage.set(STORAGE_KEYS.SEARCH_HISTORY, filtered)
+      if (Array.isArray(history)) {
+        const filtered = history.filter(item => item.type !== type)
+        this.storage.set(STORAGE_KEYS.SEARCH_HISTORY, filtered)
+      }
     } else {
       this.storage.remove(STORAGE_KEYS.SEARCH_HISTORY)
     }
@@ -341,7 +351,7 @@ export class RecentItemsManager {
     }
 
     // 移除重复项
-    const filtered = recent.filter(item => item.id !== city.id)
+    const filtered = Array.isArray(recent) ? recent.filter(item => item.id !== city.id) : []
     filtered.unshift(newEntry)
 
     // 限制大小
@@ -361,7 +371,7 @@ export class RecentItemsManager {
     }
 
     // 移除重复项
-    const filtered = recent.filter(item => item.id !== place.id)
+    const filtered = Array.isArray(recent) ? recent.filter(item => item.id !== place.id) : []
     filtered.unshift(newEntry)
 
     // 限制大小
