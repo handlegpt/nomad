@@ -137,11 +137,11 @@ export function withCache<T>(
 // 预定义的缓存策略
 export const cacheStrategies = {
   // 城市数据缓存1小时
-  cities: (fn: Function) => withCache(fn, 60 * 60 * 1000),
+  cities: <T>(fn: (...args: any[]) => Promise<T>) => withCache(fn, 60 * 60 * 1000),
   // 地点数据缓存30分钟
-  places: (fn: Function) => withCache(fn, 30 * 60 * 1000),
+  places: <T>(fn: (...args: any[]) => Promise<T>) => withCache(fn, 30 * 60 * 1000),
   // 用户数据缓存5分钟
-  user: (fn: Function) => withCache(fn, 5 * 60 * 1000),
+  user: <T>(fn: (...args: any[]) => Promise<T>) => withCache(fn, 5 * 60 * 1000),
   // 实时数据不缓存
-  realtime: (fn: Function) => fn
+  realtime: <T>(fn: (...args: any[]) => Promise<T>) => fn
 }
