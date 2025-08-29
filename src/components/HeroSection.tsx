@@ -15,7 +15,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[600px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[500px]">
           
           {/* Left Content */}
           <div className="space-y-8 lg:pr-8">
@@ -75,7 +75,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right Content - Live Info Card */}
-          <div className="relative lg:sticky lg:top-8">
+          <div className="relative lg:sticky lg:top-4">
             <UnifiedLiveInfoCard 
               variant="hero" 
               showVisaInfo={true}

@@ -147,7 +147,7 @@ export default function UnifiedLiveInfoCard({
     return (
       <>
         <div className={`card card-lg bg-white/90 backdrop-blur-sm border-0 shadow-2xl ${className}`}>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Header */}
             <div className="text-center">
               <h3 className="text-lg font-semibold text-gray-900">{t('home.hero.liveInfo.title')}</h3>
@@ -155,31 +155,31 @@ export default function UnifiedLiveInfoCard({
             </div>
 
             {/* Current Time */}
-            <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-              <Clock className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-              <div className="text-3xl font-mono font-bold text-gray-900">
+            <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+              <Clock className="h-5 w-5 text-blue-600 mx-auto mb-1" />
+              <div className="text-2xl font-mono font-bold text-gray-900">
                 {time?.time || '--:--'}
               </div>
-              <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentTime')}</div>
+              <div className="text-xs text-gray-600 mt-1">{t('home.hero.liveInfo.currentTime')}</div>
             </div>
 
             {/* Current Location */}
-            <div className="text-center p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-              <MapPin className="h-6 w-6 text-green-600 mx-auto mb-2" />
-              <div className="text-lg font-semibold text-gray-900">
+            <div className="text-center p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+              <MapPin className="h-5 w-5 text-green-600 mx-auto mb-1" />
+              <div className="text-base font-semibold text-gray-900">
                 {location ? `${location.city}, ${location.country}` : t('home.hero.liveInfo.locationUnavailable')}
               </div>
-              <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentLocation')}</div>
+              <div className="text-xs text-gray-600 mt-1">{t('home.hero.liveInfo.currentLocation')}</div>
             </div>
 
             {/* Visa Status - Only show if enabled */}
             {showVisaInfo && (
-              <div className="text-center p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl">
-                <Calendar className="h-6 w-6 text-orange-600 mx-auto mb-2" />
-                <div className="text-lg font-semibold text-gray-900">
+              <div className="text-center p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl">
+                <Calendar className="h-5 w-5 text-orange-600 mx-auto mb-1" />
+                <div className="text-base font-semibold text-gray-900">
                   🛂 {getVisaStatus() ? '38' : '--'}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">{t('home.visaRemaining')}</div>
+                <div className="text-xs text-gray-600 mt-1">{t('home.visaRemaining')}</div>
                 {!getVisaStatus() && (
                   <div className="text-xs text-gray-500 mt-1">
                     {t('home.setupVisa')}
@@ -190,7 +190,7 @@ export default function UnifiedLiveInfoCard({
 
             {/* Setup Visa Reminder - Only show if visa info is enabled and not set */}
             {showVisaInfo && !getVisaStatus() && (
-              <div className="p-3 bg-yellow-50 rounded-xl border border-yellow-200">
+              <div className="p-2 bg-yellow-50 rounded-xl border border-yellow-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4 text-yellow-600" />
@@ -212,19 +212,19 @@ export default function UnifiedLiveInfoCard({
 
             {/* Quick Actions */}
             {showActions && (
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <button 
                   onClick={() => setShowWifiTest(true)}
-                  className="btn btn-sm btn-primary"
+                  className="btn btn-sm btn-primary text-xs py-2"
                 >
-                  <Wifi className="h-4 w-4 mr-2" />
+                  <Wifi className="h-3 w-3 mr-1" />
                   {t('home.hero.liveInfo.speedTest')}
                 </button>
                 <FixedLink 
                   href="/cities"
-                  className="btn btn-sm btn-secondary"
+                  className="btn btn-sm btn-secondary text-xs py-2"
                 >
-                  <Globe className="h-4 w-4 mr-2" />
+                  <Globe className="h-3 w-3 mr-1" />
                   {t('home.hero.liveInfo.explore')}
                 </FixedLink>
               </div>
