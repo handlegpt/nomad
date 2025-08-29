@@ -355,7 +355,7 @@ export default function UniversalRecommendationForm({
   ]
 
   const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev: any) => ({
       ...prev,
       [field]: value
     }))
@@ -363,7 +363,7 @@ export default function UniversalRecommendationForm({
 
   const addTag = (tag: string) => {
     if (tag && !formData.tags.includes(tag)) {
-      setFormData(prev => ({
+      setFormData((prev: any) => ({
         ...prev,
         tags: [...prev.tags, tag]
       }))
@@ -372,15 +372,15 @@ export default function UniversalRecommendationForm({
   }
 
   const removeTag = (tagToRemove: string) => {
-    setFormData(prev => ({
+    setFormData((prev: any) => ({
       ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
+      tags: prev.tags.filter((tag: any) => tag !== tagToRemove)
     }))
   }
 
   const addHighlight = (highlight: string) => {
     if (highlight && !formData.highlights.includes(highlight)) {
-      setFormData(prev => ({
+      setFormData((prev: any) => ({
         ...prev,
         highlights: [...prev.highlights, highlight]
       }))
@@ -389,9 +389,9 @@ export default function UniversalRecommendationForm({
   }
 
   const removeHighlight = (highlightToRemove: string) => {
-    setFormData(prev => ({
+    setFormData((prev: any) => ({
       ...prev,
-      highlights: prev.highlights.filter(highlight => highlight !== highlightToRemove)
+      highlights: prev.highlights.filter((highlight: any) => highlight !== highlightToRemove)
     }))
   }
 
@@ -529,7 +529,7 @@ export default function UniversalRecommendationForm({
         return (
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2">
-              {formData.tags.map((tag) => (
+              {formData.tags.map((tag: any) => (
                 <span
                   key={tag}
                   className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
@@ -592,7 +592,7 @@ export default function UniversalRecommendationForm({
         return (
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2">
-              {formData.highlights.map((highlight) => (
+              {formData.highlights.map((highlight: any) => (
                 <span
                   key={highlight}
                   className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800"
