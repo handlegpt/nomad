@@ -39,7 +39,7 @@ class UserDataService {
   async getUserPreferences(): Promise<UserPreferences | null> {
     try {
       // 首先尝试从本地存储获取
-      const localData = this.getFromLocalStorage(UserDataService.STORAGE_KEYS.PREFERENCES)
+      const localData = this.getFromLocalStorage<UserPreferences>(UserDataService.STORAGE_KEYS.PREFERENCES)
       if (localData) {
         return localData
       }
@@ -115,7 +115,7 @@ class UserDataService {
   async getUserFavorites(): Promise<UserFavorite[]> {
     try {
       // 首先尝试从本地存储获取
-      const localData = this.getFromLocalStorage(UserDataService.STORAGE_KEYS.FAVORITES)
+      const localData = this.getFromLocalStorage<UserFavorite[]>(UserDataService.STORAGE_KEYS.FAVORITES)
       if (localData) {
         return localData
       }
@@ -229,7 +229,7 @@ class UserDataService {
   async getUserVisas(): Promise<UserVisa[]> {
     try {
       // 首先尝试从本地存储获取
-      const localData = this.getFromLocalStorage(UserDataService.STORAGE_KEYS.VISAS)
+      const localData = this.getFromLocalStorage<UserVisa[]>(UserDataService.STORAGE_KEYS.VISAS)
       if (localData) {
         return localData
       }
