@@ -52,6 +52,42 @@
     "setupVisaTitle": "Configurar Información de Visa",
     "setupVisaDescription": "Configura la fecha de vencimiento de tu visa para rastrear los días restantes",
     "setupVisaButton": "Configurar Visa",
+    "wifiSpeedTest": {
+      "title": "Prueba de Velocidad WiFi",
+      "description": "Prueba la velocidad de tu conexión de red actual",
+      "startTest": "Iniciar Prueba",
+      "testing": "Probando...",
+      "cancelTest": "Cancelar Prueba",
+      "testCancelled": "Prueba cancelada",
+      "testFailed": "La prueba de velocidad falló, verifica tu conexión de red",
+      "pingTest": "Probando latencia de red...",
+      "downloadTest": "Probando velocidad de descarga...",
+      "uploadTest": "Probando velocidad de carga...",
+      "testComplete": "Prueba completada",
+      "downloadSpeed": "Velocidad de Descarga",
+      "uploadSpeed": "Velocidad de Carga",
+      "ping": "Latencia de Red",
+      "testTime": "Tiempo de Prueba",
+      "clearResult": "Limpiar Resultado",
+      "usageTips": "Consejos de Uso",
+      "slowDownload": "La velocidad de descarga es lenta, considera elegir una red más rápida o cambiar de ubicación",
+      "slowUpload": "La velocidad de carga es lenta, puede afectar las videollamadas y carga de archivos",
+      "highPing": "Alta latencia de red, puede afectar los juegos en línea y la comunicación en tiempo real",
+      "goodNetwork": "La condición de la red es buena, adecuada para trabajo remoto y reuniones en línea",
+      "speedGrades": {
+        "A+": "Excelente",
+        "A": "Muy Rápido",
+        "B": "Bueno",
+        "C": "Promedio",
+        "D": "Lento",
+        "F": "Muy Lento"
+      },
+      "pingQuality": {
+        "excellent": "Excelente",
+        "good": "Bueno",
+        "slow": "Lento"
+      }
+    },
     "quickVote": {
       "title": "Participar en Votación",
       "description": "Califica ciudades según tu experiencia",

@@ -55,6 +55,42 @@
     "setupVisaTitle": "ビザ情報を設定",
     "setupVisaDescription": "ビザの有効期限を設定して残り日数を追跡",
     "setupVisaButton": "ビザを設定",
+    "wifiSpeedTest": {
+      "title": "WiFi速度テスト",
+      "description": "現在のネットワーク接続速度をテスト",
+      "startTest": "テスト開始",
+      "testing": "テスト中...",
+      "cancelTest": "テストキャンセル",
+      "testCancelled": "テストがキャンセルされました",
+      "testFailed": "速度テストに失敗しました。ネットワーク接続を確認してください",
+      "pingTest": "ネットワーク遅延をテスト中...",
+      "downloadTest": "ダウンロード速度をテスト中...",
+      "uploadTest": "アップロード速度をテスト中...",
+      "testComplete": "テスト完了",
+      "downloadSpeed": "ダウンロード速度",
+      "uploadSpeed": "アップロード速度",
+      "ping": "ネットワーク遅延",
+      "testTime": "テスト時間",
+      "clearResult": "結果をクリア",
+      "usageTips": "使用のヒント",
+      "slowDownload": "ダウンロード速度が遅いです。より高速なネットワークを選択するか、場所を変更することを検討してください",
+      "slowUpload": "アップロード速度が遅いです。ビデオ通話やファイルアップロードに影響する可能性があります",
+      "highPing": "ネットワーク遅延が高いです。オンラインゲームやリアルタイム通信に影響する可能性があります",
+      "goodNetwork": "ネットワーク状態が良好です。リモートワークやオンライン会議に適しています",
+      "speedGrades": {
+        "A+": "極めて高速",
+        "A": "非常に高速",
+        "B": "良好",
+        "C": "普通",
+        "D": "遅い",
+        "F": "非常に遅い"
+      },
+      "pingQuality": {
+        "excellent": "優秀",
+        "good": "良好",
+        "slow": "遅い"
+      }
+    },
     "quickVote": {
       "title": "投票に参加",
       "description": "体験に基づいて都市を評価",

@@ -240,7 +240,7 @@ export default function UnifiedLiveInfoCard({
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                <h3 className="text-lg font-bold text-gray-900">WiFi速度测试</h3>
+                <h3 className="text-lg font-bold text-gray-900">{t('home.wifiSpeedTest.title')}</h3>
                 <button
                   onClick={() => setShowWifiTest(false)}
                   className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
@@ -357,7 +357,7 @@ export default function UnifiedLiveInfoCard({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900">WiFi速度测试</h3>
+              <h3 className="text-lg font-bold text-gray-900">{t('home.wifiSpeedTest.title')}</h3>
               <button
                 onClick={() => setShowWifiTest(false)}
                 className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
