@@ -6,7 +6,7 @@ import { getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
-import Link from 'next/link'
+import FixedLink from '@/components/FixedLink'
 
 export default function CitiesPage() {
   const { t } = useTranslation()
@@ -183,12 +183,12 @@ export default function CitiesPage() {
                 </div>
 
                                 <div className="mt-6 flex space-x-2">
-                  <Link 
+                  <FixedLink 
                     href={`/cities/${city.id}`}
                     className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium text-center"
                   >
                     {t('cities.viewDetails')}
-                  </Link>
+                  </FixedLink>
                   <button 
                     onClick={() => handleVote(city.id)}
                     className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"

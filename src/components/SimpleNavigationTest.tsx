@@ -46,6 +46,12 @@ export default function SimpleNavigationTest() {
         >
           Dashboard
         </button>
+        <button 
+          onClick={() => handleNavigation('/debug')}
+          style={{ padding: '5px 10px', background: 'lime', color: 'black', border: 'none' }}
+        >
+          Debug Page
+        </button>
       </div>
     </div>
   )
