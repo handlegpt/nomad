@@ -737,12 +737,48 @@
     "unknown": "Desconocido"
   },
   "loginRequired": {
-    "title": "Inicio de Sesión Requerido",
-    "description": "Esta función requiere inicio de sesión para usar, por favor inicia sesión en tu cuenta primero",
-    "loginButton": "Iniciar Sesión Ahora",
-    "voteMessage": "Inicia sesión para votar y asegurar la autenticidad del voto",
-    "reviewMessage": "Inicia sesión para dejar reseñas y construir tu reputación",
-    "recommendMessage": "Inicia sesión para recomendar lugares y ayudar a otros nómadas",
-    "favoriteMessage": "Inicia sesión para favoritear ciudades y guardar tus preferencias"
+    "title": "Inicio de sesión requerido",
+    "description": "Esta función requiere inicio de sesión. Por favor, inicia sesión en tu cuenta primero",
+    "loginButton": "Iniciar sesión ahora",
+    "voteMessage": "Se requiere inicio de sesión para votar, asegurando la autenticidad del voto",
+    "reviewMessage": "Se requiere inicio de sesión para publicar reseñas, construir tu reputación",
+    "recommendMessage": "Se requiere inicio de sesión para recomendar lugares, ayudar a otros nómadas",
+    "favoriteMessage": "Se requiere inicio de sesión para favoritos ciudades, guardar tus preferencias"
+  },
+  "visaGuide": {
+    "title": "Guía de Solicitud de Visa",
+    "subtitle": "Información detallada de solicitud de visa para nómadas digitales, ayudándote a obtener fácilmente visas de varios países",
+    "searchPlaceholder": "Buscar países o tipos de visa...",
+    "filters": {
+      "difficulty": {
+        "all": "Todas las dificultades",
+        "easy": "Fácil",
+        "medium": "Medio",
+        "hard": "Difícil"
+      },
+      "duration": {
+        "all": "Todas las duraciones",
+        "30days": "30 Días",
+        "60days": "60 Días",
+        "90days": "90 Días",
+        "1year": "1 Año"
+      }
+    },
+    "card": {
+      "duration": "Duración",
+      "cost": "Costo",
+      "processingTime": "Tiempo de procesamiento",
+      "requirements": "Requisitos",
+      "process": "Proceso de solicitud"
+    },
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil"
+    },
+    "noResults": {
+      "title": "No se encontraron guías de visa coincidentes",
+      "description": "Intenta ajustar tus criterios de búsqueda o filtros"
+    }
   }
 } 

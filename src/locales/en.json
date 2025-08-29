@@ -625,11 +625,47 @@
   },
   "loginRequired": {
     "title": "Login Required",
-    "description": "This feature requires login to use, please login to your account first",
+    "description": "This feature requires login. Please log in to your account first",
     "loginButton": "Login Now",
-    "voteMessage": "Login to vote and ensure vote authenticity",
-    "reviewMessage": "Login to leave reviews and build your reputation",
-    "recommendMessage": "Login to recommend places and help other nomads",
-    "favoriteMessage": "Login to favorite cities and save your preferences"
+    "voteMessage": "Login required to vote, ensuring vote authenticity",
+    "reviewMessage": "Login required to post reviews, build your reputation",
+    "recommendMessage": "Login required to recommend places, help other nomads",
+    "favoriteMessage": "Login required to favorite cities, save your preferences"
+  },
+  "visaGuide": {
+    "title": "Visa Application Guide",
+    "subtitle": "Detailed visa application information for digital nomads, helping you easily obtain visas from various countries",
+    "searchPlaceholder": "Search countries or visa types...",
+    "filters": {
+      "difficulty": {
+        "all": "All Difficulties",
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+      },
+      "duration": {
+        "all": "All Durations",
+        "30days": "30 Days",
+        "60days": "60 Days",
+        "90days": "90 Days",
+        "1year": "1 Year"
+      }
+    },
+    "card": {
+      "duration": "Duration",
+      "cost": "Cost",
+      "processingTime": "Processing Time",
+      "requirements": "Requirements",
+      "process": "Application Process"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "noResults": {
+      "title": "No matching visa guides found",
+      "description": "Try adjusting your search criteria or filters"
+    }
   }
 } 

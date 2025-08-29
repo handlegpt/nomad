@@ -772,5 +772,41 @@
     "reviewMessage": "レビューを投稿するにはログインが必要です。あなたの評判を築きます",
     "recommendMessage": "場所を推薦するにはログインが必要です。他のノマドを助けます",
     "favoriteMessage": "都市をお気に入りに追加するにはログインが必要です。あなたの好みを保存します"
+  },
+  "visaGuide": {
+    "title": "ビザ申請ガイド",
+    "subtitle": "デジタルノマドのための詳細なビザ申請情報を提供し、各国のビザを簡単に取得できるようサポートします",
+    "searchPlaceholder": "国やビザタイプを検索...",
+    "filters": {
+      "difficulty": {
+        "all": "すべての難易度",
+        "easy": "簡単",
+        "medium": "普通",
+        "hard": "困難"
+      },
+      "duration": {
+        "all": "すべての期間",
+        "30days": "30日",
+        "60days": "60日",
+        "90days": "90日",
+        "1year": "1年"
+      }
+    },
+    "card": {
+      "duration": "期間",
+      "cost": "費用",
+      "processingTime": "処理時間",
+      "requirements": "申請要件",
+      "process": "申請手順"
+    },
+    "difficulty": {
+      "easy": "簡単",
+      "medium": "普通",
+      "hard": "困難"
+    },
+    "noResults": {
+      "title": "一致するビザガイドが見つかりません",
+      "description": "検索条件やフィルターを調整してみてください"
+    }
   }
 } 

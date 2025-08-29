@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { SearchIcon, FilterIcon, BookOpenIcon, CalendarIcon, GlobeIcon, DollarSignIcon } from 'lucide-react'
+import { SearchIcon, BookOpenIcon, CalendarIcon, GlobeIcon, DollarSignIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import Header from '@/components/Header'
+import PageLayout from '@/components/PageLayout'
 
 interface VisaGuide {
   id: string
@@ -21,69 +21,135 @@ interface VisaGuide {
 const visaGuides: VisaGuide[] = [
   {
     id: '1',
-    country: '葡萄牙',
+    country: 'Portugal',
     countryCode: 'PT',
-    visaType: '数字游民签证',
-    duration: '1年（可续签）',
+    visaType: 'Digital Nomad Visa',
+    duration: '1 year (renewable)',
     cost: '€75',
     requirements: [
-      '月收入至少€2,800',
-      '健康保险',
-      '无犯罪记录证明',
-      '住宿证明'
+      'Monthly income of at least €2,800',
+      'Health insurance',
+      'Criminal record certificate',
+      'Accommodation proof'
     ],
     process: [
-      '在线申请',
-      '提交所需文件',
-      '支付申请费',
-      '等待审批（约2-4周）'
+      'Online application',
+      'Submit required documents',
+      'Pay application fee',
+      'Wait for approval (2-4 weeks)'
     ],
     difficulty: 'medium',
-    processingTime: '2-4周'
+    processingTime: '2-4 weeks'
   },
   {
     id: '2',
-    country: '泰国',
+    country: 'Thailand',
     countryCode: 'TH',
-    visaType: '旅游签证',
-    duration: '60天（可延期）',
+    visaType: 'Tourist Visa',
+    duration: '60 days (extendable)',
     cost: '$40',
     requirements: [
-      '有效护照（至少6个月有效期）',
-      '往返机票',
-      '住宿证明',
-      '资金证明'
+      'Valid passport (6+ months validity)',
+      'Round-trip ticket',
+      'Accommodation proof',
+      'Financial proof'
     ],
     process: [
-      '在大使馆或领事馆申请',
-      '提交申请表格和文件',
-      '支付签证费',
-      '等待审批（约3-5个工作日）'
+      'Apply at embassy or consulate',
+      'Submit application form and documents',
+      'Pay visa fee',
+      'Wait for approval (3-5 business days)'
     ],
     difficulty: 'easy',
-    processingTime: '3-5个工作日'
+    processingTime: '3-5 business days'
   },
   {
     id: '3',
-    country: '日本',
+    country: 'Japan',
     countryCode: 'JP',
-    visaType: '旅游签证',
-    duration: '90天',
-    cost: '免费',
+    visaType: 'Tourist Visa',
+    duration: '90 days',
+    cost: 'Free',
     requirements: [
-      '有效护照',
-      '往返机票',
-      '住宿证明',
-      '行程安排'
+      'Valid passport',
+      'Round-trip ticket',
+      'Accommodation proof',
+      'Travel itinerary'
     ],
     process: [
-      '通过指定旅行社申请',
-      '提交所需文件',
-      '等待审批（约5-10个工作日）',
-      '领取签证'
+      'Apply through designated travel agency',
+      'Submit required documents',
+      'Wait for approval (5-10 business days)',
+      'Collect visa'
     ],
     difficulty: 'medium',
-    processingTime: '5-10个工作日'
+    processingTime: '5-10 business days'
+  },
+  {
+    id: '4',
+    country: 'Mexico',
+    countryCode: 'MX',
+    visaType: 'Temporary Resident Visa',
+    duration: '1 year (renewable)',
+    cost: '$36',
+    requirements: [
+      'Monthly income of at least $2,500',
+      'Bank statements (6 months)',
+      'Criminal background check',
+      'Health certificate'
+    ],
+    process: [
+      'Apply at Mexican consulate',
+      'Submit financial documents',
+      'Attend interview',
+      'Wait for approval (1-2 weeks)'
+    ],
+    difficulty: 'medium',
+    processingTime: '1-2 weeks'
+  },
+  {
+    id: '5',
+    country: 'Estonia',
+    countryCode: 'EE',
+    visaType: 'Digital Nomad Visa',
+    duration: '1 year',
+    cost: '€100',
+    requirements: [
+      'Monthly income of at least €3,504',
+      'Valid health insurance',
+      'Clean criminal record',
+      'Proof of remote work'
+    ],
+    process: [
+      'Apply online through e-Residency',
+      'Submit digital documents',
+      'Pay application fee',
+      'Receive approval (2-4 weeks)'
+    ],
+    difficulty: 'easy',
+    processingTime: '2-4 weeks'
+  },
+  {
+    id: '6',
+    country: 'Croatia',
+    countryCode: 'HR',
+    visaType: 'Digital Nomad Visa',
+    duration: '1 year',
+    cost: '€60',
+    requirements: [
+      'Monthly income of at least €2,300',
+      'Health insurance coverage',
+      'Criminal record certificate',
+      'Proof of remote work'
+    ],
+    process: [
+      'Apply at Croatian embassy/consulate',
+      'Submit required documents',
+      'Pay application fee',
+      'Wait for approval (2-3 weeks)'
+    ],
+    difficulty: 'medium',
+    processingTime: '2-3 weeks'
   }
 ]
 
@@ -111,12 +177,7 @@ export default function VisaGuidePage() {
   }
 
   const getDifficultyText = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy': return '简单'
-      case 'medium': return '中等'
-      case 'hard': return '困难'
-      default: return '未知'
-    }
+    return t(`visaGuide.difficulty.${difficulty}`)
   }
 
   const filteredGuides = visaGuides.filter(guide => {
@@ -129,152 +190,149 @@ export default function VisaGuidePage() {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
+    <PageLayout pageTitle={t('visaGuide.title')} showPageTitle={true}>
       {/* Page Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center">
-              <BookOpenIcon className="h-8 w-8 text-blue-500 mr-3" />
-              签证申请指南
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              为数字游民提供详细的签证申请信息，帮助你轻松获得各国签证
-            </p>
-          </div>
+      <div className="text-center mb-8">
+        <div className="flex items-center justify-center mb-4">
+          <BookOpenIcon className="h-8 w-8 text-blue-500 mr-3" />
+          <h1 className="text-3xl font-bold text-gray-900">
+            {t('visaGuide.title')}
+          </h1>
         </div>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          {t('visaGuide.subtitle')}
+        </p>
       </div>
 
       {/* Search and Filters */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="card card-lg">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Search */}
-            <div className="md:col-span-2">
-              <div className="relative">
-                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="搜索国家或签证类型..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+      <div className="card card-lg mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Search */}
+          <div className="md:col-span-2">
+            <div className="relative">
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder={t('visaGuide.searchPlaceholder')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
             </div>
+          </div>
 
-            {/* Difficulty Filter */}
-            <div>
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="all">所有难度</option>
-                <option value="easy">简单</option>
-                <option value="medium">中等</option>
-                <option value="hard">困难</option>
-              </select>
-            </div>
+          {/* Difficulty Filter */}
+          <div>
+            <select
+              value={selectedDifficulty}
+              onChange={(e) => setSelectedDifficulty(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">{t('visaGuide.filters.difficulty.all')}</option>
+              <option value="easy">{t('visaGuide.filters.difficulty.easy')}</option>
+              <option value="medium">{t('visaGuide.filters.difficulty.medium')}</option>
+              <option value="hard">{t('visaGuide.filters.difficulty.hard')}</option>
+            </select>
+          </div>
 
-            {/* Duration Filter */}
-            <div>
-              <select
-                value={selectedDuration}
-                onChange={(e) => setSelectedDuration(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="all">所有时长</option>
-                <option value="30天">30天</option>
-                <option value="60天">60天</option>
-                <option value="90天">90天</option>
-                <option value="1年">1年</option>
-              </select>
-            </div>
+          {/* Duration Filter */}
+          <div>
+            <select
+              value={selectedDuration}
+              onChange={(e) => setSelectedDuration(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">{t('visaGuide.filters.duration.all')}</option>
+              <option value="30 days">{t('visaGuide.filters.duration.30days')}</option>
+              <option value="60 days">{t('visaGuide.filters.duration.60days')}</option>
+              <option value="90 days">{t('visaGuide.filters.duration.90days')}</option>
+              <option value="1 year">{t('visaGuide.filters.duration.1year')}</option>
+            </select>
           </div>
         </div>
       </div>
 
       {/* Visa Guides */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {filteredGuides.map((guide) => (
-            <div key={guide.id} className="card card-lg">
-              {/* Header */}
-              <div className="p-6 border-b border-gray-100">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-3xl">{getCountryFlag(guide.countryCode)}</div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900">{guide.country}</h3>
-                      <p className="text-gray-600">{guide.visaType}</p>
-                    </div>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(guide.difficulty)}`}>
-                    {getDifficultyText(guide.difficulty)}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <CalendarIcon className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600">时长：</span>
-                    <span className="font-medium">{guide.duration}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <DollarSignIcon className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600">费用：</span>
-                    <span className="font-medium">{guide.cost}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <GlobeIcon className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600">处理时间：</span>
-                    <span className="font-medium">{guide.processingTime}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {filteredGuides.map((guide) => (
+          <div key={guide.id} className="card card-lg">
+            {/* Header */}
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="text-3xl">{getCountryFlag(guide.countryCode)}</div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">{guide.country}</h3>
+                    <p className="text-gray-600">{guide.visaType}</p>
                   </div>
                 </div>
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(guide.difficulty)}`}>
+                  {getDifficultyText(guide.difficulty)}
+                </span>
               </div>
 
-              {/* Requirements */}
-              <div className="p-6 border-b border-gray-100">
-                <h4 className="font-semibold text-gray-900 mb-3">申请要求</h4>
-                <ul className="space-y-2">
-                  {guide.requirements.map((requirement, index) => (
-                    <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
-                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span>{requirement}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Process */}
-              <div className="p-6">
-                <h4 className="font-semibold text-gray-900 mb-3">申请流程</h4>
-                <div className="space-y-3">
-                  {guide.process.map((step, index) => (
-                    <div key={index} className="flex items-start space-x-3">
-                      <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                        {index + 1}
-                      </div>
-                      <p className="text-sm text-gray-700">{step}</p>
-                    </div>
-                  ))}
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center space-x-2">
+                  <CalendarIcon className="h-4 w-4 text-gray-400" />
+                  <span className="text-gray-600">{t('visaGuide.card.duration')}：</span>
+                  <span className="font-medium">{guide.duration}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <DollarSignIcon className="h-4 w-4 text-gray-400" />
+                  <span className="text-gray-600">{t('visaGuide.card.cost')}：</span>
+                  <span className="font-medium">{guide.cost}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <GlobeIcon className="h-4 w-4 text-gray-400" />
+                  <span className="text-gray-600">{t('visaGuide.card.processingTime')}：</span>
+                  <span className="font-medium">{guide.processingTime}</span>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
 
-        {filteredGuides.length === 0 && (
-          <div className="text-center py-12">
-            <BookOpenIcon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到匹配的签证指南</h3>
-            <p className="text-gray-600">尝试调整搜索条件或筛选器</p>
+            {/* Requirements */}
+            <div className="p-6 border-b border-gray-100">
+              <h4 className="font-semibold text-gray-900 mb-3">{t('visaGuide.card.requirements')}</h4>
+              <ul className="space-y-2">
+                {guide.requirements.map((requirement, index) => (
+                  <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span>{requirement}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Process */}
+            <div className="p-6">
+              <h4 className="font-semibold text-gray-900 mb-3">{t('visaGuide.card.process')}</h4>
+              <div className="space-y-3">
+                {guide.process.map((step, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
+                      {index + 1}
+                    </div>
+                    <p className="text-sm text-gray-700">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        )}
+        ))}
       </div>
-    </div>
+
+      {/* No Results */}
+      {filteredGuides.length === 0 && (
+        <div className="text-center py-12">
+          <BookOpenIcon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            {t('visaGuide.noResults.title')}
+          </h3>
+          <p className="text-gray-600">
+            {t('visaGuide.noResults.description')}
+          </p>
+        </div>
+      )}
+    </PageLayout>
   )
 }
