@@ -7,7 +7,7 @@ import FixedLink from '@/components/FixedLink'
 import { LogIn, Lock } from 'lucide-react'
 
 interface LoginRequiredProps {
-  children: ReactNode
+  children?: ReactNode
   message?: string
   showLoginButton?: boolean
   className?: string
@@ -23,7 +23,7 @@ export default function LoginRequired({
   const { user } = useUser()
 
   if (user.isAuthenticated) {
-    return <>{children}</>
+    return children ? <>{children}</> : null
   }
 
   return (
