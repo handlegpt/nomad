@@ -54,7 +54,7 @@ function getClientIdentifier(request: NextRequest): string {
 }
 
 // 主中间件函数
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const startTime = Date.now()
   const pathname = request.nextUrl.pathname
   
