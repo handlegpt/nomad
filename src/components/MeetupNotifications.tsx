@@ -303,7 +303,7 @@ export default function MeetupNotifications() {
                               <span>{t('meetup.notifications.accept')}</span>
                             </button>
                             <button
-                              onClick={() => handleAction({ ...notification, action: { type: 'decline', data: notification.action.data } })}
+                              onClick={() => handleAction({ ...notification, action: { type: 'decline', data: notification.action!.data } })}
                               className="flex items-center space-x-1 bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700 transition-colors"
                             >
                               <XCircle className="h-3 w-3" />
