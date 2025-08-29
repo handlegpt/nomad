@@ -686,5 +686,42 @@
         "social": "Social Atmosphere"
       }
     }
+  },
+  "dashboard": {
+    "title": "User Dashboard",
+    "overview": "Overview",
+    "visas": "Visa Management",
+    "favorites": "Favorite Cities",
+    "preferences": "Preferences",
+    "currentStatus": "Current Status",
+    "currentCity": "Current City",
+    "validVisas": "Valid Visas",
+    "favoriteCities": "Favorite Cities",
+    "recentActivity": "Recent Activity",
+    "favoritedCity": "Favorited {city}",
+    "updatedVisa": "Updated visa information",
+    "addVisa": "Add Visa",
+    "daysRemaining": "{days} days remaining",
+    "expiryDate": "Expiry date: {date}",
+    "favoritedOn": "Favorited on: {date}",
+    "wifiQuality": "WiFi Quality",
+    "costOfLiving": "Cost of Living",
+    "climateComfort": "Climate Comfort",
+    "socialAtmosphere": "Social Atmosphere",
+    "visaConvenience": "Visa Convenience",
+    "syncData": "Sync Data",
+    "logout": "Logout",
+    "loadingUserData": "Loading user data...",
+    "pleaseLogin": "Please login first",
+    "goToLogin": "Go to Login",
+    "userDataLoaded": "User data loaded successfully",
+    "failedToLoadData": "Failed to load user data",
+    "logoutSuccess": "Logged out successfully",
+    "logoutFailed": "Logout failed",
+    "syncSuccess": "Data sync successful",
+    "syncFailed": "Data sync failed",
+    "notSet": "Not set",
+    "joinDate": "Joined: {date}",
+    "unknown": "Unknown"
   }
 } 

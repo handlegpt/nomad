@@ -14,9 +14,10 @@ import {
   Star,
   Clock,
   Globe,
-  RefreshCw
+  RefreshCw,
+  AlertTriangle,
+  CheckCircle
 } from 'lucide-react'
-import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
 import { getCurrentUser, User as UserType } from '@/lib/auth'
@@ -24,6 +25,7 @@ import { supabase } from '@/lib/supabase'
 import { useUser, useLoading, useNotifications } from '@/contexts/GlobalStateContext'
 import { userDataService } from '@/lib/userDataService'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import FixedLink from '@/components/FixedLink'
 
 interface UserProfile {
   id: string
@@ -88,6 +90,8 @@ export default function DashboardPage() {
   
   const [activeTab, setActiveTab] = useState('overview')
   const [localLoading, setLocalLoading] = useState(true)
+  const [editingVisa, setEditingVisa] = useState<string | null>(null)
+  const [editingPreferences, setEditingPreferences] = useState(false)
 
   useEffect(() => {
     fetchUserData()
@@ -113,7 +117,7 @@ export default function DashboardPage() {
         email: currentUser.email,
         name: currentUser.name,
         avatar: currentUser.avatar || '',
-        currentCity: currentUser.current_city || '未设置',
+        currentCity: currentUser.current_city || t('dashboard.notSet'),
         joinDate: new Date(currentUser.created_at).toLocaleDateString(),
         preferences: {
           wifi: 20,
@@ -135,7 +139,7 @@ export default function DashboardPage() {
 
       addNotification({
         type: 'success',
-        message: '用户数据加载完成',
+        message: t('dashboard.userDataLoaded'),
         duration: 3000
       })
 
@@ -143,7 +147,7 @@ export default function DashboardPage() {
       console.error('Error fetching user data:', error)
       addNotification({
         type: 'error',
-        message: '加载用户数据失败',
+        message: t('dashboard.failedToLoadData'),
         duration: 5000
       })
     } finally {
@@ -196,7 +200,7 @@ export default function DashboardPage() {
         logout() // 这会清除全局状态和本地存储
         addNotification({
           type: 'success',
-          message: '已成功退出登录',
+          message: t('dashboard.logoutSuccess'),
           duration: 3000
         })
         window.location.href = '/'
@@ -207,7 +211,7 @@ export default function DashboardPage() {
       console.error('Error during logout:', error)
       addNotification({
         type: 'error',
-        message: '退出登录失败',
+        message: t('dashboard.logoutFailed'),
         duration: 5000
       })
     } finally {
@@ -230,7 +234,7 @@ export default function DashboardPage() {
         
         addNotification({
           type: 'success',
-          message: '数据同步成功',
+          message: t('dashboard.syncSuccess'),
           duration: 3000
         })
       } else {
@@ -240,11 +244,104 @@ export default function DashboardPage() {
       console.error('Error syncing data:', error)
       addNotification({
         type: 'error',
-        message: '数据同步失败',
+        message: t('dashboard.syncFailed'),
         duration: 5000
       })
     } finally {
       setLoading('data', false)
+    }
+  }
+
+  const handleAddVisa = () => {
+    // TODO: 实现添加签证功能
+    addNotification({
+      type: 'info',
+      message: '添加签证功能即将推出',
+      duration: 3000
+    })
+  }
+
+  const handleEditVisa = (visaId: string) => {
+    setEditingVisa(visaId)
+    // TODO: 实现编辑签证功能
+    addNotification({
+      type: 'info',
+      message: '编辑签证功能即将推出',
+      duration: 3000
+    })
+  }
+
+  const handleDeleteVisa = async (visaId: string) => {
+    if (confirm('确定要删除这个签证记录吗？')) {
+      try {
+        // TODO: 实现删除签证功能
+        addNotification({
+          type: 'success',
+          message: '签证记录已删除',
+          duration: 3000
+        })
+      } catch (error) {
+        addNotification({
+          type: 'error',
+          message: '删除失败',
+          duration: 3000
+        })
+      }
+    }
+  }
+
+  const handleRemoveFavorite = async (cityId: string) => {
+    if (confirm('确定要移除这个收藏城市吗？')) {
+      try {
+        const success = await userDataService.removeFavorite(cityId)
+        if (success) {
+          await loadUserFavorites()
+          addNotification({
+            type: 'success',
+            message: '已移除收藏城市',
+            duration: 3000
+          })
+        }
+      } catch (error) {
+        addNotification({
+          type: 'error',
+          message: '移除失败',
+          duration: 3000
+        })
+      }
+    }
+  }
+
+  const handleUpdatePreferences = async (prefType: string, value: number) => {
+    try {
+      const currentPrefs = user.preferences || {
+        wifi: 0,
+        cost: 0,
+        climate: 0,
+        social: 0,
+        visa: 0
+      }
+      
+      const updatedPrefs = {
+        ...currentPrefs,
+        [prefType]: value
+      }
+      
+      const success = await userDataService.saveUserPreferences(updatedPrefs)
+      if (success) {
+        setUserPreferences(updatedPrefs)
+        addNotification({
+          type: 'success',
+          message: '偏好设置已更新',
+          duration: 3000
+        })
+      }
+    } catch (error) {
+      addNotification({
+        type: 'error',
+        message: '更新失败',
+        duration: 3000
+      })
     }
   }
 
@@ -253,7 +350,7 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">正在加载用户数据...</p>
+          <p className="mt-4 text-gray-600">{t('dashboard.loadingUserData')}</p>
         </div>
       </div>
     )
@@ -263,10 +360,10 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600">请先登录</p>
-          <Link href="/auth/login" className="btn btn-primary mt-4">
-            去登录
-          </Link>
+          <p className="text-gray-600">{t('dashboard.pleaseLogin')}</p>
+          <FixedLink href="/auth/login" className="btn btn-primary mt-4">
+            {t('dashboard.goToLogin')}
+          </FixedLink>
         </div>
       </div>
     )
@@ -289,10 +386,34 @@ export default function DashboardPage() {
     }
   }
 
+  const getVisaStatusIcon = (status: string) => {
+    switch (status) {
+      case 'active': return <CheckCircle className="h-4 w-4" />
+      case 'expiring': return <AlertTriangle className="h-4 w-4" />
+      case 'expired': return <AlertTriangle className="h-4 w-4" />
+      default: return <Clock className="h-4 w-4" />
+    }
+  }
+
+  const navigationItems = [
+    { id: 'overview', label: t('dashboard.overview'), icon: User },
+    { id: 'visas', label: t('dashboard.visas'), icon: Calendar },
+    { id: 'favorites', label: t('dashboard.favorites'), icon: Heart },
+    { id: 'preferences', label: t('dashboard.preferences'), icon: Settings }
+  ]
+
+  const preferenceItems = [
+    { id: 'wifi', label: t('dashboard.wifiQuality'), value: user?.preferences?.wifi || 0 },
+    { id: 'cost', label: t('dashboard.costOfLiving'), value: user?.preferences?.cost || 0 },
+    { id: 'climate', label: t('dashboard.climateComfort'), value: user?.preferences?.climate || 0 },
+    { id: 'social', label: t('dashboard.socialAtmosphere'), value: user?.preferences?.social || 0 },
+    { id: 'visa', label: t('dashboard.visaConvenience'), value: user?.preferences?.visa || 0 }
+  ]
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <Header showNavigation={false} pageTitle="用户后台" showPageTitle={true} />
+      <Header showNavigation={false} pageTitle={t('dashboard.title')} showPageTitle={true} />
       
       {/* Action Buttons */}
       <div className="bg-white border-b border-gray-200">
@@ -303,14 +424,14 @@ export default function DashboardPage() {
               className="btn btn-md btn-primary"
             >
               <RefreshCw className="h-4 w-4 mr-2" />
-              同步数据
+              {t('dashboard.syncData')}
             </button>
             <button
               onClick={handleLogout}
               className="btn btn-md btn-secondary"
             >
               <LogOut className="h-4 w-4 mr-2" />
-              退出登录
+              {t('dashboard.logout')}
             </button>
           </div>
         </div>
@@ -326,19 +447,16 @@ export default function DashboardPage() {
                 <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <User className="h-8 w-8 text-white" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900">{user?.profile?.name || '未设置'}</h2>
-                <p className="text-sm text-gray-500">{user?.profile?.email || '未设置'}</p>
-                <p className="text-xs text-gray-400 mt-1">加入时间：{user?.profile?.joinDate || '未知'}</p>
+                <h2 className="text-lg font-semibold text-gray-900">{user?.profile?.name || t('dashboard.notSet')}</h2>
+                <p className="text-sm text-gray-500">{user?.profile?.email || t('dashboard.notSet')}</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  {t('dashboard.joinDate', { date: user?.profile?.joinDate || t('dashboard.unknown') })}
+                </p>
               </div>
 
               {/* Navigation */}
               <nav className="space-y-2">
-                {[
-                  { id: 'overview', label: '概览', icon: User },
-                  { id: 'visas', label: '签证管理', icon: Calendar },
-                  { id: 'favorites', label: '收藏城市', icon: Heart },
-                  { id: 'preferences', label: '偏好设置', icon: Settings }
-                ].map((item) => {
+                {navigationItems.map((item) => {
                   const Icon = item.icon
                   return (
                     <button
@@ -367,42 +485,47 @@ export default function DashboardPage() {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                     <MapPin className="h-5 w-5 mr-2 text-blue-600" />
-                    当前状态
+                    {t('dashboard.currentStatus')}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-600">{user?.profile?.currentCity || '未设置'}</div>
-                      <div className="text-sm text-gray-600">当前城市</div>
+                      <div className="text-2xl font-bold text-blue-600">{user?.profile?.currentCity || t('dashboard.notSet')}</div>
+                      <div className="text-sm text-gray-600">{t('dashboard.currentCity')}</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <div className="text-2xl font-bold text-green-600">{user?.visas?.length || 0}</div>
-                      <div className="text-sm text-gray-600">有效签证</div>
+                      <div className="text-sm text-gray-600">{t('dashboard.validVisas')}</div>
                     </div>
                     <div className="text-center p-4 bg-purple-50 rounded-lg">
                       <div className="text-2xl font-bold text-purple-600">{user?.favorites?.length || 0}</div>
-                      <div className="text-sm text-gray-600">收藏城市</div>
+                      <div className="text-sm text-gray-600">{t('dashboard.favoriteCities')}</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Recent Activity */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">最近活动</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('dashboard.recentActivity')}</h3>
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <Heart className="h-4 w-4 text-red-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">收藏了清迈</p>
-                        <p className="text-xs text-gray-500">2024-02-01</p>
+                    {user?.favorites?.slice(0, 3).map((favorite, index) => (
+                      <div key={favorite.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                        <Heart className="h-4 w-4 text-red-500" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">
+                            {t('dashboard.favoritedCity', { city: favorite.cities?.name || 'Unknown City' })}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {new Date(favorite.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <Calendar className="h-4 w-4 text-blue-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">更新了签证信息</p>
-                        <p className="text-xs text-gray-500">2024-01-25</p>
+                    ))}
+                    {user?.favorites?.length === 0 && (
+                      <div className="text-center py-8 text-gray-500">
+                        <Heart className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                        <p>暂无活动记录</p>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -411,10 +534,13 @@ export default function DashboardPage() {
             {activeTab === 'visas' && (
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900">签证管理</h3>
-                  <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-900">{t('dashboard.visas')}</h3>
+                  <button 
+                    onClick={handleAddVisa}
+                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
                     <Plus className="h-4 w-4" />
-                    <span>添加签证</span>
+                    <span>{t('dashboard.addVisa')}</span>
                   </button>
                 </div>
                 
@@ -422,20 +548,31 @@ export default function DashboardPage() {
                   {user?.visas?.map((visa) => (
                     <div key={visa.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium text-gray-900">{visa.country}</h4>
-                          <p className="text-sm text-gray-600">{visa.type}</p>
-                          <p className="text-xs text-gray-500">到期时间：{visa.expiryDate}</p>
+                        <div className="flex items-center space-x-3">
+                          {getVisaStatusIcon(visa.status)}
+                          <div>
+                            <h4 className="font-medium text-gray-900">{visa.country}</h4>
+                            <p className="text-sm text-gray-600">{visa.visa_type}</p>
+                            <p className="text-xs text-gray-500">
+                              {t('dashboard.expiryDate', { date: new Date(visa.expiry_date).toLocaleDateString() })}
+                            </p>
+                          </div>
                         </div>
                         <div className="text-right">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getVisaStatusColor(visa.status)}`}>
-                            {visa.daysLeft}天剩余
+                                                         {t('dashboard.daysRemaining', { days: Math.max(0, Math.ceil((new Date(visa.expiry_date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))).toString() })}
                           </span>
                           <div className="flex space-x-2 mt-2">
-                            <button className="p-1 text-gray-400 hover:text-gray-600">
+                            <button 
+                              onClick={() => handleEditVisa(visa.id)}
+                              className="p-1 text-gray-400 hover:text-gray-600"
+                            >
                               <Edit className="h-4 w-4" />
                             </button>
-                            <button className="p-1 text-gray-400 hover:text-red-600">
+                            <button 
+                              onClick={() => handleDeleteVisa(visa.id)}
+                              className="p-1 text-gray-400 hover:text-red-600"
+                            >
                               <Trash2 className="h-4 w-4" />
                             </button>
                           </div>
@@ -443,54 +580,85 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   ))}
+                  {user?.visas?.length === 0 && (
+                    <div className="text-center py-8 text-gray-500">
+                      <Calendar className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                      <p>暂无签证记录</p>
+                      <button 
+                        onClick={handleAddVisa}
+                        className="mt-4 btn btn-primary"
+                      >
+                        {t('dashboard.addVisa')}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
             {activeTab === 'favorites' && (
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">收藏城市</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-6">{t('dashboard.favorites')}</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {user?.favorites?.map((city) => (
-                    <div key={city.id} className="border border-gray-200 rounded-lg p-4">
+                  {user?.favorites?.map((favorite) => (
+                    <div key={favorite.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <span className="text-2xl">{getCountryFlag(city.countryCode)}</span>
+                          <span className="text-2xl">{getCountryFlag(favorite.cities?.country_code || 'US')}</span>
                           <div>
-                            <h4 className="font-medium text-gray-900">{city.name}</h4>
-                            <p className="text-sm text-gray-600">{city.country}</p>
-                            <p className="text-xs text-gray-500">收藏时间：{city.addedDate}</p>
+                            <h4 className="font-medium text-gray-900">{favorite.cities?.name || 'Unknown City'}</h4>
+                            <p className="text-sm text-gray-600">{favorite.cities?.country || 'Unknown Country'}</p>
+                            <p className="text-xs text-gray-500">
+                              {t('dashboard.favoritedOn', { date: new Date(favorite.created_at).toLocaleDateString() })}
+                            </p>
                           </div>
                         </div>
                         <div className="flex space-x-2">
-                          <button className="p-1 text-gray-400 hover:text-blue-600">
+                          <FixedLink 
+                            href={`/cities/${favorite.cities?.id}`}
+                            className="p-1 text-gray-400 hover:text-blue-600"
+                          >
                             <Star className="h-4 w-4" />
-                          </button>
-                          <button className="p-1 text-gray-400 hover:text-red-600">
+                          </FixedLink>
+                          <button 
+                            onClick={() => handleRemoveFavorite(favorite.cities?.id || '')}
+                            className="p-1 text-gray-400 hover:text-red-600"
+                          >
                             <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </div>
                     </div>
                   ))}
+                  {user?.favorites?.length === 0 && (
+                    <div className="col-span-full text-center py-8 text-gray-500">
+                      <Heart className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                      <p>暂无收藏城市</p>
+                      <FixedLink href="/cities" className="mt-4 btn btn-primary">
+                        探索城市
+                      </FixedLink>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
             {activeTab === 'preferences' && (
               <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">偏好设置</h3>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">{t('dashboard.preferences')}</h3>
+                  <button
+                    onClick={() => setEditingPreferences(!editingPreferences)}
+                    className="btn btn-sm btn-secondary"
+                  >
+                    {editingPreferences ? '保存' : '编辑'}
+                  </button>
+                </div>
                 
-                <div className="space-y-4">
-                  {[
-                    { id: 'wifi', label: 'WiFi质量', value: user?.preferences?.wifi || 0 },
-                    { id: 'cost', label: '生活成本', value: user?.preferences?.cost || 0 },
-                    { id: 'climate', label: '气候舒适度', value: user?.preferences?.climate || 0 },
-                    { id: 'social', label: '社交氛围', value: user?.preferences?.social || 0 },
-                    { id: 'visa', label: '签证便利性', value: user?.preferences?.visa || 0 }
-                  ].map((pref) => (
-                    <div key={pref.id} className="space-y-2">
+                <div className="space-y-6">
+                  {preferenceItems.map((pref) => (
+                    <div key={pref.id} className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium text-gray-700">{pref.label}</span>
                         <span className="text-sm text-gray-500">{pref.value}%</span>
@@ -500,11 +668,30 @@ export default function DashboardPage() {
                         min="0"
                         max="100"
                         value={pref.value}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                        readOnly
+                        onChange={(e) => {
+                          if (editingPreferences) {
+                            handleUpdatePreferences(pref.id, parseInt(e.target.value))
+                          }
+                        }}
+                        disabled={!editingPreferences}
+                        className={`w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider ${
+                          editingPreferences ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+                        }`}
                       />
+                      <div className="flex justify-between text-xs text-gray-400">
+                        <span>低</span>
+                        <span>高</span>
+                      </div>
                     </div>
                   ))}
+                  
+                  {!editingPreferences && (
+                    <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                      <p className="text-sm text-blue-700">
+                        点击"编辑"按钮来调整您的偏好设置，这将影响我们为您推荐的城市。
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

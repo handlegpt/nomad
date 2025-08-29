@@ -621,5 +621,42 @@
         "social": "社交氛围"
       }
     }
+  },
+  "dashboard": {
+    "title": "用户后台",
+    "overview": "概览",
+    "visas": "签证管理",
+    "favorites": "收藏城市",
+    "preferences": "偏好设置",
+    "currentStatus": "当前状态",
+    "currentCity": "当前城市",
+    "validVisas": "有效签证",
+    "favoriteCities": "收藏城市",
+    "recentActivity": "最近活动",
+    "favoritedCity": "收藏了{city}",
+    "updatedVisa": "更新了签证信息",
+    "addVisa": "添加签证",
+    "daysRemaining": "{days}天剩余",
+    "expiryDate": "到期时间：{date}",
+    "favoritedOn": "收藏时间：{date}",
+    "wifiQuality": "WiFi质量",
+    "costOfLiving": "生活成本",
+    "climateComfort": "气候舒适度",
+    "socialAtmosphere": "社交氛围",
+    "visaConvenience": "签证便利性",
+    "syncData": "同步数据",
+    "logout": "退出登录",
+    "loadingUserData": "正在加载用户数据...",
+    "pleaseLogin": "请先登录",
+    "goToLogin": "去登录",
+    "userDataLoaded": "用户数据加载完成",
+    "failedToLoadData": "加载用户数据失败",
+    "logoutSuccess": "已成功退出登录",
+    "logoutFailed": "退出登录失败",
+    "syncSuccess": "数据同步成功",
+    "syncFailed": "数据同步失败",
+    "notSet": "未设置",
+    "joinDate": "加入时间：{date}",
+    "unknown": "未知"
   }
 } 

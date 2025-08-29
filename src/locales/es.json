@@ -761,5 +761,42 @@
         "social": "Atmósfera Social"
       }
     }
+  },
+  "dashboard": {
+    "title": "Panel de Usuario",
+    "overview": "Resumen",
+    "visas": "Gestión de Visas",
+    "favorites": "Ciudades Favoritas",
+    "preferences": "Preferencias",
+    "currentStatus": "Estado Actual",
+    "currentCity": "Ciudad Actual",
+    "validVisas": "Visas Válidas",
+    "favoriteCities": "Ciudades Favoritas",
+    "recentActivity": "Actividad Reciente",
+    "favoritedCity": "Agregó {city} a favoritos",
+    "updatedVisa": "Información de visa actualizada",
+    "addVisa": "Agregar Visa",
+    "daysRemaining": "{days} días restantes",
+    "expiryDate": "Fecha de vencimiento: {date}",
+    "favoritedOn": "Agregado a favoritos: {date}",
+    "wifiQuality": "Calidad WiFi",
+    "costOfLiving": "Costo de Vida",
+    "climateComfort": "Comodidad Climática",
+    "socialAtmosphere": "Ambiente Social",
+    "visaConvenience": "Conveniencia de Visa",
+    "syncData": "Sincronizar Datos",
+    "logout": "Cerrar Sesión",
+    "loadingUserData": "Cargando datos del usuario...",
+    "pleaseLogin": "Por favor inicie sesión primero",
+    "goToLogin": "Ir a Login",
+    "userDataLoaded": "Datos del usuario cargados exitosamente",
+    "failedToLoadData": "Error al cargar datos del usuario",
+    "logoutSuccess": "Sesión cerrada exitosamente",
+    "logoutFailed": "Error al cerrar sesión",
+    "syncSuccess": "Sincronización exitosa",
+    "syncFailed": "Error en sincronización",
+    "notSet": "No establecido",
+    "joinDate": "Se unió: {date}",
+    "unknown": "Desconocido"
   }
 } 
