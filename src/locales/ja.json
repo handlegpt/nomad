@@ -916,6 +916,24 @@
         "invalidCode": "6桁の認証コードを入力してください",
         "codeError": "認証コードが無効です"
       }
+    },
+    "email": {
+      "subject": "NOMAD.NOW 認証コード",
+      "title": "NOMAD.NOW",
+      "subtitle": "認証コード",
+      "verificationCode": "認証コード",
+      "expiresIn": "このコードは{minutes}分後に期限切れになります",
+      "ignoreMessage": "このコードをリクエストしていない場合は、このメールを無視してください。",
+      "apiMessages": {
+        "invalidEmail": "有効なメールアドレスを入力してください",
+        "sendCodeFailed": "認証コードの送信に失敗しました。再試行してください",
+        "databaseError": "データベース設定エラー、管理者にお問い合わせください",
+        "connectionError": "データベース接続に失敗しました。再試行してください",
+        "verificationFailed": "認証コードの検証に失敗しました",
+        "invalidOrExpired": "認証コードが無効または期限切れです",
+        "userCreationFailed": "ユーザーの作成に失敗しました",
+        "userVerificationFailed": "ユーザー認証に失敗しました"
+      }
     }
   }
 } 

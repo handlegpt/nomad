@@ -796,6 +796,24 @@
         "invalidCode": "请输入6位验证码",
         "codeError": "验证码错误"
       }
+    },
+    "email": {
+      "subject": "NOMAD.NOW 验证码",
+      "title": "NOMAD.NOW",
+      "subtitle": "您的验证码",
+      "verificationCode": "验证码",
+      "expiresIn": "此验证码将在 {minutes} 分钟后过期",
+      "ignoreMessage": "如果您没有请求此验证码，请忽略此邮件。",
+      "apiMessages": {
+        "invalidEmail": "请输入有效的邮箱地址",
+        "sendCodeFailed": "发送验证码失败，请重试",
+        "databaseError": "数据库配置错误，请联系管理员",
+        "connectionError": "数据库连接失败，请重试",
+        "verificationFailed": "验证码验证失败",
+        "invalidOrExpired": "验证码无效或已过期",
+        "userCreationFailed": "创建用户失败",
+        "userVerificationFailed": "用户验证失败"
+      }
     }
   }
 } 

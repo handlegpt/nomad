@@ -8,7 +8,7 @@ import { useUser } from '@/contexts/GlobalStateContext'
 import Logo from '@/components/Logo'
 
 export default function LoginPage() {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const { setUserProfile } = useUser()
   const [email, setEmail] = useState('')
   const [verificationCode, setVerificationCode] = useState('')
@@ -32,7 +32,7 @@ export default function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, locale }),
       })
 
       const data = await response.json()
@@ -74,7 +74,7 @@ export default function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, code: verificationCode }),
+        body: JSON.stringify({ email, code: verificationCode, locale }),
       })
 
       const data = await response.json()

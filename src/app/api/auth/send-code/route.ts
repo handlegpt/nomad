@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { generateVerificationEmailTemplate, getEmailTranslation } from '@/lib/emailTemplates'
+import { logInfo, logError } from '@/lib/logger'
 
 // 生成6位数字验证码
 function generateVerificationCode(): string {
@@ -7,21 +9,25 @@ function generateVerificationCode(): string {
 }
 
 // 使用Resend发送邮件
-async function sendEmail(email: string, code: string): Promise<boolean> {
+async function sendEmail(email: string, code: string, locale: string = 'en'): Promise<boolean> {
   try {
     // 检查环境变量
-    console.log('🔍 Checking RESEND_API_KEY...')
+    logInfo('Checking RESEND_API_KEY...', null, 'SendCodeAPI')
     const resendApiKey = process.env.RESEND_API_KEY
     
     if (!resendApiKey) {
-      console.log('⚠️ RESEND_API_KEY not found, using mock email sending')
-      console.log(`📧 验证码邮件发送到: ${email}`)
-      console.log(`🔐 验证码: ${code}`)
-      console.log(`⏰ 过期时间: ${new Date(Date.now() + 10 * 60 * 1000).toLocaleString()}`)
+      logInfo('RESEND_API_KEY not found, using mock email sending', { email, code }, 'SendCodeAPI')
       return true
     }
 
-    console.log('✅ RESEND_API_KEY found, attempting to send email...')
+    logInfo('RESEND_API_KEY found, attempting to send email...', { email }, 'SendCodeAPI')
+
+    // 生成多语言邮件模板
+    const emailTemplate = generateVerificationEmailTemplate({
+      code,
+      minutes: 10,
+      locale
+    })
 
     // 动态导入Resend，避免构建时错误
     const { Resend } = await import('resend')
@@ -30,76 +36,50 @@ async function sendEmail(email: string, code: string): Promise<boolean> {
     const { data, error } = await resend.emails.send({
       from: 'NOMAD.NOW <noreply@nomadnow.app>',
       to: [email],
-      subject: 'NOMAD.NOW 验证码',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 24px;">NOMAD.NOW</h1>
-            <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">您的验证码</p>
-          </div>
-          
-          <div style="background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <h2 style="color: #333; margin: 0 0 20px 0; text-align: center;">验证码</h2>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; margin: 20px 0;">
-              <span style="font-size: 32px; font-weight: bold; color: #667eea; letter-spacing: 8px;">${code}</span>
-            </div>
-            
-            <p style="color: #666; margin: 20px 0; text-align: center;">
-              此验证码将在 <strong>10分钟</strong> 后过期
-            </p>
-            
-            <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 30px;">
-              <p style="color: #999; font-size: 12px; text-align: center; margin: 0;">
-                如果您没有请求此验证码，请忽略此邮件。
-              </p>
-            </div>
-          </div>
-        </div>
-      `
+      subject: emailTemplate.subject,
+      html: emailTemplate.html
     })
 
     if (error) {
-      console.error('❌ Resend邮件发送失败:', error)
+      logError('Resend邮件发送失败', error, 'SendCodeAPI')
       return false
     }
 
-    console.log('✅ 邮件发送成功:', data)
+    logInfo('邮件发送成功', data, 'SendCodeAPI')
     return true
   } catch (error) {
-    console.error('❌ 邮件发送错误:', error)
+    logError('邮件发送错误', error, 'SendCodeAPI')
     return false
   }
 }
 
 export async function POST(request: NextRequest) {
-  console.log('🔍 API Route: /api/auth/send-code called')
+  logInfo('API Route: /api/auth/send-code called', null, 'SendCodeAPI')
   
   try {
     const body = await request.json()
-    console.log('📧 Request body:', body)
+    logInfo('Request body', body, 'SendCodeAPI')
     
-    const { email } = body
+    const { email, locale = 'en' } = body
 
     if (!email || !email.includes('@')) {
-      console.log('❌ Invalid email:', email)
+      logError('Invalid email', { email }, 'SendCodeAPI')
       return NextResponse.json(
-        { message: '请输入有效的邮箱地址' },
+        { message: getEmailTranslation(locale, 'invalidEmail') },
         { status: 400 }
       )
     }
     
-    console.log('✅ Valid email received:', email)
+    logInfo('Valid email received', { email }, 'SendCodeAPI')
 
     // 生成验证码
     const verificationCode = generateVerificationCode()
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10分钟后过期
     
-    console.log('🔐 Generated verification code:', verificationCode)
-    console.log('⏰ Expires at:', expiresAt.toISOString())
+    logInfo('Generated verification code', { code: verificationCode, expiresAt: expiresAt.toISOString() }, 'SendCodeAPI')
 
     // 检查Supabase连接和表是否存在
-    console.log('🔍 Checking Supabase connection and table...')
+    logInfo('Checking Supabase connection and table...', null, 'SendCodeAPI')
     try {
       const { data: testConnection, error: testError } = await supabase
         .from('verification_codes')
@@ -107,30 +87,30 @@ export async function POST(request: NextRequest) {
         .limit(1)
       
       if (testError) {
-        console.error('❌ Supabase table check failed:', testError)
+        logError('Supabase table check failed', testError, 'SendCodeAPI')
         // 如果表不存在，尝试创建（简化版本）
-        console.log('🔄 Attempting to create verification_codes table...')
+        logInfo('Attempting to create verification_codes table...', null, 'SendCodeAPI')
         const { error: createError } = await supabase.rpc('create_verification_codes_table')
         if (createError) {
-          console.error('❌ Failed to create table:', createError)
+          logError('Failed to create table', createError, 'SendCodeAPI')
           return NextResponse.json(
-            { message: '数据库配置错误，请联系管理员' },
+            { message: getEmailTranslation(locale, 'databaseError') },
             { status: 500 }
           )
         }
       }
       
-      console.log('✅ Supabase connection and table check successful')
+      logInfo('Supabase connection and table check successful', null, 'SendCodeAPI')
     } catch (connectionError) {
-      console.error('❌ Supabase connection error:', connectionError)
+      logError('Supabase connection error', connectionError, 'SendCodeAPI')
       return NextResponse.json(
-        { message: '数据库连接失败，请重试' },
+        { message: getEmailTranslation(locale, 'connectionError') },
         { status: 500 }
       )
     }
 
     // 检查是否已有未过期的验证码
-    console.log('🔍 Checking for existing verification codes...')
+    logInfo('Checking for existing verification codes...', null, 'SendCodeAPI')
     const { data: existingCode, error: selectError } = await supabase
       .from('verification_codes')
       .select('*')
@@ -139,15 +119,15 @@ export async function POST(request: NextRequest) {
       .single()
       
     if (selectError && selectError.code !== 'PGRST116') {
-      console.error('❌ Error checking existing codes:', selectError)
+      logError('Error checking existing codes', selectError, 'SendCodeAPI')
       return NextResponse.json(
-        { message: '数据库查询失败，请重试' },
+        { message: getEmailTranslation(locale, 'sendCodeFailed') },
         { status: 500 }
       )
     }
 
     if (existingCode) {
-      console.log('🔄 Updating existing verification code...')
+      logInfo('Updating existing verification code...', null, 'SendCodeAPI')
       // 如果存在未过期的验证码，更新它
       const { error: updateError } = await supabase
         .from('verification_codes')
@@ -159,15 +139,15 @@ export async function POST(request: NextRequest) {
         .eq('id', existingCode.id)
 
       if (updateError) {
-        console.error('❌ 更新验证码失败:', updateError)
+        logError('更新验证码失败', updateError, 'SendCodeAPI')
         return NextResponse.json(
-          { message: '发送验证码失败，请重试' },
+          { message: getEmailTranslation(locale, 'sendCodeFailed') },
           { status: 500 }
         )
       }
-      console.log('✅ Verification code updated successfully')
+      logInfo('Verification code updated successfully', null, 'SendCodeAPI')
     } else {
-      console.log('🆕 Creating new verification code...')
+      logInfo('Creating new verification code...', null, 'SendCodeAPI')
       // 创建新的验证码记录
       const { error: insertError } = await supabase
         .from('verification_codes')
@@ -178,37 +158,42 @@ export async function POST(request: NextRequest) {
         })
 
       if (insertError) {
-        console.error('❌ 创建验证码失败:', insertError)
+        logError('创建验证码失败', insertError, 'SendCodeAPI')
         return NextResponse.json(
-          { message: '发送验证码失败，请重试' },
+          { message: getEmailTranslation(locale, 'sendCodeFailed') },
           { status: 500 }
         )
       }
-      console.log('✅ Verification code created successfully')
+      logInfo('Verification code created successfully', null, 'SendCodeAPI')
     }
 
     // 发送邮件
-    console.log('📧 Sending email...')
-    const emailSent = await sendEmail(email, verificationCode)
-
+    logInfo('Sending email...', null, 'SendCodeAPI')
+    const emailSent = await sendEmail(email, verificationCode, locale)
+    
     if (!emailSent) {
-      console.error('❌ Email sending failed')
+      logError('邮件发送失败', null, 'SendCodeAPI')
       return NextResponse.json(
-        { message: '邮件发送失败，请重试' },
+        { message: getEmailTranslation(locale, 'sendCodeFailed') },
         { status: 500 }
       )
     }
 
-    console.log('✅ Email sent successfully')
-    return NextResponse.json({
-      message: '验证码已发送到您的邮箱',
-      success: true
-    })
-
-  } catch (error) {
-    console.error('❌ 发送验证码错误:', error)
+    logInfo('Verification code sent successfully', { email }, 'SendCodeAPI')
     return NextResponse.json(
-      { message: '服务器错误，请重试' },
+      { 
+        message: locale === 'zh' ? '验证码已发送到您的邮箱' : 
+                 locale === 'ja' ? '認証コードをメールで送信しました' :
+                 locale === 'es' ? 'Código de verificación enviado a tu email' :
+                 'Verification code sent to your email',
+        success: true 
+      },
+      { status: 200 }
+    )
+  } catch (error) {
+    logError('Unexpected error in send-code API', error, 'SendCodeAPI')
+    return NextResponse.json(
+      { message: getEmailTranslation('en', 'sendCodeFailed') },
       { status: 500 }
     )
   }

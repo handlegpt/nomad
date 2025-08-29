@@ -888,6 +888,24 @@
         "invalidCode": "Por favor ingresa código de verificación de 6 dígitos",
         "codeError": "Código de verificación inválido"
       }
+    },
+    "email": {
+      "subject": "NOMAD.NOW Código de Verificación",
+      "title": "NOMAD.NOW",
+      "subtitle": "Tu Código de Verificación",
+      "verificationCode": "Código de Verificación",
+      "expiresIn": "Este código expirará en {minutes} minutos",
+      "ignoreMessage": "Si no solicitaste este código, por favor ignora este email.",
+      "apiMessages": {
+        "invalidEmail": "Por favor ingresa una dirección de email válida",
+        "sendCodeFailed": "Error al enviar código de verificación, por favor intenta de nuevo",
+        "databaseError": "Error de configuración de base de datos, por favor contacta al administrador",
+        "connectionError": "Error de conexión a la base de datos, por favor intenta de nuevo",
+        "verificationFailed": "Error en la validación del código de verificación",
+        "invalidOrExpired": "El código de verificación es inválido o ha expirado",
+        "userCreationFailed": "Error al crear usuario",
+        "userVerificationFailed": "Error en la verificación del usuario"
+      }
     }
   }
 } 

@@ -804,6 +804,24 @@
         "invalidCode": "Please enter 6-digit verification code",
         "codeError": "Invalid verification code"
       }
+    },
+    "email": {
+      "subject": "NOMAD.NOW Verification Code",
+      "title": "NOMAD.NOW",
+      "subtitle": "Your Verification Code",
+      "verificationCode": "Verification Code",
+      "expiresIn": "This code will expire in {minutes} minutes",
+      "ignoreMessage": "If you didn't request this code, please ignore this email.",
+      "apiMessages": {
+        "invalidEmail": "Please enter a valid email address",
+        "sendCodeFailed": "Failed to send verification code, please try again",
+        "databaseError": "Database configuration error, please contact administrator",
+        "connectionError": "Database connection failed, please try again",
+        "verificationFailed": "Verification code validation failed",
+        "invalidOrExpired": "Verification code is invalid or expired",
+        "userCreationFailed": "Failed to create user",
+        "userVerificationFailed": "User verification failed"
+      }
     }
   }
 } 

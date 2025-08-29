@@ -1,27 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { getEmailTranslation } from '@/lib/emailTemplates'
+import { logInfo, logError } from '@/lib/logger'
 
 export async function POST(request: NextRequest) {
-  console.log('🔍 API Route: /api/auth/verify-code called')
+  logInfo('API Route: /api/auth/verify-code called', null, 'VerifyCodeAPI')
   
   try {
     const body = await request.json()
-    console.log('📧 Request body:', body)
+    logInfo('Request body', body, 'VerifyCodeAPI')
     
-    const { email, code } = body
+    const { email, code, locale = 'en' } = body
 
     if (!email || !code) {
-      console.log('❌ Missing email or code')
+      logError('Missing email or code', { email, code }, 'VerifyCodeAPI')
       return NextResponse.json(
-        { message: '邮箱和验证码不能为空' },
+        { message: getEmailTranslation(locale, 'invalidEmail') },
         { status: 400 }
       )
     }
 
-    console.log('✅ Valid request received:', { email, code })
+    logInfo('Valid request received', { email, code }, 'VerifyCodeAPI')
 
     // 验证验证码
-    console.log('🔍 Verifying verification code...')
+    logInfo('Verifying verification code...', null, 'VerifyCodeAPI')
     const { data: verificationCode, error: codeError } = await supabase
       .from('verification_codes')
       .select('*')
@@ -31,31 +33,31 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (codeError) {
-      console.error('❌ Verification code error:', codeError)
+      logError('Verification code error', codeError, 'VerifyCodeAPI')
       if (codeError.code === 'PGRST116') {
         return NextResponse.json(
-          { message: '验证码无效或已过期' },
+          { message: getEmailTranslation(locale, 'invalidOrExpired') },
           { status: 400 }
         )
       }
       return NextResponse.json(
-        { message: '验证码验证失败' },
+        { message: getEmailTranslation(locale, 'verificationFailed') },
         { status: 500 }
       )
     }
 
     if (!verificationCode) {
-      console.log('❌ No valid verification code found')
+      logError('No valid verification code found', null, 'VerifyCodeAPI')
       return NextResponse.json(
-        { message: '验证码无效或已过期' },
+        { message: getEmailTranslation(locale, 'invalidOrExpired') },
         { status: 400 }
       )
     }
 
-    console.log('✅ Verification code is valid')
+    logInfo('Verification code is valid', null, 'VerifyCodeAPI')
 
     // 检查用户是否存在
-    console.log('🔍 Checking if user exists...')
+    logInfo('Checking if user exists...', null, 'VerifyCodeAPI')
     let { data: user, error: userError } = await supabase
       .from('users')
       .select('*')
@@ -64,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     if (userError && userError.code === 'PGRST116') {
       // 用户不存在，创建新用户
-      console.log('🆕 User does not exist, creating new user...')
+      logInfo('User does not exist, creating new user...', null, 'VerifyCodeAPI')
       
       const userName = email.split('@')[0] // 使用邮箱前缀作为默认名称
       const newUserData = {
@@ -74,7 +76,7 @@ export async function POST(request: NextRequest) {
         updated_at: new Date().toISOString()
       }
       
-      console.log('📝 Creating user with data:', newUserData)
+      logInfo('Creating user with data', newUserData, 'VerifyCodeAPI')
       
       const { data: newUser, error: createError } = await supabase
         .from('users')
@@ -83,68 +85,66 @@ export async function POST(request: NextRequest) {
         .single()
 
       if (createError) {
-        console.error('❌ Create user error:', createError)
+        logError('Create user error', createError, 'VerifyCodeAPI')
         return NextResponse.json(
-          { message: `创建用户失败: ${createError.message}` },
+          { message: getEmailTranslation(locale, 'userCreationFailed') },
           { status: 500 }
         )
       }
 
-      console.log('✅ New user created successfully:', newUser)
+      logInfo('New user created successfully', newUser, 'VerifyCodeAPI')
       user = newUser
     } else if (userError) {
-      console.error('❌ User query error:', userError)
+      logError('User query error', userError, 'VerifyCodeAPI')
       return NextResponse.json(
-        { message: `用户验证失败: ${userError.message}` },
+        { message: getEmailTranslation(locale, 'userVerificationFailed') },
         { status: 500 }
       )
     } else {
-      console.log('✅ Existing user found:', user)
+      logInfo('Existing user found', user, 'VerifyCodeAPI')
     }
 
     // 删除已使用的验证码
-    console.log('🗑️ Deleting used verification code...')
+    logInfo('Deleting used verification code...', null, 'VerifyCodeAPI')
     const { error: deleteError } = await supabase
       .from('verification_codes')
       .delete()
       .eq('id', verificationCode.id)
 
     if (deleteError) {
-      console.error('⚠️ Failed to delete verification code:', deleteError)
+      logError('Failed to delete verification code', deleteError, 'VerifyCodeAPI')
       // 不返回错误，因为用户已经验证成功
     } else {
-      console.log('✅ Verification code deleted successfully')
+      logInfo('Verification code deleted successfully', null, 'VerifyCodeAPI')
     }
 
     // 创建会话令牌
-    console.log('🔐 Creating session token...')
+    logInfo('Creating session token...', null, 'VerifyCodeAPI')
     const sessionToken = btoa(JSON.stringify({
       userId: user.id,
       email: user.email,
       exp: Date.now() + 7 * 24 * 60 * 60 * 1000 // 7天过期
     }))
 
-    console.log('✅ Session token created successfully')
+    logInfo('Session token created successfully', null, 'VerifyCodeAPI')
 
-    // 返回成功响应
-    const response = {
-      message: '登录成功',
+    return NextResponse.json({
+      success: true,
+      sessionToken,
       user: {
         id: user.id,
         email: user.email,
         name: user.name
       },
-      sessionToken,
-      success: true
-    }
-
-    console.log('✅ Returning success response:', response)
-    return NextResponse.json(response)
-
+      message: locale === 'zh' ? '登录成功' : 
+               locale === 'ja' ? 'ログインに成功しました' :
+               locale === 'es' ? 'Inicio de sesión exitoso' :
+               'Login successful'
+    })
   } catch (error) {
-    console.error('❌ Verification code verification error:', error)
+    logError('Unexpected error in verify-code API', error, 'VerifyCodeAPI')
     return NextResponse.json(
-      { message: '服务器错误，请重试' },
+      { message: getEmailTranslation('en', 'verificationFailed') },
       { status: 500 }
     )
   }
