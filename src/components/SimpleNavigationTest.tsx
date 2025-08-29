@@ -41,10 +41,10 @@ export default function SimpleNavigationTest() {
           Visa Guide
         </button>
         <button 
-          onClick={() => handleNavigation('/test')}
+          onClick={() => handleNavigation('/dashboard')}
           style={{ padding: '5px 10px', background: 'purple', color: 'white', border: 'none' }}
         >
-          Test Page
+          Dashboard
         </button>
       </div>
     </div>
