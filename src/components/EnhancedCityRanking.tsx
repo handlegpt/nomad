@@ -4,19 +4,7 @@ import { useState, useEffect } from 'react'
 import { StarIcon, ThumbsUpIcon, ThumbsDownIcon, MapPinIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import VoteModal from './VoteModal'
-
-interface City {
-  id: string
-  name: string
-  country: string
-  country_code: string
-  avg_overall_rating: number
-  vote_count: number
-  avg_wifi_rating: number
-  avg_social_rating: number
-  avg_value_rating: number
-  avg_climate_rating: number
-}
+import { City } from '@/lib/supabase'
 
 interface EnhancedCityRankingProps {
   limit?: number
@@ -44,60 +32,85 @@ export default function EnhancedCityRanking({
         name: 'Lisbon',
         country: 'Portugal',
         country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 38.7223,
+        longitude: -9.1393,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 2000,
+        wifi_speed: 100,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.8,
-        vote_count: 230,
-        avg_wifi_rating: 4.5,
-        avg_social_rating: 4.9,
-        avg_value_rating: 4.7,
-        avg_climate_rating: 4.6
+        vote_count: 230
       },
       {
         id: '2',
         name: 'Chiang Mai',
         country: 'Thailand',
         country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 18.7883,
+        longitude: 98.9853,
+        visa_days: 60,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.6,
-        vote_count: 190,
-        avg_wifi_rating: 4.2,
-        avg_social_rating: 4.8,
-        avg_value_rating: 4.9,
-        avg_climate_rating: 4.5
+        vote_count: 190
       },
       {
         id: '3',
         name: 'Tbilisi',
         country: 'Georgia',
         country_code: 'GE',
+        timezone: 'Asia/Tbilisi',
+        latitude: 41.7151,
+        longitude: 44.8271,
+        visa_days: 365,
+        visa_type: 'Visa Free',
+        cost_of_living: 1200,
+        wifi_speed: 30,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.4,
-        vote_count: 160,
-        avg_wifi_rating: 4.0,
-        avg_social_rating: 4.3,
-        avg_value_rating: 4.8,
-        avg_climate_rating: 4.2
+        vote_count: 160
       },
       {
         id: '4',
         name: 'Bali',
         country: 'Indonesia',
         country_code: 'ID',
+        timezone: 'Asia/Jakarta',
+        latitude: -8.3405,
+        longitude: 115.0920,
+        visa_days: 30,
+        visa_type: 'Visa on Arrival',
+        cost_of_living: 1500,
+        wifi_speed: 25,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.3,
-        vote_count: 150,
-        avg_wifi_rating: 3.8,
-        avg_social_rating: 4.7,
-        avg_value_rating: 4.5,
-        avg_climate_rating: 4.9
+        vote_count: 150
       },
       {
         id: '5',
         name: 'Medellin',
         country: 'Colombia',
         country_code: 'CO',
+        timezone: 'America/Bogota',
+        latitude: 6.2442,
+        longitude: -75.5812,
+        visa_days: 180,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1400,
+        wifi_speed: 40,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.2,
-        vote_count: 140,
-        avg_wifi_rating: 4.1,
-        avg_social_rating: 4.6,
-        avg_value_rating: 4.4,
-        avg_climate_rating: 4.3
+        vote_count: 140
       }
     ]
     setCities(mockCities)
@@ -105,38 +118,16 @@ export default function EnhancedCityRanking({
   }, [])
 
   const getCountryFlag = (countryCode: string) => {
-    const flags: { [key: string]: string } = {
-      'PT': '🇵🇹',
-      'TH': '🇹🇭',
-      'GE': '🇬🇪',
-      'ID': '🇮🇩',
-      'CO': '🇨🇴',
-      'ES': '🇪🇸',
-      'MX': '🇲🇽',
-      'AR': '🇦🇷',
-      'CZ': '🇨🇿',
-      'JP': '🇯🇵'
-    }
-    return flags[countryCode] || '🌍'
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0))
+    return String.fromCodePoint(...codePoints)
   }
 
   const handleQuickVote = (cityId: string, voteType: 'up' | 'down') => {
     // 这里可以添加快速投票逻辑
     console.log(`Quick vote: ${voteType} for city ${cityId}`)
-    // TODO: Implement actual vote submission
-    alert(t('home.quickVote.voteSubmitted', { vote: voteType === 'up' ? t('home.quickVote.like') : t('home.quickVote.dislike'), type: 'city' }))
-  }
-
-  const handleCurrentCityVote = (voteType: 'like' | 'dislike') => {
-    console.log(`Current city vote: ${voteType}`)
-    // TODO: Implement current city vote submission
-    alert(t('home.quickVote.voteSubmitted', { vote: voteType === 'like' ? t('home.quickVote.like') : t('home.quickVote.dislike'), type: 'current' }))
-  }
-
-  const handleQuickRating = (rating: number) => {
-    console.log(`Quick rating: ${rating}`)
-    // TODO: Implement quick rating submission
-    alert(t('home.quickVote.ratingSubmitted', { rating: rating.toString() }))
   }
 
   const handleDetailedVote = (city: City) => {
@@ -150,6 +141,14 @@ export default function EnhancedCityRanking({
     setSelectedCity(null)
   }
 
+  const handleCurrentCityVote = (voteType: 'up' | 'down') => {
+    console.log(`Current city vote: ${voteType} for ${currentCity}`)
+  }
+
+  const handleQuickRating = (rating: number) => {
+    console.log(`Quick rating: ${rating} for ${currentCity}`)
+  }
+
   if (loading) {
     return (
       <div className="text-center py-8">
@@ -161,51 +160,41 @@ export default function EnhancedCityRanking({
 
   return (
     <>
-      {/* Quick Vote Section */}
+      {/* Current City Vote Section */}
       {showCurrentCityVote && (
-        <div className="mb-6 p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border border-blue-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">✍️ {t('home.quickVote.title')}</h3>
-          <p className="text-gray-600 mb-4">{t('home.quickVote.description')}</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Current City Vote */}
-            <div className="card card-sm bg-gradient-to-br from-green-50 to-blue-50">
-              <h4 className="font-semibold text-gray-900 mb-3">{t('home.quickVote.currentCity')}</h4>
-              <div className="flex space-x-3">
-                <button 
-                  onClick={() => handleCurrentCityVote('like')}
-                  className="btn btn-md bg-green-500 hover:bg-green-600 text-white flex-1"
+        <div className="bg-blue-50 rounded-xl p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            {t('home.quickVote.currentCity')}: {currentCity}
+          </h3>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => handleCurrentCityVote('up')}
+              className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            >
+              <ThumbsUpIcon className="h-4 w-4" />
+              <span>{t('home.quickVote.like')}</span>
+            </button>
+            <button
+              onClick={() => handleCurrentCityVote('down')}
+              className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            >
+              <ThumbsDownIcon className="h-4 w-4" />
+              <span>{t('home.quickVote.dislike')}</span>
+            </button>
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-600">{t('home.quickVote.rateExperience')}:</span>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  onClick={() => handleQuickRating(star)}
+                  className="text-yellow-400 hover:text-yellow-500 transition-colors"
                 >
-                  <span className="text-lg mr-2">🔼</span>
-                  <span>{t('home.quickVote.like')}</span>
+                  <StarIcon className="h-5 w-5" />
                 </button>
-                <button 
-                  onClick={() => handleCurrentCityVote('dislike')}
-                  className="btn btn-md bg-red-500 hover:bg-red-600 text-white flex-1"
-                >
-                  <span className="text-lg mr-2">🔽</span>
-                  <span>{t('home.quickVote.dislike')}</span>
-                </button>
-              </div>
-            </div>
-            
-            {/* Quick Rating */}
-            <div className="card card-sm bg-gradient-to-br from-yellow-50 to-orange-50">
-              <h4 className="font-semibold text-gray-900 mb-3">{t('home.quickVote.rateExperience')}</h4>
-              <div className="flex space-x-2 mb-3">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <button
-                    key={rating}
-                    onClick={() => handleQuickRating(rating)}
-                    className="btn btn-sm bg-white hover:bg-yellow-100 border border-yellow-300 text-yellow-600"
-                  >
-                    <span className="text-lg">⭐</span>
-                  </button>
-                ))}
-              </div>
-              <p className="text-sm text-gray-600">{t('home.quickVote.ratingHint')}</p>
+              ))}
             </div>
           </div>
+          <p className="text-sm text-gray-600 mt-2">{t('home.quickVote.ratingHint')}</p>
         </div>
       )}
 
