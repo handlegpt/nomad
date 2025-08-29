@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw, MapPinOff, Calendar, Bell } from 'lucide-react'
+import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw, MapPinOff, Calendar, Bell, Send } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useNotifications, useUser } from '@/contexts/GlobalStateContext'
 import { logInfo, logError } from '@/lib/logger'
