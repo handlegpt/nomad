@@ -9,7 +9,7 @@ export const nameSchema = z.string().min(2, 'Name must be at least 2 characters'
 export const verificationCodeSchema = z.object({
   email: emailSchema,
   code: z.string().length(6, 'Code must be 6 digits').regex(/^\d{6}$/, 'Code must contain only digits'),
-  locale: z.enum(['en', 'zh', 'ja', 'es']).default('en')
+  locale: z.enum(['en', 'zh', 'ja', 'es']).default('en').transform(val => val || 'en')
 })
 
 // 用户注册模式
