@@ -262,8 +262,14 @@ export function generateClientIdentifier(
     return `user:${userId}`
   }
   
-  // 使用IP和User-Agent的组合
-  const hash = require('crypto').createHash('md5')
-  hash.update(`${ip}-${userAgent}`)
-  return `client:${hash.digest('hex')}`
+  // 使用简单的字符串组合，避免使用crypto模块
+  const combined = `${ip}-${userAgent}`
+  // 简单的哈希函数，避免使用Node.js crypto模块
+  let hash = 0
+  for (let i = 0; i < combined.length; i++) {
+    const char = combined.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // 转换为32位整数
+  }
+  return `client:${Math.abs(hash).toString(16)}`
 }
