@@ -9,20 +9,26 @@ function generateVerificationCode(): string {
 // 使用Resend发送邮件
 async function sendEmail(email: string, code: string): Promise<boolean> {
   try {
-    // 如果没有配置Resend API密钥，使用模拟发送
-    if (!process.env.RESEND_API_KEY) {
+    // 检查环境变量
+    console.log('🔍 Checking RESEND_API_KEY...')
+    const resendApiKey = process.env.RESEND_API_KEY
+    
+    if (!resendApiKey) {
+      console.log('⚠️ RESEND_API_KEY not found, using mock email sending')
       console.log(`📧 验证码邮件发送到: ${email}`)
       console.log(`🔐 验证码: ${code}`)
       console.log(`⏰ 过期时间: ${new Date(Date.now() + 10 * 60 * 1000).toLocaleString()}`)
       return true
     }
 
+    console.log('✅ RESEND_API_KEY found, attempting to send email...')
+
     // 动态导入Resend，避免构建时错误
     const { Resend } = await import('resend')
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    const resend = new Resend(resendApiKey)
     
     const { data, error } = await resend.emails.send({
-      from: 'NOMAD.NOW <noreply@yourdomain.com>',
+      from: 'NOMAD.NOW <noreply@nomadnow.app>',
       to: [email],
       subject: 'NOMAD.NOW 验证码',
       html: `
@@ -54,14 +60,14 @@ async function sendEmail(email: string, code: string): Promise<boolean> {
     })
 
     if (error) {
-      console.error('Resend邮件发送失败:', error)
+      console.error('❌ Resend邮件发送失败:', error)
       return false
     }
 
-    console.log('邮件发送成功:', data)
+    console.log('✅ 邮件发送成功:', data)
     return true
   } catch (error) {
-    console.error('邮件发送错误:', error)
+    console.error('❌ 邮件发送错误:', error)
     return false
   }
 }
@@ -92,22 +98,36 @@ export async function POST(request: NextRequest) {
     console.log('🔐 Generated verification code:', verificationCode)
     console.log('⏰ Expires at:', expiresAt.toISOString())
 
-    // 检查Supabase连接
-    console.log('🔍 Checking Supabase connection...')
-    const { data: testConnection } = await supabase
-      .from('verification_codes')
-      .select('count')
-      .limit(1)
-    
-    if (testConnection === null) {
-      console.error('❌ Supabase connection failed')
+    // 检查Supabase连接和表是否存在
+    console.log('🔍 Checking Supabase connection and table...')
+    try {
+      const { data: testConnection, error: testError } = await supabase
+        .from('verification_codes')
+        .select('count')
+        .limit(1)
+      
+      if (testError) {
+        console.error('❌ Supabase table check failed:', testError)
+        // 如果表不存在，尝试创建（简化版本）
+        console.log('🔄 Attempting to create verification_codes table...')
+        const { error: createError } = await supabase.rpc('create_verification_codes_table')
+        if (createError) {
+          console.error('❌ Failed to create table:', createError)
+          return NextResponse.json(
+            { message: '数据库配置错误，请联系管理员' },
+            { status: 500 }
+          )
+        }
+      }
+      
+      console.log('✅ Supabase connection and table check successful')
+    } catch (connectionError) {
+      console.error('❌ Supabase connection error:', connectionError)
       return NextResponse.json(
         { message: '数据库连接失败，请重试' },
         { status: 500 }
       )
     }
-    
-    console.log('✅ Supabase connection successful')
 
     // 检查是否已有未过期的验证码
     console.log('🔍 Checking for existing verification codes...')
@@ -186,7 +206,7 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('发送验证码错误:', error)
+    console.error('❌ 发送验证码错误:', error)
     return NextResponse.json(
       { message: '服务器错误，请重试' },
       { status: 500 }
