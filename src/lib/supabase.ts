@@ -35,6 +35,9 @@ export interface City {
   wifi_speed: number
   created_at: string
   updated_at: string
+  // Computed fields from views or aggregations
+  avg_overall_rating?: number
+  vote_count?: number
 }
 
 export interface Vote {
