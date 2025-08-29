@@ -14,11 +14,15 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { getPlacesByCity, getCities } from '@/lib/api'
 import { Place, City } from '@/lib/supabase'
 import FixedLink from '@/components/FixedLink'
+import UniversalRecommendationForm from '@/components/UniversalRecommendationForm'
+import { useNotifications } from '@/contexts/GlobalStateContext'
 
 export default function HomePlaceRecommendations() {
   const { t } = useTranslation()
+  const { addNotification } = useNotifications()
   const [places, setPlaces] = useState<Place[]>([])
   const [loading, setLoading] = useState(true)
+  const [showAddForm, setShowAddForm] = useState(false)
 
   useEffect(() => {
     loadTopPlaces()
@@ -72,6 +76,46 @@ export default function HomePlaceRecommendations() {
       console.error('Error loading places:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleAddPlace = async (placeData: any) => {
+    try {
+      // 创建新的地点对象
+      const newPlace: Place = {
+        id: `temp-${Date.now()}`,
+        name: placeData.name,
+        category: placeData.category,
+        address: placeData.address,
+        description: placeData.description,
+        tags: placeData.tags || [],
+        wifi_speed: placeData.wifi_speed,
+        price_level: placeData.price_level,
+        noise_level: placeData.noise_level,
+        social_atmosphere: placeData.social_atmosphere,
+        city_id: 'default-city',
+        latitude: placeData.latitude ? parseFloat(placeData.latitude) : 0,
+        longitude: placeData.longitude ? parseFloat(placeData.longitude) : 0,
+        submitted_by: placeData.submitted_by,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+
+      // 添加到本地状态
+      setPlaces(prev => [newPlace, ...prev.slice(0, 5)])
+      
+      addNotification({
+        type: 'success',
+        message: t('recommendationForm.submitSuccess')
+      })
+      
+      setShowAddForm(false)
+    } catch (error) {
+      console.error('Error adding place:', error)
+      addNotification({
+        type: 'error',
+        message: t('recommendationForm.submitError')
+      })
     }
   }
 
@@ -139,13 +183,13 @@ export default function HomePlaceRecommendations() {
             <span>{t('common.viewDetails')}</span>
             <ArrowRightIcon className="h-4 w-4" />
           </FixedLink>
-          <FixedLink
-            href="/places"
+          <button
+            onClick={() => setShowAddForm(true)}
             className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
           >
             <PlusIcon className="h-4 w-4" />
             <span>{t('places.addPlace')}</span>
-          </FixedLink>
+          </button>
         </div>
       </div>
 
@@ -240,6 +284,14 @@ export default function HomePlaceRecommendations() {
           ))}
         </div>
       </div>
+
+      {/* Universal Recommendation Form */}
+      <UniversalRecommendationForm
+        type="place"
+        isOpen={showAddForm}
+        onClose={() => setShowAddForm(false)}
+        onSubmit={handleAddPlace}
+      />
     </div>
   )
 }
