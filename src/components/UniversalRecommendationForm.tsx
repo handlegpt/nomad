@@ -214,6 +214,20 @@ export default function UniversalRecommendationForm({
             gridCols: 2
           },
           {
+            name: 'latitude',
+            label: t('recommendationForm.place.fields.latitude'),
+            type: 'number',
+            placeholder: t('recommendationForm.place.fields.latitudePlaceholder'),
+            gridCols: 1
+          },
+          {
+            name: 'longitude',
+            label: t('recommendationForm.place.fields.longitude'),
+            type: 'number',
+            placeholder: t('recommendationForm.place.fields.longitudePlaceholder'),
+            gridCols: 1
+          },
+          {
             name: 'description',
             label: t('recommendationForm.place.fields.description'),
             type: 'textarea',
@@ -309,6 +323,8 @@ export default function UniversalRecommendationForm({
         price_level: 3,
         noise_level: 'moderate',
         social_atmosphere: 'medium',
+        latitude: '',
+        longitude: '',
         ...baseData
       }
     }

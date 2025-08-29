@@ -129,6 +129,8 @@ export default function PlacesPage() {
         noise_level: placeData.noise_level,
         social_atmosphere: placeData.social_atmosphere,
         city_id: 'default-city',
+        latitude: placeData.latitude ? parseFloat(placeData.latitude) : 0,
+        longitude: placeData.longitude ? parseFloat(placeData.longitude) : 0,
         submitted_by: placeData.submitted_by,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
@@ -278,7 +280,7 @@ export default function PlacesPage() {
               currentVotes: {
                 upvotes: Math.floor((place.upvotes || 0) * 0.7),
                 downvotes: Math.floor((place.downvotes || 0) * 0.3),
-                rating: place.avg_rating
+                rating: place.rating
               }
             }
 
