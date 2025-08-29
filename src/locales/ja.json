@@ -670,6 +670,15 @@
 
   "cityComparison": {
     "title": "都市比較",
+    "description": "都市を並べて比較",
+    "select2To4Cities": "比較する2-4都市を選択",
+    "addCityButton": "都市を追加",
+    "removeCity": "削除",
+    "compare": "比較",
+    "reset": "リセット",
+    "noCitiesSelected": "比較するには少なくとも2都市を選択してください",
+    "loading": "比較データを読み込み中...",
+    "error": "比較データの読み込みに失敗しました",
     "addCity": "都市を追加",
     "exportPDF": "PDFをエクスポート",
     "selectCities": "比較する2-4都市を選択",
@@ -741,7 +750,12 @@
     "citiesDescription": "世界中の都市を閲覧",
     "visaGuideDescription": "ビザ情報とガイド",
     "dashboardDescription": "アカウント管理",
-    "communityDescription": "他のノマドとつながる"
+    "communityDescription": "他のノマドとつながる",
+    "visaDescription": "各国のビザ申請ガイド",
+    "languageSettings": "言語設定",
+    "quickSetup": "クイック設定",
+    "aboutUs": "私たちについて",
+    "contactUs": "お問い合わせ"
   },
 
   "nomadTip": {

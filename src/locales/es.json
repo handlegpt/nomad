@@ -628,6 +628,15 @@
 
   "cityComparison": {
     "title": "Comparación de Ciudades",
+    "description": "Compara ciudades lado a lado",
+    "select2To4Cities": "Selecciona 2-4 ciudades para comparar",
+    "addCityButton": "Agregar Ciudad",
+    "removeCity": "Eliminar",
+    "compare": "Comparar",
+    "reset": "Restablecer",
+    "noCitiesSelected": "Por favor selecciona al menos 2 ciudades para comparar",
+    "loading": "Cargando datos de comparación...",
+    "error": "Error al cargar datos de comparación",
     "addCity": "Agregar Ciudad",
     "exportPDF": "Exportar PDF",
     "selectCities": "Selecciona 2-4 ciudades para comparar",
@@ -693,7 +702,12 @@
     "citiesDescription": "Navega por ciudades globales",
     "visaGuideDescription": "Información y guías de visa",
     "dashboardDescription": "Gestiona tu cuenta",
-    "communityDescription": "Conéctate con otros nómadas"
+    "communityDescription": "Conéctate con otros nómadas",
+    "visaDescription": "Guías de solicitud de visa para varios países",
+    "languageSettings": "Configuración de Idioma",
+    "quickSetup": "Configuración Rápida",
+    "aboutUs": "Acerca de Nosotros",
+    "contactUs": "Contáctanos"
   },
 
   "nomadTip": {
