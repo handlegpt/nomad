@@ -518,7 +518,12 @@
     "requestSent": "Solicitud de meetup enviada",
     "loadingUsers": "Cargando datos de usuarios...",
     "failedToLoadUsers": "Error al cargar datos de usuarios, intenta de nuevo",
-    "pleaseLoginToMeetup": "Por favor inicia sesión para crear invitaciones de meetup"
+    "pleaseLoginToMeetup": "Por favor inicia sesión para crear invitaciones de meetup",
+    "locationError": "No se pudo obtener información de ubicación",
+    "requestFailed": "Error al enviar invitación de meetup",
+    "fillRequiredFields": "Por favor completa los campos requeridos",
+    "publicMeetupCreated": "Invitación de meetup público creada",
+    "createMeetupFailed": "Error al crear invitación de meetup"
   },
   "voteModal": {
     "pleaseProvideRating": "Por favor proporciona al menos una calificación general",

@@ -535,7 +535,12 @@
     "requestSent": "见面邀请已发送",
     "loadingUsers": "正在加载用户数据...",
     "failedToLoadUsers": "加载用户数据失败，请重试",
-    "pleaseLoginToMeetup": "请先登录以发起见面邀请"
+    "pleaseLoginToMeetup": "请先登录以发起见面邀请",
+    "locationError": "无法获取位置信息",
+    "requestFailed": "发送见面邀请失败",
+    "fillRequiredFields": "请填写必填字段",
+    "publicMeetupCreated": "公开见面邀请已创建",
+    "createMeetupFailed": "创建见面邀请失败"
   },
   "voteModal": {
     "pleaseProvideRating": "请至少提供一个总体评分",

@@ -548,7 +548,12 @@
     "requestSent": "ミートアップリクエストが送信されました",
     "loadingUsers": "ユーザーデータを読み込み中...",
     "failedToLoadUsers": "ユーザーデータの読み込みに失敗しました。もう一度お試しください",
-    "pleaseLoginToMeetup": "ミートアップ招待を作成するにはログインしてください"
+    "pleaseLoginToMeetup": "ミートアップ招待を作成するにはログインしてください",
+    "locationError": "位置情報を取得できません",
+    "requestFailed": "ミートアップ招待の送信に失敗しました",
+    "fillRequiredFields": "必須フィールドを入力してください",
+    "publicMeetupCreated": "公開ミートアップ招待が作成されました",
+    "createMeetupFailed": "ミートアップ招待の作成に失敗しました"
   },
   "voteModal": {
     "pleaseProvideRating": "少なくとも総合評価を入力してください",

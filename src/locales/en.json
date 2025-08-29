@@ -577,7 +577,12 @@
     "requestSent": "Meetup request sent",
     "loadingUsers": "Loading user data...",
     "failedToLoadUsers": "Failed to load user data, please try again",
-    "pleaseLoginToMeetup": "Please login to create meetup invitations"
+    "pleaseLoginToMeetup": "Please login to create meetup invitations",
+    "locationError": "Unable to get location information",
+    "requestFailed": "Failed to send meetup invitation",
+    "fillRequiredFields": "Please fill in required fields",
+    "publicMeetupCreated": "Public meetup invitation created",
+    "createMeetupFailed": "Failed to create meetup invitation"
   },
   "components": {
     "notificationSystem": {

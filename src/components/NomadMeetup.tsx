@@ -1,90 +1,54 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw } from 'lucide-react'
+import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw, MapPinOff } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useNotifications, useUser } from '@/contexts/GlobalStateContext'
 import { logInfo, logError } from '@/lib/logger'
-import FixedLink from '@/components/FixedLink'
-
-interface MeetupUser {
-  id: string
-  name: string
-  avatar: string
-  location: string
-  status: 'online' | 'offline'
-  lastSeen: string
-  interests: string[]
-  isAvailable: boolean
-}
+import { useLocation } from '@/hooks/useLocation'
+import { 
+  getOnlineUsers, 
+  getMeetupStats, 
+  sendMeetupInvitation, 
+  createPublicMeetup,
+  type MeetupUser,
+  type MeetupStats
+} from '@/lib/meetupApi'
 
 export default function NomadMeetup() {
   const { t } = useTranslation()
   const { user } = useUser()
-  const [currentCity, setCurrentCity] = useState('Osaka, Japan')
+  const { location: userLocation, loading: locationLoading, error: locationError, refreshLocation } = useLocation()
+  
   const [users, setUsers] = useState<MeetupUser[]>([])
+  const [stats, setStats] = useState<MeetupStats | null>(null)
   const [showMeetupForm, setShowMeetupForm] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
+  const [sendingInvitation, setSendingInvitation] = useState(false)
+  const [creatingMeetup, setCreatingMeetup] = useState(false)
+  
   const { addNotification } = useNotifications()
 
+  const currentCity = userLocation ? `${userLocation.city}, ${userLocation.country}` : 'Loading...'
+
   useEffect(() => {
-    fetchUsers()
-  }, [])
+    if (userLocation) {
+      fetchUsers()
+      fetchStats()
+    }
+  }, [userLocation])
 
   const fetchUsers = async () => {
+    if (!userLocation) return
+    
     try {
       setLoading(true)
       setError(null)
       
-      // 模拟获取当前城市的数字游民数据
-      // 这里应该调用真实的API
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      const mockUsers: MeetupUser[] = [
-        {
-          id: '1',
-          name: 'Sarah Chen',
-          avatar: 'SC',
-          location: 'Osaka, Japan',
-          status: 'online',
-          lastSeen: '2分钟前',
-          interests: ['咖啡', '摄影', '技术'],
-          isAvailable: true
-        },
-        {
-          id: '2',
-          name: 'Alex Rodriguez',
-          avatar: 'AR',
-          location: 'Osaka, Japan',
-          status: 'online',
-          lastSeen: '5分钟前',
-          interests: ['创业', '旅行', '美食'],
-          isAvailable: true
-        },
-        {
-          id: '3',
-          name: 'Yuki Tanaka',
-          avatar: 'YT',
-          location: 'Osaka, Japan',
-          status: 'offline',
-          lastSeen: '1小时前',
-          interests: ['设计', '音乐', '文化'],
-          isAvailable: false
-        },
-        {
-          id: '4',
-          name: 'Emma Wilson',
-          avatar: 'EW',
-          location: 'Osaka, Japan',
-          status: 'online',
-          lastSeen: '刚刚',
-          interests: ['写作', '瑜伽', '环保'],
-          isAvailable: true
-        }
-      ]
-      setUsers(mockUsers)
+      const usersData = await getOnlineUsers(userLocation.city)
+      setUsers(usersData)
     } catch (error) {
       logError('Failed to fetch users', error, 'NomadMeetup')
       setError(t('meetup.failedToLoadUsers'))
@@ -93,13 +57,29 @@ export default function NomadMeetup() {
     }
   }
 
+  const fetchStats = async () => {
+    if (!userLocation) return
+    
+    try {
+      const statsData = await getMeetupStats(userLocation.city)
+      setStats(statsData)
+    } catch (error) {
+      logError('Failed to fetch stats', error, 'NomadMeetup')
+      // 不显示错误，因为统计信息不是关键功能
+    }
+  }
+
   const handleRefresh = async () => {
     setRefreshing(true)
-    await fetchUsers()
+    await Promise.all([
+      fetchUsers(),
+      fetchStats(),
+      refreshLocation()
+    ])
     setRefreshing(false)
   }
 
-  const handleRequestMeetup = (userId: string) => {
+  const handleRequestMeetup = async (userId: string) => {
     if (!user.isAuthenticated) {
       addNotification({
         type: 'warning',
@@ -108,12 +88,36 @@ export default function NomadMeetup() {
       return
     }
 
-    logInfo('Requesting meetup with user', { userId }, 'NomadMeetup')
+    setSendingInvitation(true)
     
-    addNotification({
-      type: 'success',
-      message: t('meetup.requestSent')
-    })
+    try {
+      const result = await sendMeetupInvitation(
+        userId,
+        'Coffee Shop',
+        new Date().toISOString(),
+        'Let\'s meet for coffee!'
+      )
+      
+      if (result.success) {
+        addNotification({
+          type: 'success',
+          message: t('meetup.requestSent')
+        })
+      } else {
+        addNotification({
+          type: 'error',
+          message: result.message
+        })
+      }
+    } catch (error) {
+      logError('Failed to send meetup invitation', error, 'NomadMeetup')
+      addNotification({
+        type: 'error',
+        message: t('meetup.requestFailed')
+      })
+    } finally {
+      setSendingInvitation(false)
+    }
   }
 
   const handleCreateMeetup = () => {
@@ -127,13 +131,91 @@ export default function NomadMeetup() {
     setShowMeetupForm(true)
   }
 
-  const handlePublishInvitation = () => {
-    // 这里应该调用API发布邀请
-    addNotification({
-      type: 'success',
-      message: t('meetup.requestSent')
-    })
-    setShowMeetupForm(false)
+  const handlePublishInvitation = async () => {
+    const formData = new FormData(document.getElementById('meetup-form') as HTMLFormElement)
+    const location = formData.get('location') as string
+    const time = formData.get('time') as string
+    const description = formData.get('description') as string
+
+    if (!location || !time) {
+      addNotification({
+        type: 'error',
+        message: t('meetup.fillRequiredFields')
+      })
+      return
+    }
+
+    setCreatingMeetup(true)
+    
+    try {
+      const result = await createPublicMeetup(location, time, description)
+      
+      if (result.success) {
+        addNotification({
+          type: 'success',
+          message: t('meetup.publicMeetupCreated')
+        })
+        setShowMeetupForm(false)
+        // 刷新数据
+        await fetchUsers()
+        await fetchStats()
+      } else {
+        addNotification({
+          type: 'error',
+          message: result.message
+        })
+      }
+    } catch (error) {
+      logError('Failed to create public meetup', error, 'NomadMeetup')
+      addNotification({
+        type: 'error',
+        message: t('meetup.createMeetupFailed')
+      })
+    } finally {
+      setCreatingMeetup(false)
+    }
+  }
+
+  if (locationLoading) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="animate-pulse">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg"></div>
+              <div>
+                <div className="h-5 bg-gray-200 rounded w-32 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-24"></div>
+              </div>
+            </div>
+            <div className="h-8 bg-gray-200 rounded w-24"></div>
+          </div>
+          <div className="space-y-3">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="h-16 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (locationError) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="text-center py-8">
+          <MapPinOff className="h-12 w-12 text-red-500 mx-auto mb-3" />
+          <p className="text-gray-600 mb-4">{t('meetup.locationError')}</p>
+          <button
+            onClick={refreshLocation}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+          >
+            <RefreshCw className="h-4 w-4" />
+            <span>{t('common.retry')}</span>
+          </button>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
@@ -259,9 +341,14 @@ export default function NomadMeetup() {
                 {user.isAvailable ? (
                   <button
                     onClick={() => handleRequestMeetup(user.id)}
-                    className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm"
+                    disabled={sendingInvitation}
+                    className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm disabled:opacity-50"
                   >
-                    <Coffee className="h-3 w-3" />
+                    {sendingInvitation ? (
+                      <RefreshCw className="h-3 w-3 animate-spin" />
+                    ) : (
+                      <Coffee className="h-3 w-3" />
+                    )}
                     <span>{t('meetup.coffeeMeetup')}</span>
                   </button>
                 ) : (
@@ -288,15 +375,15 @@ export default function NomadMeetup() {
       <div className="mt-6 pt-4 border-t border-gray-200">
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
-            <p className="text-lg font-bold text-gray-900">{users.length}</p>
+            <p className="text-lg font-bold text-gray-900">{stats?.totalUsers || 0}</p>
             <p className="text-xs text-gray-600">{t('meetup.totalUsers')}</p>
           </div>
           <div>
-            <p className="text-lg font-bold text-green-600">{users.filter(u => u.isAvailable).length}</p>
+            <p className="text-lg font-bold text-green-600">{stats?.availableUsers || 0}</p>
             <p className="text-xs text-gray-600">{t('meetup.availableUsers')}</p>
           </div>
           <div>
-            <p className="text-lg font-bold text-blue-600">12</p>
+            <p className="text-lg font-bold text-blue-600">{stats?.todayMeetups || 0}</p>
             <p className="text-xs text-gray-600">{t('meetup.todayMeetups')}</p>
           </div>
         </div>
@@ -307,23 +394,27 @@ export default function NomadMeetup() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-bold text-gray-900 mb-4">{t('meetup.createMeetupTitle')}</h3>
-            <div className="space-y-4">
+            <form id="meetup-form" className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('meetup.meetupLocation')}
+                  {t('meetup.meetupLocation')} *
                 </label>
                 <input
+                  name="location"
                   type="text"
+                  required
                   placeholder={t('meetup.meetupLocationPlaceholder')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('meetup.meetupTime')}
+                  {t('meetup.meetupTime')} *
                 </label>
                 <input
+                  name="time"
                   type="datetime-local"
+                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -332,24 +423,34 @@ export default function NomadMeetup() {
                   {t('meetup.meetupDescription')}
                 </label>
                 <textarea
+                  name="description"
                   placeholder={t('meetup.meetupDescriptionPlaceholder')}
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-            </div>
+            </form>
             <div className="flex space-x-3 mt-6">
               <button
                 onClick={() => setShowMeetupForm(false)}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                disabled={creatingMeetup}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
               >
                 {t('meetup.cancel')}
               </button>
               <button 
                 onClick={handlePublishInvitation}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={creatingMeetup}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center"
               >
-                {t('meetup.publishInvitation')}
+                {creatingMeetup ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+                    {t('common.submitting')}
+                  </>
+                ) : (
+                  t('meetup.publishInvitation')
+                )}
               </button>
             </div>
           </div>
