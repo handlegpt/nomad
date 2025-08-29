@@ -496,6 +496,9 @@
     "share": "分享",
     "noMatchingMessages": "没有找到匹配的消息",
     "tryAdjustSearch": "尝试调整搜索条件或筛选器",
+    "mutualInterests": "{count} 共同兴趣",
+    "compatibility": "{percentage}% 匹配",
+    "distance": "{distance}km",
     "notifications": {
       "title": "通知中心",
       "description": "查看所有见面邀请和提醒",

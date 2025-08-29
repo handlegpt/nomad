@@ -538,6 +538,9 @@
     "share": "Share",
     "noMatchingMessages": "No matching messages found",
     "tryAdjustSearch": "Try adjusting search criteria or filters",
+    "mutualInterests": "{count} mutual interests",
+    "compatibility": "{percentage}% match",
+    "distance": "{distance}km",
     "notifications": {
       "title": "Notifications",
       "description": "View all meetup invitations and reminders",

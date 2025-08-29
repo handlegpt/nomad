@@ -506,6 +506,9 @@
     "share": "Compartir",
     "noMatchingMessages": "No se encontraron mensajes coincidentes",
     "tryAdjustSearch": "Intenta ajustar los criterios de búsqueda o filtros",
+    "mutualInterests": "{count} intereses en común",
+    "compatibility": "{percentage}% coincidencia",
+    "distance": "{distance}km",
     "notifications": {
       "title": "Centro de Notificaciones",
       "description": "Ver todas las invitaciones y recordatorios de meetups",

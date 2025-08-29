@@ -532,7 +532,7 @@ export default function NomadMeetup() {
                         {user.distance && (
                           <>
                             <span>•</span>
-                            <span>{user.distance}km</span>
+                            <span>{t('meetup.distance', { distance: user.distance })}</span>
                           </>
                         )}
                       </div>
@@ -544,7 +544,7 @@ export default function NomadMeetup() {
                         ))}
                         {user.mutualInterests && user.mutualInterests.length > 0 && (
                           <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                            {user.mutualInterests.length} 共同兴趣
+                            {t('meetup.mutualInterests', { count: user.mutualInterests.length })}
                           </span>
                         )}
                       </div>
@@ -556,7 +556,7 @@ export default function NomadMeetup() {
                               style={{ width: `${user.meetupCompatibility}%` }}
                             ></div>
                           </div>
-                          <span className="text-xs text-gray-500">{user.meetupCompatibility}% 匹配</span>
+                          <span className="text-xs text-gray-500">{t('meetup.compatibility', { percentage: user.meetupCompatibility })}</span>
                         </div>
                       )}
                     </div>

@@ -508,6 +508,9 @@
     "share": "共有",
     "noMatchingMessages": "一致するメッセージが見つかりません",
     "tryAdjustSearch": "検索条件やフィルターを調整してみてください",
+    "mutualInterests": "{count} の共通の興味",
+    "compatibility": "{percentage}% マッチ",
+    "distance": "{distance}km",
     "notifications": {
       "title": "通知センター",
       "description": "すべてのミートアップ招待とリマインダーを表示",
