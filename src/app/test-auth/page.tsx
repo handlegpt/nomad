@@ -10,7 +10,46 @@ export default function TestAuthPage() {
   const [verificationCode, setVerificationCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [verifying, setVerifying] = useState(false)
+  const [checkingDb, setCheckingDb] = useState(false)
+  const [dbStatus, setDbStatus] = useState<any>(null)
   const { addNotification } = useNotifications()
+
+  const checkDatabaseStatus = async () => {
+    setCheckingDb(true)
+    
+    try {
+      console.log('🔍 Checking database status...')
+      
+      const response = await fetch('/api/debug/db-status')
+      const data = await response.json()
+      
+      console.log('📊 Database status:', data)
+      setDbStatus(data)
+      
+      if (response.ok) {
+        addNotification({
+          type: 'success',
+          message: '数据库状态检查完成',
+          duration: 5000
+        })
+      } else {
+        addNotification({
+          type: 'error',
+          message: '数据库状态检查失败',
+          duration: 5000
+        })
+      }
+    } catch (error) {
+      console.error('❌ Error checking database status:', error)
+      addNotification({
+        type: 'error',
+        message: '数据库状态检查失败',
+        duration: 5000
+      })
+    } finally {
+      setCheckingDb(false)
+    }
+  }
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -223,6 +262,77 @@ export default function TestAuthPage() {
               <li>• 验证成功后会保存会话令牌</li>
               <li>• 请查看浏览器控制台获取详细日志</li>
             </ul>
+          </div>
+
+          {/* 数据库状态检查 */}
+          <div className="mt-6 border-t pt-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
+              数据库状态检查
+            </h3>
+            
+            <button
+              onClick={checkDatabaseStatus}
+              disabled={checkingDb}
+              className="w-full btn btn-md btn-secondary mb-4"
+            >
+              {checkingDb ? (
+                <div className="flex items-center justify-center">
+                  <LoadingSpinner size="sm" />
+                  <span className="ml-2">检查中...</span>
+                </div>
+              ) : (
+                '检查数据库状态'
+              )}
+            </button>
+
+            {dbStatus && (
+              <div className="space-y-4">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-gray-900 mb-2">检查结果：</h4>
+                  <div className="text-sm text-gray-700 space-y-2">
+                    <div>
+                      <strong>验证码表：</strong> 
+                      {dbStatus.checks?.verification_codes?.exists ? '✅ 正常' : '❌ 错误'}
+                      {dbStatus.checks?.verification_codes?.error && (
+                        <span className="text-red-600 ml-2">({dbStatus.checks.verification_codes.error})</span>
+                      )}
+                    </div>
+                    <div>
+                      <strong>用户表：</strong> 
+                      {dbStatus.checks?.users?.exists ? '✅ 正常' : '❌ 错误'}
+                      {dbStatus.checks?.users?.error && (
+                        <span className="text-red-600 ml-2">({dbStatus.checks.users.error})</span>
+                      )}
+                    </div>
+                    <div>
+                      <strong>用户插入：</strong> 
+                      {dbStatus.checks?.user_insertion?.success ? '✅ 正常' : '❌ 错误'}
+                      {dbStatus.checks?.user_insertion?.error && (
+                        <span className="text-red-600 ml-2">({dbStatus.checks.user_insertion.error})</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-gray-900 mb-2">环境变量：</h4>
+                  <div className="text-sm text-gray-700 space-y-1">
+                    <div>
+                      <strong>RESEND_API_KEY：</strong> 
+                      {dbStatus.environment?.has_resend_key ? '✅ 已配置' : '❌ 未配置'}
+                    </div>
+                    <div>
+                      <strong>SUPABASE_URL：</strong> 
+                      {dbStatus.environment?.has_supabase_url ? '✅ 已配置' : '❌ 未配置'}
+                    </div>
+                    <div>
+                      <strong>SUPABASE_KEY：</strong> 
+                      {dbStatus.environment?.has_supabase_key ? '✅ 已配置' : '❌ 未配置'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -214,6 +214,10 @@ CREATE POLICY "Users can view own profile" ON public.users FOR SELECT USING (aut
 CREATE POLICY "Users can update own profile" ON public.users FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Users can insert own profile" ON public.users FOR INSERT WITH CHECK (auth.uid() = id);
 
+-- Allow public access for verification code registration
+CREATE POLICY "Allow public insert for registration" ON public.users FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public select by email" ON public.users FOR SELECT USING (true);
+
 CREATE POLICY "Users can view own visas" ON public.user_visas FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "Users can insert own visas" ON public.user_visas FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can update own visas" ON public.user_visas FOR UPDATE USING (auth.uid() = user_id);
