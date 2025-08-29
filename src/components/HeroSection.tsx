@@ -14,11 +14,11 @@ export default function HeroSection() {
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[500px]">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start min-h-[600px] lg:min-h-[700px]">
           
           {/* Left Content */}
-          <div className="space-y-8 lg:pr-8">
+          <div className="space-y-6 sm:space-y-8 lg:pr-8">
             {/* Badge */}
             <div className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200">
               <Globe className="h-4 w-4 text-blue-600 mr-2" />
@@ -29,13 +29,13 @@ export default function HeroSection() {
 
             {/* Main Heading */}
             <div className="space-y-4">
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 {t('home.hero.title')}
                 <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   {t('home.hero.titleHighlight')}
                 </span>
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
                 {t('home.hero.description')}
               </p>
             </div>
@@ -58,33 +58,33 @@ export default function HeroSection() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
+            <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-6 sm:pt-8">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">40+</div>
-                <div className="text-sm text-gray-600">{t('home.hero.stats.cities')}</div>
+                <div className="text-xl sm:text-2xl font-bold text-blue-600">40+</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('home.hero.stats.cities')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">1000+</div>
-                <div className="text-sm text-gray-600">{t('home.hero.stats.recommendations')}</div>
+                <div className="text-xl sm:text-2xl font-bold text-purple-600">1000+</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('home.hero.stats.recommendations')}</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">24/7</div>
-                <div className="text-sm text-gray-600">{t('home.hero.stats.updates')}</div>
+                <div className="text-xl sm:text-2xl font-bold text-green-600">24/7</div>
+                <div className="text-xs sm:text-sm text-gray-600">{t('home.hero.stats.updates')}</div>
               </div>
             </div>
           </div>
 
           {/* Right Content - Live Info Card */}
-          <div className="relative lg:sticky lg:top-4">
+          <div className="relative lg:sticky lg:top-8 w-full">
             <UnifiedLiveInfoCard 
               variant="hero" 
               showVisaInfo={true}
               showActions={true}
             />
             
-            {/* Floating Elements */}
-            <div className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 rounded-full animate-bounce"></div>
-            <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-400 rounded-full animate-pulse"></div>
+            {/* Floating Elements - Adjusted positions to avoid overlap */}
+            <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full animate-bounce opacity-80"></div>
+            <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-purple-400 rounded-full animate-pulse opacity-80"></div>
           </div>
         </div>
       </div>

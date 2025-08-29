@@ -146,27 +146,27 @@ export default function UnifiedLiveInfoCard({
   if (variant === 'hero') {
     return (
       <>
-        <div className={`card card-lg bg-white/90 backdrop-blur-sm border-0 shadow-2xl ${className}`}>
-          <div className="space-y-4">
+        <div className={`card card-lg bg-white/90 backdrop-blur-sm border-0 shadow-2xl w-full ${className}`}>
+          <div className="space-y-3 sm:space-y-4">
             {/* Header */}
             <div className="text-center">
-              <h3 className="text-lg font-semibold text-gray-900">{t('home.hero.liveInfo.title')}</h3>
-              <p className="text-sm text-gray-600">{t('home.hero.liveInfo.subtitle')}</p>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">{t('home.hero.liveInfo.title')}</h3>
+              <p className="text-xs sm:text-sm text-gray-600">{t('home.hero.liveInfo.subtitle')}</p>
             </div>
 
             {/* Current Time */}
-            <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-              <Clock className="h-5 w-5 text-blue-600 mx-auto mb-1" />
-              <div className="text-2xl font-mono font-bold text-gray-900">
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+              <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 mx-auto mb-1" />
+              <div className="text-xl sm:text-2xl font-mono font-bold text-gray-900">
                 {time?.time || '--:--'}
               </div>
               <div className="text-xs text-gray-600 mt-1">{t('home.hero.liveInfo.currentTime')}</div>
             </div>
 
             {/* Current Location */}
-            <div className="text-center p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-              <MapPin className="h-5 w-5 text-green-600 mx-auto mb-1" />
-              <div className="text-base font-semibold text-gray-900">
+            <div className="text-center p-2 sm:p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+              <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mx-auto mb-1" />
+              <div className="text-sm sm:text-base font-semibold text-gray-900">
                 {location ? `${location.city}, ${location.country}` : t('home.hero.liveInfo.locationUnavailable')}
               </div>
               <div className="text-xs text-gray-600 mt-1">{t('home.hero.liveInfo.currentLocation')}</div>
@@ -174,9 +174,9 @@ export default function UnifiedLiveInfoCard({
 
             {/* Visa Status - Only show if enabled */}
             {showVisaInfo && (
-              <div className="text-center p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl">
-                <Calendar className="h-5 w-5 text-orange-600 mx-auto mb-1" />
-                <div className="text-base font-semibold text-gray-900">
+              <div className="text-center p-2 sm:p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl">
+                <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600 mx-auto mb-1" />
+                <div className="text-sm sm:text-base font-semibold text-gray-900">
                   🛂 {getVisaStatus() ? '38' : '--'}
                 </div>
                 <div className="text-xs text-gray-600 mt-1">{t('home.visaRemaining')}</div>
@@ -195,7 +195,7 @@ export default function UnifiedLiveInfoCard({
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4 text-yellow-600" />
                     <div>
-                      <h4 className="font-medium text-yellow-800 text-sm">
+                      <h4 className="font-medium text-yellow-800 text-xs sm:text-sm">
                         {t('home.setupVisaTitle')}
                       </h4>
                       <p className="text-xs text-yellow-700">
@@ -203,7 +203,7 @@ export default function UnifiedLiveInfoCard({
                       </p>
                     </div>
                   </div>
-                  <button className="px-3 py-1 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-xs">
+                  <button className="px-2 sm:px-3 py-1 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-xs">
                     {t('home.setupVisaButton')}
                   </button>
                 </div>
