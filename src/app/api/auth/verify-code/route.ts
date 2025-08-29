@@ -4,9 +4,11 @@ import { getEmailTranslation } from '@/lib/emailTemplates'
 import { logInfo, logError } from '@/lib/logger'
 import { generateToken } from '@/lib/jwt'
 import { safeValidate, verificationCodeSchema } from '@/lib/validation'
+import { handleError, createSuccessResponse, generateRequestId, ErrorType } from '@/lib/errorHandler'
 
 export async function POST(request: NextRequest) {
-  logInfo('API Route: /api/auth/verify-code called', null, 'VerifyCodeAPI')
+  const requestId = generateRequestId()
+  logInfo('API Route: /api/auth/verify-code called', { requestId }, 'VerifyCodeAPI')
   
   try {
     const body = await request.json()
@@ -32,22 +34,25 @@ export async function POST(request: NextRequest) {
     if (codeError) {
       logError('Verification code error', codeError, 'VerifyCodeAPI')
       if (codeError.code === 'PGRST116') {
-        return NextResponse.json(
-          { message: getEmailTranslation(safeLocale, 'invalidOrExpired') },
-          { status: 400 }
+        return handleError(
+          new Error(getEmailTranslation(safeLocale, 'invalidOrExpired')),
+          'VerifyCodeAPI',
+          requestId
         )
       }
-      return NextResponse.json(
-        { message: getEmailTranslation(safeLocale, 'verificationFailed') },
-        { status: 500 }
+      return handleError(
+        new Error(getEmailTranslation(safeLocale, 'verificationFailed')),
+        'VerifyCodeAPI',
+        requestId
       )
     }
 
     if (!verificationCode) {
       logError('No valid verification code found', null, 'VerifyCodeAPI')
-      return NextResponse.json(
-        { message: getEmailTranslation(safeLocale, 'invalidOrExpired') },
-        { status: 400 }
+      return handleError(
+        new Error(getEmailTranslation(safeLocale, 'invalidOrExpired')),
+        'VerifyCodeAPI',
+        requestId
       )
     }
 
@@ -83,9 +88,10 @@ export async function POST(request: NextRequest) {
 
       if (createError) {
         logError('Create user error', createError, 'VerifyCodeAPI')
-        return NextResponse.json(
-          { message: getEmailTranslation(safeLocale, 'userCreationFailed') },
-          { status: 500 }
+        return handleError(
+          new Error(getEmailTranslation(safeLocale, 'userCreationFailed')),
+          'VerifyCodeAPI',
+          requestId
         )
       }
 
@@ -93,17 +99,19 @@ export async function POST(request: NextRequest) {
       user = newUser
     } else if (userError) {
       logError('User query error', userError, 'VerifyCodeAPI')
-      return NextResponse.json(
-        { message: getEmailTranslation(safeLocale, 'userVerificationFailed') },
-        { status: 500 }
+      return handleError(
+        new Error(getEmailTranslation(safeLocale, 'userVerificationFailed')),
+        'VerifyCodeAPI',
+        requestId
       )
     }
 
     if (!user) {
       logError('User not found after creation/query', null, 'VerifyCodeAPI')
-      return NextResponse.json(
-        { message: getEmailTranslation(safeLocale, 'userVerificationFailed') },
-        { status: 500 }
+      return handleError(
+        new Error(getEmailTranslation(safeLocale, 'userVerificationFailed')),
+        'VerifyCodeAPI',
+        requestId
       )
     }
 
@@ -129,8 +137,7 @@ export async function POST(request: NextRequest) {
     logInfo('JWT token created successfully', null, 'VerifyCodeAPI')
 
     // 返回成功响应
-    return NextResponse.json({
-      success: true,
+    return NextResponse.json(createSuccessResponse({
       message: getEmailTranslation(safeLocale, 'verificationSuccess'),
       sessionToken,
       user: {
@@ -138,18 +145,9 @@ export async function POST(request: NextRequest) {
         email: user.email,
         name: user.name
       }
-    })
+    }, requestId))
 
   } catch (error) {
-    logError('Unexpected error in verify-code API', error, 'VerifyCodeAPI')
-    
-    // 通用错误响应，不泄露具体错误信息
-    return NextResponse.json(
-      { 
-        success: false,
-        message: 'Verification failed. Please try again.' 
-      },
-      { status: 500 }
-    )
+    return handleError(error, 'VerifyCodeAPI', requestId)
   }
 }
