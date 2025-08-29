@@ -518,7 +518,24 @@
     "onlineNomads": "在线游民",
     "available": "可约见",
     "coffeeMeetup": "约咖啡",
-    "busy": "忙碌中"
+    "busy": "忙碌中",
+    "noOnlineUsers": "当前没有在线的数字游民",
+    "checkLater": "稍后再来看看吧",
+    "createMeetupTitle": "发起见面邀请",
+    "meetupLocation": "见面地点",
+    "meetupLocationPlaceholder": "例如：Blue Bottle Coffee, 心斋桥",
+    "meetupTime": "时间",
+    "meetupDescription": "描述",
+    "meetupDescriptionPlaceholder": "简单介绍一下见面的目的...",
+    "cancel": "取消",
+    "publishInvitation": "发布邀请",
+    "totalUsers": "总用户",
+    "availableUsers": "可约见",
+    "todayMeetups": "今日见面",
+    "requestSent": "见面邀请已发送",
+    "loadingUsers": "正在加载用户数据...",
+    "failedToLoadUsers": "加载用户数据失败，请重试",
+    "pleaseLoginToMeetup": "请先登录以发起见面邀请"
   },
   "voteModal": {
     "pleaseProvideRating": "请至少提供一个总体评分",
@@ -741,7 +758,9 @@
     "add": "添加",
     "cancel": "取消",
     "submitting": "提交中...",
-    "viewDetails": "查看详情"
+    "viewDetails": "查看详情",
+    "retry": "重试",
+    "refresh": "刷新"
   },
   "cities": {
     "title": "城市列表",

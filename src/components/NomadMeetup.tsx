@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Users, MapPin, Coffee, MessageSquare, Plus, Clock } from 'lucide-react'
+import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useNotifications } from '@/contexts/GlobalStateContext'
-import { logInfo } from '@/lib/logger'
+import { useNotifications, useUser } from '@/contexts/GlobalStateContext'
+import { logInfo, logError } from '@/lib/logger'
+import FixedLink from '@/components/FixedLink'
 
 interface MeetupUser {
   id: string
@@ -19,15 +20,28 @@ interface MeetupUser {
 
 export default function NomadMeetup() {
   const { t } = useTranslation()
+  const { user } = useUser()
   const [currentCity, setCurrentCity] = useState('Osaka, Japan')
   const [users, setUsers] = useState<MeetupUser[]>([])
   const [showMeetupForm, setShowMeetupForm] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [refreshing, setRefreshing] = useState(false)
   const { addNotification } = useNotifications()
 
   useEffect(() => {
-    // 模拟获取当前城市的数字游民数据
-    setTimeout(() => {
+    fetchUsers()
+  }, [])
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      // 模拟获取当前城市的数字游民数据
+      // 这里应该调用真实的API
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
       const mockUsers: MeetupUser[] = [
         {
           id: '1',
@@ -71,11 +85,29 @@ export default function NomadMeetup() {
         }
       ]
       setUsers(mockUsers)
+    } catch (error) {
+      logError('Failed to fetch users', error, 'NomadMeetup')
+      setError(t('meetup.failedToLoadUsers'))
+    } finally {
       setLoading(false)
-    }, 1000)
-  }, [])
+    }
+  }
+
+  const handleRefresh = async () => {
+    setRefreshing(true)
+    await fetchUsers()
+    setRefreshing(false)
+  }
 
   const handleRequestMeetup = (userId: string) => {
+    if (!user.isAuthenticated) {
+      addNotification({
+        type: 'warning',
+        message: t('meetup.pleaseLoginToMeetup')
+      })
+      return
+    }
+
     logInfo('Requesting meetup with user', { userId }, 'NomadMeetup')
     
     addNotification({
@@ -85,19 +117,62 @@ export default function NomadMeetup() {
   }
 
   const handleCreateMeetup = () => {
+    if (!user.isAuthenticated) {
+      addNotification({
+        type: 'warning',
+        message: t('meetup.pleaseLoginToMeetup')
+      })
+      return
+    }
     setShowMeetupForm(true)
+  }
+
+  const handlePublishInvitation = () => {
+    // 这里应该调用API发布邀请
+    addNotification({
+      type: 'success',
+      message: t('meetup.requestSent')
+    })
+    setShowMeetupForm(false)
   }
 
   if (loading) {
     return (
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded mb-4"></div>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg"></div>
+              <div>
+                <div className="h-5 bg-gray-200 rounded w-32 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-24"></div>
+              </div>
+            </div>
+            <div className="h-8 bg-gray-200 rounded w-24"></div>
+          </div>
           <div className="space-y-3">
             {[...Array(3)].map((_, i) => (
               <div key={i} className="h-16 bg-gray-200 rounded"></div>
             ))}
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="text-center py-8">
+          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-3" />
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={handleRefresh}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+          >
+            <RefreshCw className="h-4 w-4" />
+            <span>{t('common.retry')}</span>
+          </button>
         </div>
       </div>
     )
@@ -119,13 +194,23 @@ export default function NomadMeetup() {
             </p>
           </div>
         </div>
-        <button
-          onClick={handleCreateMeetup}
-          className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
-        >
-          <Plus className="h-4 w-4" />
-          <span>{t('meetup.createMeetup')}</span>
-        </button>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            title={t('common.refresh')}
+          >
+            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+          </button>
+          <button
+            onClick={handleCreateMeetup}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+          >
+            <Plus className="h-4 w-4" />
+            <span>{t('meetup.createMeetup')}</span>
+          </button>
+        </div>
       </div>
 
       {/* Online Users */}
@@ -177,10 +262,10 @@ export default function NomadMeetup() {
                     className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm"
                   >
                     <Coffee className="h-3 w-3" />
-                                         <span>{t('meetup.coffeeMeetup')}</span>
+                    <span>{t('meetup.coffeeMeetup')}</span>
                   </button>
                 ) : (
-                                     <span className="text-sm text-gray-500">{t('meetup.busy')}</span>
+                  <span className="text-sm text-gray-500">{t('meetup.busy')}</span>
                 )}
                 <button className="p-1 text-gray-400 hover:text-gray-600">
                   <MessageSquare className="h-4 w-4" />
@@ -193,8 +278,8 @@ export default function NomadMeetup() {
         {users.filter(user => user.status === 'online').length === 0 && (
           <div className="text-center py-8">
             <Coffee className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <p className="text-gray-600">当前没有在线的数字游民</p>
-            <p className="text-sm text-gray-500">稍后再来看看吧</p>
+            <p className="text-gray-600">{t('meetup.noOnlineUsers')}</p>
+            <p className="text-sm text-gray-500">{t('meetup.checkLater')}</p>
           </div>
         )}
       </div>
@@ -204,15 +289,15 @@ export default function NomadMeetup() {
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-lg font-bold text-gray-900">{users.length}</p>
-            <p className="text-xs text-gray-600">总用户</p>
+            <p className="text-xs text-gray-600">{t('meetup.totalUsers')}</p>
           </div>
           <div>
             <p className="text-lg font-bold text-green-600">{users.filter(u => u.isAvailable).length}</p>
-            <p className="text-xs text-gray-600">可约见</p>
+            <p className="text-xs text-gray-600">{t('meetup.availableUsers')}</p>
           </div>
           <div>
             <p className="text-lg font-bold text-blue-600">12</p>
-            <p className="text-xs text-gray-600">今日见面</p>
+            <p className="text-xs text-gray-600">{t('meetup.todayMeetups')}</p>
           </div>
         </div>
       </div>
@@ -221,21 +306,21 @@ export default function NomadMeetup() {
       {showMeetupForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">发起见面邀请</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">{t('meetup.createMeetupTitle')}</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  见面地点
+                  {t('meetup.meetupLocation')}
                 </label>
                 <input
                   type="text"
-                  placeholder="例如：Blue Bottle Coffee, 心斋桥"
+                  placeholder={t('meetup.meetupLocationPlaceholder')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  时间
+                  {t('meetup.meetupTime')}
                 </label>
                 <input
                   type="datetime-local"
@@ -244,10 +329,10 @@ export default function NomadMeetup() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  描述
+                  {t('meetup.meetupDescription')}
                 </label>
                 <textarea
-                  placeholder="简单介绍一下见面的目的..."
+                  placeholder={t('meetup.meetupDescriptionPlaceholder')}
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -258,10 +343,13 @@ export default function NomadMeetup() {
                 onClick={() => setShowMeetupForm(false)}
                 className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                取消
+                {t('meetup.cancel')}
               </button>
-              <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                发布邀请
+              <button 
+                onClick={handlePublishInvitation}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                {t('meetup.publishInvitation')}
               </button>
             </div>
           </div>

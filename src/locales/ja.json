@@ -531,7 +531,24 @@
     "onlineNomads": "オンラインノマド",
     "available": "利用可能",
     "coffeeMeetup": "コーヒーミートアップ",
-    "busy": "忙しい"
+    "busy": "忙しい",
+    "noOnlineUsers": "現在オンラインのデジタルノマドはいません",
+    "checkLater": "後でもう一度確認してください",
+    "createMeetupTitle": "ミートアップ招待を作成",
+    "meetupLocation": "ミートアップ場所",
+    "meetupLocationPlaceholder": "例：ブルーボトルコーヒー、心斎橋",
+    "meetupTime": "時間",
+    "meetupDescription": "説明",
+    "meetupDescriptionPlaceholder": "ミートアップの目的を簡単に説明してください...",
+    "cancel": "キャンセル",
+    "publishInvitation": "招待を公開",
+    "totalUsers": "総ユーザー",
+    "availableUsers": "利用可能",
+    "todayMeetups": "今日のミートアップ",
+    "requestSent": "ミートアップリクエストが送信されました",
+    "loadingUsers": "ユーザーデータを読み込み中...",
+    "failedToLoadUsers": "ユーザーデータの読み込みに失敗しました。もう一度お試しください",
+    "pleaseLoginToMeetup": "ミートアップ招待を作成するにはログインしてください"
   },
   "voteModal": {
     "pleaseProvideRating": "少なくとも総合評価を入力してください",
@@ -926,7 +943,9 @@
     "add": "追加",
     "cancel": "キャンセル",
     "submitting": "送信中...",
-    "viewDetails": "詳細を見る"
+    "viewDetails": "詳細を見る",
+    "retry": "再試行",
+    "refresh": "更新"
   },
   "auth": {
     "login": {

@@ -501,7 +501,24 @@
     "onlineNomads": "Nómadas en Línea",
     "available": "Disponible",
     "coffeeMeetup": "Café",
-    "busy": "Ocupado"
+    "busy": "Ocupado",
+    "noOnlineUsers": "No hay nómadas digitales en línea actualmente",
+    "checkLater": "Vuelve más tarde",
+    "createMeetupTitle": "Crear Invitación de Meetup",
+    "meetupLocation": "Ubicación del Meetup",
+    "meetupLocationPlaceholder": "ej., Blue Bottle Coffee, Shinsaibashi",
+    "meetupTime": "Hora",
+    "meetupDescription": "Descripción",
+    "meetupDescriptionPlaceholder": "Describe brevemente el propósito del meetup...",
+    "cancel": "Cancelar",
+    "publishInvitation": "Publicar Invitación",
+    "totalUsers": "Usuarios Totales",
+    "availableUsers": "Disponibles",
+    "todayMeetups": "Meetups de Hoy",
+    "requestSent": "Solicitud de meetup enviada",
+    "loadingUsers": "Cargando datos de usuarios...",
+    "failedToLoadUsers": "Error al cargar datos de usuarios, intenta de nuevo",
+    "pleaseLoginToMeetup": "Por favor inicia sesión para crear invitaciones de meetup"
   },
   "voteModal": {
     "pleaseProvideRating": "Por favor proporciona al menos una calificación general",
@@ -898,7 +915,9 @@
     "add": "Agregar",
     "cancel": "Cancelar",
     "submitting": "Enviando...",
-    "viewDetails": "Ver Detalles"
+    "viewDetails": "Ver Detalles",
+    "retry": "Reintentar",
+    "refresh": "Actualizar"
   },
   "auth": {
     "login": {

@@ -560,7 +560,24 @@
     "onlineNomads": "Online Nomads",
     "available": "available",
     "coffeeMeetup": "Coffee Meetup",
-    "busy": "Busy"
+    "busy": "Busy",
+    "noOnlineUsers": "No online digital nomads currently",
+    "checkLater": "Check back later",
+    "createMeetupTitle": "Create Meetup Invitation",
+    "meetupLocation": "Meetup Location",
+    "meetupLocationPlaceholder": "e.g., Blue Bottle Coffee, Shinsaibashi",
+    "meetupTime": "Time",
+    "meetupDescription": "Description",
+    "meetupDescriptionPlaceholder": "Briefly describe the purpose of the meetup...",
+    "cancel": "Cancel",
+    "publishInvitation": "Publish Invitation",
+    "totalUsers": "Total Users",
+    "availableUsers": "Available",
+    "todayMeetups": "Today's Meetups",
+    "requestSent": "Meetup request sent",
+    "loadingUsers": "Loading user data...",
+    "failedToLoadUsers": "Failed to load user data, please try again",
+    "pleaseLoginToMeetup": "Please login to create meetup invitations"
   },
   "components": {
     "notificationSystem": {
@@ -749,7 +766,9 @@
     "add": "Add",
     "cancel": "Cancel",
     "submitting": "Submitting...",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "retry": "Retry",
+    "refresh": "Refresh"
   },
   "cities": {
     "title": "Cities",
