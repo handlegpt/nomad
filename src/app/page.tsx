@@ -7,7 +7,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
 import HeroSection from '@/components/HeroSection'
 
-import CurrentLocationCard from '@/components/CurrentLocationCard'
+import UnifiedLiveInfoCard from '@/components/UnifiedLiveInfoCard'
 import CityRanking from '@/components/CityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
 import CommunitySection from '@/components/CommunitySection'
@@ -46,7 +46,11 @@ export default function HomePage() {
         <div className="space-y-12">
           {/* Core Information Card */}
           <section className="animate-fade-in">
-            <CurrentLocationCard />
+            <UnifiedLiveInfoCard 
+              variant="standalone" 
+              showVisaInfo={true}
+              showActions={false}
+            />
           </section>
 
           {/* Nomad Hot Cities Ranking */}

@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { MapPin, RefreshCw, Clock, Cloud, Wifi, Calendar, X } from 'lucide-react'
+import { MapPin, RefreshCw, Clock, Cloud, Wifi, Calendar, X, Globe } from 'lucide-react'
 import { getCurrentLocation, getWorldTime, getWeather, getTimezoneFromCoordinates } from '@/lib/api'
 import { useTranslation } from '@/hooks/useTranslation'
 import WifiSpeedTest from './WifiSpeedTest'
+import FixedLink from './FixedLink'
 
 interface LocationData {
   city: string
@@ -25,12 +26,23 @@ interface TimeData {
   date: string
 }
 
-export default function CurrentLocationCard() {
+interface UnifiedLiveInfoCardProps {
+  variant?: 'hero' | 'standalone'
+  showVisaInfo?: boolean
+  showActions?: boolean
+  className?: string
+}
+
+export default function UnifiedLiveInfoCard({ 
+  variant = 'standalone', 
+  showVisaInfo = true, 
+  showActions = true,
+  className = ''
+}: UnifiedLiveInfoCardProps) {
   const { t } = useTranslation()
   const [location, setLocation] = useState<LocationData | null>(null)
   const [weather, setWeather] = useState<WeatherData | null>(null)
   const [time, setTime] = useState<TimeData | null>(null)
-
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(new Date())
   const [showWifiTest, setShowWifiTest] = useState(false)
@@ -78,8 +90,6 @@ export default function CurrentLocationCard() {
 
         // Get current time
         await updateTime()
-
-
       }
     } catch (error) {
       console.error('Error initializing data:', error)
@@ -135,7 +145,7 @@ export default function CurrentLocationCard() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+      <div className={`card card-lg ${className}`}>
         <div className="flex items-center justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           <span className="ml-3 text-gray-600">Loading location data...</span>
@@ -144,8 +154,62 @@ export default function CurrentLocationCard() {
     )
   }
 
+  // Hero variant - simplified version for hero section
+  if (variant === 'hero') {
+    return (
+      <div className={`card card-lg bg-white/90 backdrop-blur-sm border-0 shadow-2xl ${className}`}>
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-900">{t('home.hero.liveInfo.title')}</h3>
+            <p className="text-sm text-gray-600">{t('home.hero.liveInfo.subtitle')}</p>
+          </div>
+
+          {/* Current Time */}
+          <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
+            <Clock className="h-6 w-6 text-blue-600 mx-auto mb-2" />
+            <div className="text-3xl font-mono font-bold text-gray-900">
+              {time?.time || '--:--'}
+            </div>
+            <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentTime')}</div>
+          </div>
+
+          {/* Current Location */}
+          <div className="text-center p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
+            <MapPin className="h-6 w-6 text-green-600 mx-auto mb-2" />
+            <div className="text-lg font-semibold text-gray-900">
+              {location ? `${location.city}, ${location.country}` : t('home.hero.liveInfo.locationUnavailable')}
+            </div>
+            <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentLocation')}</div>
+          </div>
+
+          {/* Quick Actions */}
+          {showActions && (
+            <div className="grid grid-cols-2 gap-3">
+              <button 
+                onClick={() => setShowWifiTest(true)}
+                className="btn btn-sm btn-primary"
+              >
+                <Wifi className="h-4 w-4 mr-2" />
+                {t('home.hero.liveInfo.speedTest')}
+              </button>
+              <FixedLink 
+                href="/cities"
+                className="btn btn-sm btn-secondary"
+              >
+                <Globe className="h-4 w-4 mr-2" />
+                {t('home.hero.liveInfo.explore')}
+              </FixedLink>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Standalone variant - full version for main content
   return (
-    <div className="card card-lg">
+    <div className={`card card-lg ${className}`}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <MapPin className="h-5 w-5 text-blue-500" />
@@ -198,28 +262,30 @@ export default function CurrentLocationCard() {
             ☕ WiFi
           </div>
           <div className="text-xs text-gray-600">
-            速度测试
+            {t('home.wifiSpeed')}
           </div>
         </button>
         
         {/* Visa Status - Only show if user has visa data */}
-        <div className="text-center p-3 bg-orange-50 rounded-lg">
-          <div className="text-2xl font-bold text-orange-600 mb-1">
-            🛂 {getVisaStatus() ? '38' : '--'}
-          </div>
-          <div className="text-xs text-gray-600">
-            {t('home.visaRemaining')}
-          </div>
-          {!getVisaStatus() && (
-            <div className="text-xs text-gray-500 mt-1">
-              {t('home.setupVisa')}
+        {showVisaInfo && (
+          <div className="text-center p-3 bg-orange-50 rounded-lg">
+            <div className="text-2xl font-bold text-orange-600 mb-1">
+              🛂 {getVisaStatus() ? '38' : '--'}
             </div>
-          )}
-        </div>
+            <div className="text-xs text-gray-600">
+              {t('home.visaRemaining')}
+            </div>
+            {!getVisaStatus() && (
+              <div className="text-xs text-gray-500 mt-1">
+                {t('home.setupVisa')}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Setup Visa Reminder */}
-      {!getVisaStatus() && (
+      {showVisaInfo && !getVisaStatus() && (
         <div className="mt-6 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">

@@ -1,44 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ArrowRight, Globe, Clock, MapPin, Wifi } from 'lucide-react'
+import { ArrowRight, Globe } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import FixedLink from '@/components/FixedLink'
+import UnifiedLiveInfoCard from '@/components/UnifiedLiveInfoCard'
 
 export default function HeroSection() {
   const { t } = useTranslation()
-  const [currentTime, setCurrentTime] = useState('')
-  const [currentLocation, setCurrentLocation] = useState('')
-
-  useEffect(() => {
-    // 更新当前时间
-    const updateTime = () => {
-      const now = new Date()
-      setCurrentTime(now.toLocaleTimeString('zh-CN', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      }))
-    }
-
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-
-    // 获取当前位置
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // 这里可以调用API获取城市名称
-          setCurrentLocation(t('home.hero.liveInfo.locationUnavailable'))
-        },
-        () => {
-          setCurrentLocation(t('home.hero.liveInfo.locationUnavailable'))
-        }
-      )
-    }
-
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -107,52 +76,12 @@ export default function HeroSection() {
 
           {/* Right Content - Live Info Card */}
           <div className="relative lg:sticky lg:top-8">
-            <div className="card card-lg bg-white/90 backdrop-blur-sm border-0 shadow-2xl">
-              <div className="space-y-6">
-                {/* Header */}
-                <div className="text-center">
-                  <h3 className="text-lg font-semibold text-gray-900">{t('home.hero.liveInfo.title')}</h3>
-                  <p className="text-sm text-gray-600">{t('home.hero.liveInfo.subtitle')}</p>
-                </div>
-
-                {/* Current Time */}
-                <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-                  <Clock className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-                  <div className="text-3xl font-mono font-bold text-gray-900">
-                    {currentTime}
-                  </div>
-                  <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentTime')}</div>
-                </div>
-
-                {/* Current Location */}
-                <div className="text-center p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-                  <MapPin className="h-6 w-6 text-green-600 mx-auto mb-2" />
-                  <div className="text-lg font-semibold text-gray-900">
-                    {currentLocation}
-                  </div>
-                  <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentLocation')}</div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="grid grid-cols-2 gap-3">
-                  <FixedLink 
-                    href="/wifi-test"
-                    className="btn btn-sm btn-primary"
-                  >
-                    <Wifi className="h-4 w-4 mr-2" />
-                    {t('home.hero.liveInfo.speedTest')}
-                  </FixedLink>
-                  <FixedLink 
-                    href="/cities"
-                    className="btn btn-sm btn-secondary"
-                  >
-                    <Globe className="h-4 w-4 mr-2" />
-                    {t('home.hero.liveInfo.explore')}
-                  </FixedLink>
-                </div>
-              </div>
-            </div>
-
+            <UnifiedLiveInfoCard 
+              variant="hero" 
+              showVisaInfo={false}
+              showActions={true}
+            />
+            
             {/* Floating Elements */}
             <div className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 rounded-full animate-bounce"></div>
             <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-400 rounded-full animate-pulse"></div>
