@@ -5,6 +5,7 @@ import DesktopNavigation from './DesktopNavigation'
 import NotificationSystem from './NotificationSystem'
 import LanguageSwitcher from './LanguageSwitcher'
 import MobileMenu from './MobileMenu'
+import UserMenu from './UserMenu'
 
 interface HeaderProps {
   showNavigation?: boolean
@@ -40,6 +41,9 @@ export default function Header({
             </div>
             <div className="hidden lg:block">
               <LanguageSwitcher />
+            </div>
+            <div className="hidden lg:block">
+              <UserMenu />
             </div>
             <MobileMenu />
           </div>

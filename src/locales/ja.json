@@ -875,9 +875,12 @@
     "submitting": "送信中...",
     "viewDetails": "詳細を見る",
     "retry": "再試行",
-    "refresh": "更新"
+    "refresh": "更新",
+    "profile": "プロフィール"
   },
   "auth": {
+    "signIn": "ログイン",
+    "logout": "ログアウト",
     "login": {
       "title": "おかえりなさい",
       "subtitle": "メール認証コードでアカウントにサインイン",

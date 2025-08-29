@@ -875,9 +875,12 @@
     "submitting": "Enviando...",
     "viewDetails": "Ver Detalles",
     "retry": "Reintentar",
-    "refresh": "Actualizar"
+    "refresh": "Actualizar",
+    "profile": "Perfil"
   },
   "auth": {
+    "signIn": "Iniciar Sesión",
+    "logout": "Cerrar Sesión",
     "login": {
       "title": "Bienvenido de Vuelta",
       "subtitle": "Inicia sesión en tu cuenta usando código de verificación por email",

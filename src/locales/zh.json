@@ -722,7 +722,8 @@
     "submitting": "提交中...",
     "viewDetails": "查看详情",
     "retry": "重试",
-    "refresh": "刷新"
+    "refresh": "刷新",
+    "profile": "个人资料"
   },
   "cities": {
     "title": "城市列表",
@@ -754,6 +755,8 @@
     "addCityError": "添加城市失败，请重试"
   },
   "auth": {
+    "signIn": "登录",
+    "logout": "退出登录",
     "login": {
       "title": "欢迎回来",
       "subtitle": "使用邮箱验证码登录您的账户",

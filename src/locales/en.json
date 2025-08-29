@@ -717,7 +717,8 @@
     "submitting": "Submitting...",
     "viewDetails": "View Details",
     "retry": "Retry",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "profile": "Profile"
   },
   "cities": {
     "title": "Cities",
@@ -749,6 +750,8 @@
     "addCityError": "Failed to add city, please try again"
   },
   "auth": {
+    "signIn": "Sign In",
+    "logout": "Logout",
     "login": {
       "title": "Welcome Back",
       "subtitle": "Sign in to your account using email verification code",
