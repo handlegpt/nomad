@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import FixedLink from '@/components/FixedLink'
-import { Globe, Users, TrendingUp, Star, ArrowRight } from 'lucide-react'
+import { Globe, Users, TrendingUp, Star, ArrowRight, PlusIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import PageLayout from '@/components/PageLayout'
 import HeroSection from '@/components/HeroSection'
@@ -35,10 +35,16 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold text-gray-900 flex items-center">
                 🌍 {t('home.features.nomadCities.title')}
               </h2>
-              <FixedLink href="/cities" className="btn btn-md btn-primary">
-                {t('common.viewDetails')}
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </FixedLink>
+              <div className="flex items-center space-x-3">
+                <FixedLink href="/cities" className="btn btn-md btn-primary">
+                  {t('common.viewDetails')}
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </FixedLink>
+                <FixedLink href="/cities?add=true" className="btn btn-md btn-outline">
+                  <PlusIcon className="h-4 w-4 mr-2" />
+                  {t('cities.addCity')}
+                </FixedLink>
+              </div>
             </div>
             <EnhancedCityRanking limit={5} showQuickVote={true} showCurrentCityVote={true} />
           </div>

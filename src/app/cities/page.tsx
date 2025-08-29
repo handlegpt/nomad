@@ -12,11 +12,13 @@ import { useUser } from '@/contexts/GlobalStateContext'
 import { useNotifications } from '@/contexts/GlobalStateContext'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import ErrorMessage from '@/components/ErrorMessage'
+import { useSearchParams } from 'next/navigation'
 
 export default function CitiesPage() {
   const { t } = useTranslation()
   const { user } = useUser()
   const { addNotification } = useNotifications()
+  const searchParams = useSearchParams()
   const [cities, setCities] = useState<City[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -27,6 +29,14 @@ export default function CitiesPage() {
   useEffect(() => {
     fetchCities()
   }, [])
+
+  useEffect(() => {
+    // 检查URL参数，如果包含add=true且用户已登录，则显示添加表单
+    const shouldShowAddForm = searchParams.get('add') === 'true' && user.isAuthenticated
+    if (shouldShowAddForm) {
+      setShowAddForm(true)
+    }
+  }, [searchParams, user.isAuthenticated])
 
   const fetchCities = async () => {
     setLoading(true)
