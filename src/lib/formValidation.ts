@@ -183,7 +183,7 @@ export function useFormValidation<T extends Record<string, any>>(
     setValues(prev => ({ ...prev, [name]: value }))
     
     // 如果字段已经被触摸过，立即验证
-    if (touched[name]) {
+    if (touched[name as string]) {
       validate(name)
     }
   }, [touched, validate])
