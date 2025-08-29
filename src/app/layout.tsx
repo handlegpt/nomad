@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
-import GlobalStateProvider from '@/contexts/GlobalStateContext'
+import { GlobalStateProvider } from '@/contexts/GlobalStateContext'
 import GlobalLoading from '@/components/GlobalLoading'
 import GlobalNotifications from '@/components/GlobalNotifications'
 import ErrorBoundary from '@/components/ErrorBoundary'
