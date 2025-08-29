@@ -138,7 +138,7 @@ function globalReducer(state: GlobalState, action: GlobalAction): GlobalState {
     case 'SET_ERROR':
       return {
         ...state,
-        error: action.payload
+        error: action.payload || { message: null, type: null }
       }
     
     case 'ADD_NOTIFICATION':
