@@ -18,7 +18,8 @@ export default function SimpleNavigationTest() {
       background: 'yellow',
       padding: '10px',
       zIndex: 10000,
-      border: '2px solid black'
+      border: '2px solid black',
+      maxWidth: '200px'
     }}>
       <div style={{ marginBottom: '10px', fontWeight: 'bold' }}>Simple Nav Test</div>
       <div style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>

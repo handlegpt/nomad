@@ -46,10 +46,10 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[600px]">
           
           {/* Left Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 lg:pr-8">
             {/* Badge */}
             <div className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200">
               <Globe className="h-4 w-4 text-blue-600 mr-2" />
@@ -107,7 +107,7 @@ export default function HeroSection() {
           </div>
 
           {/* Right Content - Live Info Card */}
-          <div className="relative">
+          <div className="relative lg:sticky lg:top-8">
             <div className="card card-lg bg-white/90 backdrop-blur-sm border-0 shadow-2xl">
               <div className="space-y-6">
                 {/* Header */}
