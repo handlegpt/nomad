@@ -19,6 +19,8 @@ import {
   ArrowRightIcon
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useNotifications } from '@/contexts/GlobalStateContext'
+import { logInfo } from '@/lib/logger'
 import { getPlacesByCity, getCategoryIcon, getCategoryName, getPriceLevelText, getNoiseLevelText, getSocialAtmosphereText } from '@/lib/api'
 import { Place } from '@/lib/supabase'
 import AddPlaceForm from './AddPlaceForm'
@@ -37,6 +39,7 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [sortBy, setSortBy] = useState<'rating' | 'recent' | 'popular'>('rating')
   const [showAddForm, setShowAddForm] = useState(false)
+  const { addNotification } = useNotifications()
 
   useEffect(() => {
     loadPlaces()
@@ -100,10 +103,43 @@ export default function PlaceRecommendations({ cityId, limit }: PlaceRecommendat
   ]
 
   const handleAddPlace = async (placeData: any) => {
-    // This would be implemented to add a new place
-    console.log('Adding new place:', placeData)
-    setShowAddForm(false)
-    await loadPlaces() // Reload places after adding
+    try {
+      logInfo('Adding new place', placeData, 'PlaceRecommendations')
+      
+      // 创建新的地点对象
+      const newPlace: Place = {
+        id: `temp-${Date.now()}`,
+        name: placeData.name,
+        category: placeData.category,
+        address: placeData.address,
+        description: placeData.description,
+        tags: placeData.tags || [],
+        wifi_speed: placeData.wifi_speed,
+        price_level: placeData.price_level,
+        noise_level: placeData.noise_level,
+        social_atmosphere: placeData.social_atmosphere,
+        city_id: cityId,
+        latitude: placeData.latitude ? parseFloat(placeData.latitude) : 0,
+        longitude: placeData.longitude ? parseFloat(placeData.longitude) : 0,
+        submitted_by: placeData.submitted_by,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+
+      // 添加到本地状态
+      setPlaces(prev => [newPlace, ...prev])
+      setShowAddForm(false)
+      
+      addNotification({
+        type: 'success',
+        message: t('places.addPlaceSuccess', { placeName: placeData.name })
+      })
+    } catch (error) {
+      addNotification({
+        type: 'error',
+        message: t('places.addPlaceError')
+      })
+    }
   }
 
   if (loading) {

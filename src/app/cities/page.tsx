@@ -14,6 +14,7 @@ import ErrorMessage from '@/components/ErrorMessage'
 import { useSearchParams } from 'next/navigation'
 import UnifiedVoteSystem, { VoteItem } from '@/components/UnifiedVoteSystem'
 import UniversalRecommendationForm, { RecommendationType } from '@/components/UniversalRecommendationForm'
+import { logInfo, logError } from '@/lib/logger'
 
 function CitiesPageContent() {
   const { t } = useTranslation()
@@ -46,7 +47,7 @@ function CitiesPageContent() {
       const data = await getCities()
       setCities(data)
     } catch (error) {
-      console.error('Error fetching cities:', error)
+      logError('Error fetching cities', error, 'CitiesPage')
       setError('Failed to load cities. Please try again.')
     } finally {
       setLoading(false)
@@ -80,7 +81,7 @@ function CitiesPageContent() {
   }
 
   const handleVoteSubmitted = (voteData: any) => {
-    console.log('Vote submitted:', voteData)
+    logInfo('Vote submitted', voteData, 'CitiesPage')
     addNotification({
       type: 'success',
       message: t('voteSystem.voteSubmitted')
@@ -91,7 +92,7 @@ function CitiesPageContent() {
   const handleAddCity = async (cityData: any) => {
     try {
       // TODO: 实现添加城市的API调用
-      console.log('Adding new city:', cityData)
+      logInfo('Adding new city', cityData, 'CitiesPage')
       
       // 模拟API调用
       const newCity: City = {
@@ -119,7 +120,7 @@ function CitiesPageContent() {
         message: t('cities.addCitySuccess', { cityName: cityData.name })
       })
     } catch (error) {
-      console.error('Error adding city:', error)
+      logError('Error adding city', error, 'CitiesPage')
       addNotification({
         type: 'error',
         message: t('cities.addCityError')

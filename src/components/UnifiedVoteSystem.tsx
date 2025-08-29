@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { ThumbsUpIcon, ThumbsDownIcon, StarIcon, XIcon, WifiIcon, UsersIcon, DollarSignIcon, CloudIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useUser } from '@/contexts/GlobalStateContext'
-import { useNotifications } from '@/contexts/GlobalStateContext'
+import { useUser, useNotifications } from '@/contexts/GlobalStateContext'
 import LoginRequired from './LoginRequired'
 import { submitVote } from '@/lib/api'
+import { logInfo } from '@/lib/logger'
 
 // 投票类型
 export type VoteType = 'city' | 'place'
@@ -104,7 +104,6 @@ export default function UnifiedVoteSystem({
     try {
       setSubmitting(true)
       
-      // 提交投票 - 目前只支持城市投票
       let success = false
       
       if (item.type === 'city') {
@@ -120,7 +119,7 @@ export default function UnifiedVoteSystem({
         })
       } else {
         // 地点投票暂时使用模拟成功
-        console.log(`Place vote: ${voteType} for ${item.name}`)
+        logInfo(`Place vote: ${voteType} for ${item.name}`, null, 'UnifiedVoteSystem')
         success = true
       }
 
@@ -141,7 +140,6 @@ export default function UnifiedVoteSystem({
         })
       }
     } catch (error) {
-      console.error('Error submitting vote:', error)
       addNotification({
         type: 'error',
         message: t('voteSystem.voteFailed')
@@ -200,7 +198,7 @@ export default function UnifiedVoteSystem({
         })
       } else {
         // 地点详细投票暂时使用模拟成功
-        console.log(`Place detailed vote for ${item.name}:`, { ratings, comment })
+        logInfo(`Place detailed vote for ${item.name}`, { ratings, comment }, 'UnifiedVoteSystem')
         success = true
       }
 
@@ -224,7 +222,6 @@ export default function UnifiedVoteSystem({
         })
       }
     } catch (error) {
-      console.error('Error submitting detailed vote:', error)
       addNotification({
         type: 'error',
         message: t('voteSystem.voteFailed')

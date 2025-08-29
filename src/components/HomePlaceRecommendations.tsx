@@ -16,6 +16,7 @@ import { Place, City } from '@/lib/supabase'
 import FixedLink from '@/components/FixedLink'
 import UniversalRecommendationForm from '@/components/UniversalRecommendationForm'
 import { useNotifications } from '@/contexts/GlobalStateContext'
+import { logWarn, logError } from '@/lib/logger'
 
 export default function HomePlaceRecommendations() {
   const { t } = useTranslation()
@@ -36,7 +37,7 @@ export default function HomePlaceRecommendations() {
       const osakaCity = cities.find((city: City) => city.name.toLowerCase() === 'osaka')
       
       if (!osakaCity) {
-        console.log('⚠️ Osaka city not found, using first available city')
+        logWarn('Osaka city not found, using first available city', null, 'HomePlaceRecommendations')
         // 如果找不到大阪，使用第一个城市
         const firstCity = cities[0]
         if (firstCity) {
@@ -73,7 +74,7 @@ export default function HomePlaceRecommendations() {
         setPlaces(topPlaces)
       }
     } catch (error) {
-      console.error('Error loading places:', error)
+      logError('Error loading places', error, 'HomePlaceRecommendations')
     } finally {
       setLoading(false)
     }

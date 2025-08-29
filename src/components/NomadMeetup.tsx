@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Users, MapPin, Coffee, MessageSquare, Plus, Clock } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useNotifications } from '@/contexts/GlobalStateContext'
+import { logInfo } from '@/lib/logger'
 
 interface MeetupUser {
   id: string
@@ -21,6 +23,7 @@ export default function NomadMeetup() {
   const [users, setUsers] = useState<MeetupUser[]>([])
   const [showMeetupForm, setShowMeetupForm] = useState(false)
   const [loading, setLoading] = useState(true)
+  const { addNotification } = useNotifications()
 
   useEffect(() => {
     // 模拟获取当前城市的数字游民数据
@@ -72,10 +75,13 @@ export default function NomadMeetup() {
     }, 1000)
   }, [])
 
-  const handleMeetupRequest = (userId: string) => {
-    // 处理见面请求
-    console.log('Requesting meetup with user:', userId)
-    // 这里可以打开聊天窗口或发送消息
+  const handleRequestMeetup = (userId: string) => {
+    logInfo('Requesting meetup with user', { userId }, 'NomadMeetup')
+    
+    addNotification({
+      type: 'success',
+      message: t('meetup.requestSent')
+    })
   }
 
   const handleCreateMeetup = () => {
@@ -167,7 +173,7 @@ export default function NomadMeetup() {
               <div className="flex items-center space-x-2">
                 {user.isAvailable ? (
                   <button
-                    onClick={() => handleMeetupRequest(user.id)}
+                    onClick={() => handleRequestMeetup(user.id)}
                     className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm"
                   >
                     <Coffee className="h-3 w-3" />

@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { StarIcon, ThumbsUpIcon, ThumbsDownIcon, MapPinIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useNotifications } from '@/contexts/GlobalStateContext'
+import { logInfo } from '@/lib/logger'
 import VoteModal from './VoteModal'
 import { City } from '@/lib/supabase'
 
@@ -114,9 +116,11 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
     return String.fromCodePoint(...codePoints)
   }
 
-  const handleQuickVote = (cityId: string, voteType: 'up' | 'down') => {
-    // 这里可以添加快速投票逻辑
-    console.log(`Quick vote: ${voteType} for city ${cityId}`)
+  const handleQuickVote = async (cityId: string, voteType: 'upvote' | 'downvote') => {
+    logInfo(`Quick vote: ${voteType} for city ${cityId}`, null, 'CityRanking')
+    
+    // 这里可以调用投票API
+    // 暂时只是记录日志
   }
 
   const handleDetailedVote = (city: City) => {
@@ -125,7 +129,8 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
   }
 
   const handleVoteSubmitted = () => {
-    console.log('Vote submitted')
+    logInfo('Vote submitted', null, 'CityRanking')
+    // 这里可以更新城市数据或触发重新加载
     setShowVoteModal(false)
     setSelectedCity(null)
   }
@@ -174,14 +179,14 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
               {/* Quick Vote Buttons */}
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => handleQuickVote(city.id, 'up')}
+                  onClick={() => handleQuickVote(city.id, 'upvote')}
                   className="p-1 text-green-600 hover:text-green-700 hover:bg-green-100 rounded"
                   title={t('cities.quickUpvote')}
                 >
                   <ThumbsUpIcon className="h-4 w-4" />
                 </button>
                 <button
-                  onClick={() => handleQuickVote(city.id, 'down')}
+                  onClick={() => handleQuickVote(city.id, 'downvote')}
                   className="p-1 text-red-600 hover:text-red-700 hover:bg-red-100 rounded"
                   title={t('cities.quickDownvote')}
                 >

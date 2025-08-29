@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { Shield, FileText, Monitor, Home, CreditCard, ExternalLink } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useNotifications } from '@/contexts/GlobalStateContext'
+import { logInfo } from '@/lib/logger'
 
 interface AffiliateService {
   id: string
@@ -97,11 +99,11 @@ export default function CityAffiliateRecommendations({ cityName }: { cityName: s
     ? affiliateServices 
     : affiliateServices.filter(service => service.category === selectedCategory)
 
-  const handleServiceClick = (service: AffiliateService) => {
-    // Track affiliate click
-    console.log('Affiliate click:', service.name)
-    // In production, you'd track this with analytics
-    window.open(service.link, '_blank')
+  const handleAffiliateClick = (service: any) => {
+    logInfo('Affiliate click', { service: service.name }, 'CityAffiliateRecommendations')
+    
+    // 这里可以添加affiliate tracking
+    window.open(service.url, '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -144,7 +146,7 @@ export default function CityAffiliateRecommendations({ cityName }: { cityName: s
           return (
             <div
               key={service.id}
-              onClick={() => handleServiceClick(service)}
+              onClick={() => handleAffiliateClick(service)}
               className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer"
             >
               <div className="flex items-start justify-between mb-3">

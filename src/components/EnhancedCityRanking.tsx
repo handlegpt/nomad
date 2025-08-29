@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { StarIcon, ThumbsUpIcon, ThumbsDownIcon, MapPinIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useNotifications } from '@/contexts/GlobalStateContext'
+import { logInfo } from '@/lib/logger'
 import { City } from '@/lib/supabase'
 import UnifiedVoteSystem, { VoteItem } from './UnifiedVoteSystem'
 
@@ -21,6 +23,7 @@ export default function EnhancedCityRanking({
   const [cities, setCities] = useState<City[]>([])
   const [loading, setLoading] = useState(true)
   const [currentCity, setCurrentCity] = useState<string>('Osaka')
+  const { addNotification } = useNotifications()
 
   // 模拟数据
   useEffect(() => {
@@ -125,7 +128,11 @@ export default function EnhancedCityRanking({
   }
 
   const handleVoteSubmitted = (voteData: any) => {
-    console.log('Vote submitted:', voteData)
+    logInfo('Vote submitted', voteData, 'EnhancedCityRanking')
+    addNotification({
+      type: 'success',
+      message: t('voteSystem.voteSubmitted')
+    })
     // 这里可以更新城市数据或触发重新加载
   }
 

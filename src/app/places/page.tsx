@@ -13,6 +13,7 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import ErrorMessage from '@/components/ErrorMessage'
 import UnifiedVoteSystem, { VoteItem } from '@/components/UnifiedVoteSystem'
 import UniversalRecommendationForm, { RecommendationType } from '@/components/UniversalRecommendationForm'
+import { logInfo, logError } from '@/lib/logger'
 
 export default function PlacesPage() {
   const { t } = useTranslation()
@@ -36,7 +37,7 @@ export default function PlacesPage() {
       const data = await getPlaces()
       setPlaces(data)
     } catch (error) {
-      console.error('Error fetching places:', error)
+      logError('Error fetching places', error, 'PlacesPage')
       setError('Failed to load places. Please try again.')
     } finally {
       setLoading(false)
@@ -103,7 +104,7 @@ export default function PlacesPage() {
   }
 
   const handleVoteSubmitted = (voteData: any) => {
-    console.log('Vote submitted:', voteData)
+    logInfo('Vote submitted', voteData, 'PlacesPage')
     addNotification({
       type: 'success',
       message: t('voteSystem.voteSubmitted')
@@ -114,7 +115,7 @@ export default function PlacesPage() {
   const handleAddPlace = async (placeData: any) => {
     try {
       // TODO: 实现添加地点的API调用
-      console.log('Adding new place:', placeData)
+      logInfo('Adding new place', placeData, 'PlacesPage')
       
       // 模拟API调用
       const newPlace: Place = {
@@ -145,7 +146,7 @@ export default function PlacesPage() {
         message: t('places.addPlaceSuccess', { placeName: placeData.name })
       })
     } catch (error) {
-      console.error('Error adding place:', error)
+      logError('Error adding place', error, 'PlacesPage')
       addNotification({
         type: 'error',
         message: t('places.addPlaceError')

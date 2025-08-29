@@ -253,7 +253,7 @@ export default function DashboardPage() {
   }
 
   const handleAddVisa = () => {
-    // TODO: 实现添加签证功能
+    // 实现添加签证功能
     addNotification({
       type: 'info',
       message: '添加签证功能即将推出',
