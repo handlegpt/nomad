@@ -4,7 +4,10 @@ import { useLoading } from '@/contexts/GlobalStateContext'
 import LoadingSpinner from './LoadingSpinner'
 
 export default function GlobalLoading() {
-  const { loading, isLoading } = useLoading()
+  const { loading } = useLoading()
+
+  // 检查是否有任何加载状态
+  const isLoading = loading.global || loading.auth || loading.data || loading.ui
 
   // 如果没有任何加载状态，不显示
   if (!isLoading) {
