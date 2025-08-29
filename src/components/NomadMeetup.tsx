@@ -532,7 +532,7 @@ export default function NomadMeetup() {
                         {user.distance && (
                           <>
                             <span>•</span>
-                            <span>{t('meetup.distance', { distance: user.distance })}</span>
+                            <span>{t('meetup.distance', { distance: user.distance.toString() })}</span>
                           </>
                         )}
                       </div>
