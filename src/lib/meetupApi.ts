@@ -20,7 +20,7 @@ export interface MeetupInvitation {
   description: string
   createdBy: string
   createdAt: string
-  status: 'pending' | 'accepted' | 'declined'
+  status: 'pending' | 'accepted' | 'declined' | 'completed'
 }
 
 export interface MeetupStats {
