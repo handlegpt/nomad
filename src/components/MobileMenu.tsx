@@ -1,124 +1,137 @@
 'use client'
 
 import { useState } from 'react'
-import { MenuIcon, XIcon } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { Menu, X, Globe, Home, MapPin, FileText, User, Settings, LogOut } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import LanguageSwitcher from './LanguageSwitcher'
 import FixedLink from './FixedLink'
+import { useUser } from '@/contexts/GlobalStateContext'
 
 export default function MobileMenu() {
   const { t } = useTranslation()
-  const pathname = usePathname()
+  const { user, logout } = useUser()
   const [isOpen, setIsOpen] = useState(false)
+
+  const handleLogout = () => {
+    logout()
+    setIsOpen(false)
+  }
 
   const navigationItems = [
     {
-      name: t('navigation.home'),
       href: '/',
+      icon: Home,
+      label: t('navigation.home'),
       description: t('mobileMenu.homeDescription')
     },
     {
-      name: t('navigation.cities'),
       href: '/cities',
+      icon: MapPin,
+      label: t('navigation.cities'),
       description: t('mobileMenu.citiesDescription')
     },
     {
-      name: t('navigation.visaGuide'),
       href: '/visa-guide',
-      description: t('mobileMenu.visaDescription')
+      icon: FileText,
+      label: t('navigation.visaGuide'),
+      description: t('mobileMenu.visaGuideDescription')
     },
-
     {
-      name: t('navigation.dashboard'),
       href: '/dashboard',
+      icon: User,
+      label: t('navigation.dashboard'),
       description: t('mobileMenu.dashboardDescription')
     }
   ]
 
   return (
     <div className="lg:hidden">
-      {/* Mobile menu button */}
+      {/* Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+        className="p-3 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors touch-manipulation"
+        aria-label="Toggle menu"
       >
-        {isOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+        {isOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
       </button>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 animate-fade-in" onClick={() => setIsOpen(false)}>
-          <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-xl animate-slide-in" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 lg:hidden">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50 animate-fade-in"
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Menu Panel */}
+          <div className="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-xl animate-slide-in">
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-gray-900">{t('mobileMenu.title')}</h2>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors touch-manipulation"
+                  aria-label="Close menu"
                 >
-                  <XIcon className="h-5 w-5" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
-              {/* Navigation */}
-              <nav className="flex-1 px-6 py-4">
-                <div className="space-y-2">
-                  {navigationItems.map((item) => {
-                    const isActive = pathname === item.href
-                    
-                    return (
-                      <FixedLink
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className={`block p-4 rounded-xl transition-colors min-h-[60px] flex flex-col justify-center ${
-                          isActive
-                            ? 'bg-blue-50 text-blue-600 border border-blue-200'
-                            : 'text-gray-700 hover:bg-gray-50 active:bg-gray-100'
-                        }`}
-                      >
-                        <div className="font-medium">{item.name}</div>
-                        <div className="text-sm text-gray-500 mt-1">{item.description}</div>
-                      </FixedLink>
-                    )
-                  })}
-                </div>
+              {/* Navigation Items */}
+              <nav className="flex-1 px-4 py-6 space-y-2">
+                {navigationItems.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <FixedLink
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center p-4 rounded-xl text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 touch-manipulation min-h-[60px]"
+                    >
+                      <Icon className="h-5 w-5 mr-4 text-gray-500" />
+                      <div className="flex-1">
+                        <div className="font-medium">{item.label}</div>
+                        <div className="text-sm text-gray-500">{item.description}</div>
+                      </div>
+                    </FixedLink>
+                  )
+                })}
               </nav>
 
               {/* Footer */}
-              <div className="p-6 border-t border-gray-200">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">{t('mobileMenu.languageSettings')}</h3>
-                    <LanguageSwitcher />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <FixedLink
-                      href="/setup"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
-                      onClick={() => setIsOpen(false)}
+              <div className="p-4 border-t border-gray-200 space-y-2">
+                {user.isAuthenticated ? (
+                  <>
+                    <div className="flex items-center p-3 rounded-lg bg-gray-50">
+                      <User className="h-5 w-5 mr-3 text-gray-500" />
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900">{user.profile?.email}</div>
+                        <div className="text-sm text-gray-500">已登录</div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center w-full p-4 rounded-xl text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-200 touch-manipulation min-h-[60px]"
                     >
-                      {t('mobileMenu.quickSetup')}
-                    </FixedLink>
-                    <FixedLink
-                      href="/about"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {t('mobileMenu.aboutUs')}
-                    </FixedLink>
-                    <FixedLink
-                      href="/contact"
-                      className="block text-sm text-gray-600 hover:text-gray-900"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {t('mobileMenu.contactUs')}
-                    </FixedLink>
-                  </div>
-                </div>
+                      <LogOut className="h-5 w-5 mr-4" />
+                      <span className="font-medium">退出登录</span>
+                    </button>
+                  </>
+                ) : (
+                  <FixedLink
+                    href="/auth/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center w-full p-4 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 touch-manipulation min-h-[60px]"
+                  >
+                    <User className="h-5 w-5 mr-4" />
+                    <span className="font-medium">登录</span>
+                  </FixedLink>
+                )}
               </div>
             </div>
           </div>

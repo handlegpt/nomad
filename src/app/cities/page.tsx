@@ -5,11 +5,13 @@ import { SearchIcon, StarIcon, WifiIcon, DollarSignIcon, CloudIcon, UsersIcon, P
 import { getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
-import Header from '@/components/Header'
+import PageLayout from '@/components/PageLayout'
 import FixedLink from '@/components/FixedLink'
 import AddCityForm from '@/components/AddCityForm'
 import { useUser } from '@/contexts/GlobalStateContext'
 import { useNotifications } from '@/contexts/GlobalStateContext'
+import LoadingSpinner from '@/components/LoadingSpinner'
+import ErrorMessage from '@/components/ErrorMessage'
 
 export default function CitiesPage() {
   const { t } = useTranslation()
@@ -17,6 +19,7 @@ export default function CitiesPage() {
   const { addNotification } = useNotifications()
   const [cities, setCities] = useState<City[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [filter, setFilter] = useState('all')
   const [showAddForm, setShowAddForm] = useState(false)
@@ -27,11 +30,13 @@ export default function CitiesPage() {
 
   const fetchCities = async () => {
     setLoading(true)
+    setError(null)
     try {
       const data = await getCities()
       setCities(data)
     } catch (error) {
       console.error('Error fetching cities:', error)
+      setError('Failed to load cities. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -99,187 +104,200 @@ export default function CitiesPage() {
       
       // 添加到本地状态
       setCities(prev => [newCity, ...prev])
+      setShowAddForm(false)
       
       addNotification({
         type: 'success',
-        message: `成功推荐城市：${cityData.name}`,
-        duration: 5000
+        message: t('cities.addCitySuccess', { cityName: cityData.name })
       })
-      
-      setShowAddForm(false)
     } catch (error) {
       console.error('Error adding city:', error)
       addNotification({
         type: 'error',
-        message: '添加城市失败，请重试',
-        duration: 5000
+        message: t('cities.addCityError')
       })
     }
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded mb-6"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(9)].map((_, i) => (
-                <div key={i} className="h-64 bg-gray-200 rounded-lg"></div>
-              ))}
-            </div>
-          </div>
+      <PageLayout pageTitle={t('cities.title')} showPageTitle={true}>
+        <div className="flex justify-center items-center min-h-[400px]">
+          <LoadingSpinner size="lg" text="Loading cities..." />
         </div>
-      </div>
+      </PageLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <PageLayout pageTitle={t('cities.title')} showPageTitle={true}>
+        <ErrorMessage 
+          title="Failed to load cities"
+          message={error}
+          onRetry={fetchCities}
+        />
+      </PageLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <Header />
-      
-      {/* Page Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">🌍 {t('cities.title')}</h1>
+    <PageLayout pageTitle={t('cities.title')} showPageTitle={true}>
+      {/* Header with Add City Button */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">{t('cities.title')}</h1>
+          <p className="text-gray-600 mt-2">Discover digital nomad cities around the world</p>
+        </div>
+        {user.isAuthenticated && (
           <button
             onClick={() => setShowAddForm(true)}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="btn btn-primary flex items-center gap-2"
           >
             <PlusIcon className="h-4 w-4" />
-            <span>推荐城市</span>
+            {t('cities.addCity')}
           </button>
-        </div>
-        
-        {/* Search and Filter */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="relative flex-1">
-            <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder={t('cities.searchPlaceholder')}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
+        )}
+      </div>
 
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          >
-            <option value="all">{t('cities.filters.all')}</option>
-            <option value="visa-free">{t('cities.filters.visaFree')}</option>
-            <option value="digital-nomad">{t('cities.filters.digitalNomad')}</option>
-            <option value="low-cost">{t('cities.filters.lowCost')}</option>
-          </select>
+      {/* Search and Filter */}
+      <div className="card card-md mb-8">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <div className="relative">
+              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder={t('cities.searchPlaceholder')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filter === 'all' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {t('cities.filters.all')}
+            </button>
+            <button
+              onClick={() => setFilter('visa-free')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filter === 'visa-free' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {t('cities.filters.visaFree')}
+            </button>
+            <button
+              onClick={() => setFilter('digital-nomad')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filter === 'digital-nomad' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {t('cities.filters.digitalNomad')}
+            </button>
+            <button
+              onClick={() => setFilter('low-cost')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filter === 'low-cost' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {t('cities.filters.lowCost')}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Cities Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {filteredCities.length === 0 ? (
+        <div className="card card-lg text-center py-12">
+          <div className="text-gray-500">
+            <h3 className="text-lg font-medium mb-2">{t('cities.noResults.title')}</h3>
+            <p className="text-sm">{t('cities.noResults.description')}</p>
+            {user.isAuthenticated && (
+              <button
+                onClick={() => setShowAddForm(true)}
+                className="btn btn-primary mt-4"
+              >
+                {t('cities.addCity')}
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCities.map((city) => (
-            <div key={city.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
+            <div key={city.id} className="card card-md hover:shadow-lg transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{getCountryFlag(city.country_code)}</span>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {city.name} {getCountryFlag(city.country_code)}
-                    </h3>
-                    <p className="text-gray-600">{city.country}</p>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <StarIcon className="h-5 w-5 text-yellow-400 fill-current" />
-                    <span className="font-semibold">4.8</span>
+                    <h3 className="font-semibold text-gray-900">{city.name}</h3>
+                    <p className="text-sm text-gray-600">{city.country}</p>
                   </div>
                 </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <DollarSignIcon className="h-4 w-4 text-green-500" />
-                      <span className="text-sm text-gray-600">{t('cities.costOfLiving')}</span>
-                    </div>
-                    <span className="font-semibold text-gray-900">
-                      ${city.cost_of_living || 'N/A'}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <WifiIcon className="h-4 w-4 text-blue-500" />
-                      <span className="text-sm text-gray-600">{t('cities.wifiSpeed')}</span>
-                    </div>
-                    <span className="font-semibold text-gray-900">
-                      {city.wifi_speed || 'N/A'} Mbps
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <UsersIcon className="h-4 w-4 text-purple-500" />
-                      <span className="text-sm text-gray-600">{t('cities.visaType')}</span>
-                    </div>
-                    <span className="text-sm font-medium text-gray-900">
-                      {city.visa_type}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <CloudIcon className="h-4 w-4 text-orange-500" />
-                      <span className="text-sm text-gray-600">{t('cities.stayDays')}</span>
-                    </div>
-                    <span className={`font-semibold ${getVisaColor(city.visa_days)}`}>
-                      {city.visa_days} 天
-                    </span>
-                  </div>
+                <button
+                  onClick={() => handleVote(city.id)}
+                  className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+                >
+                  <StarIcon className="h-5 w-5" />
+                </button>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">{t('cities.costOfLiving')}</span>
+                  <span className="font-medium">${city.cost_of_living}/month</span>
                 </div>
-
-                <div className="mt-6 flex space-x-2">
-                  <FixedLink 
-                    href={`/cities/${city.id}`}
-                    className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium text-center"
-                  >
-                    {t('cities.viewDetails')}
-                  </FixedLink>
-                  <button 
-                    onClick={() => handleVote(city.id)}
-                    className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
-                  >
-                    {t('cities.vote')}
-                  </button>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">{t('cities.wifiSpeed')}</span>
+                  <span className="font-medium">{city.wifi_speed} Mbps</span>
                 </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">{t('cities.visaType')}</span>
+                  <span className={`font-medium ${getVisaColor(city.visa_days)}`}>
+                    {city.visa_type}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">{t('cities.stayDays')}</span>
+                  <span className="font-medium">{city.visa_days} days</span>
+                </div>
+              </div>
+              
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <FixedLink
+                  href={`/cities/${city.id}`}
+                  className="btn btn-sm btn-outline w-full"
+                >
+                  {t('cities.viewDetails')}
+                </FixedLink>
               </div>
             </div>
           ))}
         </div>
+      )}
 
-        {filteredCities.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">🌍</div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('cities.noResults.title')}</h3>
-            <p className="text-gray-600 mb-4">{t('cities.noResults.description')}</p>
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <PlusIcon className="h-4 w-4" />
-              <span>推荐第一个城市</span>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Add City Form */}
-      <AddCityForm
-        isOpen={showAddForm}
-        onClose={() => setShowAddForm(false)}
-        onSubmit={handleAddCity}
-      />
-    </div>
+      {/* Add City Form Modal */}
+      {showAddForm && (
+        <AddCityForm
+          isOpen={showAddForm}
+          onClose={() => setShowAddForm(false)}
+          onSubmit={handleAddCity}
+        />
+      )}
+    </PageLayout>
   )
 } 
