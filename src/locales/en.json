@@ -737,5 +737,14 @@
     "notSet": "Not set",
     "joinDate": "Joined: {date}",
     "unknown": "Unknown"
+  },
+  "loginRequired": {
+    "title": "Login Required",
+    "description": "This feature requires login to use, please login to your account first",
+    "loginButton": "Login Now",
+    "voteMessage": "Login to vote and ensure vote authenticity",
+    "reviewMessage": "Login to leave reviews and build your reputation",
+    "recommendMessage": "Login to recommend places and help other nomads",
+    "favoriteMessage": "Login to favorite cities and save your preferences"
   }
 } 

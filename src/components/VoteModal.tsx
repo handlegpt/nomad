@@ -2,15 +2,14 @@
 
 import { useState } from 'react'
 import { XIcon, StarIcon, WifiIcon, UsersIcon, DollarSignIcon, CloudIcon } from 'lucide-react'
-import { submitVote } from '@/lib/api'
 import { useTranslation } from '@/hooks/useTranslation'
+import { submitVote } from '@/lib/api'
+import { City } from '@/lib/supabase'
+import { useUser } from '@/contexts/GlobalStateContext'
+import LoginRequired from './LoginRequired'
 
 interface VoteModalProps {
-  city: {
-    id: string
-    name: string
-    country: string
-  }
+  city: City
   isOpen: boolean
   onClose: () => void
   onVoteSubmitted: () => void
@@ -51,6 +50,7 @@ const ratingCategories = [
 
 export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: VoteModalProps) {
   const { t } = useTranslation()
+  const { user } = useUser()
   const [ratings, setRatings] = useState({
     overall: 0,
     wifi: 0,
@@ -69,6 +69,10 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
   }
 
   const handleSubmit = async () => {
+    if (!user.isAuthenticated) {
+      return
+    }
+
     if (ratings.overall === 0) {
       alert(t('voteModal.pleaseProvideRating'))
       return
@@ -78,7 +82,7 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
     try {
       await submitVote({
         city_id: city.id,
-        user_id: 'anonymous', // Should use real user ID here
+        user_id: user.profile?.id || '',
         overall_rating: ratings.overall,
         wifi_rating: ratings.wifi || ratings.overall,
         social_rating: ratings.social || ratings.overall,
@@ -112,88 +116,103 @@ export default function VoteModal({ city, isOpen, onClose, onVoteSubmitted }: Vo
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">{t('voteModal.title', { city: city.name })}</h2>
-              <p className="text-gray-600">{city.country}</p>
-            </div>
+            <h2 className="text-xl font-bold text-gray-900">
+              {t('voteModal.title', { city: city.name })}
+            </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
             >
-              <XIcon className="h-6 w-6" />
+              <XIcon className="h-5 w-5" />
             </button>
           </div>
+
+          {/* Login Required Check */}
+          {!user.isAuthenticated && (
+            <LoginRequired 
+              message={t('loginRequired.voteMessage')}
+              className="mb-6"
+            />
+          )}
 
           {/* Rating Categories */}
           <div className="space-y-6">
             {ratingCategories.map((category) => {
-              const IconComponent = category.icon
-              const currentRating = ratings[category.id as keyof typeof ratings]
-              
+              const Icon = category.icon
               return (
                 <div key={category.id} className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <IconComponent className="h-5 w-5 text-blue-500" />
+                  <div className="flex items-center space-x-3">
+                    <Icon className="h-5 w-5 text-blue-600" />
                     <div>
-                      <h3 className="font-semibold text-gray-900">{t(category.labelKey)}</h3>
-                      <p className="text-sm text-gray-600">{t(category.descriptionKey)}</p>
+                      <h3 className="font-medium text-gray-900">
+                        {t(category.labelKey)}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {t(category.descriptionKey)}
+                      </p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
                         key={star}
                         onClick={() => handleRatingChange(category.id, star)}
-                        className={`p-1 transition-colors ${
-                          star <= currentRating
+                        disabled={!user.isAuthenticated}
+                        className={`p-1 rounded transition-colors ${
+                          ratings[category.id as keyof typeof ratings] >= star
                             ? 'text-yellow-400'
-                            : 'text-gray-300 hover:text-yellow-300'
-                        }`}
+                            : 'text-gray-300 hover:text-yellow-400'
+                        } ${!user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''}`}
                       >
                         <StarIcon className="h-6 w-6 fill-current" />
                       </button>
                     ))}
                   </div>
                   
-                  <p className="text-sm text-gray-500">
-                    {getRatingDescription(currentRating)}
+                  <p className="text-sm text-gray-600">
+                    {getRatingDescription(ratings[category.id as keyof typeof ratings])}
                   </p>
                 </div>
               )
             })}
           </div>
 
-          {/* Comment */}
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          {/* Comment Section */}
+          <div className="mt-6 space-y-3">
+            <label className="block text-sm font-medium text-gray-700">
               {t('voteModal.shareExperience')}
             </label>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              disabled={!user.isAuthenticated}
               placeholder={t('voteModal.experiencePlaceholder')}
-              rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className={`w-full p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+              }`}
+              rows={4}
             />
           </div>
 
-          {/* Actions */}
-          <div className="mt-6 flex space-x-3">
+          {/* Action Buttons */}
+          <div className="flex items-center justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
             >
               {t('voteModal.cancel')}
             </button>
             <button
               onClick={handleSubmit}
-              disabled={submitting || ratings.overall === 0}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!user.isAuthenticated || submitting}
+              className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
+                !user.isAuthenticated || submitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               {submitting ? t('voteModal.submitting') : t('voteModal.submitVote')}
             </button>

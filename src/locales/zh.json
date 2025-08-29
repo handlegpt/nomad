@@ -672,5 +672,14 @@
     "notSet": "未设置",
     "joinDate": "加入时间：{date}",
     "unknown": "未知"
+  },
+  "loginRequired": {
+    "title": "需要登录",
+    "description": "此功能需要登录才能使用，请先登录您的账户",
+    "loginButton": "立即登录",
+    "voteMessage": "登录后才能投票，确保投票的真实性",
+    "reviewMessage": "登录后才能发表评价，建立您的信誉",
+    "recommendMessage": "登录后才能推荐地点，帮助其他游民",
+    "favoriteMessage": "登录后才能收藏城市，保存您的偏好"
   }
 } 

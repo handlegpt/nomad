@@ -812,5 +812,14 @@
     "notSet": "No establecido",
     "joinDate": "Se unió: {date}",
     "unknown": "Desconocido"
+  },
+  "loginRequired": {
+    "title": "Inicio de Sesión Requerido",
+    "description": "Esta función requiere inicio de sesión para usar, por favor inicia sesión en tu cuenta primero",
+    "loginButton": "Iniciar Sesión Ahora",
+    "voteMessage": "Inicia sesión para votar y asegurar la autenticidad del voto",
+    "reviewMessage": "Inicia sesión para dejar reseñas y construir tu reputación",
+    "recommendMessage": "Inicia sesión para recomendar lugares y ayudar a otros nómadas",
+    "favoriteMessage": "Inicia sesión para favoritear ciudades y guardar tus preferencias"
   }
 } 

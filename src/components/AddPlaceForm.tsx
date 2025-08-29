@@ -1,20 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { 
-  XIcon, 
-  MapPinIcon, 
-  WifiIcon, 
-  DollarSignIcon, 
-  Volume2Icon,
-  UsersIcon,
-  CoffeeIcon,
-  MonitorIcon,
-  HomeIcon,
-  UtensilsIcon,
-  TreePine
-} from 'lucide-react'
+import { XIcon, CoffeeIcon, MonitorIcon, HomeIcon, UtensilsIcon, TreePine, MapPinIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useUser } from '@/contexts/GlobalStateContext'
+import LoginRequired from './LoginRequired'
 
 interface AddPlaceFormProps {
   isOpen: boolean
@@ -24,6 +14,7 @@ interface AddPlaceFormProps {
 
 export default function AddPlaceForm({ isOpen, onClose, onSubmit }: AddPlaceFormProps) {
   const { t } = useTranslation()
+  const { user } = useUser()
   const [formData, setFormData] = useState({
     name: '',
     category: 'cafe',
@@ -77,9 +68,14 @@ export default function AddPlaceForm({ isOpen, onClose, onSubmit }: AddPlaceForm
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!user.isAuthenticated) {
+      return
+    }
+    
     onSubmit({
       ...formData,
-      wifi_speed: formData.wifi_speed ? parseInt(formData.wifi_speed) : undefined
+      wifi_speed: formData.wifi_speed ? parseInt(formData.wifi_speed) : undefined,
+      submitted_by: user.profile?.id || ''
     })
     // 重置表单
     setFormData({
@@ -113,40 +109,50 @@ export default function AddPlaceForm({ isOpen, onClose, onSubmit }: AddPlaceForm
             </button>
           </div>
 
+          {/* Login Required Check */}
+          {!user.isAuthenticated && (
+            <LoginRequired 
+              message={t('loginRequired.recommendMessage')}
+              className="mb-6"
+            />
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h3 className="font-semibold text-gray-900">基本信息</h3>
-              
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   地点名称 *
                 </label>
                 <input
                   type="text"
-                  required
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="例如：Blue Bottle Coffee"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  disabled={!user.isAuthenticated}
+                  required
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
+                  placeholder="例如：星巴克咖啡厅"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  分类 *
+                  类别 *
                 </label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   {categories.map((category) => (
                     <button
                       key={category.id}
                       type="button"
+                      disabled={!user.isAuthenticated}
                       onClick={() => handleInputChange('category', category.id)}
-                      className={`flex items-center space-x-2 p-3 rounded-lg border text-sm font-medium transition-colors ${
+                      className={`flex items-center space-x-2 p-3 border rounded-lg transition-colors ${
                         formData.category === category.id
-                          ? 'bg-green-100 text-green-700 border-green-200'
-                          : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'
-                      }`}
+                          ? 'border-blue-500 bg-blue-50 text-blue-700'
+                          : 'border-gray-300 hover:border-gray-400'
+                      } ${!user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''}`}
                     >
                       {category.icon}
                       <span>{category.name}</span>
@@ -161,11 +167,14 @@ export default function AddPlaceForm({ isOpen, onClose, onSubmit }: AddPlaceForm
                 </label>
                 <input
                   type="text"
-                  required
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
+                  disabled={!user.isAuthenticated}
+                  required
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
                   placeholder="详细地址"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
 
@@ -174,169 +183,176 @@ export default function AddPlaceForm({ isOpen, onClose, onSubmit }: AddPlaceForm
                   描述 *
                 </label>
                 <textarea
-                  required
                   value={formData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
-                  placeholder="分享你的体验和感受..."
+                  disabled={!user.isAuthenticated}
+                  required
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
+                  placeholder="描述这个地点的特色和适合数字游民的原因..."
                 />
               </div>
             </div>
 
             {/* Tags */}
-            <div className="space-y-4">
-              <h3 className="font-semibold text-gray-900">标签</h3>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  添加标签
-                </label>
-                <div className="flex space-x-2 mb-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                标签
+              </label>
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {formData.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        disabled={!user.isAuthenticated}
+                        onClick={() => removeTag(tag)}
+                        className="ml-2 text-blue-600 hover:text-blue-800"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex space-x-2">
                   <input
                     type="text"
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
-                    placeholder="输入自定义标签"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    disabled={!user.isAuthenticated}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag(newTag))}
+                    className={`flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                    }`}
+                    placeholder="添加标签"
                   />
                   <button
                     type="button"
+                    disabled={!user.isAuthenticated}
                     onClick={() => addTag(newTag)}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
                     添加
                   </button>
                 </div>
-                
-                {/* Suggested Tags */}
-                <div className="mb-3">
-                  <p className="text-sm text-gray-600 mb-2">推荐标签：</p>
-                  <div className="flex flex-wrap gap-2">
+                <div className="text-sm text-gray-600">
+                  建议标签：
+                  <div className="flex flex-wrap gap-1 mt-1">
                     {suggestedTags.map((tag) => (
                       <button
                         key={tag}
                         type="button"
+                        disabled={!user.isAuthenticated}
                         onClick={() => addTag(tag)}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors disabled:opacity-50"
                       >
                         {tag}
                       </button>
                     ))}
                   </div>
                 </div>
-
-                {/* Selected Tags */}
-                {formData.tags.length > 0 && (
-                  <div>
-                    <p className="text-sm text-gray-600 mb-2">已选标签：</p>
-                    <div className="flex flex-wrap gap-2">
-                      {formData.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm flex items-center space-x-1"
-                        >
-                          <span>{tag}</span>
-                          <button
-                            type="button"
-                            onClick={() => removeTag(tag)}
-                            className="text-green-600 hover:text-green-800"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
             {/* Details */}
-            <div className="space-y-4">
-              <h3 className="font-semibold text-gray-900">详细信息</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <WifiIcon className="h-4 w-4 inline mr-1" />
-                    WiFi速度 (Mbps)
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.wifi_speed}
-                    onChange={(e) => handleInputChange('wifi_speed', e.target.value)}
-                    placeholder="可选"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  WiFi速度 (Mbps)
+                </label>
+                <input
+                  type="number"
+                  value={formData.wifi_speed}
+                  onChange={(e) => handleInputChange('wifi_speed', e.target.value)}
+                  disabled={!user.isAuthenticated}
+                  min="0"
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
+                  placeholder="例如：50"
+                />
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <DollarSignIcon className="h-4 w-4 inline mr-1" />
-                    价格水平
-                  </label>
-                  <select
-                    value={formData.price_level}
-                    onChange={(e) => handleInputChange('price_level', parseInt(e.target.value))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  >
-                    <option value={1}>$ 便宜</option>
-                    <option value={2}>$$ 适中</option>
-                    <option value={3}>$$$ 中等</option>
-                    <option value={4}>$$$$ 较贵</option>
-                    <option value={5}>$$$$$ 昂贵</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  价格等级
+                </label>
+                <select
+                  value={formData.price_level}
+                  onChange={(e) => handleInputChange('price_level', parseInt(e.target.value))}
+                  disabled={!user.isAuthenticated}
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
+                >
+                  <option value={1}>$ 便宜</option>
+                  <option value={2}>$$ 经济</option>
+                  <option value={3}>$$$ 中等</option>
+                  <option value={4}>$$$$ 较贵</option>
+                  <option value={5}>$$$$$ 昂贵</option>
+                </select>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <Volume2Icon className="h-4 w-4 inline mr-1" />
-                    噪音水平
-                  </label>
-                  <select
-                    value={formData.noise_level}
-                    onChange={(e) => handleInputChange('noise_level', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  >
-                    <option value="quiet">安静</option>
-                    <option value="moderate">适中</option>
-                    <option value="loud">嘈杂</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  噪音水平
+                </label>
+                <select
+                  value={formData.noise_level}
+                  onChange={(e) => handleInputChange('noise_level', e.target.value)}
+                  disabled={!user.isAuthenticated}
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
+                >
+                  <option value="quiet">安静</option>
+                  <option value="moderate">适中</option>
+                  <option value="loud">嘈杂</option>
+                </select>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <UsersIcon className="h-4 w-4 inline mr-1" />
-                    社交氛围
-                  </label>
-                  <select
-                    value={formData.social_atmosphere}
-                    onChange={(e) => handleInputChange('social_atmosphere', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  >
-                    <option value="low">低</option>
-                    <option value="medium">中</option>
-                    <option value="high">高</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  社交氛围
+                </label>
+                <select
+                  value={formData.social_atmosphere}
+                  onChange={(e) => handleInputChange('social_atmosphere', e.target.value)}
+                  disabled={!user.isAuthenticated}
+                  className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
+                  }`}
+                >
+                  <option value="low">低</option>
+                  <option value="medium">中等</option>
+                  <option value="high">高</option>
+                </select>
               </div>
             </div>
 
-            {/* Submit */}
-            <div className="flex space-x-4 pt-6 border-t border-gray-200">
-              <button
-                type="submit"
-                className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors font-medium"
-              >
-                提交推荐
-              </button>
+            {/* Action Buttons */}
+            <div className="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 border border-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
               >
                 取消
+              </button>
+              <button
+                type="submit"
+                disabled={!user.isAuthenticated}
+                className={`px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
+                  !user.isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                添加地点
               </button>
             </div>
           </form>
