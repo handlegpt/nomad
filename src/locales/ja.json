@@ -486,7 +486,6 @@
     "successful": "成功",
     "pending": "保留中",
     "failedToLoadHistory": "履歴の読み込みに失敗しました",
-    "notifications": "通知",
     "onlineUsers": "オンラインユーザー",
     "notifications": {
       "title": "通知センター",

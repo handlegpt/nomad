@@ -484,7 +484,6 @@
     "successful": "Exitoso",
     "pending": "Pendiente",
     "failedToLoadHistory": "Error al cargar historial",
-    "notifications": "Notificaciones",
     "onlineUsers": "Usuarios En Línea",
     "notifications": {
       "title": "Centro de Notificaciones",
