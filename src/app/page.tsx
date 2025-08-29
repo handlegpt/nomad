@@ -17,9 +17,17 @@ import NomadMeetup from '@/components/NomadMeetup'
 import HomePlaceRecommendations from '@/components/HomePlaceRecommendations'
 import NomadTip from '@/components/NomadTip'
 import WifiSpeedTest from '@/components/WifiSpeedTest'
+import AddCityForm from '@/components/AddCityForm'
 
 export default function HomePage() {
   const { t, locale } = useTranslation()
+  const [showAddCityForm, setShowAddCityForm] = useState(false)
+
+  const handleAddCity = async (cityData: any) => {
+    // 这里应该调用API添加城市
+    console.log('Adding city:', cityData)
+    setShowAddCityForm(false)
+  }
 
   return (
     <PageLayout padding="none" className="bg-gray-50">
@@ -40,10 +48,13 @@ export default function HomePage() {
                   {t('common.viewDetails')}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </FixedLink>
-                <FixedLink href="/cities?add=true" className="btn btn-md btn-outline">
+                <button
+                  onClick={() => setShowAddCityForm(true)}
+                  className="btn btn-md btn-outline"
+                >
                   <PlusIcon className="h-4 w-4 mr-2" />
                   {t('cities.addCity')}
-                </FixedLink>
+                </button>
               </div>
             </div>
             <EnhancedCityRanking limit={5} showQuickVote={true} showCurrentCityVote={true} />
@@ -75,9 +86,12 @@ export default function HomePage() {
           <NomadMeetup />
         </section>
 
-
-
-
+        {/* Add City Form Modal */}
+        <AddCityForm
+          isOpen={showAddCityForm}
+          onClose={() => setShowAddCityForm(false)}
+          onSubmit={handleAddCity}
+        />
       </div>
     </PageLayout>
   )
