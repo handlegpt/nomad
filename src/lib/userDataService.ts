@@ -39,7 +39,7 @@ class UserDataService {
   async getUserPreferences(): Promise<UserPreferences | null> {
     try {
       // 首先尝试从本地存储获取
-      const localData = this.getFromLocalStorage(this.STORAGE_KEYS.PREFERENCES)
+      const localData = this.getFromLocalStorage(UserDataService.STORAGE_KEYS.PREFERENCES)
       if (localData) {
         return localData
       }
@@ -69,7 +69,7 @@ class UserDataService {
       }
 
       // 保存到本地存储
-      this.saveToLocalStorage(this.STORAGE_KEYS.PREFERENCES, preferences)
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.PREFERENCES, preferences)
       return preferences
     } catch (error) {
       console.error('Error getting user preferences:', error)
@@ -81,7 +81,7 @@ class UserDataService {
   async saveUserPreferences(preferences: UserPreferences): Promise<boolean> {
     try {
       // 保存到本地存储
-      this.saveToLocalStorage(this.STORAGE_KEYS.PREFERENCES, preferences)
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.PREFERENCES, preferences)
 
       // 尝试同步到云端
       const user = await getCurrentUser()
@@ -115,7 +115,7 @@ class UserDataService {
   async getUserFavorites(): Promise<UserFavorite[]> {
     try {
       // 首先尝试从本地存储获取
-      const localData = this.getFromLocalStorage(this.STORAGE_KEYS.FAVORITES)
+      const localData = this.getFromLocalStorage(UserDataService.STORAGE_KEYS.FAVORITES)
       if (localData) {
         return localData
       }
@@ -152,7 +152,7 @@ class UserDataService {
       }))
 
       // 保存到本地存储
-      this.saveToLocalStorage(this.STORAGE_KEYS.FAVORITES, favorites)
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.FAVORITES, favorites)
       return favorites
     } catch (error) {
       console.error('Error getting user favorites:', error)
@@ -216,7 +216,7 @@ class UserDataService {
       // 更新本地存储
       const currentFavorites = await this.getUserFavorites()
       const updatedFavorites = currentFavorites.filter(fav => fav.id !== cityId)
-      this.saveToLocalStorage(this.STORAGE_KEYS.FAVORITES, updatedFavorites)
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.FAVORITES, updatedFavorites)
 
       return true
     } catch (error) {
@@ -229,7 +229,7 @@ class UserDataService {
   async getUserVisas(): Promise<UserVisa[]> {
     try {
       // 首先尝试从本地存储获取
-      const localData = this.getFromLocalStorage(this.STORAGE_KEYS.VISAS)
+      const localData = this.getFromLocalStorage(UserDataService.STORAGE_KEYS.VISAS)
       if (localData) {
         return localData
       }
@@ -259,7 +259,7 @@ class UserDataService {
       }))
 
       // 保存到本地存储
-      this.saveToLocalStorage(this.STORAGE_KEYS.VISAS, visas)
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.VISAS, visas)
       return visas
     } catch (error) {
       console.error('Error getting user visas:', error)
@@ -298,7 +298,7 @@ class UserDataService {
         ...visaData,
         daysLeft: Math.ceil((new Date(visaData.expiryDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       }
-      this.saveToLocalStorage(this.STORAGE_KEYS.VISAS, [...currentVisas, newVisa])
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.VISAS, [...currentVisas, newVisa])
 
       return true
     } catch (error) {
@@ -328,7 +328,7 @@ class UserDataService {
       await this.getUserVisas()
 
       // 记录同步时间
-      this.saveToLocalStorage(this.STORAGE_KEYS.LAST_SYNC, new Date().toISOString())
+      this.saveToLocalStorage(UserDataService.STORAGE_KEYS.LAST_SYNC, new Date().toISOString())
 
       return true
     } catch (error) {
@@ -339,7 +339,7 @@ class UserDataService {
 
   // 清除所有用户数据
   clearUserData(): void {
-    Object.values(this.STORAGE_KEYS).forEach(key => {
+    Object.values(UserDataService.STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key)
     })
   }
