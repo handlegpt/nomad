@@ -18,7 +18,13 @@ DROP POLICY IF EXISTS "Allow public select from place_reviews" ON public.place_r
 DROP POLICY IF EXISTS "Allow public update place_reviews" ON public.place_reviews;
 DROP POLICY IF EXISTS "Allow public delete from place_reviews" ON public.place_reviews;
 
--- 2. Drop existing secure policies to avoid conflicts
+-- 2. Drop existing verification_codes policies
+DROP POLICY IF EXISTS "Allow public insert to verification_codes" ON public.verification_codes;
+DROP POLICY IF EXISTS "Allow public select from verification_codes" ON public.verification_codes;
+DROP POLICY IF EXISTS "Allow public update verification_codes" ON public.verification_codes;
+DROP POLICY IF EXISTS "Allow public delete from verification_codes" ON public.verification_codes;
+
+-- 3. Drop existing secure policies to avoid conflicts
 DROP POLICY IF EXISTS "Users can view own profile" ON public.users;
 DROP POLICY IF EXISTS "Users can update own profile" ON public.users;
 DROP POLICY IF EXISTS "Allow public insert for registration" ON public.users;
@@ -46,7 +52,7 @@ DROP POLICY IF EXISTS "Users can view own preferences" ON public.user_preference
 DROP POLICY IF EXISTS "Users can insert own preferences" ON public.user_preferences;
 DROP POLICY IF EXISTS "Users can update own preferences" ON public.user_preferences;
 
--- 3. Create secure user policies
+-- 4. Create secure user policies
 -- Users can only view their own profile
 CREATE POLICY "Users can view own profile" ON public.users 
 FOR SELECT USING (auth.uid() = id);
@@ -66,7 +72,7 @@ FOR SELECT USING (
   (auth.role() = 'service_role' AND current_setting('app.verification_mode', true) = 'true')
 );
 
--- 4. Create secure voting policies
+-- 5. Create secure voting policies
 -- Users can only vote once per city/place
 CREATE POLICY "Users can insert own votes" ON public.votes 
 FOR INSERT WITH CHECK (auth.uid() = user_id);
@@ -83,7 +89,7 @@ FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete own votes" ON public.votes 
 FOR DELETE USING (auth.uid() = user_id);
 
--- 5. Create secure place voting policies
+-- 6. Create secure place voting policies
 -- Users can only vote once per place
 CREATE POLICY "Users can insert own place votes" ON public.place_votes 
 FOR INSERT WITH CHECK (auth.uid() = user_id);
@@ -100,7 +106,7 @@ FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete own place votes" ON public.place_votes 
 FOR DELETE USING (auth.uid() = user_id);
 
--- 6. Create secure place review policies
+-- 7. Create secure place review policies
 -- Users can only create reviews for places they've visited
 CREATE POLICY "Users can insert own place reviews" ON public.place_reviews 
 FOR INSERT WITH CHECK (auth.uid() = user_id);
@@ -117,7 +123,7 @@ FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete own place reviews" ON public.place_reviews 
 FOR DELETE USING (auth.uid() = user_id);
 
--- 7. Create secure user data policies
+-- 8. Create secure user data policies
 -- Users can only view their own visas
 CREATE POLICY "Users can view own visas" ON public.user_visas 
 FOR SELECT USING (auth.uid() = user_id);
@@ -158,7 +164,7 @@ FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can update own preferences" ON public.user_preferences 
 FOR UPDATE USING (auth.uid() = user_id);
 
--- 8. Create secure verification code policies
+-- 9. Create secure verification code policies
 -- Allow public access to verification codes (needed for registration)
 CREATE POLICY "Allow public insert to verification_codes" ON public.verification_codes 
 FOR INSERT WITH CHECK (true);
@@ -172,7 +178,7 @@ FOR UPDATE USING (true);
 CREATE POLICY "Allow public delete from verification_codes" ON public.verification_codes 
 FOR DELETE USING (true);
 
--- 9. Create audit logging function
+-- 10. Create audit logging function
 CREATE OR REPLACE FUNCTION log_security_event()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -203,7 +209,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 10. Create audit log table
+-- 11. Create audit log table
 CREATE TABLE IF NOT EXISTS security_audit_log (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   table_name TEXT NOT NULL,
@@ -217,19 +223,19 @@ CREATE TABLE IF NOT EXISTS security_audit_log (
   timestamp TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 11. Create indexes for performance
+-- 12. Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_security_audit_user_id ON security_audit_log(user_id);
 CREATE INDEX IF NOT EXISTS idx_security_audit_timestamp ON security_audit_log(timestamp);
 CREATE INDEX IF NOT EXISTS idx_security_audit_table_operation ON security_audit_log(table_name, operation);
 
--- 12. Enable RLS on audit table
+-- 13. Enable RLS on audit table
 ALTER TABLE security_audit_log ENABLE ROW LEVEL SECURITY;
 
 -- Only service role can access audit logs
 CREATE POLICY "Service role can access audit logs" ON security_audit_log 
 FOR ALL USING (auth.role() = 'service_role');
 
--- 13. Create triggers for security auditing
+-- 14. Create triggers for security auditing
 DROP TRIGGER IF EXISTS audit_users_changes ON public.users;
 CREATE TRIGGER audit_users_changes
   AFTER INSERT OR UPDATE OR DELETE ON public.users
@@ -250,7 +256,7 @@ CREATE TRIGGER audit_user_visas_changes
   AFTER INSERT OR UPDATE OR DELETE ON public.user_visas
   FOR EACH ROW EXECUTE FUNCTION log_security_event();
 
--- 14. Create function to clean old audit logs
+-- 15. Create function to clean old audit logs
 CREATE OR REPLACE FUNCTION clean_old_audit_logs()
 RETURNS void AS $$
 BEGIN
@@ -260,10 +266,10 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 15. Create scheduled job to clean audit logs (if using pg_cron)
+-- 16. Create scheduled job to clean audit logs (if using pg_cron)
 -- SELECT cron.schedule('clean-audit-logs', '0 2 * * 0', 'SELECT clean_old_audit_logs();');
 
--- 16. Create function to get user's own data summary
+-- 17. Create function to get user's own data summary
 CREATE OR REPLACE FUNCTION get_user_data_summary(user_uuid UUID)
 RETURNS JSONB AS $$
 DECLARE
