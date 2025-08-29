@@ -13,13 +13,17 @@ import {
   Trash2,
   Star,
   Clock,
-  Globe
+  Globe,
+  RefreshCw
 } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
 import { getCurrentUser, User as UserType } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
+import { useUser, useLoading, useNotifications } from '@/contexts/GlobalStateContext'
+import { userDataService } from '@/lib/userDataService'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 interface UserProfile {
   id: string
@@ -78,11 +82,12 @@ interface UserFavorite {
 
 export default function DashboardPage() {
   const { t } = useTranslation()
-  const [user, setUser] = useState<UserProfile | null>(null)
-  const [visas, setVisas] = useState<VisaInfo[]>([])
-  const [favorites, setFavorites] = useState<FavoriteCity[]>([])
+  const { user, setUserProfile, setUserPreferences, setUserFavorites, setUserVisas, logout } = useUser()
+  const { setLoading } = useLoading()
+  const { addNotification } = useNotifications()
+  
   const [activeTab, setActiveTab] = useState('overview')
-  const [loading, setLoading] = useState(true)
+  const [localLoading, setLocalLoading] = useState(true)
 
   useEffect(() => {
     fetchUserData()
@@ -90,6 +95,9 @@ export default function DashboardPage() {
 
   const fetchUserData = async () => {
     try {
+      setLoading('auth', true)
+      setLocalLoading(true)
+      
       // 获取当前用户信息
       const currentUser = await getCurrentUser()
       
@@ -99,7 +107,8 @@ export default function DashboardPage() {
         return
       }
 
-      setUser({
+      // 设置用户基本信息
+      const userProfile: UserProfile = {
         id: currentUser.id,
         email: currentUser.email,
         name: currentUser.name,
@@ -113,57 +122,69 @@ export default function DashboardPage() {
           social: 15,
           visa: 20
         }
+      }
+
+      setUserProfile(userProfile)
+
+      // 并行加载用户数据
+      await Promise.all([
+        loadUserPreferences(),
+        loadUserVisas(),
+        loadUserFavorites()
+      ])
+
+      addNotification({
+        type: 'success',
+        message: '用户数据加载完成',
+        duration: 3000
       })
 
-      // 获取用户的签证信息
-      const { data: userVisas } = await supabase
-        .from('user_visas')
-        .select('*')
-        .eq('user_id', currentUser.id)
-
-      if (userVisas) {
-        setVisas((userVisas as UserVisa[]).map((visa: UserVisa) => ({
-          id: visa.id,
-          country: visa.country,
-          type: visa.visa_type,
-          expiryDate: visa.expiry_date,
-          daysLeft: Math.ceil((new Date(visa.expiry_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
-          status: visa.status
-        })))
-      }
-
-      // 获取用户的收藏城市
-      const { data: userFavorites } = await supabase
-        .from('user_favorites')
-        .select(`
-          *,
-          cities (
-            id,
-            name,
-            country,
-            country_code
-          )
-        `)
-        .eq('user_id', currentUser.id)
-
-      if (userFavorites) {
-        setFavorites((userFavorites as UserFavorite[]).map((fav: UserFavorite) => ({
-          id: fav.cities.id,
-          name: fav.cities.name,
-          country: fav.cities.country,
-          countryCode: fav.cities.country_code,
-          addedDate: new Date(fav.created_at).toLocaleDateString()
-        })))
-      }
     } catch (error) {
       console.error('Error fetching user data:', error)
+      addNotification({
+        type: 'error',
+        message: '加载用户数据失败',
+        duration: 5000
+      })
     } finally {
-      setLoading(false)
+      setLoading('auth', false)
+      setLocalLoading(false)
+    }
+  }
+
+  const loadUserPreferences = async () => {
+    try {
+      const preferences = await userDataService.getUserPreferences()
+      if (preferences) {
+        setUserPreferences(preferences)
+      }
+    } catch (error) {
+      console.error('Error loading preferences:', error)
+    }
+  }
+
+  const loadUserVisas = async () => {
+    try {
+      const visas = await userDataService.getUserVisas()
+      setUserVisas(visas)
+    } catch (error) {
+      console.error('Error loading visas:', error)
+    }
+  }
+
+  const loadUserFavorites = async () => {
+    try {
+      const favorites = await userDataService.getUserFavorites()
+      setUserFavorites(favorites)
+    } catch (error) {
+      console.error('Error loading favorites:', error)
     }
   }
 
   const handleLogout = async () => {
     try {
+      setLoading('auth', true)
+      
       const response = await fetch('/api/auth/logout', {
         method: 'POST',
         headers: {
@@ -172,16 +193,83 @@ export default function DashboardPage() {
       })
 
       if (response.ok) {
-        // 清除本地存储的会话令牌
-        localStorage.removeItem('session_token')
-        // 重定向到首页
+        logout() // 这会清除全局状态和本地存储
+        addNotification({
+          type: 'success',
+          message: '已成功退出登录',
+          duration: 3000
+        })
         window.location.href = '/'
       } else {
-        console.error('退出登录失败')
+        throw new Error('Logout failed')
       }
     } catch (error) {
-      console.error('退出登录错误:', error)
+      console.error('Error during logout:', error)
+      addNotification({
+        type: 'error',
+        message: '退出登录失败',
+        duration: 5000
+      })
+    } finally {
+      setLoading('auth', false)
     }
+  }
+
+  const handleSyncData = async () => {
+    try {
+      setLoading('data', true)
+      const success = await userDataService.syncUserData()
+      
+      if (success) {
+        // 重新加载数据
+        await Promise.all([
+          loadUserPreferences(),
+          loadUserVisas(),
+          loadUserFavorites()
+        ])
+        
+        addNotification({
+          type: 'success',
+          message: '数据同步成功',
+          duration: 3000
+        })
+      } else {
+        throw new Error('Sync failed')
+      }
+    } catch (error) {
+      console.error('Error syncing data:', error)
+      addNotification({
+        type: 'error',
+        message: '数据同步失败',
+        duration: 5000
+      })
+    } finally {
+      setLoading('data', false)
+    }
+  }
+
+  if (localLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <LoadingSpinner size="lg" />
+          <p className="mt-4 text-gray-600">正在加载用户数据...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user.isAuthenticated || !user.profile) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">请先登录</p>
+          <Link href="/auth/login" className="btn btn-primary mt-4">
+            去登录
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   const getCountryFlag = (countryCode: string) => {
@@ -201,23 +289,22 @@ export default function DashboardPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <Header showNavigation={false} pageTitle="用户后台" showPageTitle={true} />
       
-      {/* Logout Button */}
+      {/* Action Buttons */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-end">
+          <div className="flex justify-end space-x-4">
+            <button
+              onClick={handleSyncData}
+              className="btn btn-md btn-primary"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              同步数据
+            </button>
             <button
               onClick={handleLogout}
               className="btn btn-md btn-secondary"
@@ -239,9 +326,9 @@ export default function DashboardPage() {
                 <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <User className="h-8 w-8 text-white" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900">{user?.name}</h2>
-                <p className="text-sm text-gray-500">{user?.email}</p>
-                <p className="text-xs text-gray-400 mt-1">加入时间：{user?.joinDate}</p>
+                <h2 className="text-lg font-semibold text-gray-900">{user?.profile?.name || '未设置'}</h2>
+                <p className="text-sm text-gray-500">{user?.profile?.email || '未设置'}</p>
+                <p className="text-xs text-gray-400 mt-1">加入时间：{user?.profile?.joinDate || '未知'}</p>
               </div>
 
               {/* Navigation */}
@@ -284,15 +371,15 @@ export default function DashboardPage() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <div className="text-2xl font-bold text-blue-600">{user?.currentCity}</div>
+                      <div className="text-2xl font-bold text-blue-600">{user?.profile?.currentCity || '未设置'}</div>
                       <div className="text-sm text-gray-600">当前城市</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <div className="text-2xl font-bold text-green-600">{visas.length}</div>
+                      <div className="text-2xl font-bold text-green-600">{user?.visas?.length || 0}</div>
                       <div className="text-sm text-gray-600">有效签证</div>
                     </div>
                     <div className="text-center p-4 bg-purple-50 rounded-lg">
-                      <div className="text-2xl font-bold text-purple-600">{favorites.length}</div>
+                      <div className="text-2xl font-bold text-purple-600">{user?.favorites?.length || 0}</div>
                       <div className="text-sm text-gray-600">收藏城市</div>
                     </div>
                   </div>
@@ -332,7 +419,7 @@ export default function DashboardPage() {
                 </div>
                 
                 <div className="space-y-4">
-                  {visas.map((visa) => (
+                  {user?.visas?.map((visa) => (
                     <div key={visa.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div>
@@ -365,7 +452,7 @@ export default function DashboardPage() {
                 <h3 className="text-lg font-semibold text-gray-900 mb-6">收藏城市</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {favorites.map((city) => (
+                  {user?.favorites?.map((city) => (
                     <div key={city.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
@@ -397,11 +484,11 @@ export default function DashboardPage() {
                 
                 <div className="space-y-4">
                   {[
-                    { id: 'wifi', label: 'WiFi质量', value: user?.preferences.wifi || 0 },
-                    { id: 'cost', label: '生活成本', value: user?.preferences.cost || 0 },
-                    { id: 'climate', label: '气候舒适度', value: user?.preferences.climate || 0 },
-                    { id: 'social', label: '社交氛围', value: user?.preferences.social || 0 },
-                    { id: 'visa', label: '签证便利性', value: user?.preferences.visa || 0 }
+                    { id: 'wifi', label: 'WiFi质量', value: user?.preferences?.wifi || 0 },
+                    { id: 'cost', label: '生活成本', value: user?.preferences?.cost || 0 },
+                    { id: 'climate', label: '气候舒适度', value: user?.preferences?.climate || 0 },
+                    { id: 'social', label: '社交氛围', value: user?.preferences?.social || 0 },
+                    { id: 'visa', label: '签证便利性', value: user?.preferences?.visa || 0 }
                   ].map((pref) => (
                     <div key={pref.id} className="space-y-2">
                       <div className="flex items-center justify-between">

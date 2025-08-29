@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
+import { GlobalStateProvider } from '@/contexts/GlobalStateContext'
+import GlobalLoading from '@/components/GlobalLoading'
+import GlobalNotifications from '@/components/GlobalNotifications'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -132,7 +135,11 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        {children}
+        <GlobalStateProvider>
+          {children}
+          <GlobalLoading />
+          <GlobalNotifications />
+        </GlobalStateProvider>
       </body>
     </html>
   )
