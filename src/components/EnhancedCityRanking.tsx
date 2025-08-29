@@ -180,8 +180,8 @@ export default function EnhancedCityRanking({
             name: city.name,
             type: 'city',
             currentVotes: {
-              upvotes: Math.floor(city.vote_count * 0.7),
-              downvotes: Math.floor(city.vote_count * 0.3),
+              upvotes: Math.floor((city.vote_count || 0) * 0.7),
+              downvotes: Math.floor((city.vote_count || 0) * 0.3),
               rating: city.avg_overall_rating
             }
           }
