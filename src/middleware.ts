@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { logInfo, logError } from '@/lib/logger'
+import { rateLimiter, getRateLimitLevel, generateClientIdentifier } from '@/lib/rateLimiter'
+import { corsHandler, addCorsHeaders } from '@/lib/cors'
 
 // 安全头配置
 const securityHeaders = [
@@ -43,71 +45,12 @@ const cspHeader = {
   ].join('; ')
 }
 
-// 允许的域名（CORS）
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3011',
-  'https://nomadnow.app',
-  'https://www.nomadnow.app'
-]
-
-// 速率限制存储（简单内存存储，生产环境应使用Redis）
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
-
-// 速率限制配置
-const rateLimitConfig = {
-  windowMs: 15 * 60 * 1000, // 15分钟
-  maxRequests: 100, // 最大请求数
-  authMaxRequests: 5 // 认证相关API的最大请求数
-}
-
-// 清理过期的速率限制记录
-function cleanupRateLimit() {
-  const now = Date.now()
-  for (const [key, value] of rateLimitStore.entries()) {
-    if (now > value.resetTime) {
-      rateLimitStore.delete(key)
-    }
-  }
-}
-
-// 检查速率限制
-function checkRateLimit(identifier: string, maxRequests: number): boolean {
-  cleanupRateLimit()
-  
-  const now = Date.now()
-  const windowMs = rateLimitConfig.windowMs
-  const resetTime = now + windowMs
-  
-  const current = rateLimitStore.get(identifier)
-  
-  if (!current || now > current.resetTime) {
-    rateLimitStore.set(identifier, { count: 1, resetTime })
-    return true
-  }
-  
-  if (current.count >= maxRequests) {
-    return false
-  }
-  
-  current.count++
-  return true
-}
-
 // 获取客户端标识符
 function getClientIdentifier(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
   const ip = forwarded ? forwarded.split(',')[0] : 'unknown'
   const userAgent = request.headers.get('user-agent') || 'unknown'
-  return `${ip}-${userAgent}`
-}
-
-// 检查CORS
-function checkCORS(request: NextRequest): boolean {
-  const origin = request.headers.get('origin')
-  if (!origin) return true // 同源请求
-  
-  return allowedOrigins.includes(origin)
+  return generateClientIdentifier(ip, userAgent)
 }
 
 // 主中间件函数
@@ -125,44 +68,42 @@ export function middleware(request: NextRequest) {
     }, 'Middleware')
 
     // 1. CORS检查
-    if (!checkCORS(request)) {
-      logError('CORS violation detected', {
-        origin: request.headers.get('origin'),
-        pathname
-      }, 'Middleware')
-      
-      return new NextResponse(
-        JSON.stringify({ error: 'CORS policy violation' }),
-        {
-          status: 403,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'null'
-          }
-        }
-      )
+    const corsResult = corsHandler.handle(request)
+    if (corsResult) {
+      return corsResult
     }
 
     // 2. 速率限制检查
     const clientId = getClientIdentifier(request)
-    const isAuthEndpoint = pathname.startsWith('/api/auth/')
-    const maxRequests = isAuthEndpoint ? rateLimitConfig.authMaxRequests : rateLimitConfig.maxRequests
+    const rateLimitLevel = getRateLimitLevel(pathname)
+    const rateLimitResult = await rateLimiter.checkLimit(clientId, rateLimitLevel)
     
-    if (!checkRateLimit(clientId, maxRequests)) {
+    if (!rateLimitResult.allowed) {
       logError('Rate limit exceeded', {
         clientId,
         pathname,
-        maxRequests
+        level: rateLimitLevel,
+        retryAfter: rateLimitResult.retryAfter
       }, 'Middleware')
       
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'X-Rate-Limit-Remaining': '0',
+        'X-Rate-Limit-Reset': rateLimitResult.resetTime.toString()
+      }
+      
+      if (rateLimitResult.retryAfter) {
+        headers['Retry-After'] = rateLimitResult.retryAfter.toString()
+      }
+      
       return new NextResponse(
-        JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
-        {
+        JSON.stringify({ 
+          error: 'Rate limit exceeded. Please try again later.',
+          retryAfter: rateLimitResult.retryAfter
+        }),
+        { 
           status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': '900' // 15分钟
-          }
+          headers
         }
       )
     }
@@ -179,13 +120,7 @@ export function middleware(request: NextRequest) {
     response.headers.set(cspHeader.key, cspHeader.value)
 
     // 6. 添加CORS头
-    const origin = request.headers.get('origin')
-    if (origin && allowedOrigins.includes(origin)) {
-      response.headers.set('Access-Control-Allow-Origin', origin)
-    }
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    response.headers.set('Access-Control-Max-Age', '86400')
+    addCorsHeaders(response, request)
 
     // 7. 处理预检请求
     if (request.method === 'OPTIONS') {
