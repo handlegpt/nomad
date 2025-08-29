@@ -360,96 +360,7 @@
     }
   },
 
-  "community": {
-    "title": "コミュニティ",
-    "subtitle": "ノマド仲間とつながる",
-    "online": "オンライン",
-    "local": "ローカル",
-    "joinCommunity": "コミュニティに参加",
-    "attendEvent": "イベントに参加",
-    "discoverMore": "より多くのコミュニティを発見",
-    "nextEvent": "次のイベント",
-    "online": {
-      "facebook": {
-        "description": "世界最大のデジタルノマドFacebookグループ"
-      },
-      "nomadlist": {
-        "description": "Nomad Listベースのアクティブコミュニティ"
-      },
-      "reddit": {
-        "description": "Redditのデジタルノマドディスカッションエリア"
-      }
-    },
-    "lightweightSocial": {
-      "title": "おしゃべり",
-      "whosInCity": "この街に誰がいますか？",
-      "messageBoard": "メッセージボード",
-      "messagePlaceholder": "コミュニティと何かを共有...",
-      "noMessages": "まだメッセージがありません",
-      "startConversation": "最初に会話を始めましょう！",
-      "available": "利用可能",
-      "coffeeMeetup": "コーヒーミートアップ",
-      "busy": "忙しい",
-      "noOnlineUsers": "オンラインユーザーがいません",
-      "checkLater": "後でもう一度確認してください",
-      "footer": "デジタルノマドのための軽量ソーシャル機能"
-    },
-    "localCommunities": {
-      "osaka": {
-        "description": "大阪ローカルデジタルノマドミートアップ",
-        "location": "大阪市センター"
-      },
-      "tokyo": {
-        "description": "東京リモートワーカーコミュニティ",
-        "location": "渋谷区"
-      },
-      "kyoto": {
-        "description": "京都デジタルノマド定期的ミートアップ",
-        "location": "京都駅近く"
-      }
-    },
-    "local": {
-      "osaka": {
-        "description": "大阪ローカルデジタルノマドミートアップ",
-        "location": "大阪市センター"
-      },
-      "tokyo": {
-        "description": "東京リモートワーカーコミュニティ",
-        "location": "渋谷区"
-      },
-      "kyoto": {
-        "description": "京都デジタルノマド定期的ミートアップ",
-        "location": "京都駅近く"
-      }
-    },
-    "telegram": {
-      "title": "Telegramグループ",
-      "groups": [
-        "世界のデジタルノマド",
-        "Nomad Listコミュニティ",
-        "バリデジタルノマド",
-        "メキシコシティノマド",
-        "バルセロナノマド"
-      ]
-    },
-    "discord": {
-      "title": "Discordサーバー",
-      "servers": [
-        "Nomad List Discord",
-        "リモートワークコミュニティ",
-        "デジタルノマドハブ"
-      ]
-    },
-    "facebook": {
-      "title": "Facebookグループ",
-      "groups": [
-        "世界のデジタルノマド",
-        "バリデジタルノマド",
-        "メキシコシティデジタルノマド",
-        "バルセロナデジタルノマド"
-      ]
-    }
-  },
+
 
   "about": {
     "title": "NOMAD.NOWについて",
@@ -783,14 +694,7 @@
       "markAllAsRead": "すべて既読にする",
       "noNotifications": "通知はありません"
     },
-    "communitySection": {
-      "title": "コミュニティ",
-      "online": "オンライン",
-      "local": "ローカル",
-      "joinCommunity": "コミュニティに参加",
-      "attendEvent": "イベントに参加",
-      "discoverMore": "より多くのコミュニティを発見"
-    },
+
 
     "cityComparison": {
       "title": "都市比較",

@@ -199,75 +199,7 @@
       "cohabitation": "Cohabitation"
     }
   },
-  "community": {
-    "title": "Community",
-    "description": "Connect with digital nomads worldwide",
-    "online": "Online",
-    "local": "Local",
-    "joinCommunity": "Join Community",
-    "attendEvent": "Attend Event",
-    "discoverMore": "Discover More Communities",
-    "nextEvent": "Next Event",
-    "lightweightSocial": {
-      "title": "Small Talk",
-      "whosInCity": "Who's in this city?",
-      "messageBoard": "Message Board",
-      "messagePlaceholder": "Share something with the community...",
-      "noMessages": "No messages yet",
-      "startConversation": "Be the first to start a conversation!",
-      "available": "available",
-      "coffeeMeetup": "Coffee Meetup",
-      "busy": "Busy",
-      "noOnlineUsers": "No online users",
-      "checkLater": "Check back later",
-      "footer": "Lightweight social features for digital nomads"
-    },
-    "onlineCommunities": {
-      "facebook": {
-        "description": "The world's largest digital nomad Facebook group"
-      },
-      "nomadlist": {
-        "description": "Active community based on Nomad List"
-      },
-      "reddit": {
-        "description": "Digital nomad discussion area on Reddit"
-      }
-    },
-    "localCommunities": {
-      "osaka": {
-        "description": "Osaka local digital nomad meetup",
-        "location": "Osaka City Center"
-      },
-      "tokyo": {
-        "description": "Tokyo remote worker community",
-        "location": "Shibuya District"
-      },
-      "kyoto": {
-        "description": "Kyoto digital nomad regular meetup",
-        "location": "Near Kyoto Station"
-      }
-    },
-    "local": {
-      "osaka": {
-        "description": "Osaka local digital nomad meetup",
-        "location": "Osaka City Center"
-      },
-      "tokyo": {
-        "description": "Tokyo remote worker community",
-        "location": "Shibuya District"
-      },
-      "kyoto": {
-        "description": "Kyoto digital nomad regular meetup",
-        "location": "Near Kyoto Station"
-      }
-    },
-    "categories": {
-      "telegram": "Telegram",
-      "discord": "Discord",
-      "facebook": "Facebook",
-      "meetups": "Meetups"
-    }
-  },
+
   "places": {
     "title": "Nomad Place Recommendations",
     "description": "Discover the best places for remote work",
@@ -619,14 +551,6 @@
       "markAsRead": "Mark as read",
       "markAllAsRead": "Mark all as read",
       "noNotifications": "No notifications"
-    },
-    "communitySection": {
-      "title": "Community",
-      "online": "Online",
-      "local": "Local",
-      "joinCommunity": "Join Community",
-      "attendEvent": "Attend Event",
-      "discoverMore": "Discover More Communities"
     }
   },
   "dashboard": {

@@ -198,75 +198,7 @@
       "cohabitation": "共同生活"
     }
   },
-  "community": {
-    "title": "社区",
-    "description": "与全球数字游民建立联系",
-    "online": "在线",
-    "local": "本地",
-    "joinCommunity": "加入社区",
-    "attendEvent": "参加活动",
-    "discoverMore": "发现更多社区",
-    "nextEvent": "下次活动",
-    "online": {
-      "facebook": {
-        "description": "全球最大的数字游民Facebook群组"
-      },
-      "nomadlist": {
-        "description": "基于Nomad List的活跃社区"
-      },
-      "reddit": {
-        "description": "Reddit上的数字游民讨论区"
-      }
-    },
-    "localCommunities": {
-      "osaka": {
-        "description": "大阪本地数字游民聚会",
-        "location": "大阪市中心"
-      },
-      "tokyo": {
-        "description": "东京远程工作者社区",
-        "location": "涩谷区"
-      },
-      "kyoto": {
-        "description": "京都数字游民定期聚会",
-        "location": "京都站附近"
-      }
-    },
-    "local": {
-      "osaka": {
-        "description": "大阪本地数字游民聚会",
-        "location": "大阪市中心"
-      },
-      "tokyo": {
-        "description": "东京远程工作者社区",
-        "location": "涩谷区"
-      },
-      "kyoto": {
-        "description": "京都数字游民定期聚会",
-        "location": "京都站附近"
-      }
-    },
-    "lightweightSocial": {
-      "title": "闲聊",
-      "whosInCity": "谁在这座城市？",
-      "messageBoard": "留言板",
-      "messagePlaceholder": "与社区分享一些内容...",
-      "noMessages": "还没有留言",
-      "startConversation": "成为第一个开始对话的人！",
-      "available": "可约见",
-      "coffeeMeetup": "约咖啡",
-      "busy": "忙碌中",
-      "noOnlineUsers": "没有在线用户",
-      "checkLater": "稍后再来看看",
-      "footer": "数字游民的轻量化社交功能"
-    },
-    "categories": {
-      "telegram": "Telegram",
-      "discord": "Discord",
-      "facebook": "Facebook",
-      "meetups": "聚会"
-    }
-  },
+
   "places": {
     "title": "推荐地点",
     "description": "发现最适合数字游民的地点",
@@ -607,14 +539,7 @@
       "markAllAsRead": "全部标记为已读",
       "noNotifications": "暂无通知"
     },
-    "communitySection": {
-      "title": "社区",
-      "online": "在线",
-      "local": "本地",
-      "joinCommunity": "加入社区",
-      "attendEvent": "参加活动",
-      "discoverMore": "发现更多社区"
-    },
+
 
     "cityComparison": {
       "title": "城市对比",

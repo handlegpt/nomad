@@ -10,7 +10,7 @@ import HeroSection from '@/components/HeroSection'
 import UnifiedLiveInfoCard from '@/components/UnifiedLiveInfoCard'
 import EnhancedCityRanking from '@/components/EnhancedCityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
-import CommunitySection from '@/components/CommunitySection'
+
 
 import CityComparison from '@/components/CityComparison'
 import NomadMeetup from '@/components/NomadMeetup'
@@ -75,10 +75,7 @@ export default function HomePage() {
           <NomadMeetup />
         </section>
 
-        {/* Community Section */}
-        <section className="animate-fade-in">
-          <CommunitySection />
-        </section>
+
 
 
       </div>
