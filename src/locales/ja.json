@@ -521,19 +521,7 @@
     "submitting": "送信中..."
   },
 
-  "home": {
-    "currentLocation": "現在地",
-    "lastUpdated": "最終更新",
-    "localTime": "現地時間",
-    "weather": "天気",
-    "wifiSpeed": "WiFi速度",
-    "visaRemaining": "ビザ残り日数",
-    "setupVisa": "ビザ情報を設定",
-    "setupVisaTitle": "ビザ情報を設定",
-    "setupVisaDescription": "ビザの有効期限を設定して、残り日数を追跡しましょう",
-    "setupVisaButton": "ビザを設定",
-    "refreshData": "データを更新"
-  },
+
 
 
 
@@ -644,11 +632,7 @@
     "reviews": "レビュー"
   },
 
-  "navigation": {
-    "places": "場所",
-    "visaGuide": "ビザガイド",
-    "dashboard": "ダッシュボード"
-  },
+
 
   "common": {
     "viewDetails": "詳細を見る",
