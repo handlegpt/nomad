@@ -21,11 +21,11 @@ DROP POLICY IF EXISTS "Allow public delete from place_reviews" ON public.place_r
 -- 2. Create secure user policies
 -- Users can only view their own profile
 CREATE POLICY "Users can view own profile" ON public.users 
-FOR SELECT USING (auth.uid()::text = id);
+FOR SELECT USING (auth.uid() = id);
 
 -- Users can update their own profile
 CREATE POLICY "Users can update own profile" ON public.users 
-FOR UPDATE USING (auth.uid()::text = id);
+FOR UPDATE USING (auth.uid() = id);
 
 -- Allow public insert for registration (but with email verification)
 CREATE POLICY "Allow public insert for registration" ON public.users 
@@ -34,14 +34,14 @@ FOR INSERT WITH CHECK (true);
 -- Allow email verification queries
 CREATE POLICY "Allow email verification queries" ON public.users 
 FOR SELECT USING (
-  auth.uid()::text = id OR 
+  auth.uid() = id OR 
   (auth.role() = 'service_role' AND current_setting('app.verification_mode', true) = 'true')
 );
 
 -- 3. Create secure voting policies
 -- Users can only vote once per city/place
 CREATE POLICY "Users can insert own votes" ON public.votes 
-FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can view all votes (for transparency)
 CREATE POLICY "Users can view all votes" ON public.votes 
@@ -49,16 +49,16 @@ FOR SELECT USING (true);
 
 -- Users can update their own votes
 CREATE POLICY "Users can update own votes" ON public.votes 
-FOR UPDATE USING (auth.uid()::text = user_id);
+FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can delete their own votes
 CREATE POLICY "Users can delete own votes" ON public.votes 
-FOR DELETE USING (auth.uid()::text = user_id);
+FOR DELETE USING (auth.uid() = user_id);
 
 -- 4. Create secure place voting policies
 -- Users can only vote once per place
 CREATE POLICY "Users can insert own place votes" ON public.place_votes 
-FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can view all place votes
 CREATE POLICY "Users can view all place votes" ON public.place_votes 
@@ -66,16 +66,16 @@ FOR SELECT USING (true);
 
 -- Users can update their own place votes
 CREATE POLICY "Users can update own place votes" ON public.place_votes 
-FOR UPDATE USING (auth.uid()::text = user_id);
+FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can delete their own place votes
 CREATE POLICY "Users can delete own place votes" ON public.place_votes 
-FOR DELETE USING (auth.uid()::text = user_id);
+FOR DELETE USING (auth.uid() = user_id);
 
 -- 5. Create secure place review policies
 -- Users can only create reviews for places they've visited
 CREATE POLICY "Users can insert own place reviews" ON public.place_reviews 
-FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can view all place reviews
 CREATE POLICY "Users can view all place reviews" ON public.place_reviews 
@@ -83,52 +83,52 @@ FOR SELECT USING (true);
 
 -- Users can update their own place reviews
 CREATE POLICY "Users can update own place reviews" ON public.place_reviews 
-FOR UPDATE USING (auth.uid()::text = user_id);
+FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can delete their own place reviews
 CREATE POLICY "Users can delete own place reviews" ON public.place_reviews 
-FOR DELETE USING (auth.uid()::text = user_id);
+FOR DELETE USING (auth.uid() = user_id);
 
 -- 6. Create secure user data policies
 -- Users can only view their own visas
 CREATE POLICY "Users can view own visas" ON public.user_visas 
-FOR SELECT USING (auth.uid()::text = user_id);
+FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own visas
 CREATE POLICY "Users can insert own visas" ON public.user_visas 
-FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can update their own visas
 CREATE POLICY "Users can update own visas" ON public.user_visas 
-FOR UPDATE USING (auth.uid()::text = user_id);
+FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can delete their own visas
 CREATE POLICY "Users can delete own visas" ON public.user_visas 
-FOR DELETE USING (auth.uid()::text = user_id);
+FOR DELETE USING (auth.uid() = user_id);
 
 -- Users can only view their own favorites
 CREATE POLICY "Users can view own favorites" ON public.user_favorites 
-FOR SELECT USING (auth.uid()::text = user_id);
+FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own favorites
 CREATE POLICY "Users can insert own favorites" ON public.user_favorites 
-FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can delete their own favorites
 CREATE POLICY "Users can delete own favorites" ON public.user_favorites 
-FOR DELETE USING (auth.uid()::text = user_id);
+FOR DELETE USING (auth.uid() = user_id);
 
 -- Users can only view their own preferences
 CREATE POLICY "Users can view own preferences" ON public.user_preferences 
-FOR SELECT USING (auth.uid()::text = user_id);
+FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own preferences
 CREATE POLICY "Users can insert own preferences" ON public.user_preferences 
-FOR INSERT WITH CHECK (auth.uid()::text = user_id);
+FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Users can update their own preferences
 CREATE POLICY "Users can update own preferences" ON public.user_preferences 
-FOR UPDATE USING (auth.uid()::text = user_id);
+FOR UPDATE USING (auth.uid() = user_id);
 
 -- 7. Create secure verification code policies
 -- Allow public access to verification codes (needed for registration)
@@ -238,23 +238,23 @@ DECLARE
   result JSONB;
 BEGIN
   -- Only allow users to get their own data summary
-  IF auth.uid()::text != user_uuid::text THEN
+  IF auth.uid() != user_uuid THEN
     RAISE EXCEPTION 'Access denied';
   END IF;
   
   SELECT jsonb_build_object(
     'user_id', user_uuid,
-    'visas_count', (SELECT COUNT(*) FROM public.user_visas WHERE user_id = user_uuid::text),
-    'favorites_count', (SELECT COUNT(*) FROM public.user_favorites WHERE user_id = user_uuid::text),
-    'votes_count', (SELECT COUNT(*) FROM public.votes WHERE user_id = user_uuid::text),
-    'place_votes_count', (SELECT COUNT(*) FROM public.place_votes WHERE user_id = user_uuid::text),
+    'visas_count', (SELECT COUNT(*) FROM public.user_visas WHERE user_id = user_uuid),
+    'favorites_count', (SELECT COUNT(*) FROM public.user_favorites WHERE user_id = user_uuid),
+    'votes_count', (SELECT COUNT(*) FROM public.votes WHERE user_id = user_uuid),
+    'place_votes_count', (SELECT COUNT(*) FROM public.place_votes WHERE user_id = user_uuid),
     'last_activity', (
       SELECT MAX(timestamp) FROM (
-        SELECT created_at as timestamp FROM public.votes WHERE user_id = user_uuid::text
+        SELECT created_at as timestamp FROM public.votes WHERE user_id = user_uuid
         UNION ALL
-        SELECT created_at FROM public.place_votes WHERE user_id = user_uuid::text
+        SELECT created_at FROM public.place_votes WHERE user_id = user_uuid
         UNION ALL
-        SELECT created_at FROM public.user_visas WHERE user_id = user_uuid::text
+        SELECT created_at FROM public.user_visas WHERE user_id = user_uuid
       ) activities
     )
   ) INTO result;
