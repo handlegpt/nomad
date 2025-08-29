@@ -23,6 +23,7 @@ export interface RateLimitStore {
   set(key: string, data: { count: number; resetTime: number }): Promise<void>
   increment(key: string): Promise<{ count: number; resetTime: number }>
   reset(key: string): Promise<void>
+  cleanup?(): void // 可选的清理方法
 }
 
 // 内存存储实现（开发环境）
