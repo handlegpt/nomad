@@ -104,7 +104,7 @@ export class RateLimiter {
     // 定期清理内存存储
     if (this.store instanceof MemoryRateLimitStore) {
       setInterval(() => {
-        this.store.cleanup()
+        this.store.cleanup?.()
       }, 60 * 1000) // 每分钟清理一次
     }
   }
