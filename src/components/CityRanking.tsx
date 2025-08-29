@@ -4,19 +4,7 @@ import { useState, useEffect } from 'react'
 import { StarIcon, ThumbsUpIcon, ThumbsDownIcon, MapPinIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import VoteModal from './VoteModal'
-
-interface City {
-  id: string
-  name: string
-  country: string
-  country_code: string
-  avg_overall_rating: number
-  vote_count: number
-  avg_wifi_rating: number
-  avg_social_rating: number
-  avg_value_rating: number
-  avg_climate_rating: number
-}
+import { City } from '@/lib/supabase'
 
 export default function CityRanking({ limit = 10 }: { limit?: number }) {
   const { t } = useTranslation()
@@ -33,60 +21,85 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
         name: 'Lisbon',
         country: 'Portugal',
         country_code: 'PT',
+        timezone: 'Europe/Lisbon',
+        latitude: 38.7223,
+        longitude: -9.1393,
+        visa_days: 365,
+        visa_type: 'Digital Nomad Visa',
+        cost_of_living: 2000,
+        wifi_speed: 100,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.8,
-        vote_count: 230,
-        avg_wifi_rating: 4.5,
-        avg_social_rating: 4.9,
-        avg_value_rating: 4.7,
-        avg_climate_rating: 4.6
+        vote_count: 230
       },
       {
         id: '2',
         name: 'Chiang Mai',
         country: 'Thailand',
         country_code: 'TH',
+        timezone: 'Asia/Bangkok',
+        latitude: 18.7883,
+        longitude: 98.9853,
+        visa_days: 60,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1200,
+        wifi_speed: 50,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.6,
-        vote_count: 190,
-        avg_wifi_rating: 4.2,
-        avg_social_rating: 4.8,
-        avg_value_rating: 4.9,
-        avg_climate_rating: 4.5
+        vote_count: 190
       },
       {
         id: '3',
         name: 'Tbilisi',
         country: 'Georgia',
         country_code: 'GE',
+        timezone: 'Asia/Tbilisi',
+        latitude: 41.7151,
+        longitude: 44.8271,
+        visa_days: 365,
+        visa_type: 'Visa Free',
+        cost_of_living: 1200,
+        wifi_speed: 30,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.4,
-        vote_count: 160,
-        avg_wifi_rating: 4.0,
-        avg_social_rating: 4.3,
-        avg_value_rating: 4.8,
-        avg_climate_rating: 4.2
+        vote_count: 160
       },
       {
         id: '4',
         name: 'Bali',
         country: 'Indonesia',
         country_code: 'ID',
+        timezone: 'Asia/Jakarta',
+        latitude: -8.3405,
+        longitude: 115.0920,
+        visa_days: 30,
+        visa_type: 'Visa on Arrival',
+        cost_of_living: 1500,
+        wifi_speed: 25,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.3,
-        vote_count: 150,
-        avg_wifi_rating: 3.8,
-        avg_social_rating: 4.7,
-        avg_value_rating: 4.5,
-        avg_climate_rating: 4.9
+        vote_count: 150
       },
       {
         id: '5',
         name: 'Medellin',
         country: 'Colombia',
         country_code: 'CO',
+        timezone: 'America/Bogota',
+        latitude: 6.2442,
+        longitude: -75.5812,
+        visa_days: 180,
+        visa_type: 'Tourist Visa',
+        cost_of_living: 1400,
+        wifi_speed: 40,
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
         avg_overall_rating: 4.2,
-        vote_count: 140,
-        avg_wifi_rating: 4.1,
-        avg_social_rating: 4.6,
-        avg_value_rating: 4.4,
-        avg_climate_rating: 4.3
+        vote_count: 140
       }
     ]
     setCities(mockCities)
@@ -94,19 +107,11 @@ export default function CityRanking({ limit = 10 }: { limit?: number }) {
   }, [])
 
   const getCountryFlag = (countryCode: string) => {
-    const flags: { [key: string]: string } = {
-      'PT': '🇵🇹',
-      'TH': '🇹🇭',
-      'GE': '🇬🇪',
-      'ID': '🇮🇩',
-      'CO': '🇨🇴',
-      'ES': '🇪🇸',
-      'MX': '🇲🇽',
-      'AR': '🇦🇷',
-      'CZ': '🇨🇿',
-      'JP': '🇯🇵'
-    }
-    return flags[countryCode] || '🌍'
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0))
+    return String.fromCodePoint(...codePoints)
   }
 
   const handleQuickVote = (cityId: string, voteType: 'up' | 'down') => {
