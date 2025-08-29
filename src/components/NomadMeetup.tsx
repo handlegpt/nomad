@@ -14,6 +14,7 @@ import {
   type MeetupUser,
   type MeetupStats
 } from '@/lib/meetupApi'
+import { validateForm, meetupFormRules, validateField } from '@/lib/formValidation'
 import UserProfileModal from './UserProfileModal'
 import MeetupHistory from './MeetupHistory'
 import MeetupNotifications from './MeetupNotifications'
@@ -39,6 +40,10 @@ export default function NomadMeetup() {
   const [showNotifications, setShowNotifications] = useState(false)
   const [activeTab, setActiveTab] = useState<'users' | 'history' | 'notifications'>('users')
   
+  // 表单验证状态
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
+  const [isValidating, setIsValidating] = useState(false)
+  
   const { addNotification } = useNotifications()
 
   const currentCity = userLocation ? `${userLocation.city}, ${userLocation.country}` : 'Loading...'
@@ -57,7 +62,10 @@ export default function NomadMeetup() {
       setLoading(true)
       setError(null)
       
-      const usersData = await getOnlineUsers(userLocation.city)
+      const usersData = await getOnlineUsers(userLocation.city, {
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude
+      })
       setUsers(usersData)
     } catch (error) {
       logError('Failed to fetch users', error, 'NomadMeetup')
@@ -143,22 +151,37 @@ export default function NomadMeetup() {
 
   const handlePublishInvitation = async () => {
     const formData = new FormData(document.getElementById('meetup-form') as HTMLFormElement)
-    const location = formData.get('location') as string
-    const time = formData.get('time') as string
-    const description = formData.get('description') as string
+    const formValues = {
+      location: formData.get('location') as string,
+      time: formData.get('time') as string,
+      description: formData.get('description') as string
+    }
 
-    if (!location || !time) {
+    // 表单验证
+    setIsValidating(true)
+    const validation = validateForm(formValues, meetupFormRules)
+    
+    if (!validation.isValid) {
+      const errors: { [key: string]: string } = {}
+      validation.errors.forEach(error => {
+        const field = error.split(' ')[0]
+        errors[field] = error
+      })
+      setFormErrors(errors)
+      setIsValidating(false)
+      
       addNotification({
         type: 'error',
-        message: t('meetup.fillRequiredFields')
+        message: validation.errors.join('；')
       })
       return
     }
 
+    setFormErrors({})
     setCreatingMeetup(true)
     
     try {
-      const result = await createPublicMeetup(location, time, description)
+      const result = await createPublicMeetup(formValues.location, formValues.time, formValues.description)
       
       if (result.success) {
         addNotification({
@@ -183,7 +206,20 @@ export default function NomadMeetup() {
       })
     } finally {
       setCreatingMeetup(false)
+      setIsValidating(false)
     }
+  }
+
+  // 实时验证字段
+  const validateFieldRealTime = (fieldName: string, value: string) => {
+    const rule = meetupFormRules[fieldName]
+    if (!rule) return
+    
+    const error = validateField(value, rule, fieldName)
+    setFormErrors(prev => ({
+      ...prev,
+      [fieldName]: error || ''
+    }))
   }
 
   const handleUserClick = (user: MeetupUser) => {
@@ -372,6 +408,12 @@ export default function NomadMeetup() {
                       <div className="flex items-center space-x-2 text-sm text-gray-600">
                         <Clock className="h-3 w-3" />
                         <span>{user.lastSeen}</span>
+                        {user.distance && (
+                          <>
+                            <span>•</span>
+                            <span>{user.distance}km</span>
+                          </>
+                        )}
                       </div>
                       <div className="flex flex-wrap gap-1 mt-1">
                         {user.interests.slice(0, 2).map((interest, index) => (
@@ -379,7 +421,23 @@ export default function NomadMeetup() {
                             {interest}
                           </span>
                         ))}
+                        {user.mutualInterests && user.mutualInterests.length > 0 && (
+                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                            {user.mutualInterests.length} 共同兴趣
+                          </span>
+                        )}
                       </div>
+                      {user.meetupCompatibility && (
+                        <div className="flex items-center space-x-1 mt-1">
+                          <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+                            <div 
+                              className="bg-green-500 h-1.5 rounded-full transition-all duration-300"
+                              style={{ width: `${user.meetupCompatibility}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-xs text-gray-500">{user.meetupCompatibility}% 匹配</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   
@@ -460,8 +518,14 @@ export default function NomadMeetup() {
                   type="text"
                   required
                   placeholder={t('meetup.meetupLocationPlaceholder')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.location ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  onChange={(e) => validateFieldRealTime('location', e.target.value)}
                 />
+                {formErrors.location && (
+                  <p className="text-red-500 text-sm mt-1">{formErrors.location}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -471,8 +535,14 @@ export default function NomadMeetup() {
                   name="time"
                   type="datetime-local"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.time ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  onChange={(e) => validateFieldRealTime('time', e.target.value)}
                 />
+                {formErrors.time && (
+                  <p className="text-red-500 text-sm mt-1">{formErrors.time}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -482,8 +552,14 @@ export default function NomadMeetup() {
                   name="description"
                   placeholder={t('meetup.meetupDescriptionPlaceholder')}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.description ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  onChange={(e) => validateFieldRealTime('description', e.target.value)}
                 />
+                {formErrors.description && (
+                  <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>
+                )}
               </div>
             </form>
             <div className="flex space-x-3 mt-6">
