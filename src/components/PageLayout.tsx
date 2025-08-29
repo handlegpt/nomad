@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react'
 import Header from './Header'
+import Footer from './Footer'
 
 interface PageLayoutProps {
   children: ReactNode
@@ -11,6 +12,7 @@ interface PageLayoutProps {
   className?: string
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '7xl'
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  showFooter?: boolean
 }
 
 export default function PageLayout({
@@ -20,7 +22,8 @@ export default function PageLayout({
   showPageTitle = false,
   className = '',
   maxWidth = '7xl',
-  padding = 'lg'
+  padding = 'lg',
+  showFooter = true
 }: PageLayoutProps) {
   const maxWidthClasses = {
     sm: 'max-w-sm',
@@ -53,8 +56,8 @@ export default function PageLayout({
         {children}
       </main>
 
-      {/* Footer - 可以后续添加 */}
-      {/* <Footer /> */}
+      {/* Footer */}
+      {showFooter && <Footer />}
     </div>
   )
 }

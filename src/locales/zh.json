@@ -421,6 +421,31 @@
       }
     }
   },
+  "footer": {
+    "description": "为数字游民提供全面的信息、工具和社区支持，让游民生活更美好。",
+    "product": "产品",
+    "company": "公司",
+    "legal": "法律",
+    "support": "支持",
+    "cities": "城市",
+    "visaGuide": "签证指南",
+    "community": "社区",
+    "tools": "工具",
+    "about": "关于",
+    "contact": "联系",
+    "blog": "博客",
+    "careers": "招聘",
+    "privacy": "隐私",
+    "terms": "条款",
+    "cookies": "Cookie",
+    "security": "安全",
+    "help": "帮助",
+    "faq": "常见问题",
+    "status": "状态",
+    "feedback": "反馈",
+    "allRightsReserved": "版权所有。",
+    "madeWith": "用心制作"
+  },
   "setup": {
     "settingsSaved": "设置已保存！"
   },

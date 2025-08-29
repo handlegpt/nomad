@@ -395,6 +395,31 @@
       "description": "NOMAD.NOW is created by a group of travel-loving digital nomads who understand the needs and challenges of this community"
     }
   },
+  "footer": {
+    "description": "Empowering digital nomads with comprehensive information, tools, and community support for a better nomadic lifestyle.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "support": "Support",
+    "cities": "Cities",
+    "visaGuide": "Visa Guide",
+    "community": "Community",
+    "tools": "Tools",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "careers": "Careers",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies",
+    "security": "Security",
+    "help": "Help",
+    "faq": "FAQ",
+    "status": "Status",
+    "feedback": "Feedback",
+    "allRightsReserved": "All rights reserved.",
+    "madeWith": "Made with"
+  },
   "contact": {
     "title": "Contact Us",
     "subtitle": "Have questions, suggestions, or partnership interests? We'd love to hear from you",
