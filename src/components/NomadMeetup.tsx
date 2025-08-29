@@ -62,6 +62,8 @@ export default function NomadMeetup() {
   const [communityMessages, setCommunityMessages] = useState<CommunityMessage[]>([])
   const [newCommunityMessage, setNewCommunityMessage] = useState('')
   const [messageType, setMessageType] = useState<'general' | 'question' | 'info' | 'help'>('general')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterType, setFilterType] = useState<'all' | 'question' | 'info' | 'help' | 'general'>('all')
   
   const { addNotification } = useNotifications()
 
@@ -160,6 +162,18 @@ export default function NomadMeetup() {
       })
     }
   }
+
+  // 筛选和搜索消息
+  const filteredMessages = communityMessages.filter(message => {
+    const matchesSearch = searchQuery === '' || 
+      message.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      message.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      message.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    
+    const matchesFilter = filterType === 'all' || message.type === filterType
+    
+    return matchesSearch && matchesFilter
+  })
 
   const fetchUsers = async () => {
     if (!userLocation) return
@@ -612,6 +626,48 @@ export default function NomadMeetup() {
 
       {activeTab === 'community' && (
         <div className="space-y-4">
+                    {/* Search and Filter */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="搜索消息、用户或标签..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              />
+            </div>
+            <div className="flex gap-2">
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value as any)}
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              >
+                <option value="all">全部类型</option>
+                <option value="general">一般聊天</option>
+                <option value="question">问题求助</option>
+                <option value="info">信息分享</option>
+                <option value="help">紧急求助</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Message Stats */}
+          <div className="flex items-center justify-between text-sm text-gray-600">
+            <span>显示 {filteredMessages.length} / {communityMessages.length} 条消息</span>
+            {(searchQuery || filterType !== 'all') && (
+              <button
+                onClick={() => {
+                  setSearchQuery('')
+                  setFilterType('all')
+                }}
+                className="text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                清除筛选
+              </button>
+            )}
+          </div>
+
           {/* Message Input */}
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center space-x-2 mb-3">
@@ -647,16 +703,16 @@ export default function NomadMeetup() {
 
           {/* Messages */}
           <div className="space-y-3 max-h-96 overflow-y-auto">
-            {communityMessages.map((message) => (
+            {filteredMessages.map((message) => (
               <div key={message.id} className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="flex items-start space-x-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-blue-600 text-sm font-medium">{message.userAvatar}</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-1">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 mb-1 flex-wrap">
                       <span className="font-medium text-gray-900">{message.userName}</span>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
+                      <span className={`px-2 py-1 text-xs rounded-full flex-shrink-0 ${
                         message.type === 'question' ? 'bg-yellow-100 text-yellow-800' :
                         message.type === 'info' ? 'bg-green-100 text-green-800' :
                         message.type === 'help' ? 'bg-red-100 text-red-800' :
@@ -666,13 +722,13 @@ export default function NomadMeetup() {
                          message.type === 'info' ? '信息' :
                          message.type === 'help' ? '求助' : '聊天'}
                       </span>
-                      <span className="text-xs text-gray-500">{message.timestamp}</span>
-                      <span className="text-xs text-gray-500 flex items-center">
+                      <span className="text-xs text-gray-500 flex-shrink-0">{message.timestamp}</span>
+                      <span className="text-xs text-gray-500 flex items-center flex-shrink-0">
                         <MapPin className="h-3 w-3 mr-1" />
                         {message.location}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-700 mb-2">{message.content}</p>
+                    <p className="text-sm text-gray-700 mb-2 break-words">{message.content}</p>
                     {message.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-2">
                         {message.tags.map((tag, index) => (
@@ -683,12 +739,25 @@ export default function NomadMeetup() {
                       </div>
                     )}
                     <div className="flex items-center space-x-4 text-xs text-gray-500">
-                      <button className="flex items-center space-x-1 hover:text-blue-600">
+                      <button 
+                        className="flex items-center space-x-1 hover:text-blue-600 transition-colors"
+                        title="点赞"
+                      >
                         <span>👍</span>
                         <span>{message.likes}</span>
                       </button>
-                      <button className="hover:text-blue-600">回复</button>
-                      <button className="hover:text-blue-600">分享</button>
+                      <button 
+                        className="hover:text-blue-600 transition-colors"
+                        title="回复"
+                      >
+                        回复
+                      </button>
+                      <button 
+                        className="hover:text-blue-600 transition-colors"
+                        title="分享"
+                      >
+                        分享
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -696,11 +765,20 @@ export default function NomadMeetup() {
             ))}
           </div>
 
-          {communityMessages.length === 0 && (
+          {filteredMessages.length === 0 && (
             <div className="text-center py-8">
               <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-600">{t('meetup.noMessages')}</p>
-              <p className="text-sm text-gray-500">{t('meetup.startConversation')}</p>
+              {searchQuery || filterType !== 'all' ? (
+                <>
+                  <p className="text-gray-600">没有找到匹配的消息</p>
+                  <p className="text-sm text-gray-500">尝试调整搜索条件或筛选器</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-600">{t('meetup.noMessages')}</p>
+                  <p className="text-sm text-gray-500">{t('meetup.startConversation')}</p>
+                </>
+              )}
             </div>
           )}
         </div>
