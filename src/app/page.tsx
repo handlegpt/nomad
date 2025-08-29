@@ -10,6 +10,7 @@ import TestNavigation from '@/components/TestNavigation'
 import SimpleTest from '@/components/SimpleTest'
 import LinkTest from '@/components/LinkTest'
 import DirectLinkTest from '@/components/DirectLinkTest'
+import SimpleNavigationTest from '@/components/SimpleNavigationTest'
 import CurrentLocationCard from '@/components/CurrentLocationCard'
 import CityRanking from '@/components/CityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
@@ -42,6 +43,7 @@ export default function HomePage() {
       <SimpleTest />
       <LinkTest />
       <DirectLinkTest />
+      <SimpleNavigationTest />
       {/* Header */}
       <Header />
 
