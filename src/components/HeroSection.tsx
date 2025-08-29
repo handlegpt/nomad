@@ -78,7 +78,7 @@ export default function HeroSection() {
           <div className="relative lg:sticky lg:top-8">
             <UnifiedLiveInfoCard 
               variant="hero" 
-              showVisaInfo={false}
+              showVisaInfo={true}
               showActions={true}
             />
             
