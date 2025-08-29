@@ -28,7 +28,7 @@ interface CommunityMessage {
   likes: number
   replies: CommunityMessage[]
 }
-import { validateForm, meetupFormRules, validateField } from '@/lib/formValidation'
+import { validateForm, validationRules, validateField } from '@/lib/formValidation'
 import UserProfileModal from './UserProfileModal'
 import MeetupHistory from './MeetupHistory'
 import MeetupNotifications from './MeetupNotifications'
@@ -279,20 +279,20 @@ export default function NomadMeetup() {
 
     // 表单验证
     setIsValidating(true)
-    const validation = validateForm(formValues, meetupFormRules)
+    const meetupValidationRules = [
+      { name: 'location', value: formValues.location, rules: validationRules.cityName },
+      { name: 'time', value: formValues.time, rules: { required: true } },
+      { name: 'description', value: formValues.description, rules: validationRules.description }
+    ]
+    const validation = validateForm(meetupValidationRules)
     
     if (!validation.isValid) {
-      const errors: { [key: string]: string } = {}
-      validation.errors.forEach(error => {
-        const field = error.split(' ')[0]
-        errors[field] = error
-      })
-      setFormErrors(errors)
+      setFormErrors(validation.errors)
       setIsValidating(false)
       
       addNotification({
         type: 'error',
-        message: validation.errors.join('；')
+        message: Object.values(validation.errors).join('；')
       })
       return
     }
@@ -332,10 +332,23 @@ export default function NomadMeetup() {
 
   // 实时验证字段
   const validateFieldRealTime = (fieldName: string, value: string) => {
-    const rule = meetupFormRules[fieldName]
-    if (!rule) return
+    let rule
+    switch (fieldName) {
+      case 'location':
+        rule = validationRules.cityName
+        break
+      case 'description':
+        rule = validationRules.description
+        break
+      case 'time':
+        rule = { required: true }
+        break
+      default:
+        return
+    }
     
-    const error = validateField(value, rule, fieldName)
+    const field = { name: fieldName, value, rules: rule }
+    const error = validateField(field)
     setFormErrors(prev => ({
       ...prev,
       [fieldName]: error || ''

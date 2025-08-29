@@ -293,8 +293,8 @@ export default function EnhancedSearch<T extends Record<string, any>>({
       {searchResults.total > 0 && (
         <div className="text-sm text-gray-600">
           {t('search.results', { 
-            filtered: searchResults.filtered, 
-            total: searchResults.total 
+            filtered: searchResults.filtered.toString(), 
+            total: searchResults.total.toString() 
           })}
         </div>
       )}
