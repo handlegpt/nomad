@@ -203,9 +203,12 @@ export default function UnifiedLiveInfoCard({
                       </p>
                     </div>
                   </div>
-                  <button className="px-2 sm:px-3 py-1 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-xs">
+                  <FixedLink 
+                    href="/setup"
+                    className="px-2 sm:px-3 py-1 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-xs"
+                  >
                     {t('home.setupVisaButton')}
-                  </button>
+                  </FixedLink>
                 </div>
               </div>
             )}
@@ -339,9 +342,12 @@ export default function UnifiedLiveInfoCard({
                 </p>
               </div>
             </div>
-            <button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm">
+            <FixedLink 
+              href="/setup"
+              className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors text-sm"
+            >
               {t('home.setupVisaButton')}
-            </button>
+            </FixedLink>
           </div>
         </div>
       )}
