@@ -184,6 +184,31 @@ export function GlobalStateProvider({ children }: { children: ReactNode }) {
       try {
         dispatch({ type: 'SET_LOADING', payload: { key: 'auth', value: true } })
         
+        // 检查sessionToken并验证用户状态
+        const sessionToken = localStorage.getItem('session_token')
+        if (sessionToken) {
+          try {
+            const tokenData = JSON.parse(atob(sessionToken))
+            const currentTime = Date.now()
+            
+            // 检查token是否过期
+            if (tokenData.exp && currentTime < tokenData.exp) {
+              // Token有效，设置用户状态
+              dispatch({ type: 'SET_USER_PROFILE', payload: {
+                id: tokenData.userId,
+                email: tokenData.email,
+                name: tokenData.email.split('@')[0] // 使用邮箱前缀作为默认名称
+              }})
+            } else {
+              // Token过期，清除
+              localStorage.removeItem('session_token')
+            }
+          } catch (error) {
+            console.error('Invalid session token:', error)
+            localStorage.removeItem('session_token')
+          }
+        }
+        
         // 从localStorage加载用户偏好
         const savedPreferences = localStorage.getItem('user_preferences')
         if (savedPreferences) {

@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { Mail, Lock, ArrowLeft, Eye, EyeOff, Globe } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useUser } from '@/contexts/GlobalStateContext'
 import Logo from '@/components/Logo'
 
 export default function LoginPage() {
   const { t } = useTranslation()
+  const { setUserProfile } = useUser()
   const [email, setEmail] = useState('')
   const [verificationCode, setVerificationCode] = useState('')
   const [isCodeSent, setIsCodeSent] = useState(false)
@@ -82,6 +84,12 @@ export default function LoginPage() {
         if (data.sessionToken) {
           localStorage.setItem('session_token', data.sessionToken)
         }
+        
+        // 立即设置用户状态
+        if (data.user) {
+          setUserProfile(data.user)
+        }
+        
         // 登录成功，重定向到用户后台
         window.location.href = '/dashboard'
       } else {
