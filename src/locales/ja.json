@@ -20,6 +20,28 @@
     "title": "デジタルノマド情報ハブ",
     "subtitle": "デジタルノマドの包括的ガイド",
     "description": "ビザ情報、税金ガイダンス、必須ツールを見つけ、グローバルノマドコミュニティとつながりましょう。",
+    "hero": {
+      "badge": "デジタルノマドの必須ツール",
+      "title": "あなたの",
+      "titleHighlight": "次の目的地を発見",
+      "description": "リアルタイム時間、天気、WiFi速度、ビザ情報 - デジタルノマドが必要なすべてがここにあります。グローバル旅行をより簡単でスマートにします。",
+      "exploreCities": "都市を探索",
+      "getStarted": "始める",
+      "stats": {
+        "cities": "人気都市",
+        "recommendations": "ユーザー推薦",
+        "updates": "リアルタイム更新"
+      },
+      "liveInfo": {
+        "title": "ライブ情報",
+        "subtitle": "あなたの現在地",
+        "currentTime": "現在時刻",
+        "currentLocation": "現在地",
+        "locationUnavailable": "位置情報利用不可",
+        "speedTest": "速度テスト",
+        "explore": "探索"
+      }
+    },
     "currentLocation": "現在地",
     "lastUpdated": "最終更新",
     "refreshData": "データ更新",

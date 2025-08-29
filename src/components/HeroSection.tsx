@@ -29,10 +29,10 @@ export default function HeroSection() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           // 这里可以调用API获取城市名称
-          setCurrentLocation('正在获取位置...')
+          setCurrentLocation(t('home.hero.liveInfo.locationUnavailable'))
         },
         () => {
-          setCurrentLocation('位置不可用')
+          setCurrentLocation(t('home.hero.liveInfo.locationUnavailable'))
         }
       )
     }
@@ -54,21 +54,20 @@ export default function HeroSection() {
             <div className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-blue-200">
               <Globe className="h-4 w-4 text-blue-600 mr-2" />
               <span className="text-sm font-medium text-blue-700">
-                数字游民必备工具
+                {t('home.hero.badge')}
               </span>
             </div>
 
             {/* Main Heading */}
             <div className="space-y-4">
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                发现你的
+                {t('home.hero.title')}
                 <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  下一个目的地
+                  {t('home.hero.titleHighlight')}
                 </span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
-                实时时间、天气、WiFi速度、签证信息，一切数字游民需要的信息都在这里。
-                让全球旅行变得更简单、更智能。
+                {t('home.hero.description')}
               </p>
             </div>
 
@@ -78,14 +77,14 @@ export default function HeroSection() {
                 href="/cities"
                 className="btn btn-lg btn-primary group"
               >
-                探索城市
+                {t('home.hero.exploreCities')}
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </FixedLink>
               <FixedLink 
                 href="/dashboard"
                 className="btn btn-lg btn-secondary"
               >
-                开始使用
+                {t('home.hero.getStarted')}
               </FixedLink>
             </div>
 
@@ -93,15 +92,15 @@ export default function HeroSection() {
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">40+</div>
-                <div className="text-sm text-gray-600">热门城市</div>
+                <div className="text-sm text-gray-600">{t('home.hero.stats.cities')}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">1000+</div>
-                <div className="text-sm text-gray-600">用户推荐</div>
+                <div className="text-sm text-gray-600">{t('home.hero.stats.recommendations')}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">24/7</div>
-                <div className="text-sm text-gray-600">实时更新</div>
+                <div className="text-sm text-gray-600">{t('home.hero.stats.updates')}</div>
               </div>
             </div>
           </div>
@@ -112,8 +111,8 @@ export default function HeroSection() {
               <div className="space-y-6">
                 {/* Header */}
                 <div className="text-center">
-                  <h3 className="text-lg font-semibold text-gray-900">实时信息</h3>
-                  <p className="text-sm text-gray-600">你的当前位置</p>
+                  <h3 className="text-lg font-semibold text-gray-900">{t('home.hero.liveInfo.title')}</h3>
+                  <p className="text-sm text-gray-600">{t('home.hero.liveInfo.subtitle')}</p>
                 </div>
 
                 {/* Current Time */}
@@ -122,7 +121,7 @@ export default function HeroSection() {
                   <div className="text-3xl font-mono font-bold text-gray-900">
                     {currentTime}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">当前时间</div>
+                  <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentTime')}</div>
                 </div>
 
                 {/* Current Location */}
@@ -131,7 +130,7 @@ export default function HeroSection() {
                   <div className="text-lg font-semibold text-gray-900">
                     {currentLocation}
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">当前位置</div>
+                  <div className="text-sm text-gray-600 mt-1">{t('home.hero.liveInfo.currentLocation')}</div>
                 </div>
 
                 {/* Quick Actions */}
@@ -141,14 +140,14 @@ export default function HeroSection() {
                     className="btn btn-sm btn-primary"
                   >
                     <Wifi className="h-4 w-4 mr-2" />
-                    测速
+                    {t('home.hero.liveInfo.speedTest')}
                   </FixedLink>
                   <FixedLink 
                     href="/cities"
                     className="btn btn-sm btn-secondary"
                   >
                     <Globe className="h-4 w-4 mr-2" />
-                    探索
+                    {t('home.hero.liveInfo.explore')}
                   </FixedLink>
                 </div>
               </div>

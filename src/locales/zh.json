@@ -15,6 +15,28 @@
     "title": "数字游民信息中心",
     "subtitle": "数字游民的全面指南",
     "description": "查找签证信息、税务指导、必备工具，并与全球游民社区建立联系。",
+    "hero": {
+      "badge": "数字游民必备工具",
+      "title": "发现你的",
+      "titleHighlight": "下一个目的地",
+      "description": "实时时间、天气、WiFi速度、签证信息，一切数字游民需要的信息都在这里。让全球旅行变得更简单、更智能。",
+      "exploreCities": "探索城市",
+      "getStarted": "开始使用",
+      "stats": {
+        "cities": "热门城市",
+        "recommendations": "用户推荐",
+        "updates": "实时更新"
+      },
+      "liveInfo": {
+        "title": "实时信息",
+        "subtitle": "你的当前位置",
+        "currentTime": "当前时间",
+        "currentLocation": "当前位置",
+        "locationUnavailable": "位置不可用",
+        "speedTest": "测速",
+        "explore": "探索"
+      }
+    },
     "currentLocation": "你的位置",
     "lastUpdated": "最后更新",
     "refreshData": "刷新数据",

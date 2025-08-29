@@ -20,6 +20,28 @@
     "title": "Centro de Información para Nómadas Digitales",
     "subtitle": "Tu guía completa para nómadas digitales",
     "description": "Encuentra información de visa, orientación fiscal, herramientas esenciales y conéctate con la comunidad global de nómadas.",
+    "hero": {
+      "badge": "Herramientas Esenciales para Nómadas Digitales",
+      "title": "Descubre Tu",
+      "titleHighlight": "Próximo Destino",
+      "description": "Tiempo en tiempo real, clima, velocidad WiFi, información de visa - todo lo que los nómadas digitales necesitan está aquí. Haciendo los viajes globales más simples e inteligentes.",
+      "exploreCities": "Explorar Ciudades",
+      "getStarted": "Comenzar",
+      "stats": {
+        "cities": "Ciudades Populares",
+        "recommendations": "Recomendaciones de Usuarios",
+        "updates": "Actualizaciones en Tiempo Real"
+      },
+      "liveInfo": {
+        "title": "Información en Vivo",
+        "subtitle": "Tu Ubicación Actual",
+        "currentTime": "Hora Actual",
+        "currentLocation": "Ubicación Actual",
+        "locationUnavailable": "Ubicación No Disponible",
+        "speedTest": "Prueba de Velocidad",
+        "explore": "Explorar"
+      }
+    },
     "currentLocation": "Ubicación Actual",
     "lastUpdated": "Última Actualización",
     "localTime": "Hora Local",
