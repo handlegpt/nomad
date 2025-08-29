@@ -142,9 +142,9 @@ export default function NomadMeetup() {
     if (newCommunityMessage.trim()) {
       const message: CommunityMessage = {
         id: Date.now().toString(),
-        userId: user.id || 'anonymous',
-        userName: user.name || 'You',
-        userAvatar: user.name ? user.name.substring(0, 2).toUpperCase() : 'YO',
+        userId: user.profile?.id || 'anonymous',
+        userName: user.profile?.name || 'You',
+        userAvatar: user.profile?.name ? user.profile.name.substring(0, 2).toUpperCase() : 'YO',
         content: newCommunityMessage,
         timestamp: '刚刚',
         location: userLocation ? userLocation.city : 'Unknown',
