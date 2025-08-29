@@ -544,7 +544,7 @@ export default function NomadMeetup() {
                         ))}
                         {user.mutualInterests && user.mutualInterests.length > 0 && (
                           <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                            {t('meetup.mutualInterests', { count: user.mutualInterests.length })}
+                            {t('meetup.mutualInterests', { count: user.mutualInterests.length.toString() })}
                           </span>
                         )}
                       </div>
@@ -556,7 +556,7 @@ export default function NomadMeetup() {
                               style={{ width: `${user.meetupCompatibility}%` }}
                             ></div>
                           </div>
-                          <span className="text-xs text-gray-500">{t('meetup.compatibility', { percentage: user.meetupCompatibility })}</span>
+                          <span className="text-xs text-gray-500">{t('meetup.compatibility', { percentage: user.meetupCompatibility.toString() })}</span>
                         </div>
                       )}
                     </div>
@@ -654,7 +654,7 @@ export default function NomadMeetup() {
 
           {/* Message Stats */}
           <div className="flex items-center justify-between text-sm text-gray-600">
-            <span>{t('meetup.messageStats', { filtered: filteredMessages.length, total: communityMessages.length })}</span>
+            <span>{t('meetup.messageStats', { filtered: filteredMessages.length.toString(), total: communityMessages.length.toString() })}</span>
             {(searchQuery || filterType !== 'all') && (
               <button
                 onClick={() => {
