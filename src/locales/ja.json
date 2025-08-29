@@ -204,110 +204,28 @@
   },
 
   "cities": {
-    "title": "ノマド都市",
-    "subtitle": "デジタルノマドの人気目的地",
-    "loading": "都市ランキングを読み込み中...",
-    "votes": "票",
-    "quickUpvote": "クイックアップボート",
-    "quickDownvote": "クイックダウンボート",
-    "voteDetails": "投票/詳細",
-    "votingComingSoon": "投票機能が近日公開予定！",
-    "barcelona": {
-      "name": "バルセロナ、スペイン",
-      "country": "スペイン",
-      "description": "地中海のライフスタイル、素晴らしい天候と文化",
-      "visa": {
-        "digital_nomad": "利用可能 (2023)",
-        "tourist": "90日 (シェンゲン)",
-        "requirements": ["収入証明", "健康保険", "犯罪歴なし"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$2000-3500",
-        "accommodation": "$800-1500",
-        "food": "$300-500",
-        "transport": "$50-100"
-      },
-      "internet": {
-        "average_speed": "100 Mbps",
-        "coworking_spaces": "50+",
-        "free_wifi": "広く利用可能"
-      },
-      "safety": "非常に安全",
-      "language": "スペイン語、カタルーニャ語",
-      "highlights": ["ビーチライフスタイル", "豊かな文化", "素晴らしい料理", "テックシーン"]
+    "title": "都市一覧",
+    "searchPlaceholder": "都市を検索...",
+    "viewDetails": "詳細を見る",
+    "vote": "投票",
+    "votingComingSoon": "投票機能は近日公開予定",
+    "costOfLiving": "生活費",
+    "wifiSpeed": "WiFi速度",
+    "visaType": "ビザタイプ",
+    "stayDays": "滞在日数",
+    "filters": {
+      "all": "すべての都市",
+      "visaFree": "ビザ不要",
+      "digitalNomad": "デジタルノマドビザ",
+      "lowCost": "低コスト"
     },
-    "mexico_city": {
-      "name": "メキシコシティ、メキシコ",
-      "country": "メキシコ",
-      "description": "活気のある都市、豊かな文化と手頃な生活費",
-      "visa": {
-        "digital_nomad": "利用可能",
-        "tourist": "180日",
-        "requirements": ["有効なパスポート", "帰国チケット", "十分な資金"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$1500-2500",
-        "accommodation": "$500-1000",
-        "food": "$200-400",
-        "transport": "$30-60"
-      },
-      "internet": {
-        "average_speed": "50 Mbps",
-        "coworking_spaces": "30+",
-        "free_wifi": "カフェで一般的"
-      },
-      "safety": "全体的に安全（特定の地域を避ける）",
-      "language": "スペイン語",
-      "highlights": ["手頃な価格", "豊かな文化", "素晴らしい料理", "友好的な人々"]
+    "noResults": {
+      "title": "都市が見つかりません",
+      "description": "検索条件を調整するか、新しい都市を推薦してください"
     },
-    "bali": {
-      "name": "バリ、インドネシア",
-      "country": "インドネシア",
-      "description": "熱帯の楽園、スピリチュアルな文化",
-      "visa": {
-        "digital_nomad": "利用可能 (B211A)",
-        "tourist": "30日（延長可能）",
-        "requirements": ["スポンサーレター", "銀行口座明細", "帰国チケット"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$1000-2000",
-        "accommodation": "$300-800",
-        "food": "$150-300",
-        "transport": "$50-100"
-      },
-      "internet": {
-        "average_speed": "25 Mbps",
-        "coworking_spaces": "20+",
-        "free_wifi": "観光地で一般的"
-      },
-      "safety": "非常に安全",
-      "language": "インドネシア語、英語",
-      "highlights": ["熱帯気候", "スピリチュアルな文化", "手頃な価格", "美しい自然"]
-    },
-    "tokyo": {
-      "name": "東京、日本",
-      "country": "日本",
-      "description": "完璧なインフラを持つハイテク都市",
-      "visa": {
-        "digital_nomad": "利用不可",
-        "tourist": "90日",
-        "requirements": ["有効なパスポート", "帰国チケット", "十分な資金"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$3000-5000",
-        "accommodation": "$1500-2500",
-        "food": "$400-600",
-        "transport": "$100-150"
-      },
-      "internet": {
-        "average_speed": "200 Mbps",
-        "coworking_spaces": "100+",
-        "free_wifi": "広範囲なカバー"
-      },
-      "safety": "極めて安全",
-      "language": "日本語",
-      "highlights": ["完璧なインフラ", "ハイテク", "清潔", "効率的"]
-    }
+    "addCity": "都市を推薦",
+    "addCitySuccess": "都市の推薦に成功しました：{cityName}",
+    "addCityError": "都市の追加に失敗しました。再試行してください"
   },
 
   "tax_reminder": {

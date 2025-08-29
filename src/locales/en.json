@@ -154,134 +154,28 @@
     }
   },
   "cities": {
-    "title": "Nomad Cities",
-    "description": "Discover the best cities for digital nomads. Each destination offers unique opportunities, from affordable living to vibrant communities and excellent infrastructure.",
-    "loading": "Loading city rankings...",
-    "votes": "votes",
-    "quickUpvote": "Quick upvote",
-    "quickDownvote": "Quick downvote",
-    "voteDetails": "Vote/Details",
-    "votingComingSoon": "Voting functionality coming soon!",
-    "searchPlaceholder": "Search cities or countries...",
-    "filters": {
-      "all": "All Cities",
-      "visaFree": "Visa Free/Long Stay",
-      "digitalNomad": "Digital Nomad Visa",
-      "lowCost": "Low Cost"
-    },
+    "title": "Cities",
+    "searchPlaceholder": "Search cities...",
+    "viewDetails": "View Details",
+    "vote": "Vote",
+    "votingComingSoon": "Voting feature coming soon",
     "costOfLiving": "Cost of Living",
     "wifiSpeed": "WiFi Speed",
     "visaType": "Visa Type",
     "stayDays": "Stay Days",
-    "viewDetails": "View Details",
-    "vote": "Vote",
-    "days": "days",
-    "visaFree": "Visa Free",
-    "statistics": "City Statistics",
-    "rating": "Rating",
-    "relatedCities": "Related Cities",
-    "weatherForecast": "Weather Forecast",
-    "today": "Today",
-    "tomorrow": "Tomorrow",
-    "dayAfterTomorrow": "Day After Tomorrow",
-    "chiangMai": "Chiang Mai",
-    "thailand": "Thailand",
-    "lisbon": "Lisbon",
-    "portugal": "Portugal",
-    "recommendedServices": "Recommended Services",
-    "services": {
-      "insurance": "Travel Insurance",
-      "digitalNomadInsurance": "Digital Nomad Insurance",
-      "month": "month",
-      "globalCoverage": "Global Coverage",
-      "visaServices": "Visa Services",
-      "professionalVisa": "Professional Visa Application",
-      "from": "From",
-      "fastProcessing": "Fast Processing",
-      "coworkingSpaces": "Co-working Spaces",
-      "globalNetwork": "Global Network",
-      "flexibleMembership": "Flexible Membership"
-    },
-    "nomadPlaces": {
-      "title": "Nomad Place Recommendations",
-      "more": "More",
-      "addRecommendation": "Add Recommendation",
-      "quietAtmosphere": "Quiet atmosphere",
-      "stable": "stable",
-      "latte": "Latte",
-      "coworkingColiving": "Co-working + Coliving",
-      "goodCommunity": "Good community atmosphere",
-      "artisticAtmosphere": "Artistic atmosphere",
-      "goodForShortWork": "Good for short work sessions"
+    "filters": {
+      "all": "All Cities",
+      "visaFree": "Visa Free",
+      "digitalNomad": "Digital Nomad Visa",
+      "lowCost": "Low Cost"
     },
     "noResults": {
-      "title": "No matching cities found",
-      "description": "Try adjusting your search terms or filters"
+      "title": "No cities found",
+      "description": "Try adjusting your search criteria or recommend a new city"
     },
-    "planningDestination": {
-      "title": "Planning Your Next Destination?",
-      "description": "Get detailed visa information, cost breakdowns, and community insights for each city.",
-      "button": "Get City Guide"
-    },
-    "tabs": {
-      "overview": "Overview",
-      "visa": "Visa & Legal",
-      "costs": "Costs",
-      "practical": "Practical Info",
-      "community": "Community",
-      "neighborhoods": "Neighborhoods"
-    },
-    "visa": {
-      "title": "Visa Information",
-      "touristVisa": "Tourist Visa",
-      "digitalNomadVisa": "Digital Nomad Visa",
-      "requirements": "Requirements",
-      "applicationProcess": "Application Process",
-      "fees": "Fees",
-      "processingTime": "Processing Time"
-    },
-    "costs": {
-      "title": "Detailed Cost Breakdown",
-      "accommodation": "Accommodation",
-      "food": "Food & Dining",
-      "transportation": "Transportation",
-      "utilities": "Utilities",
-      "entertainment": "Entertainment",
-      "budget": "Budget",
-      "midRange": "Mid-Range",
-      "luxury": "Luxury",
-      "localRestaurant": "Local Restaurant",
-      "midRangeRestaurant": "Mid-Range Restaurant",
-      "groceries": "Groceries",
-      "publicTransport": "Public Transport",
-      "taxi": "Taxi",
-      "scooterRental": "Scooter Rental",
-      "popularDishes": "Popular Local Dishes"
-    },
-    "practical": {
-      "title": "Practical Information",
-      "essentialInfo": "Essential Information",
-      "emergencyContacts": "Emergency Contacts",
-      "bestTimeToVisit": "Best Time to Visit",
-      "language": "Language",
-      "currency": "Currency",
-      "timezone": "Timezone",
-      "emergencyNumbers": "Emergency Numbers",
-      "majorHospitals": "Major Hospitals"
-    },
-    "community": {
-      "title": "Nomad Community",
-      "coworkingSpaces": "Coworking Spaces",
-      "meetupGroups": "Meetup Groups",
-      "events": "Events & Festivals"
-    },
-    "neighborhoods": {
-      "title": "Popular Neighborhoods",
-      "averageRent": "Average Rent",
-      "vibe": "Vibe",
-      "pros": "Pros",
-      "cons": "Cons"
-    }
+    "addCity": "Recommend City",
+    "addCitySuccess": "Successfully recommended city: {cityName}",
+    "addCityError": "Failed to add city, please try again"
   },
   "tax": {
     "title": "Tax Guidance",

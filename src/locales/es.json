@@ -204,110 +204,28 @@
   },
 
   "cities": {
-    "title": "Ciudades Nómadas",
-    "subtitle": "Destinos populares para nómadas digitales",
-    "loading": "Cargando rankings de ciudades...",
-    "votes": "votos",
-    "quickUpvote": "Voto rápido positivo",
-    "quickDownvote": "Voto rápido negativo",
-    "voteDetails": "Votar/Detalles",
-    "votingComingSoon": "¡Funcionalidad de votación próximamente!",
-    "barcelona": {
-      "name": "Barcelona, España",
-      "country": "España",
-      "description": "Estilo de vida mediterráneo con excelente clima y cultura",
-      "visa": {
-        "digital_nomad": "Disponible (2023)",
-        "tourist": "90 días (Schengen)",
-        "requirements": ["Prueba de ingresos", "Seguro de salud", "Antecedentes penales limpios"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$2000-3500",
-        "accommodation": "$800-1500",
-        "food": "$300-500",
-        "transport": "$50-100"
-      },
-      "internet": {
-        "average_speed": "100 Mbps",
-        "coworking_spaces": "50+",
-        "free_wifi": "Ampliamente disponible"
-      },
-      "safety": "Muy seguro",
-      "language": "Español, Catalán",
-      "highlights": ["Estilo de vida de playa", "Cultura rica", "Excelente comida", "Escena tecnológica"]
+    "title": "Ciudades",
+    "searchPlaceholder": "Buscar ciudades...",
+    "viewDetails": "Ver Detalles",
+    "vote": "Votar",
+    "votingComingSoon": "Función de votación próximamente",
+    "costOfLiving": "Costo de Vida",
+    "wifiSpeed": "Velocidad WiFi",
+    "visaType": "Tipo de Visa",
+    "stayDays": "Días de Estadía",
+    "filters": {
+      "all": "Todas las Ciudades",
+      "visaFree": "Sin Visa",
+      "digitalNomad": "Visa de Nómada Digital",
+      "lowCost": "Bajo Costo"
     },
-    "mexico_city": {
-      "name": "Ciudad de México, México",
-      "country": "México",
-      "description": "Ciudad vibrante con rica cultura y bajo costo de vida",
-      "visa": {
-        "digital_nomad": "Disponible",
-        "tourist": "180 días",
-        "requirements": ["Pasaporte válido", "Boleto de regreso", "Fondos suficientes"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$1500-2500",
-        "accommodation": "$500-1000",
-        "food": "$200-400",
-        "transport": "$30-60"
-      },
-      "internet": {
-        "average_speed": "50 Mbps",
-        "coworking_spaces": "30+",
-        "free_wifi": "Común en cafés"
-      },
-      "safety": "Generalmente seguro (evitar ciertas áreas)",
-      "language": "Español",
-      "highlights": ["Asequible", "Cultura rica", "Excelente comida", "Gente amigable"]
+    "noResults": {
+      "title": "No se encontraron ciudades",
+      "description": "Intenta ajustar tus criterios de búsqueda o recomendar una nueva ciudad"
     },
-    "bali": {
-      "name": "Bali, Indonesia",
-      "country": "Indonesia",
-      "description": "Paraíso tropical con cultura espiritual",
-      "visa": {
-        "digital_nomad": "Disponible (B211A)",
-        "tourist": "30 días (extensible)",
-        "requirements": ["Carta de patrocinio", "Estado de cuenta bancario", "Boleto de regreso"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$1000-2000",
-        "accommodation": "$300-800",
-        "food": "$150-300",
-        "transport": "$50-100"
-      },
-      "internet": {
-        "average_speed": "25 Mbps",
-        "coworking_spaces": "20+",
-        "free_wifi": "Común en áreas turísticas"
-      },
-      "safety": "Muy seguro",
-      "language": "Indonesio, Inglés",
-      "highlights": ["Clima tropical", "Cultura espiritual", "Asequible", "Hermosa naturaleza"]
-    },
-    "tokyo": {
-      "name": "Tokio, Japón",
-      "country": "Japón",
-      "description": "Ciudad de alta tecnología con infraestructura perfecta",
-      "visa": {
-        "digital_nomad": "No disponible",
-        "tourist": "90 días",
-        "requirements": ["Pasaporte válido", "Boleto de regreso", "Fondos suficientes"]
-      },
-      "cost_of_living": {
-        "monthly_budget": "$3000-5000",
-        "accommodation": "$1500-2500",
-        "food": "$400-600",
-        "transport": "$100-150"
-      },
-      "internet": {
-        "average_speed": "200 Mbps",
-        "coworking_spaces": "100+",
-        "free_wifi": "Cobertura extensa"
-      },
-      "safety": "Extremadamente seguro",
-      "language": "Japonés",
-      "highlights": ["Infraestructura perfecta", "Alta tecnología", "Limpio", "Eficiente"]
-    }
+    "addCity": "Recomendar Ciudad",
+    "addCitySuccess": "Ciudad recomendada exitosamente: {cityName}",
+    "addCityError": "Error al agregar ciudad, por favor intenta de nuevo"
   },
 
   "tax_reminder": {

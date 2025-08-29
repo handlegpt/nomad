@@ -153,91 +153,28 @@
     }
   },
   "cities": {
-    "title": "游民城市",
-    "description": "发现最适合数字游民的城市。每个目的地都提供独特的机会，从经济实惠的生活到充满活力的社区和优秀的基础设施。",
-    "loading": "正在加载城市排名...",
+    "title": "城市列表",
     "searchPlaceholder": "搜索城市...",
-    "filters": {
-      "all": "全部",
-      "visaFree": "免签",
-      "digitalNomad": "数字游民签证",
-      "lowCost": "低成本"
-    },
+    "viewDetails": "查看详情",
+    "vote": "投票",
+    "votingComingSoon": "投票功能即将推出",
     "costOfLiving": "生活成本",
     "wifiSpeed": "WiFi速度",
     "visaType": "签证类型",
     "stayDays": "停留天数",
-    "viewDetails": "查看详情",
-    "vote": "投票",
-    "votes": "票",
-    "quickUpvote": "快速点赞",
-    "quickDownvote": "快速点踩",
-    "voteDetails": "投票/详情",
-    "votingComingSoon": "投票功能即将推出！",
-    "planningDestination": {
-      "title": "计划下一个目的地？",
-      "description": "获取每个城市的详细签证信息、成本分解和社区见解。",
-      "button": "获取城市指南"
+    "filters": {
+      "all": "全部城市",
+      "visaFree": "免签城市",
+      "digitalNomad": "数字游民签证",
+      "lowCost": "低成本城市"
     },
-    "tabs": {
-      "overview": "概览",
-      "visa": "签证和法律",
-      "costs": "成本",
-      "practical": "实用信息",
-      "community": "社区",
-      "neighborhoods": "社区"
+    "noResults": {
+      "title": "没有找到城市",
+      "description": "尝试调整搜索条件或推荐新的城市"
     },
-    "visa": {
-      "title": "签证信息",
-      "touristVisa": "旅游签证",
-      "digitalNomadVisa": "数字游民签证",
-      "requirements": "要求",
-      "applicationProcess": "申请流程",
-      "fees": "费用",
-      "processingTime": "处理时间"
-    },
-    "costs": {
-      "title": "详细成本分解",
-      "accommodation": "住宿",
-      "food": "餐饮",
-      "transportation": "交通",
-      "utilities": "公用事业",
-      "entertainment": "娱乐",
-      "budget": "预算",
-      "midRange": "中档",
-      "luxury": "豪华",
-      "localRestaurant": "当地餐厅",
-      "midRangeRestaurant": "中档餐厅",
-      "groceries": "杂货",
-      "publicTransport": "公共交通",
-      "taxi": "出租车",
-      "scooterRental": "摩托车租赁",
-      "popularDishes": "热门当地菜"
-    },
-    "practical": {
-      "title": "实用信息",
-      "essentialInfo": "基本信息",
-      "emergencyContacts": "紧急联系",
-      "bestTimeToVisit": "最佳访问时间",
-      "language": "语言",
-      "currency": "货币",
-      "timezone": "时区",
-      "emergencyNumbers": "紧急号码",
-      "majorHospitals": "主要医院"
-    },
-    "community": {
-      "title": "游民社区",
-      "coworkingSpaces": "联合办公空间",
-      "meetupGroups": "聚会小组",
-      "events": "活动和节日"
-    },
-    "neighborhoods": {
-      "title": "热门社区",
-      "averageRent": "平均租金",
-      "vibe": "氛围",
-      "pros": "优点",
-      "cons": "缺点"
-    }
+    "addCity": "推荐城市",
+    "addCitySuccess": "成功推荐城市：{cityName}",
+    "addCityError": "添加城市失败，请重试"
   },
   "tax": {
     "title": "税务指导",
