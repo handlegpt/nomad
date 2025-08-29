@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 
 interface FixedLinkProps {
@@ -11,7 +10,6 @@ interface FixedLinkProps {
 }
 
 export default function FixedLink({ href, children, className = '', onClick }: FixedLinkProps) {
-  const router = useRouter()
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -21,9 +19,9 @@ export default function FixedLink({ href, children, className = '', onClick }: F
       onClick()
     }
     
-    // Navigate using router
+    // Navigate using window.location.href (works reliably)
     console.log('FixedLink navigating to:', href)
-    router.push(href)
+    window.location.href = href
   }
 
   return (
