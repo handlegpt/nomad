@@ -666,27 +666,7 @@
     "visaConvenience": "ビザの利便性"
   },
 
-  "premiumFeatures": {
-    "title": "プレミアム機能",
-    "subtitle": "デジタルノマドの体験を向上させるより多くの専門機能をアンロック",
-    "monthly": "月額",
-    "yearly": "年額",
-    "month": "月",
-    "year": "年",
-    "savings": "20%節約",
-    "pdfReport": "PDF都市比較レポート",
-    "pdfReportDesc": "詳細な都市比較PDFレポートを生成",
-    "visaReminder": "パーソナライズされたビザリマインダー",
-    "visaReminderDesc": "スマートなビザ期限切れリマインダーと更新提案",
-    "aiAssistant": "AI都市推奨アシスタント",
-    "aiAssistantDesc": "個人の設定に基づくAI都市推奨",
-    "dataAnalysis": "高度なデータ分析",
-    "dataAnalysisDesc": "詳細なコストと生活の質の分析",
-    "upgrade": "プレミアムにアップグレード",
-    "trial": "7日間無料トライアル • いつでもキャンセル可能 • 隠れた料金なし",
-    "comingSoon": "近日公開",
-    "comingSoonDesc": "より多くのエキサイティングな機能をお楽しみに"
-  },
+
 
   "cityComparison": {
     "title": "都市比較",
@@ -811,14 +791,7 @@
       "attendEvent": "イベントに参加",
       "discoverMore": "より多くのコミュニティを発見"
     },
-    "premiumFeatures": {
-      "title": "プレミアム機能",
-      "subtitle": "デジタルノマドの体験を向上させるより多くの専門機能をアンロック",
-      "monthly": "月額",
-      "yearly": "年額",
-      "upgrade": "プレミアムにアップグレード",
-      "trial": "7日間無料トライアル • いつでもキャンセル可能 • 隠れた料金なし"
-    },
+
     "cityComparison": {
       "title": "都市比較",
       "selectCities": "比較する2-4都市を選択",

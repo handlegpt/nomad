@@ -11,7 +11,7 @@ import UnifiedLiveInfoCard from '@/components/UnifiedLiveInfoCard'
 import EnhancedCityRanking from '@/components/EnhancedCityRanking'
 import PersonalizedRecommendations from '@/components/PersonalizedRecommendations'
 import CommunitySection from '@/components/CommunitySection'
-import PremiumFeatures from '@/components/PremiumFeatures'
+
 import CityComparison from '@/components/CityComparison'
 import NomadMeetup from '@/components/NomadMeetup'
 import HomePlaceRecommendations from '@/components/HomePlaceRecommendations'
@@ -80,10 +80,7 @@ export default function HomePage() {
           <CommunitySection />
         </section>
 
-        {/* Premium Features */}
-        <section className="animate-fade-in">
-          <PremiumFeatures />
-        </section>
+
       </div>
     </PageLayout>
   )

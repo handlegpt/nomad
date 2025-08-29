@@ -333,27 +333,7 @@
     "visaConvenience": "签证便利性"
   },
 
-  "premiumFeatures": {
-    "title": "高级功能",
-    "subtitle": "解锁更多专业功能，提升数字游民体验",
-    "monthly": "月付",
-    "yearly": "年付",
-    "month": "月",
-    "year": "年",
-    "savings": "节省 20%",
-    "pdfReport": "PDF城市对比报告",
-    "pdfReportDesc": "生成详细的城市对比PDF报告",
-    "visaReminder": "个性化签证提醒",
-    "visaReminderDesc": "智能签证到期提醒和续签建议",
-    "aiAssistant": "AI城市推荐助手",
-    "aiAssistantDesc": "基于个人偏好的AI城市推荐",
-    "dataAnalysis": "高级数据分析",
-    "dataAnalysisDesc": "详细的成本和生活质量分析",
-    "upgrade": "升级到高级版",
-    "trial": "7天免费试用 • 随时取消 • 无隐藏费用",
-    "comingSoon": "即将推出",
-    "comingSoonDesc": "敬请期待更多精彩功能"
-  },
+
 
   "cityComparison": {
     "title": "城市对比",

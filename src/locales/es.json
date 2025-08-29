@@ -634,27 +634,7 @@
     "visaConvenience": "Conveniencia de Visa"
   },
 
-  "premiumFeatures": {
-    "title": "Características Premium",
-    "subtitle": "Desbloquea más características profesionales para mejorar tu experiencia como nómada digital",
-    "monthly": "Mensual",
-    "yearly": "Anual",
-    "month": "mes",
-    "year": "año",
-    "savings": "Ahorra 20%",
-    "pdfReport": "Reporte de Comparación de Ciudades PDF",
-    "pdfReportDesc": "Genera reportes detallados de comparación de ciudades en PDF",
-    "visaReminder": "Recordatorios de Visa Personalizados",
-    "visaReminderDesc": "Recordatorios inteligentes de vencimiento de visa y sugerencias de renovación",
-    "aiAssistant": "Asistente de Recomendaciones de Ciudades IA",
-    "aiAssistantDesc": "Recomendaciones de ciudades IA basadas en preferencias personales",
-    "dataAnalysis": "Análisis de Datos Avanzado",
-    "dataAnalysisDesc": "Análisis detallado de costo y calidad de vida",
-    "upgrade": "Actualizar a Premium",
-    "trial": "Prueba gratuita de 7 días • Cancela en cualquier momento • Sin cargos ocultos",
-    "comingSoon": "Próximamente",
-    "comingSoonDesc": "Mantente atento para más funciones emocionantes"
-  },
+
 
   "cityComparison": {
     "title": "Comparación de Ciudades",
@@ -783,14 +763,7 @@
       "attendEvent": "Asistir al Evento",
       "discoverMore": "Descubrir Más Comunidades"
     },
-    "premiumFeatures": {
-      "title": "Características Premium",
-      "subtitle": "Desbloquea más características profesionales para mejorar tu experiencia como nómada digital",
-      "monthly": "Mensual",
-      "yearly": "Anual",
-      "upgrade": "Actualizar a Premium",
-      "trial": "Prueba gratuita de 7 días • Cancela en cualquier momento • Sin cargos ocultos"
-    },
+
     "cityComparison": {
       "title": "Comparación de Ciudades",
       "selectCities": "Selecciona 2-4 ciudades para comparar",
