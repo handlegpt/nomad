@@ -162,6 +162,11 @@
     "wifiSpeed": "WiFi速度",
     "visaType": "签证类型",
     "stayDays": "停留天数",
+    "votes": "票",
+    "quickUpvote": "快速点赞",
+    "quickDownvote": "快速点踩",
+    "voteDetails": "详细投票",
+    "loading": "加载中...",
     "filters": {
       "all": "全部城市",
       "visaFree": "免签城市",

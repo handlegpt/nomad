@@ -213,6 +213,11 @@
     "wifiSpeed": "Velocidad WiFi",
     "visaType": "Tipo de Visa",
     "stayDays": "Días de Estadía",
+    "votes": "votos",
+    "quickUpvote": "Voto Rápido Positivo",
+    "quickDownvote": "Voto Rápido Negativo",
+    "voteDetails": "Detalles de Voto",
+    "loading": "Cargando...",
     "filters": {
       "all": "Todas las Ciudades",
       "visaFree": "Sin Visa",

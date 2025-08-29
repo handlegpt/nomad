@@ -163,6 +163,11 @@
     "wifiSpeed": "WiFi Speed",
     "visaType": "Visa Type",
     "stayDays": "Stay Days",
+    "votes": "votes",
+    "quickUpvote": "Quick Upvote",
+    "quickDownvote": "Quick Downvote",
+    "voteDetails": "Vote Details",
+    "loading": "Loading...",
     "filters": {
       "all": "All Cities",
       "visaFree": "Visa Free",
@@ -579,22 +584,8 @@
       "yearly": "Yearly",
       "upgrade": "Upgrade to Premium",
       "trial": "7-day free trial • Cancel anytime • No hidden fees"
+          }
     },
-    "cityComparison": {
-      "title": "City Comparison",
-      "selectCities": "Select 2-4 cities to compare",
-      "startComparison": "Start Comparison",
-      "addCity": "Add City",
-      "exportPDF": "Export PDF",
-      "metrics": {
-        "wifi": "WiFi Speed",
-        "cost": "Cost of Living",
-        "visa": "Visa Convenience",
-        "climate": "Climate Comfort",
-        "social": "Social Atmosphere"
-      }
-    }
-  },
   "dashboard": {
     "title": "User Dashboard",
     "overview": "Overview",

@@ -75,6 +75,27 @@
         "title": "ノマド人気都市ランキング"
       }
     },
+    "hero": {
+      "badge": "🌍 デジタルノマドのためのツール",
+      "title": "次の理想的な目的地を",
+      "titleHighlight": "見つけましょう",
+      "description": "AIパーソナライズ推奨、リアルタイム都市データ、ビザ管理ツールで、あなたのノマド生活を最適化します。",
+      "exploreCities": "都市を探索",
+      "getStarted": "始める",
+      "stats": {
+        "cities": "40+ 人気都市",
+        "recommendations": "1000+ 推奨",
+        "updates": "24/7 リアルタイム更新"
+      },
+      "liveInfo": {
+        "title": "リアルタイム情報",
+        "subtitle": "現在の状況を確認",
+        "currentTime": "現在時刻",
+        "currentLocation": "現在地",
+        "speedTest": "速度テスト",
+        "explore": "探索"
+      }
+    },
     "quickVote": {
       "title": "クイック投票",
       "description": "現在の都市の体験を簡単に評価してください",
@@ -173,7 +194,13 @@
     "costOfLiving": "生活費 ($/月)",
     "visaDays": "ビザ日数",
     "select2To4Cities": "2-4都市を選択して比較",
-    "addCityButton": "都市を追加"
+    "addCityButton": "都市を追加",
+    "description": "複数の都市を比較して最適な目的地を見つけましょう",
+    "compare": "比較",
+    "reset": "リセット",
+    "noCitiesSelected": "比較する都市を選択してください",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました"
   },
   "community": {
     "title": "ノマドコミュニティ",
@@ -260,6 +287,53 @@
     "visaType": "ビザの種類",
     "stayDays": "滞在日数",
     "viewDetails": "詳細を表示",
-    "vote": "投票"
+    "vote": "投票",
+    "votes": "票",
+    "quickUpvote": "クイックアップ投票",
+    "quickDownvote": "クイックダウン投票",
+    "voteDetails": "詳細投票",
+    "loading": "読み込み中...",
+    "filters": {
+      "all": "すべての都市",
+      "visaFree": "ビザなし都市",
+      "digitalNomad": "デジタルノマドビザ",
+      "lowCost": "低コスト都市"
+    },
+    "noResults": {
+      "title": "都市が見つかりません",
+      "description": "検索条件を調整するか、新しい都市を推奨してください"
+    },
+    "addCity": "都市を推奨",
+    "addCitySuccess": "都市の推奨が成功しました：{cityName}",
+    "addCityError": "都市の追加に失敗しました。再試行してください"
+  },
+  "notifications": {
+    "welcome": "NOMAD.NOWへようこそ！",
+    "visaExpiry": "ビザの期限が近づいています",
+    "voteSubmitted": "投票が送信されました",
+    "cityAdded": "都市が追加されました",
+    "preferencesSaved": "設定が保存されました",
+    "loginRequired": "ログインが必要です",
+    "error": "エラーが発生しました",
+    "success": "成功しました"
+  },
+  "mobileMenu": {
+    "homeDescription": "ホームページに戻る",
+    "citiesDescription": "都市を探索して比較",
+    "visaDescription": "ビザ情報とガイド",
+    "dashboardDescription": "個人設定とデータ",
+    "languageSettings": "言語設定",
+    "quickSetup": "クイック設定",
+    "aboutUs": "私たちについて",
+    "contactUs": "お問い合わせ"
+  },
+  "loginRequired": {
+    "title": "ログインが必要です",
+    "description": "この機能を使用するにはログインが必要です。まずアカウントにログインしてください",
+    "loginButton": "今すぐログイン",
+    "voteMessage": "投票するにはログインが必要です。投票の信頼性を確保します",
+    "reviewMessage": "レビューを投稿するにはログインが必要です。あなたの信頼性を構築します",
+    "recommendMessage": "場所を推奨するにはログインが必要です。他のノマドを助けます",
+    "favoriteMessage": "都市をお気に入りに追加するにはログインが必要です。あなたの好みを保存します"
   }
 }
