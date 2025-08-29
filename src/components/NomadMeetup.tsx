@@ -489,7 +489,7 @@ export default function NomadMeetup() {
       <div className="flex space-x-2 mb-6">
         <TabButton id="users" label={t('meetup.onlineUsers')} icon={Users} />
         <TabButton id="history" label={t('meetup.history')} icon={Calendar} />
-        <TabButton id="notifications" label={t('meetup.notifications')} icon={Bell} count={3} />
+                    <TabButton id="notifications" label={t('meetup.notifications.title')} icon={Bell} count={3} />
         <TabButton id="community" label={t('meetup.communityChat')} icon={MessageSquare} />
       </div>
 
