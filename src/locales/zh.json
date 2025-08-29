@@ -771,5 +771,31 @@
     "addCity": "推荐城市",
     "addCitySuccess": "成功推荐城市：{cityName}",
     "addCityError": "添加城市失败，请重试"
+  },
+  "auth": {
+    "login": {
+      "title": "欢迎回来",
+      "subtitle": "使用邮箱验证码登录您的账户",
+      "backToHome": "返回首页",
+      "emailLabel": "邮箱地址",
+      "emailPlaceholder": "your@email.com",
+      "sendCode": "发送验证码",
+      "sending": "发送中...",
+      "verificationCode": "验证码",
+      "codePlaceholder": "000000",
+      "codeSentTo": "验证码已发送到 {email}",
+      "login": "登录",
+      "loggingIn": "登录中...",
+      "resendCode": "重新发送验证码",
+      "resendCountdown": "{countdown}秒后可重新发送",
+      "footer": "使用邮箱验证码即可登录，无需注册",
+      "errors": {
+        "invalidEmail": "请输入有效的邮箱地址",
+        "sendCodeFailed": "发送验证码失败",
+        "networkError": "网络错误，请重试",
+        "invalidCode": "请输入6位验证码",
+        "codeError": "验证码错误"
+      }
+    }
   }
 } 

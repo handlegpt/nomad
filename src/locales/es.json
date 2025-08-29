@@ -863,5 +863,31 @@
     "cancel": "Cancelar",
     "submitting": "Enviando...",
     "viewDetails": "Ver Detalles"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de Vuelta",
+      "subtitle": "Inicia sesión en tu cuenta usando código de verificación por email",
+      "backToHome": "Volver al Inicio",
+      "emailLabel": "Dirección de Email",
+      "emailPlaceholder": "your@email.com",
+      "sendCode": "Enviar Código",
+      "sending": "Enviando...",
+      "verificationCode": "Código de Verificación",
+      "codePlaceholder": "000000",
+      "codeSentTo": "Código enviado a {email}",
+      "login": "Iniciar Sesión",
+      "loggingIn": "Iniciando Sesión...",
+      "resendCode": "Reenviar Código",
+      "resendCountdown": "Reenviar disponible en {countdown} segundos",
+      "footer": "Inicia sesión con código de verificación por email, sin registro requerido",
+      "errors": {
+        "invalidEmail": "Por favor ingresa una dirección de email válida",
+        "sendCodeFailed": "Error al enviar código de verificación",
+        "networkError": "Error de red, por favor intenta de nuevo",
+        "invalidCode": "Por favor ingresa código de verificación de 6 dígitos",
+        "codeError": "Código de verificación inválido"
+      }
+    }
   }
 } 

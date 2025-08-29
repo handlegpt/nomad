@@ -779,5 +779,31 @@
     "addCity": "Recommend City",
     "addCitySuccess": "Successfully recommended city: {cityName}",
     "addCityError": "Failed to add city, please try again"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account using email verification code",
+      "backToHome": "Back to Home",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "sendCode": "Send Code",
+      "sending": "Sending...",
+      "verificationCode": "Verification Code",
+      "codePlaceholder": "000000",
+      "codeSentTo": "Code sent to {email}",
+      "login": "Sign In",
+      "loggingIn": "Signing In...",
+      "resendCode": "Resend Code",
+      "resendCountdown": "Resend available in {countdown} seconds",
+      "footer": "Sign in with email verification code, no registration required",
+      "errors": {
+        "invalidEmail": "Please enter a valid email address",
+        "sendCodeFailed": "Failed to send verification code",
+        "networkError": "Network error, please try again",
+        "invalidCode": "Please enter 6-digit verification code",
+        "codeError": "Invalid verification code"
+      }
+    }
   }
 } 

@@ -891,5 +891,31 @@
     "cancel": "キャンセル",
     "submitting": "送信中...",
     "viewDetails": "詳細を見る"
+  },
+  "auth": {
+    "login": {
+      "title": "おかえりなさい",
+      "subtitle": "メール認証コードでアカウントにサインイン",
+      "backToHome": "ホームに戻る",
+      "emailLabel": "メールアドレス",
+      "emailPlaceholder": "your@email.com",
+      "sendCode": "コードを送信",
+      "sending": "送信中...",
+      "verificationCode": "認証コード",
+      "codePlaceholder": "000000",
+      "codeSentTo": "{email}にコードを送信しました",
+      "login": "サインイン",
+      "loggingIn": "サインイン中...",
+      "resendCode": "コードを再送信",
+      "resendCountdown": "{countdown}秒後に再送信可能",
+      "footer": "メール認証コードでサインイン、登録不要",
+      "errors": {
+        "invalidEmail": "有効なメールアドレスを入力してください",
+        "sendCodeFailed": "認証コードの送信に失敗しました",
+        "networkError": "ネットワークエラー、再試行してください",
+        "invalidCode": "6桁の認証コードを入力してください",
+        "codeError": "認証コードが無効です"
+      }
+    }
   }
 } 

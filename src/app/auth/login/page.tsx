@@ -19,7 +19,7 @@ export default function LoginPage() {
 
   const handleSendCode = async () => {
     if (!email || !email.includes('@')) {
-      setError('请输入有效的邮箱地址')
+      setError(t('auth.login.errors.invalidEmail'))
       return
     }
 
@@ -50,10 +50,10 @@ export default function LoginPage() {
           })
         }, 1000)
       } else {
-        setError(data.message || '发送验证码失败')
+        setError(data.message || t('auth.login.errors.sendCodeFailed'))
       }
     } catch (error) {
-      setError('网络错误，请重试')
+      setError(t('auth.login.errors.networkError'))
     } finally {
       setLoading(false)
     }
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     if (!verificationCode || verificationCode.length !== 6) {
-      setError('请输入6位验证码')
+      setError(t('auth.login.errors.invalidCode'))
       return
     }
 
@@ -93,10 +93,10 @@ export default function LoginPage() {
         // 登录成功，重定向到用户后台
         window.location.href = '/dashboard'
       } else {
-        setError(data.message || '验证码错误')
+        setError(data.message || t('auth.login.errors.codeError'))
       }
     } catch (error) {
-      setError('网络错误，请重试')
+      setError(t('auth.login.errors.networkError'))
     } finally {
       setLoading(false)
     }
@@ -111,7 +111,7 @@ export default function LoginPage() {
           className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          返回首页
+          {t('auth.login.backToHome')}
         </Link>
 
         {/* Login Card */}
@@ -121,8 +121,8 @@ export default function LoginPage() {
             <div className="flex justify-center mb-6">
               <Logo size="lg" linkToHome={false} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">欢迎回来</h2>
-            <p className="text-gray-600">使用邮箱验证码登录您的账户</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('auth.login.title')}</h2>
+            <p className="text-gray-600">{t('auth.login.subtitle')}</p>
           </div>
 
           {error && (
@@ -135,7 +135,7 @@ export default function LoginPage() {
             {/* Email Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                邮箱地址
+                {t('auth.login.emailLabel')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -143,7 +143,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={t('auth.login.emailPlaceholder')}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                   disabled={isCodeSent}
                 />
@@ -157,7 +157,7 @@ export default function LoginPage() {
                 disabled={loading || !email}
                 className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
               >
-                {loading ? '发送中...' : '发送验证码'}
+                {loading ? t('auth.login.sending') : t('auth.login.sendCode')}
               </button>
             )}
 
@@ -165,7 +165,7 @@ export default function LoginPage() {
             {isCodeSent && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  验证码
+                  {t('auth.login.verificationCode')}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -173,13 +173,13 @@ export default function LoginPage() {
                     type="text"
                     value={verificationCode}
                     onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder="000000"
+                    placeholder={t('auth.login.codePlaceholder')}
                     maxLength={6}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-center text-lg tracking-widest"
                   />
                 </div>
                 <p className="text-sm text-gray-500 mt-2">
-                  验证码已发送到 {email}
+                  {t('auth.login.codeSentTo', { email })}
                 </p>
               </div>
             )}
@@ -191,7 +191,7 @@ export default function LoginPage() {
                 disabled={loading || verificationCode.length !== 6}
                 className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
               >
-                {loading ? '登录中...' : '登录'}
+                {loading ? t('auth.login.loggingIn') : t('auth.login.login')}
               </button>
             )}
 
@@ -202,13 +202,13 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full text-blue-600 hover:text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
               >
-                重新发送验证码
+                {t('auth.login.resendCode')}
               </button>
             )}
 
             {isCodeSent && countdown > 0 && (
               <p className="text-center text-sm text-gray-500">
-                {countdown}秒后可重新发送
+                {t('auth.login.resendCountdown', { countdown: countdown.toString() })}
               </p>
             )}
           </div>
@@ -216,7 +216,7 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
-              使用邮箱验证码即可登录，无需注册
+              {t('auth.login.footer')}
             </p>
           </div>
         </div>
