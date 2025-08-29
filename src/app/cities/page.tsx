@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { SearchIcon, StarIcon, WifiIcon, DollarSignIcon, CloudIcon, UsersIcon, PlusIcon } from 'lucide-react'
 import { getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
@@ -14,7 +14,7 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import ErrorMessage from '@/components/ErrorMessage'
 import { useSearchParams } from 'next/navigation'
 
-export default function CitiesPage() {
+function CitiesPageContent() {
   const { t } = useTranslation()
   const { user } = useUser()
   const { addNotification } = useNotifications()
@@ -309,5 +309,19 @@ export default function CitiesPage() {
         />
       )}
     </PageLayout>
+  )
+}
+
+export default function CitiesPage() {
+  return (
+    <Suspense fallback={
+      <PageLayout pageTitle="Cities" showPageTitle={true}>
+        <div className="flex justify-center items-center min-h-[400px]">
+          <LoadingSpinner size="lg" text="Loading..." />
+        </div>
+      </PageLayout>
+    }>
+      <CitiesPageContent />
+    </Suspense>
   )
 } 
