@@ -1,5 +1,5 @@
 import { Globe } from 'lucide-react'
-import Link from 'next/link'
+import FixedLink from '@/components/FixedLink'
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg'
@@ -57,9 +57,9 @@ export default function Logo({
 
   if (linkToHome) {
     return (
-      <Link href="/" className="hover:opacity-80 transition-opacity">
+      <FixedLink href="/" className="hover:opacity-80 transition-opacity">
         {logoContent}
-      </Link>
+      </FixedLink>
     )
   }
 

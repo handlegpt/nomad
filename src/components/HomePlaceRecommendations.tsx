@@ -13,7 +13,7 @@ import {
 import { useTranslation } from '@/hooks/useTranslation'
 import { getPlacesByCity, getCities } from '@/lib/api'
 import { Place, City } from '@/lib/supabase'
-import Link from 'next/link'
+import FixedLink from '@/components/FixedLink'
 
 export default function HomePlaceRecommendations() {
   const { t } = useTranslation()
@@ -132,27 +132,27 @@ export default function HomePlaceRecommendations() {
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <Link
+          <FixedLink
             href="/places"
             className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
           >
             <span>{t('common.viewDetails')}</span>
             <ArrowRightIcon className="h-4 w-4" />
-          </Link>
-          <Link
+          </FixedLink>
+          <FixedLink
             href="/places"
             className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm"
           >
             <PlusIcon className="h-4 w-4" />
             <span>{t('places.addPlace')}</span>
-          </Link>
+          </FixedLink>
         </div>
       </div>
 
       {/* Places Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {places.map((place) => (
-          <Link
+          <FixedLink
             key={place.id}
             href={`/places/${place.id}`}
             className="block p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
@@ -199,7 +199,7 @@ export default function HomePlaceRecommendations() {
                 ))}
               </div>
             )}
-          </Link>
+          </FixedLink>
         ))}
       </div>
 
@@ -209,13 +209,13 @@ export default function HomePlaceRecommendations() {
           <div className="text-gray-400 text-4xl mb-3">📍</div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">{t('places.noResults.title')}</h3>
           <p className="text-gray-600 mb-4">{t('places.noResults.description')}</p>
-          <Link
+          <FixedLink
             href="/places"
             className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
             <PlusIcon className="h-4 w-4" />
             <span>{t('places.addPlace')}</span>
-          </Link>
+          </FixedLink>
         </div>
       )}
 
@@ -230,13 +230,13 @@ export default function HomePlaceRecommendations() {
               { id: 'restaurant', name: t('places.categories.restaurant'), color: 'bg-red-100 text-red-700' },
               { id: 'park', name: t('places.categories.park'), color: 'bg-purple-100 text-purple-700' }
             ].map((category) => (
-            <Link
+            <FixedLink
               key={category.id}
               href={`/places?category=${category.id}`}
               className={`px-3 py-1 rounded-full text-sm font-medium hover:opacity-80 transition-opacity ${category.color}`}
             >
               {category.name}
-            </Link>
+            </FixedLink>
           ))}
         </div>
       </div>

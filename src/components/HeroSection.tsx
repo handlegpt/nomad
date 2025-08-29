@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { ArrowRight, Globe, Clock, MapPin, Wifi } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import Link from 'next/link'
+import FixedLink from '@/components/FixedLink'
 
 export default function HeroSection() {
   const { t } = useTranslation()
@@ -74,19 +74,19 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link 
+              <FixedLink 
                 href="/cities"
                 className="btn btn-lg btn-primary group"
               >
                 探索城市
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link 
+              </FixedLink>
+              <FixedLink 
                 href="/dashboard"
                 className="btn btn-lg btn-secondary"
               >
                 开始使用
-              </Link>
+              </FixedLink>
             </div>
 
             {/* Stats */}
@@ -136,14 +136,20 @@ export default function HeroSection() {
 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-2 gap-3">
-                  <button className="btn btn-sm btn-primary">
+                  <FixedLink 
+                    href="/wifi-test"
+                    className="btn btn-sm btn-primary"
+                  >
                     <Wifi className="h-4 w-4 mr-2" />
                     测速
-                  </button>
-                  <button className="btn btn-sm btn-secondary">
+                  </FixedLink>
+                  <FixedLink 
+                    href="/cities"
+                    className="btn btn-sm btn-secondary"
+                  >
                     <Globe className="h-4 w-4 mr-2" />
                     探索
-                  </button>
+                  </FixedLink>
                 </div>
               </div>
             </div>

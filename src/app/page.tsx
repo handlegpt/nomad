@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import FixedLink from '@/components/FixedLink'
 import { Globe, Users, TrendingUp, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import Header from '@/components/Header'
@@ -56,10 +56,10 @@ export default function HomePage() {
                 <h2 className="text-2xl font-bold text-gray-900 flex items-center">
                   🌍 {t('home.features.nomadCities.title')}
                 </h2>
-                <Link href="/cities" className="btn btn-md btn-primary">
+                <FixedLink href="/cities" className="btn btn-md btn-primary">
                   {t('common.viewDetails')}
                   <ArrowRight className="h-4 w-4 ml-2" />
-                </Link>
+                </FixedLink>
               </div>
               <CityRanking limit={5} />
             </div>
