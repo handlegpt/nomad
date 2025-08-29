@@ -11,6 +11,7 @@ interface MeetupNotification {
   type: 'invitation' | 'reminder' | 'update' | 'message'
   title: string
   message: string
+  messageParams?: Record<string, string>
   from: string
   time: string
   isRead: boolean
@@ -45,8 +46,9 @@ export default function MeetupNotifications() {
         {
           id: '1',
           type: 'invitation',
-          title: t('meetup.notifications.newInvitation'),
-          message: t('meetup.notifications.invitationMessage', { user: 'Sarah Chen' }),
+          title: 'meetup.notifications.newInvitation',
+          message: 'meetup.notifications.invitationMessage',
+          messageParams: { user: 'Sarah Chen' },
           from: 'Sarah Chen',
           time: '2分钟前',
           isRead: false,
@@ -58,8 +60,9 @@ export default function MeetupNotifications() {
         {
           id: '2',
           type: 'reminder',
-          title: t('meetup.notifications.meetupReminder'),
-          message: t('meetup.notifications.reminderMessage', { time: '14:00', location: 'Blue Bottle Coffee' }),
+          title: 'meetup.notifications.meetupReminder',
+          message: 'meetup.notifications.reminderMessage',
+          messageParams: { time: '14:00', location: 'Blue Bottle Coffee' },
           from: 'System',
           time: '1小时前',
           isRead: false,
@@ -71,8 +74,9 @@ export default function MeetupNotifications() {
         {
           id: '3',
           type: 'update',
-          title: t('meetup.notifications.meetupUpdate'),
-          message: t('meetup.notifications.updateMessage', { user: 'Alex Rodriguez' }),
+          title: 'meetup.notifications.meetupUpdate',
+          message: 'meetup.notifications.updateMessage',
+          messageParams: { user: 'Alex Rodriguez' },
           from: 'Alex Rodriguez',
           time: '3小时前',
           isRead: true,
@@ -84,8 +88,9 @@ export default function MeetupNotifications() {
         {
           id: '4',
           type: 'message',
-          title: t('meetup.notifications.newMessage'),
-          message: t('meetup.notifications.messagePreview', { user: 'Emma Wilson' }),
+          title: 'meetup.notifications.newMessage',
+          message: 'meetup.notifications.messagePreview',
+          messageParams: { user: 'Emma Wilson' },
           from: 'Emma Wilson',
           time: '1天前',
           isRead: true,
@@ -275,7 +280,7 @@ export default function MeetupNotifications() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-1">
                     <h4 className="text-sm font-medium text-gray-900 truncate">
-                      {notification.title}
+                      {t(notification.title)}
                     </h4>
                     <span className="text-xs text-gray-500 ml-2">
                       {notification.time}
@@ -283,7 +288,10 @@ export default function MeetupNotifications() {
                   </div>
                   
                   <p className="text-sm text-gray-600 mb-2">
-                    {notification.message}
+                    {notification.messageParams 
+                      ? t(notification.message, notification.messageParams)
+                      : t(notification.message)
+                    }
                   </p>
                   
                   <div className="flex items-center justify-between">
