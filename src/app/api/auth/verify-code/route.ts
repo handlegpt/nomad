@@ -14,6 +14,8 @@ export async function POST(request: NextRequest) {
     // 输入验证
     const validatedData = safeValidate(verificationCodeSchema, body)
     const { email, code, locale } = validatedData
+    // 确保locale是字符串类型
+    const safeLocale = locale || 'en'
     
     logInfo('Valid request received', { email, code }, 'VerifyCodeAPI')
 
@@ -31,12 +33,12 @@ export async function POST(request: NextRequest) {
       logError('Verification code error', codeError, 'VerifyCodeAPI')
       if (codeError.code === 'PGRST116') {
         return NextResponse.json(
-          { message: getEmailTranslation(locale, 'invalidOrExpired') },
+          { message: getEmailTranslation(safeLocale, 'invalidOrExpired') },
           { status: 400 }
         )
       }
       return NextResponse.json(
-        { message: getEmailTranslation(locale, 'verificationFailed') },
+        { message: getEmailTranslation(safeLocale, 'verificationFailed') },
         { status: 500 }
       )
     }
@@ -44,7 +46,7 @@ export async function POST(request: NextRequest) {
     if (!verificationCode) {
       logError('No valid verification code found', null, 'VerifyCodeAPI')
       return NextResponse.json(
-        { message: getEmailTranslation(locale, 'invalidOrExpired') },
+        { message: getEmailTranslation(safeLocale, 'invalidOrExpired') },
         { status: 400 }
       )
     }
@@ -82,7 +84,7 @@ export async function POST(request: NextRequest) {
       if (createError) {
         logError('Create user error', createError, 'VerifyCodeAPI')
         return NextResponse.json(
-          { message: getEmailTranslation(locale, 'userCreationFailed') },
+          { message: getEmailTranslation(safeLocale, 'userCreationFailed') },
           { status: 500 }
         )
       }
@@ -92,7 +94,7 @@ export async function POST(request: NextRequest) {
     } else if (userError) {
       logError('User query error', userError, 'VerifyCodeAPI')
       return NextResponse.json(
-        { message: getEmailTranslation(locale, 'userVerificationFailed') },
+        { message: getEmailTranslation(safeLocale, 'userVerificationFailed') },
         { status: 500 }
       )
     }
@@ -100,7 +102,7 @@ export async function POST(request: NextRequest) {
     if (!user) {
       logError('User not found after creation/query', null, 'VerifyCodeAPI')
       return NextResponse.json(
-        { message: getEmailTranslation(locale, 'userVerificationFailed') },
+        { message: getEmailTranslation(safeLocale, 'userVerificationFailed') },
         { status: 500 }
       )
     }
@@ -129,7 +131,7 @@ export async function POST(request: NextRequest) {
     // 返回成功响应
     return NextResponse.json({
       success: true,
-      message: getEmailTranslation(locale, 'verificationSuccess'),
+      message: getEmailTranslation(safeLocale, 'verificationSuccess'),
       sessionToken,
       user: {
         id: user.id,
