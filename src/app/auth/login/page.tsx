@@ -1,224 +1,229 @@
 'use client'
 
 import { useState } from 'react'
-import { Mail, Lock, ArrowLeft, Eye, EyeOff, Globe } from 'lucide-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useUser } from '@/contexts/GlobalStateContext'
-import Logo from '@/components/Logo'
+import { logInfo, logError } from '@/lib/logger'
+import { setSessionToken } from '@/lib/auth'
+import { validateInput, verificationCodeSchema } from '@/lib/validation'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 export default function LoginPage() {
-  const { t, locale } = useTranslation()
-  const { setUserProfile } = useUser()
+  const { t } = useTranslation()
+  const router = useRouter()
+  
   const [email, setEmail] = useState('')
-  const [verificationCode, setVerificationCode] = useState('')
-  const [isCodeSent, setIsCodeSent] = useState(false)
+  const [code, setCode] = useState('')
+  const [step, setStep] = useState<'email' | 'code'>('email')
   const [loading, setLoading] = useState(false)
-  const [countdown, setCountdown] = useState(0)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const handleSendCode = async () => {
-    if (!email || !email.includes('@')) {
-      setError(t('auth.login.errors.invalidEmail'))
-      return
-    }
-
-    setLoading(true)
+  const handleSendCode = async (e: React.FormEvent) => {
+    e.preventDefault()
     setError('')
+    setSuccess('')
+    setLoading(true)
 
     try {
+      // 验证邮箱格式
+      const emailValidation = validateInput(verificationCodeSchema.pick({ email: true }), { email })
+      if (!emailValidation.success) {
+        setError(emailValidation.errors[0])
+        return
+      }
+
       const response = await fetch('/api/auth/send-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, locale }),
+        body: JSON.stringify({ 
+          email,
+          locale: t('locale')
+        }),
       })
 
       const data = await response.json()
 
       if (response.ok) {
-        setIsCodeSent(true)
-        setCountdown(60)
-        const timer = setInterval(() => {
-          setCountdown((prev) => {
-            if (prev <= 1) {
-              clearInterval(timer)
-              return 0
-            }
-            return prev - 1
-          })
-        }, 1000)
+        setSuccess(t('auth.codeSent'))
+        setStep('code')
+        logInfo('Verification code sent successfully', { email }, 'LoginPage')
       } else {
-        setError(data.message || t('auth.login.errors.sendCodeFailed'))
+        setError(data.message || t('auth.sendCodeFailed'))
+        logError('Failed to send verification code', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError(t('auth.login.errors.networkError'))
+      setError(t('auth.networkError'))
+      logError('Network error sending verification code', error, 'LoginPage')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleLogin = async () => {
-    if (!verificationCode || verificationCode.length !== 6) {
-      setError(t('auth.login.errors.invalidCode'))
-      return
-    }
-
-    setLoading(true)
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault()
     setError('')
+    setLoading(true)
 
     try {
+      // 验证输入
+      const validation = validateInput(verificationCodeSchema, { email, code, locale: t('locale') })
+      if (!validation.success) {
+        setError(validation.errors[0])
+        return
+      }
+
       const response = await fetch('/api/auth/verify-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, code: verificationCode, locale }),
+        body: JSON.stringify({ 
+          email,
+          code,
+          locale: t('locale')
+        }),
       })
 
       const data = await response.json()
 
-      if (response.ok) {
-        // 存储会话令牌
-        if (data.sessionToken) {
-          localStorage.setItem('session_token', data.sessionToken)
-        }
+      if (response.ok && data.success) {
+        // 设置JWT令牌
+        setSessionToken(data.user)
+        setSuccess(t('auth.loginSuccess'))
         
-        // 立即设置用户状态
-        if (data.user) {
-          setUserProfile(data.user)
-        }
+        logInfo('User logged in successfully', { userId: data.user.id }, 'LoginPage')
         
-        // 登录成功，重定向到用户后台
-        window.location.href = '/dashboard'
+        // 延迟跳转到仪表板
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1000)
       } else {
-        setError(data.message || t('auth.login.errors.codeError'))
+        setError(data.message || t('auth.verificationFailed'))
+        logError('Verification failed', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError(t('auth.login.errors.networkError'))
+      setError(t('auth.networkError'))
+      logError('Network error during verification', error, 'LoginPage')
     } finally {
       setLoading(false)
     }
   }
 
+  const handleBackToEmail = () => {
+    setStep('email')
+    setCode('')
+    setError('')
+    setSuccess('')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
-        {/* Back to Home */}
-        <Link 
-          href="/"
-          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          {t('auth.login.backToHome')}
-        </Link>
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {t('auth.login')}
+          </h1>
+          <p className="text-gray-600">
+            {step === 'email' ? t('auth.enterEmail') : t('auth.enterCode')}
+          </p>
+        </div>
 
-        {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-8">
-            {/* Logo */}
-            <div className="flex justify-center mb-6">
-              <Logo size="lg" linkToHome={false} />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('auth.login.title')}</h2>
-            <p className="text-gray-600">{t('auth.login.subtitle')}</p>
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 text-sm">{error}</p>
           </div>
+        )}
 
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{error}</p>
-            </div>
-          )}
+        {success && (
+          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-green-600 text-sm">{success}</p>
+          </div>
+        )}
 
-          <div className="space-y-6">
-            {/* Email Input */}
+        {step === 'email' ? (
+          <form onSubmit={handleSendCode} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.login.emailLabel')}
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                {t('auth.email')}
               </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('auth.login.emailPlaceholder')}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  disabled={isCodeSent}
-                />
-              </div>
-            </div>
-
-            {/* Send Code Button */}
-            {!isCodeSent && (
-              <button
-                onClick={handleSendCode}
-                disabled={loading || !email}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-              >
-                {loading ? t('auth.login.sending') : t('auth.login.sendCode')}
-              </button>
-            )}
-
-            {/* Verification Code Input */}
-            {isCodeSent && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('auth.login.verificationCode')}
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder={t('auth.login.codePlaceholder')}
-                    maxLength={6}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-center text-lg tracking-widest"
-                  />
-                </div>
-                <p className="text-sm text-gray-500 mt-2">
-                  {t('auth.login.codeSentTo', { email })}
-                </p>
-              </div>
-            )}
-
-            {/* Login Button */}
-            {isCodeSent && (
-              <button
-                onClick={handleLogin}
-                disabled={loading || verificationCode.length !== 6}
-                className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-              >
-                {loading ? t('auth.login.loggingIn') : t('auth.login.login')}
-              </button>
-            )}
-
-            {/* Resend Code */}
-            {isCodeSent && countdown === 0 && (
-              <button
-                onClick={handleSendCode}
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={t('auth.emailPlaceholder')}
+                required
                 disabled={loading}
-                className="w-full text-blue-600 hover:text-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={loading || !email}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            >
+              {loading ? (
+                <LoadingSpinner size="sm" text="" />
+              ) : (
+                t('auth.sendCode')
+              )}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyCode} className="space-y-4">
+            <div>
+              <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">
+                {t('auth.verificationCode')}
+              </label>
+              <input
+                type="text"
+                id="code"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={t('auth.codePlaceholder')}
+                maxLength={6}
+                required
+                disabled={loading}
+              />
+            </div>
+            
+            <div className="flex space-x-2">
+              <button
+                type="button"
+                onClick={handleBackToEmail}
+                disabled={loading}
+                className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 disabled:opacity-50"
               >
-                {t('auth.login.resendCode')}
+                {t('auth.back')}
               </button>
-            )}
+              
+              <button
+                type="submit"
+                disabled={loading || !code}
+                className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              >
+                {loading ? (
+                  <LoadingSpinner size="sm" text="" />
+                ) : (
+                  t('auth.verify')
+                )}
+              </button>
+            </div>
+          </form>
+        )}
 
-            {isCodeSent && countdown > 0 && (
-              <p className="text-center text-sm text-gray-500">
-                {t('auth.login.resendCountdown', { countdown: countdown.toString() })}
-              </p>
-            )}
-          </div>
-
-          {/* Footer */}
-          <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-            <p className="text-sm text-gray-600">
-              {t('auth.login.footer')}
-            </p>
-          </div>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">
+            {t('auth.noAccount')}{' '}
+            <span className="text-blue-600 cursor-pointer hover:underline">
+              {t('auth.signUp')}
+            </span>
+          </p>
         </div>
       </div>
     </div>

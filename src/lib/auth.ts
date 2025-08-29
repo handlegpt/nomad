@@ -1,4 +1,7 @@
 import { supabase } from './supabase'
+import { generateToken, verifyToken, isTokenExpired, JWTPayload } from './jwt'
+import { encryptLocalStorage, decryptLocalStorage, secureRemoveLocalStorage } from './encryption'
+import { logInfo, logError } from './logger'
 
 export interface User {
   id: string
@@ -15,31 +18,60 @@ export interface SessionToken {
   exp: number
 }
 
-// 客户端获取会话令牌（从localStorage）
+// 客户端获取会话令牌（从加密的localStorage）
 export function getSessionToken(): SessionToken | null {
   try {
     if (typeof window === 'undefined') {
       return null
     }
     
-    const sessionToken = localStorage.getItem('session_token')
+    const encryptedToken = localStorage.getItem('session_token')
     
-    if (!sessionToken) {
+    if (!encryptedToken) {
       return null
     }
 
-    const decoded = JSON.parse(atob(sessionToken))
+    const token = decryptLocalStorage<string>('session_token')
+    if (!token) {
+      logError('Failed to decrypt session token', null, 'Auth')
+      return null
+    }
+
+    // 验证JWT令牌
+    const decoded = verifyToken(token)
     
     // 检查令牌是否过期
-    if (decoded.exp < Date.now()) {
-      localStorage.removeItem('session_token')
+    if (isTokenExpired(token)) {
+      logInfo('Session token expired, removing', { userId: decoded.userId }, 'Auth')
+      clearSession()
       return null
     }
 
-    return decoded
+    return {
+      userId: decoded.userId,
+      email: decoded.email,
+      exp: decoded.exp || 0
+    }
   } catch (error) {
-    console.error('解析会话令牌失败:', error)
+    logError('Failed to get session token', error, 'Auth')
+    clearSession()
     return null
+  }
+}
+
+// 设置会话令牌
+export function setSessionToken(user: User): void {
+  try {
+    const token = generateToken({
+      userId: user.id,
+      email: user.email
+    })
+    
+    encryptLocalStorage('session_token', token)
+    logInfo('Session token set successfully', { userId: user.id }, 'Auth')
+  } catch (error) {
+    logError('Failed to set session token', error, 'Auth')
+    throw error
   }
 }
 
@@ -59,25 +91,59 @@ export async function getCurrentUser(): Promise<User | null> {
       .single()
 
     if (error || !user) {
+      logError('Failed to fetch user data', error, 'Auth')
       return null
     }
 
     return user
   } catch (error) {
-    console.error('获取用户信息失败:', error)
+    logError('Failed to get current user', error, 'Auth')
     return null
   }
 }
 
 // 检查用户是否已登录
 export async function isAuthenticated(): Promise<boolean> {
-  const user = await getCurrentUser()
-  return user !== null
+  try {
+    const user = await getCurrentUser()
+    return user !== null
+  } catch (error) {
+    logError('Failed to check authentication status', error, 'Auth')
+    return false
+  }
 }
 
 // 清除会话
 export function clearSession() {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem('session_token')
+  try {
+    if (typeof window !== 'undefined') {
+      secureRemoveLocalStorage('session_token')
+      logInfo('Session cleared successfully', null, 'Auth')
+    }
+  } catch (error) {
+    logError('Failed to clear session', error, 'Auth')
+  }
+}
+
+// 刷新会话令牌
+export async function refreshSession(): Promise<boolean> {
+  try {
+    const currentToken = localStorage.getItem('session_token')
+    if (!currentToken) return false
+
+    const token = decryptLocalStorage<string>('session_token')
+    if (!token) return false
+
+    if (!isTokenExpired(token)) {
+      return true // 令牌仍然有效
+    }
+
+    // 令牌过期，需要重新登录
+    clearSession()
+    return false
+  } catch (error) {
+    logError('Failed to refresh session', error, 'Auth')
+    clearSession()
+    return false
   }
 }

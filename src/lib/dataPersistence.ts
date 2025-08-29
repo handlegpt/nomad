@@ -1,4 +1,5 @@
 import { logInfo, logError } from '@/lib/logger'
+import { encryptLocalStorage, decryptLocalStorage, secureRemoveLocalStorage } from './encryption'
 
 // 本地存储键名常量
 const STORAGE_KEYS = {
@@ -27,7 +28,7 @@ interface StoredData<T> {
 class DataStorage {
   private prefix = 'nomad_now_'
 
-  // 设置数据
+  // 设置加密数据
   set<T>(key: string, data: T, ttl?: number): void {
     try {
       const storedData: StoredData<T> = {
@@ -37,20 +38,18 @@ class DataStorage {
         expiresAt: ttl ? Date.now() + ttl : undefined
       }
       
-      localStorage.setItem(this.prefix + key, JSON.stringify(storedData))
+      encryptLocalStorage(this.prefix + key, storedData)
       logInfo(`Data stored successfully`, { key, dataSize: JSON.stringify(data).length }, 'DataStorage')
     } catch (error) {
       logError(`Failed to store data`, error, 'DataStorage')
     }
   }
 
-  // 获取数据
+  // 获取解密数据
   get<T>(key: string): T | null {
     try {
-      const stored = localStorage.getItem(this.prefix + key)
-      if (!stored) return null
-
-      const storedData: StoredData<T> = JSON.parse(stored)
+      const storedData = decryptLocalStorage<StoredData<T>>(this.prefix + key)
+      if (!storedData) return null
       
       // 检查版本兼容性
       if (storedData.version !== DATA_VERSION) {
@@ -73,10 +72,10 @@ class DataStorage {
     }
   }
 
-  // 删除数据
+  // 安全删除数据
   remove(key: string): void {
     try {
-      localStorage.removeItem(this.prefix + key)
+      secureRemoveLocalStorage(this.prefix + key)
       logInfo(`Data removed successfully`, { key }, 'DataStorage')
     } catch (error) {
       logError(`Failed to remove data`, error, 'DataStorage')
@@ -89,7 +88,7 @@ class DataStorage {
       const keys = Object.keys(localStorage)
       keys.forEach(key => {
         if (key.startsWith(this.prefix)) {
-          localStorage.removeItem(key)
+          secureRemoveLocalStorage(key)
         }
       })
       logInfo(`All data cleared successfully`, null, 'DataStorage')
@@ -104,9 +103,10 @@ class DataStorage {
       const keys = Object.keys(localStorage)
       const nomadKeys = keys.filter(key => key.startsWith(this.prefix))
       const totalSize = nomadKeys.reduce((size, key) => {
-        return size + (localStorage.getItem(key)?.length || 0)
+        const item = localStorage.getItem(key)
+        return size + (item ? item.length : 0)
       }, 0)
-
+      
       return {
         totalKeys: nomadKeys.length,
         totalSize
@@ -121,394 +121,265 @@ class DataStorage {
 // 创建存储实例
 const storage = new DataStorage()
 
-// 用户偏好设置管理
+// 用户偏好设置管理器
 export class UserPreferencesManager {
-  private static instance: UserPreferencesManager
   private storage = storage
 
-  static getInstance(): UserPreferencesManager {
-    if (!UserPreferencesManager.instance) {
-      UserPreferencesManager.instance = new UserPreferencesManager()
-    }
-    return UserPreferencesManager.instance
-  }
-
-  // 保存用户偏好
-  savePreferences(preferences: any): void {
+  setPreferences(preferences: any): void {
     this.storage.set(STORAGE_KEYS.USER_PREFERENCES, preferences)
   }
 
-  // 获取用户偏好
   getPreferences(): any {
-    return this.storage.get(STORAGE_KEYS.USER_PREFERENCES) || {}
+    return this.storage.get(STORAGE_KEYS.USER_PREFERENCES)
   }
 
-  // 更新特定偏好
-  updatePreference(key: string, value: any): void {
-    const preferences = this.getPreferences()
-    preferences[key] = value
-    this.savePreferences(preferences)
+  updatePreferences(updates: Partial<any>): void {
+    const current = this.getPreferences() || {}
+    this.setPreferences({ ...current, ...updates })
   }
 
-  // 重置偏好设置
-  resetPreferences(): void {
+  clearPreferences(): void {
     this.storage.remove(STORAGE_KEYS.USER_PREFERENCES)
   }
 }
 
-// 收藏管理
+// 用户收藏管理器
 export class FavoritesManager {
-  private static instance: FavoritesManager
   private storage = storage
 
-  static getInstance(): FavoritesManager {
-    if (!FavoritesManager.instance) {
-      FavoritesManager.instance = new FavoritesManager()
-    }
-    return FavoritesManager.instance
-  }
-
-  // 添加收藏
   addFavorite(type: 'city' | 'place', item: any): void {
-    const favorites = this.getFavorites(type)
-    const exists = favorites.find(fav => fav.id === item.id)
-    
-    if (!exists) {
-      favorites.push({
-        ...item,
-        addedAt: new Date().toISOString()
-      })
-      this.storage.set(STORAGE_KEYS.USER_FAVORITES, favorites)
-    }
-  }
-
-  // 移除收藏
-  removeFavorite(type: 'city' | 'place', itemId: string): void {
-    const favorites = this.getFavorites(type)
     const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
-    if (Array.isArray(allFavorites)) {
-      const filtered = allFavorites.filter(fav => !(fav.type === type && fav.id === itemId))
-      this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
+    const favorites = Array.isArray(allFavorites) ? allFavorites : []
+    
+    const newFavorite = {
+      id: Date.now().toString(),
+      type,
+      item,
+      addedAt: new Date().toISOString()
     }
+    
+    this.storage.set(STORAGE_KEYS.USER_FAVORITES, [...favorites, newFavorite])
   }
 
-  // 获取收藏列表
   getFavorites(type: 'city' | 'place'): any[] {
     const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
-    return Array.isArray(allFavorites) ? allFavorites.filter(fav => fav.type === type) : []
+    const favorites = Array.isArray(allFavorites) ? allFavorites : []
+    return favorites.filter(fav => fav.type === type)
   }
 
-  // 检查是否已收藏
-  isFavorite(type: 'city' | 'place', itemId: string): boolean {
-    const favorites = this.getFavorites(type)
-    return favorites.some(fav => fav.id === itemId)
+  removeFavorite(type: 'city' | 'place', itemId: string): void {
+    const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
+    const favorites = Array.isArray(allFavorites) ? allFavorites : []
+    const filtered = favorites.filter(fav => !(fav.type === type && fav.item.id === itemId))
+    this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
   }
 
-  // 清空收藏
-  clearFavorites(type?: 'city' | 'place'): void {
-    if (type) {
-      const allFavorites = this.storage.get(STORAGE_KEYS.USER_FAVORITES) || []
-      if (Array.isArray(allFavorites)) {
-        const filtered = allFavorites.filter(fav => fav.type !== type)
-        this.storage.set(STORAGE_KEYS.USER_FAVORITES, filtered)
-      }
-    } else {
-      this.storage.remove(STORAGE_KEYS.USER_FAVORITES)
-    }
+  clearFavorites(): void {
+    this.storage.remove(STORAGE_KEYS.USER_FAVORITES)
   }
 }
 
-// 签证管理
+// 签证管理器
 export class VisaManager {
-  private static instance: VisaManager
   private storage = storage
 
-  static getInstance(): VisaManager {
-    if (!VisaManager.instance) {
-      VisaManager.instance = new VisaManager()
-    }
-    return VisaManager.instance
-  }
-
-  // 保存签证信息
-  saveVisas(visas: any[]): void {
-    this.storage.set(STORAGE_KEYS.USER_VISAS, visas)
-  }
-
-  // 获取签证信息
-  getVisas(): any[] {
-    return this.storage.get(STORAGE_KEYS.USER_VISAS) || []
-  }
-
-  // 添加签证
   addVisa(visa: any): void {
-    const visas = this.getVisas()
-    visas.push({
+    const visas = this.storage.get(STORAGE_KEYS.USER_VISAS) || []
+    const visaList = Array.isArray(visas) ? visas : []
+    
+    const newVisa = {
+      id: Date.now().toString(),
       ...visa,
       addedAt: new Date().toISOString()
-    })
-    this.saveVisas(visas)
-  }
-
-  // 更新签证
-  updateVisa(visaId: string, updates: any): void {
-    const visas = this.getVisas()
-    const index = visas.findIndex(visa => visa.id === visaId)
-    if (index !== -1) {
-      visas[index] = { ...visas[index], ...updates, updatedAt: new Date().toISOString() }
-      this.saveVisas(visas)
     }
+    
+    this.storage.set(STORAGE_KEYS.USER_VISAS, [...visaList, newVisa])
   }
 
-  // 删除签证
+  getVisas(): any[] {
+    const visas = this.storage.get(STORAGE_KEYS.USER_VISAS) || []
+    return Array.isArray(visas) ? visas : []
+  }
+
   removeVisa(visaId: string): void {
-    const visas = this.getVisas()
-    if (Array.isArray(visas)) {
-      const filtered = visas.filter(visa => visa.id !== visaId)
-      this.saveVisas(filtered)
-    }
+    const visas = this.storage.get(STORAGE_KEYS.USER_VISAS) || []
+    const visaList = Array.isArray(visas) ? visas : []
+    const filtered = visaList.filter(visa => visa.id !== visaId)
+    this.storage.set(STORAGE_KEYS.USER_VISAS, filtered)
+  }
+
+  clearVisas(): void {
+    this.storage.remove(STORAGE_KEYS.USER_VISAS)
   }
 }
 
-// 搜索历史管理
+// 搜索历史管理器
 export class SearchHistoryManager {
-  private static instance: SearchHistoryManager
   private storage = storage
-  private maxHistorySize = 50
+  private maxHistory = 50
 
-  static getInstance(): SearchHistoryManager {
-    if (!SearchHistoryManager.instance) {
-      SearchHistoryManager.instance = new SearchHistoryManager()
-    }
-    return SearchHistoryManager.instance
-  }
-
-  // 添加搜索历史
   addSearchHistory(query: string, type: 'city' | 'place'): void {
-    const history = this.getSearchHistory()
+    const history = this.storage.get(STORAGE_KEYS.SEARCH_HISTORY) || []
+    const searchHistory = Array.isArray(history) ? history : []
+    
     const newEntry = {
       query,
       type,
-      timestamp: Date.now()
+      timestamp: new Date().toISOString()
     }
-
+    
     // 移除重复项
-    const filtered = Array.isArray(history) ? history.filter(item => 
-      !(item.query === query && item.type === type)
-    ) : []
-
-    // 添加到开头
-    filtered.unshift(newEntry)
-
-    // 限制历史记录大小
-    if (filtered.length > this.maxHistorySize) {
-      filtered.splice(this.maxHistorySize)
-    }
-
-    this.storage.set(STORAGE_KEYS.SEARCH_HISTORY, filtered)
+    const filtered = searchHistory.filter(entry => !(entry.query === query && entry.type === type))
+    
+    // 添加到开头并限制数量
+    const updated = [newEntry, ...filtered].slice(0, this.maxHistory)
+    this.storage.set(STORAGE_KEYS.SEARCH_HISTORY, updated)
   }
 
-  // 获取搜索历史
   getSearchHistory(type?: 'city' | 'place'): any[] {
     const history = this.storage.get(STORAGE_KEYS.SEARCH_HISTORY) || []
-    if (!Array.isArray(history)) return []
-    return type ? history.filter(item => item.type === type) : history
+    const searchHistory = Array.isArray(history) ? history : []
+    
+    if (type) {
+      return searchHistory.filter(entry => entry.type === type)
+    }
+    return searchHistory
   }
 
-  // 清空搜索历史
-  clearSearchHistory(type?: 'city' | 'place'): void {
-    if (type) {
-      const history = this.getSearchHistory()
-      if (Array.isArray(history)) {
-        const filtered = history.filter(item => item.type !== type)
-        this.storage.set(STORAGE_KEYS.SEARCH_HISTORY, filtered)
-      }
-    } else {
-      this.storage.remove(STORAGE_KEYS.SEARCH_HISTORY)
-    }
+  clearSearchHistory(): void {
+    this.storage.remove(STORAGE_KEYS.SEARCH_HISTORY)
   }
 }
 
-// 最近访问管理
+// 最近项目管理器
 export class RecentItemsManager {
-  private static instance: RecentItemsManager
   private storage = storage
-  private maxRecentSize = 20
+  private maxItems = 20
 
-  static getInstance(): RecentItemsManager {
-    if (!RecentItemsManager.instance) {
-      RecentItemsManager.instance = new RecentItemsManager()
-    }
-    return RecentItemsManager.instance
-  }
-
-  // 添加最近访问的城市
   addRecentCity(city: any): void {
-    const recent = this.getRecentCities()
+    const recent = this.storage.get(STORAGE_KEYS.RECENT_CITIES) || []
+    const recentCities = Array.isArray(recent) ? recent : []
+    
     const newEntry = {
       ...city,
-      visitedAt: Date.now()
+      timestamp: new Date().toISOString()
     }
-
+    
     // 移除重复项
-    const filtered = Array.isArray(recent) ? recent.filter(item => item.id !== city.id) : []
-    filtered.unshift(newEntry)
-
-    // 限制大小
-    if (filtered.length > this.maxRecentSize) {
-      filtered.splice(this.maxRecentSize)
-    }
-
-    this.storage.set(STORAGE_KEYS.RECENT_CITIES, filtered)
+    const filtered = recentCities.filter(c => c.id !== city.id)
+    
+    // 添加到开头并限制数量
+    const updated = [newEntry, ...filtered].slice(0, this.maxItems)
+    this.storage.set(STORAGE_KEYS.RECENT_CITIES, updated)
   }
 
-  // 添加最近访问的地点
   addRecentPlace(place: any): void {
-    const recent = this.getRecentPlaces()
+    const recent = this.storage.get(STORAGE_KEYS.RECENT_PLACES) || []
+    const recentPlaces = Array.isArray(recent) ? recent : []
+    
     const newEntry = {
       ...place,
-      visitedAt: Date.now()
+      timestamp: new Date().toISOString()
     }
-
+    
     // 移除重复项
-    const filtered = Array.isArray(recent) ? recent.filter(item => item.id !== place.id) : []
-    filtered.unshift(newEntry)
-
-    // 限制大小
-    if (filtered.length > this.maxRecentSize) {
-      filtered.splice(this.maxRecentSize)
-    }
-
-    this.storage.set(STORAGE_KEYS.RECENT_PLACES, filtered)
+    const filtered = recentPlaces.filter(p => p.id !== place.id)
+    
+    // 添加到开头并限制数量
+    const updated = [newEntry, ...filtered].slice(0, this.maxItems)
+    this.storage.set(STORAGE_KEYS.RECENT_PLACES, updated)
   }
 
-  // 获取最近访问的城市
   getRecentCities(): any[] {
-    return this.storage.get(STORAGE_KEYS.RECENT_CITIES) || []
+    const recent = this.storage.get(STORAGE_KEYS.RECENT_CITIES) || []
+    return Array.isArray(recent) ? recent : []
   }
 
-  // 获取最近访问的地点
   getRecentPlaces(): any[] {
-    return this.storage.get(STORAGE_KEYS.RECENT_PLACES) || []
+    const recent = this.storage.get(STORAGE_KEYS.RECENT_PLACES) || []
+    return Array.isArray(recent) ? recent : []
   }
 
-  // 清空最近访问记录
-  clearRecentItems(type?: 'city' | 'place'): void {
-    if (type === 'city') {
-      this.storage.remove(STORAGE_KEYS.RECENT_CITIES)
-    } else if (type === 'place') {
-      this.storage.remove(STORAGE_KEYS.RECENT_PLACES)
-    } else {
-      this.storage.remove(STORAGE_KEYS.RECENT_CITIES)
-      this.storage.remove(STORAGE_KEYS.RECENT_PLACES)
-    }
+  clearRecentCities(): void {
+    this.storage.remove(STORAGE_KEYS.RECENT_CITIES)
+  }
+
+  clearRecentPlaces(): void {
+    this.storage.remove(STORAGE_KEYS.RECENT_PLACES)
   }
 }
 
-// 设置管理
+// 设置管理器
 export class SettingsManager {
-  private static instance: SettingsManager
   private storage = storage
 
-  static getInstance(): SettingsManager {
-    if (!SettingsManager.instance) {
-      SettingsManager.instance = new SettingsManager()
-    }
-    return SettingsManager.instance
-  }
-
-  // 保存主题设置
-  saveThemeSettings(settings: any): void {
+  setThemeSettings(settings: any): void {
     this.storage.set(STORAGE_KEYS.THEME_SETTINGS, settings)
   }
 
-  // 获取主题设置
   getThemeSettings(): any {
-    return this.storage.get(STORAGE_KEYS.THEME_SETTINGS) || { theme: 'light' }
+    return this.storage.get(STORAGE_KEYS.THEME_SETTINGS)
   }
 
-  // 保存语言设置
-  saveLanguageSettings(settings: any): void {
+  setLanguageSettings(settings: any): void {
     this.storage.set(STORAGE_KEYS.LANGUAGE_SETTINGS, settings)
   }
 
-  // 获取语言设置
   getLanguageSettings(): any {
-    return this.storage.get(STORAGE_KEYS.LANGUAGE_SETTINGS) || { language: 'en' }
+    return this.storage.get(STORAGE_KEYS.LANGUAGE_SETTINGS)
   }
 
-  // 保存通知设置
-  saveNotificationSettings(settings: any): void {
+  setNotificationSettings(settings: any): void {
     this.storage.set(STORAGE_KEYS.NOTIFICATION_SETTINGS, settings)
   }
 
-  // 获取通知设置
   getNotificationSettings(): any {
-    return this.storage.get(STORAGE_KEYS.NOTIFICATION_SETTINGS) || {
-      email: true,
-      push: true,
-      visaReminders: true,
-      cityRecommendations: true
+    return this.storage.get(STORAGE_KEYS.NOTIFICATION_SETTINGS)
+  }
+}
+
+// 数据同步服务
+export class DataSyncService {
+  private storage = storage
+
+  async syncToCloud(): Promise<void> {
+    try {
+      const data = {
+        preferences: this.storage.get(STORAGE_KEYS.USER_PREFERENCES),
+        favorites: this.storage.get(STORAGE_KEYS.USER_FAVORITES),
+        visas: this.storage.get(STORAGE_KEYS.USER_VISAS),
+        settings: {
+          theme: this.storage.get(STORAGE_KEYS.THEME_SETTINGS),
+          language: this.storage.get(STORAGE_KEYS.LANGUAGE_SETTINGS),
+          notifications: this.storage.get(STORAGE_KEYS.NOTIFICATION_SETTINGS)
+        }
+      }
+
+      // TODO: 实现云端同步逻辑
+      logInfo('Data sync to cloud completed', { dataSize: JSON.stringify(data).length }, 'DataSyncService')
+    } catch (error) {
+      logError('Failed to sync data to cloud', error, 'DataSyncService')
+    }
+  }
+
+  async syncFromCloud(): Promise<void> {
+    try {
+      // TODO: 实现从云端同步逻辑
+      logInfo('Data sync from cloud completed', null, 'DataSyncService')
+    } catch (error) {
+      logError('Failed to sync data from cloud', error, 'DataSyncService')
     }
   }
 }
 
 // 导出单例实例
-export const userPreferences = UserPreferencesManager.getInstance()
-export const favorites = FavoritesManager.getInstance()
-export const visas = VisaManager.getInstance()
-export const searchHistory = SearchHistoryManager.getInstance()
-export const recentItems = RecentItemsManager.getInstance()
-export const settings = SettingsManager.getInstance()
+export const userPreferencesManager = new UserPreferencesManager()
+export const favoritesManager = new FavoritesManager()
+export const visaManager = new VisaManager()
+export const searchHistoryManager = new SearchHistoryManager()
+export const recentItemsManager = new RecentItemsManager()
+export const settingsManager = new SettingsManager()
+export const dataSyncService = new DataSyncService()
 
-// 数据同步服务（与云端同步）
-export class DataSyncService {
-  private static instance: DataSyncService
-
-  static getInstance(): DataSyncService {
-    if (!DataSyncService.instance) {
-      DataSyncService.instance = new DataSyncService()
-    }
-    return DataSyncService.instance
-  }
-
-  // 同步用户数据到云端
-  async syncToCloud(userId: string): Promise<boolean> {
-    try {
-      const data = {
-        preferences: userPreferences.getPreferences(),
-        favorites: {
-          cities: favorites.getFavorites('city'),
-          places: favorites.getFavorites('place')
-        },
-        visas: visas.getVisas(),
-        settings: {
-          theme: settings.getThemeSettings(),
-          language: settings.getLanguageSettings(),
-          notifications: settings.getNotificationSettings()
-        }
-      }
-
-      // TODO: 实现云端同步逻辑
-      logInfo(`Data synced to cloud for user ${userId}`, data, 'DataSyncService')
-      return true
-    } catch (error) {
-      logError(`Failed to sync data to cloud`, error, 'DataSyncService')
-      return false
-    }
-  }
-
-  // 从云端同步数据
-  async syncFromCloud(userId: string): Promise<boolean> {
-    try {
-      // TODO: 实现从云端获取数据的逻辑
-      logInfo(`Data synced from cloud for user ${userId}`, null, 'DataSyncService')
-      return true
-    } catch (error) {
-      logError(`Failed to sync data from cloud`, error, 'DataSyncService')
-      return false
-    }
-  }
-}
-
-export const dataSync = DataSyncService.getInstance()
+// 导出存储实例
+export { storage as DataStorage }

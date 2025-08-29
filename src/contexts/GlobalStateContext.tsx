@@ -1,6 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
+import { getSessionToken, setSessionToken, clearSession, getCurrentUser } from '@/lib/auth'
+import { logInfo, logError } from '@/lib/logger'
 
 // 全局状态类型定义
 interface GlobalState {
@@ -136,7 +138,7 @@ function globalReducer(state: GlobalState, action: GlobalAction): GlobalState {
     case 'SET_ERROR':
       return {
         ...state,
-        error: action.payload || { message: null, type: null }
+        error: action.payload
       }
     
     case 'ADD_NOTIFICATION':
@@ -154,13 +156,27 @@ function globalReducer(state: GlobalState, action: GlobalAction): GlobalState {
     case 'CLEAR_ERROR':
       return {
         ...state,
-        error: { message: null, type: null }
+        error: {
+          message: null,
+          type: null
+        }
       }
     
     case 'LOGOUT':
       return {
-        ...initialState,
-        loading: { ...initialState.loading }
+        ...state,
+        user: {
+          isAuthenticated: false,
+          profile: null,
+          preferences: null,
+          favorites: [],
+          visas: []
+        },
+        error: {
+          message: null,
+          type: null
+        },
+        notifications: []
       }
     
     default:
@@ -168,173 +184,88 @@ function globalReducer(state: GlobalState, action: GlobalAction): GlobalState {
   }
 }
 
-// Context创建
+// 创建Context
 const GlobalStateContext = createContext<{
   state: GlobalState
   dispatch: React.Dispatch<GlobalAction>
-} | null>(null)
+  setUserProfile: (profile: any) => void
+  setUserPreferences: (preferences: UserPreferences) => void
+  setUserFavorites: (favorites: any[]) => void
+  setUserVisas: (visas: any[]) => void
+  logout: () => void
+  addNotification: (notification: Omit<Notification, 'id'>) => void
+  removeNotification: (id: string) => void
+  clearError: () => void
+} | undefined>(undefined)
 
 // Provider组件
 export function GlobalStateProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(globalReducer, initialState)
 
-  // 初始化时从本地存储加载用户数据
+  // 初始化时检查认证状态
   useEffect(() => {
-    const initializeUserData = async () => {
+    const initializeAuth = async () => {
       try {
         dispatch({ type: 'SET_LOADING', payload: { key: 'auth', value: true } })
         
-        // 检查sessionToken并验证用户状态
-        const sessionToken = localStorage.getItem('session_token')
+        // 检查JWT令牌
+        const sessionToken = getSessionToken()
         if (sessionToken) {
-          try {
-            const tokenData = JSON.parse(atob(sessionToken))
-            const currentTime = Date.now()
-            
-            // 检查token是否过期
-            if (tokenData.exp && currentTime < tokenData.exp) {
-              // Token有效，设置用户状态
-              dispatch({ type: 'SET_USER_PROFILE', payload: {
-                id: tokenData.userId,
-                email: tokenData.email,
-                name: tokenData.email.split('@')[0] // 使用邮箱前缀作为默认名称
-              }})
-            } else {
-              // Token过期，清除
-              localStorage.removeItem('session_token')
-            }
-          } catch (error) {
-            console.error('Invalid session token:', error)
-            localStorage.removeItem('session_token')
+          // 获取用户信息
+          const user = await getCurrentUser()
+          if (user) {
+            dispatch({ type: 'SET_USER_PROFILE', payload: user })
+            logInfo('User authenticated on app start', { userId: user.id }, 'GlobalState')
+          } else {
+            // 令牌无效，清除会话
+            clearSession()
+            logInfo('Invalid session token, cleared session', null, 'GlobalState')
           }
         }
-        
-        // 从localStorage加载用户偏好
-        const savedPreferences = localStorage.getItem('user_preferences')
-        if (savedPreferences) {
-          const preferences = JSON.parse(savedPreferences)
-          dispatch({ type: 'SET_USER_PREFERENCES', payload: preferences })
-        }
-
-        // 从localStorage加载收藏
-        const savedFavorites = localStorage.getItem('user_favorites')
-        if (savedFavorites) {
-          const favorites = JSON.parse(savedFavorites)
-          dispatch({ type: 'SET_USER_FAVORITES', payload: favorites })
-        }
-
-        // 从localStorage加载签证信息
-        const savedVisas = localStorage.getItem('user_visas')
-        if (savedVisas) {
-          const visas = JSON.parse(savedVisas)
-          dispatch({ type: 'SET_USER_VISAS', payload: visas })
-        }
       } catch (error) {
-        console.error('Error loading user data from localStorage:', error)
+        logError('Failed to initialize authentication', error, 'GlobalState')
+        clearSession()
       } finally {
         dispatch({ type: 'SET_LOADING', payload: { key: 'auth', value: false } })
       }
     }
 
-    initializeUserData()
+    initializeAuth()
   }, [])
 
-  return (
-    <GlobalStateContext.Provider value={{ state, dispatch }}>
-      {children}
-    </GlobalStateContext.Provider>
-  )
-}
-
-// Hook for using global state
-export function useGlobalState() {
-  const context = useContext(GlobalStateContext)
-  if (!context) {
-    throw new Error('useGlobalState must be used within a GlobalStateProvider')
-  }
-  return context
-}
-
-// 便捷的hooks
-export function useLoading() {
-  const { state, dispatch } = useGlobalState()
-  
-  const setLoading = (key: keyof GlobalState['loading'], value: boolean) => {
-    dispatch({ type: 'SET_LOADING', payload: { key, value } })
-  }
-  
-  return {
-    loading: state.loading,
-    setLoading,
-    isLoading: Object.values(state.loading).some(Boolean)
-  }
-}
-
-export function useUser() {
-  const { state, dispatch } = useGlobalState()
-  
+  // 设置用户资料
   const setUserProfile = (profile: any) => {
-    dispatch({ type: 'SET_USER_PROFILE', payload: profile })
+    if (profile) {
+      // 设置JWT令牌
+      setSessionToken(profile)
+      dispatch({ type: 'SET_USER_PROFILE', payload: profile })
+      logInfo('User profile set', { userId: profile.id }, 'GlobalState')
+    }
   }
-  
+
+  // 设置用户偏好
   const setUserPreferences = (preferences: UserPreferences) => {
     dispatch({ type: 'SET_USER_PREFERENCES', payload: preferences })
-    // 保存到本地存储
-    localStorage.setItem('user_preferences', JSON.stringify(preferences))
   }
-  
+
+  // 设置用户收藏
   const setUserFavorites = (favorites: any[]) => {
     dispatch({ type: 'SET_USER_FAVORITES', payload: favorites })
-    // 保存到本地存储
-    localStorage.setItem('user_favorites', JSON.stringify(favorites))
   }
-  
+
+  // 设置用户签证
   const setUserVisas = (visas: any[]) => {
     dispatch({ type: 'SET_USER_VISAS', payload: visas })
-    // 保存到本地存储
-    localStorage.setItem('user_visas', JSON.stringify(visas))
   }
-  
+
+  // 登出
   const logout = () => {
+    clearSession()
     dispatch({ type: 'LOGOUT' })
-    // 清除本地存储
-    localStorage.removeItem('user_preferences')
-    localStorage.removeItem('user_favorites')
-    localStorage.removeItem('user_visas')
-    localStorage.removeItem('session_token')
+    logInfo('User logged out', null, 'GlobalState')
   }
-  
-  return {
-    user: state.user,
-    setUserProfile,
-    setUserPreferences,
-    setUserFavorites,
-    setUserVisas,
-    logout
-  }
-}
 
-export function useError() {
-  const { state, dispatch } = useGlobalState()
-  
-  const setError = (message: string, type: 'auth' | 'data' | 'ui') => {
-    dispatch({ type: 'SET_ERROR', payload: { message, type } })
-  }
-  
-  const clearError = () => {
-    dispatch({ type: 'CLEAR_ERROR' })
-  }
-  
-  return {
-    error: state.error,
-    setError,
-    clearError
-  }
-}
-
-export function useNotifications() {
-  const { state, dispatch } = useGlobalState()
-  
+  // 添加通知
   const addNotification = (notification: Omit<Notification, 'id'>) => {
     const id = Date.now().toString()
     const newNotification = { ...notification, id }
@@ -348,14 +279,87 @@ export function useNotifications() {
       }, notification.duration || 5000)
     }
   }
-  
+
+  // 移除通知
   const removeNotification = (id: string) => {
     dispatch({ type: 'REMOVE_NOTIFICATION', payload: id })
   }
-  
+
+  // 清除错误
+  const clearError = () => {
+    dispatch({ type: 'CLEAR_ERROR' })
+  }
+
+  const value = {
+    state,
+    dispatch,
+    setUserProfile,
+    setUserPreferences,
+    setUserFavorites,
+    setUserVisas,
+    logout,
+    addNotification,
+    removeNotification,
+    clearError
+  }
+
+  return (
+    <GlobalStateContext.Provider value={value}>
+      {children}
+    </GlobalStateContext.Provider>
+  )
+}
+
+// 自定义Hook
+export function useGlobalState() {
+  const context = useContext(GlobalStateContext)
+  if (context === undefined) {
+    throw new Error('useGlobalState must be used within a GlobalStateProvider')
+  }
+  return context
+}
+
+// 便捷Hook
+export function useUser() {
+  const { state, setUserProfile, setUserPreferences, setUserFavorites, setUserVisas, logout } = useGlobalState()
+  return {
+    user: state.user,
+    setUserProfile,
+    setUserPreferences,
+    setUserFavorites,
+    setUserVisas,
+    logout
+  }
+}
+
+export function useLoading() {
+  const { state, dispatch } = useGlobalState()
+  return {
+    loading: state.loading,
+    setLoading: (key: keyof GlobalState['loading'], value: boolean) => {
+      dispatch({ type: 'SET_LOADING', payload: { key, value } })
+    }
+  }
+}
+
+export function useNotifications() {
+  const { state, addNotification, removeNotification } = useGlobalState()
   return {
     notifications: state.notifications,
     addNotification,
     removeNotification
+  }
+}
+
+export function useError() {
+  const { state, dispatch } = useGlobalState()
+  return {
+    error: state.error,
+    setError: (message: string, type: 'auth' | 'data' | 'ui') => {
+      dispatch({ type: 'SET_ERROR', payload: { message, type } })
+    },
+    clearError: () => {
+      dispatch({ type: 'CLEAR_ERROR' })
+    }
   }
 }

@@ -2,24 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { getEmailTranslation } from '@/lib/emailTemplates'
 import { logInfo, logError } from '@/lib/logger'
+import { generateToken } from '@/lib/jwt'
+import { safeValidate, verificationCodeSchema } from '@/lib/validation'
 
 export async function POST(request: NextRequest) {
   logInfo('API Route: /api/auth/verify-code called', null, 'VerifyCodeAPI')
   
   try {
     const body = await request.json()
-    logInfo('Request body', body, 'VerifyCodeAPI')
     
-    const { email, code, locale = 'en' } = body
-
-    if (!email || !code) {
-      logError('Missing email or code', { email, code }, 'VerifyCodeAPI')
-      return NextResponse.json(
-        { message: getEmailTranslation(locale, 'invalidEmail') },
-        { status: 400 }
-      )
-    }
-
+    // 输入验证
+    const validatedData = safeValidate(verificationCodeSchema, body)
+    const { email, code, locale } = validatedData
+    
     logInfo('Valid request received', { email, code }, 'VerifyCodeAPI')
 
     // 验证验证码
@@ -100,8 +95,14 @@ export async function POST(request: NextRequest) {
         { message: getEmailTranslation(locale, 'userVerificationFailed') },
         { status: 500 }
       )
-    } else {
-      logInfo('Existing user found', user, 'VerifyCodeAPI')
+    }
+
+    if (!user) {
+      logError('User not found after creation/query', null, 'VerifyCodeAPI')
+      return NextResponse.json(
+        { message: getEmailTranslation(locale, 'userVerificationFailed') },
+        { status: 500 }
+      )
     }
 
     // 删除已使用的验证码
@@ -114,37 +115,38 @@ export async function POST(request: NextRequest) {
     if (deleteError) {
       logError('Failed to delete verification code', deleteError, 'VerifyCodeAPI')
       // 不返回错误，因为用户已经验证成功
-    } else {
-      logInfo('Verification code deleted successfully', null, 'VerifyCodeAPI')
     }
 
-    // 创建会话令牌
-    logInfo('Creating session token...', null, 'VerifyCodeAPI')
-    const sessionToken = btoa(JSON.stringify({
+    // 生成JWT令牌
+    logInfo('Creating JWT token...', null, 'VerifyCodeAPI')
+    const sessionToken = generateToken({
       userId: user.id,
-      email: user.email,
-      exp: Date.now() + 7 * 24 * 60 * 60 * 1000 // 7天过期
-    }))
+      email: user.email
+    })
 
-    logInfo('Session token created successfully', null, 'VerifyCodeAPI')
+    logInfo('JWT token created successfully', null, 'VerifyCodeAPI')
 
+    // 返回成功响应
     return NextResponse.json({
       success: true,
+      message: getEmailTranslation(locale, 'verificationSuccess'),
       sessionToken,
       user: {
         id: user.id,
         email: user.email,
         name: user.name
-      },
-      message: locale === 'zh' ? '登录成功' : 
-               locale === 'ja' ? 'ログインに成功しました' :
-               locale === 'es' ? 'Inicio de sesión exitoso' :
-               'Login successful'
+      }
     })
+
   } catch (error) {
     logError('Unexpected error in verify-code API', error, 'VerifyCodeAPI')
+    
+    // 通用错误响应，不泄露具体错误信息
     return NextResponse.json(
-      { message: getEmailTranslation('en', 'verificationFailed') },
+      { 
+        success: false,
+        message: 'Verification failed. Please try again.' 
+      },
       { status: 500 }
     )
   }
