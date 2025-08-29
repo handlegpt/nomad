@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Locale } from '@/i18n/config'
 import { getCurrentLocale, setLocale } from '@/i18n/utils'
 
@@ -96,7 +96,7 @@ export function useTranslation() {
     await loadTranslations(newLocale)
   }
 
-  const translate = (key: string, params?: Record<string, string>): string => {
+  const translate = useCallback((key: string, params?: Record<string, string>): string => {
     if (loading) {
       console.log('⏳ Translation loading, returning key:', key)
       return key
@@ -121,7 +121,7 @@ export function useTranslation() {
     }
     
     return result
-  }
+  }, [loading, translations, locale])
 
   return {
     locale,
