@@ -725,25 +725,23 @@
   },
 
   "notifications": {
-    "title": "通知",
-    "welcome": "NOMAD.NOWへようこそ！",
-    "visaExpiry": "あなたのビザは30日後に期限切れになります",
-    "noNotifications": "通知はありません",
+    "noNotifications": "通知なし",
     "markAsRead": "既読にする",
-    "markAllAsRead": "すべて既読にする"
+    "markAllAsRead": "すべて既読にする",
+    "welcome": "Nomad Nowへようこそ！",
+    "visaExpiry": "ビザの有効期限が近づいています",
+    "dataSync": "データ同期完了",
+    "loginSuccess": "ログイン成功",
+    "logoutSuccess": "ログアウトしました"
   },
 
   "mobileMenu": {
     "title": "メニュー",
-    "homeDescription": "現在地と基本情報を表示",
-    "citiesDescription": "世界中の都市を探索",
-    "visaDescription": "各国のビザ申請ガイド",
-    "communityDescription": "他のノマドと交流",
-    "dashboardDescription": "プラットフォームデータを表示",
-    "languageSettings": "言語設定",
-    "quickSetup": "クイック設定",
-    "aboutUs": "私たちについて",
-    "contactUs": "お問い合わせ"
+    "homeDescription": "デジタルノマド都市を探索",
+    "citiesDescription": "世界中の都市を閲覧",
+    "visaGuideDescription": "ビザ情報とガイド",
+    "dashboardDescription": "アカウント管理",
+    "communityDescription": "他のノマドとつながる"
   },
 
   "nomadTip": {

@@ -75,13 +75,28 @@ CREATE TABLE IF NOT EXISTS public.user_visas (
 -- 6. Create user_favorites table
 CREATE TABLE IF NOT EXISTS public.user_favorites (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
-    city_id UUID REFERENCES public.cities(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    city_id UUID NOT NULL REFERENCES public.cities(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(user_id, city_id)
 );
 
--- 7. Create votes table
+-- 9. Create user_preferences table
+CREATE TABLE IF NOT EXISTS public.user_preferences (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    wifi_quality INTEGER DEFAULT 0 CHECK (wifi_quality >= 0 AND wifi_quality <= 100),
+    cost_of_living INTEGER DEFAULT 0 CHECK (cost_of_living >= 0 AND cost_of_living <= 100),
+    climate_comfort INTEGER DEFAULT 0 CHECK (climate_comfort >= 0 AND climate_comfort <= 100),
+    social_atmosphere INTEGER DEFAULT 0 CHECK (social_atmosphere >= 0 AND social_atmosphere <= 100),
+    visa_convenience INTEGER DEFAULT 0 CHECK (visa_convenience >= 0 AND visa_convenience <= 100),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE(user_id)
+);
+
+-- 10. Create votes table
 CREATE TABLE IF NOT EXISTS public.votes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -91,7 +106,7 @@ CREATE TABLE IF NOT EXISTS public.votes (
     UNIQUE(user_id, city_id)
 );
 
--- 8. Create place_votes table
+-- 11. Create place_votes table
 CREATE TABLE IF NOT EXISTS public.place_votes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -101,7 +116,7 @@ CREATE TABLE IF NOT EXISTS public.place_votes (
     UNIQUE(user_id, place_id)
 );
 
--- 9. Create place_reviews table
+-- 12. Create place_reviews table
 CREATE TABLE IF NOT EXISTS public.place_reviews (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES public.users(id) ON DELETE CASCADE,
@@ -166,6 +181,7 @@ CREATE INDEX IF NOT EXISTS idx_verification_codes_email ON public.verification_c
 CREATE INDEX IF NOT EXISTS idx_verification_codes_expires_at ON public.verification_codes(expires_at);
 CREATE INDEX IF NOT EXISTS idx_user_visas_user_id ON public.user_visas(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_favorites_user_id ON public.user_favorites(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_preferences_user_id ON public.user_preferences(user_id);
 CREATE INDEX IF NOT EXISTS idx_votes_user_id ON public.votes(user_id);
 CREATE INDEX IF NOT EXISTS idx_votes_city_id ON public.votes(city_id);
 
@@ -176,6 +192,7 @@ ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.verification_codes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_visas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_favorites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.place_votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.place_reviews ENABLE ROW LEVEL SECURITY;
@@ -227,7 +244,13 @@ CREATE POLICY "Users can view own favorites" ON public.user_favorites FOR SELECT
 CREATE POLICY "Users can insert own favorites" ON public.user_favorites FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can delete own favorites" ON public.user_favorites FOR DELETE USING (auth.uid() = user_id);
 
--- 14. Create function to update updated_at timestamp
+-- User preferences policies
+CREATE POLICY "Users can view own preferences" ON public.user_preferences FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own preferences" ON public.user_preferences FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update own preferences" ON public.user_preferences FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Allow public insert preferences" ON public.user_preferences FOR INSERT WITH CHECK (true);
+
+-- 15. Create function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -236,11 +259,12 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- 15. Create triggers
+-- 16. Create triggers
 CREATE TRIGGER update_cities_updated_at BEFORE UPDATE ON public.cities FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_places_updated_at BEFORE UPDATE ON public.places FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON public.users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_user_visas_updated_at BEFORE UPDATE ON public.user_visas FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_user_preferences_updated_at BEFORE UPDATE ON public.user_preferences FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_place_reviews_updated_at BEFORE UPDATE ON public.place_reviews FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Complete!

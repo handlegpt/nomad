@@ -677,25 +677,23 @@
   },
 
   "notifications": {
-    "title": "Notificaciones",
-    "welcome": "¡Bienvenido a NOMAD.NOW!",
-    "visaExpiry": "Tu visa expirará en 30 días",
     "noNotifications": "Sin notificaciones",
     "markAsRead": "Marcar como leído",
-    "markAllAsRead": "Marcar todo como leído"
+    "markAllAsRead": "Marcar todo como leído",
+    "welcome": "¡Bienvenido a Nomad Now!",
+    "visaExpiry": "Tu visa expira pronto",
+    "dataSync": "Sincronización de datos completada",
+    "loginSuccess": "Inicio de sesión exitoso",
+    "logoutSuccess": "Sesión cerrada exitosamente"
   },
 
   "mobileMenu": {
     "title": "Menú",
-    "homeDescription": "Ver ubicación actual e información básica",
-    "citiesDescription": "Explorar ciudades globales",
-    "visaDescription": "Guías de solicitud de visa para varios países",
-    "communityDescription": "Conectarse con otros nómadas",
-    "dashboardDescription": "Ver datos de la plataforma",
-    "languageSettings": "Configuración de Idioma",
-    "quickSetup": "Configuración Rápida",
-    "aboutUs": "Acerca de Nosotros",
-    "contactUs": "Contáctanos"
+    "homeDescription": "Explora ciudades de nómadas digitales",
+    "citiesDescription": "Navega por ciudades globales",
+    "visaGuideDescription": "Información y guías de visa",
+    "dashboardDescription": "Gestiona tu cuenta",
+    "communityDescription": "Conéctate con otros nómadas"
   },
 
   "nomadTip": {
