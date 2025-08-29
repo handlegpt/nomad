@@ -947,5 +947,11 @@
         "userVerificationFailed": "Error en la verificación del usuario"
       }
     }
+  },
+  "search": {
+    "advancedFilters": "Filtros Avanzados",
+    "clearAll": "Limpiar Todo",
+    "results": "Mostrando {filtered} de {total} resultados",
+    "all": "Todos"
   }
 } 

@@ -818,5 +818,11 @@
         "userVerificationFailed": "User verification failed"
       }
     }
+  },
+  "search": {
+    "advancedFilters": "Advanced Filters",
+    "clearAll": "Clear All",
+    "results": "Showing {filtered} of {total} results",
+    "all": "All"
   }
 } 

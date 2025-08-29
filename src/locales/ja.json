@@ -947,5 +947,11 @@
         "userVerificationFailed": "ユーザー認証に失敗しました"
       }
     }
+  },
+  "search": {
+    "advancedFilters": "高度なフィルター",
+    "clearAll": "すべてクリア",
+    "results": "{filtered} / {total} 件の結果を表示",
+    "all": "すべて"
   }
 } 

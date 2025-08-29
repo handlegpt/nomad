@@ -1,224 +1,273 @@
 import { logInfo, logError } from '@/lib/logger'
+import { useState, useCallback } from 'react'
 
 export interface ValidationRule {
   required?: boolean
   minLength?: number
   maxLength?: number
   pattern?: RegExp
-  custom?: (value: any) => boolean | string
+  email?: boolean
+  url?: boolean
+  custom?: (value: any) => string | null
 }
 
 export interface ValidationResult {
   isValid: boolean
-  errors: string[]
+  errors: Record<string, string>
 }
 
-export interface FormValidationRules {
-  [fieldName: string]: ValidationRule
+export interface FormField {
+  name: string
+  value: any
+  rules: ValidationRule
 }
 
-// 通用表单验证函数
-export function validateForm(data: any, rules: FormValidationRules): ValidationResult {
-  const errors: string[] = []
-  
-  for (const [fieldName, rule] of Object.entries(rules)) {
-    const value = data[fieldName]
-    
-    // 必填验证
-    if (rule.required && (!value || value.toString().trim() === '')) {
-      errors.push(`${fieldName} 是必填项`)
-      continue
-    }
-    
-    // 如果值为空且不是必填，跳过其他验证
-    if (!value || value.toString().trim() === '') {
-      continue
-    }
-    
-    // 长度验证
-    if (rule.minLength && value.toString().length < rule.minLength) {
-      errors.push(`${fieldName} 至少需要 ${rule.minLength} 个字符`)
-    }
-    
-    if (rule.maxLength && value.toString().length > rule.maxLength) {
-      errors.push(`${fieldName} 不能超过 ${rule.maxLength} 个字符`)
-    }
-    
-    // 正则表达式验证
-    if (rule.pattern && !rule.pattern.test(value.toString())) {
-      errors.push(`${fieldName} 格式不正确`)
-    }
-    
-    // 自定义验证
-    if (rule.custom) {
-      const customResult = rule.custom(value)
-      if (customResult !== true) {
-        errors.push(typeof customResult === 'string' ? customResult : `${fieldName} 验证失败`)
-      }
-    }
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors
-  }
-}
-
-// Meetup表单验证规则
-export const meetupFormRules: FormValidationRules = {
-  location: {
-    required: true,
-    minLength: 3,
-    maxLength: 100,
-    custom: (value: string) => {
-      if (value.length < 3) return '地点名称至少需要3个字符'
-      if (value.length > 100) return '地点名称不能超过100个字符'
-      return true
-    }
-  },
-  time: {
-    required: true,
-    custom: (value: string) => {
-      const selectedTime = new Date(value)
-      const now = new Date()
-      
-      // 检查是否是未来时间
-      if (selectedTime <= now) {
-        return '请选择未来的时间'
-      }
-      
-      // 检查是否在合理范围内（比如不超过30天）
-      const thirtyDaysFromNow = new Date()
-      thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30)
-      
-      if (selectedTime > thirtyDaysFromNow) {
-        return '时间不能超过30天以后'
-      }
-      
-      return true
-    }
-  },
-  description: {
-    maxLength: 500,
-    custom: (value: string) => {
-      if (value && value.length > 500) {
-        return '描述不能超过500个字符'
-      }
-      return true
-    }
-  }
-}
-
-// 用户注册表单验证规则
-export const userRegistrationRules: FormValidationRules = {
+// 预定义的验证规则
+export const validationRules = {
   email: {
     required: true,
-    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    custom: (value: string) => {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        return '请输入有效的邮箱地址'
-      }
-      return true
-    }
+    email: true,
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   },
-  name: {
+  password: {
+    required: true,
+    minLength: 6,
+    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/
+  },
+  verificationCode: {
+    required: true,
+    pattern: /^\d{6}$/
+  },
+  cityName: {
     required: true,
     minLength: 2,
-    maxLength: 50,
-    pattern: /^[a-zA-Z\u4e00-\u9fa5\s]+$/,
-    custom: (value: string) => {
-      if (value.length < 2) return '姓名至少需要2个字符'
-      if (value.length > 50) return '姓名不能超过50个字符'
-      if (!/^[a-zA-Z\u4e00-\u9fa5\s]+$/.test(value)) {
-        return '姓名只能包含字母、中文和空格'
+    maxLength: 50
+  },
+  placeName: {
+    required: true,
+    minLength: 2,
+    maxLength: 100
+  },
+  description: {
+    required: true,
+    minLength: 10,
+    maxLength: 500
+  },
+  wifiSpeed: {
+    required: false,
+    custom: (value: any) => {
+      if (value && (isNaN(value) || value < 0 || value > 1000)) {
+        return 'WiFi速度必须在0-1000 Mbps之间'
       }
-      return true
+      return null
     }
   },
-  interests: {
-    required: true,
-    custom: (value: string[]) => {
-      if (!Array.isArray(value) || value.length === 0) {
-        return '请至少选择一个兴趣'
+  priceLevel: {
+    required: false,
+    custom: (value: any) => {
+      if (value && (isNaN(value) || value < 1 || value > 5)) {
+        return '价格等级必须在1-5之间'
       }
-      if (value.length > 10) {
-        return '兴趣不能超过10个'
-      }
-      return true
+      return null
     }
   }
 }
 
-// 实时验证函数
-export function validateField(value: any, rule: ValidationRule, fieldName: string): string | null {
+// 验证单个字段
+export function validateField(field: FormField): string | null {
+  const { name, value, rules } = field
+
   // 必填验证
-  if (rule.required && (!value || value.toString().trim() === '')) {
-    return `${fieldName} 是必填项`
+  if (rules.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
+    return `${name}是必填项`
   }
-  
-  // 如果值为空且不是必填，返回null
-  if (!value || value.toString().trim() === '') {
+
+  // 如果值为空且不是必填，则跳过其他验证
+  if (!value || (typeof value === 'string' && value.trim() === '')) {
     return null
   }
-  
-  // 长度验证
-  if (rule.minLength && value.toString().length < rule.minLength) {
-    return `${fieldName} 至少需要 ${rule.minLength} 个字符`
+
+  // 最小长度验证
+  if (rules.minLength && typeof value === 'string' && value.length < rules.minLength) {
+    return `${name}至少需要${rules.minLength}个字符`
   }
-  
-  if (rule.maxLength && value.toString().length > rule.maxLength) {
-    return `${fieldName} 不能超过 ${rule.maxLength} 个字符`
+
+  // 最大长度验证
+  if (rules.maxLength && typeof value === 'string' && value.length > rules.maxLength) {
+    return `${name}不能超过${rules.maxLength}个字符`
   }
-  
-  // 正则表达式验证
-  if (rule.pattern && !rule.pattern.test(value.toString())) {
-    return `${fieldName} 格式不正确`
+
+  // 邮箱验证
+  if (rules.email && !validationRules.email.pattern!.test(value)) {
+    return '请输入有效的邮箱地址'
   }
-  
-  // 自定义验证
-  if (rule.custom) {
-    const customResult = rule.custom(value)
-    if (customResult !== true) {
-      return typeof customResult === 'string' ? customResult : `${fieldName} 验证失败`
+
+  // URL验证
+  if (rules.url) {
+    try {
+      new URL(value)
+    } catch {
+      return '请输入有效的URL'
     }
   }
-  
+
+  // 正则表达式验证
+  if (rules.pattern && !rules.pattern.test(value)) {
+    return `${name}格式不正确`
+  }
+
+  // 自定义验证
+  if (rules.custom) {
+    const customError = rules.custom(value)
+    if (customError) {
+      return customError
+    }
+  }
+
   return null
 }
 
-// 格式化错误消息
-export function formatValidationErrors(errors: string[]): string {
-  if (errors.length === 0) return ''
-  if (errors.length === 1) return errors[0]
-  return errors.join('；')
+// 验证整个表单
+export function validateForm(fields: FormField[]): ValidationResult {
+  const errors: Record<string, string> = {}
+  let isValid = true
+
+  fields.forEach(field => {
+    const error = validateField(field)
+    if (error) {
+      errors[field.name] = error
+      isValid = false
+    }
+  })
+
+  return { isValid, errors }
 }
 
-// 验证时间格式
-export function validateTimeFormat(timeString: string): boolean {
-  const time = new Date(timeString)
-  return !isNaN(time.getTime())
+// 实时验证Hook
+export function useFormValidation<T extends Record<string, any>>(
+  initialValues: T,
+  validationSchema: Record<keyof T, ValidationRule>
+) {
+  const [values, setValues] = useState<T>(initialValues)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+
+  const validate = useCallback((fieldName?: keyof T) => {
+    if (fieldName) {
+      // 验证单个字段
+      const field: FormField = {
+        name: fieldName as string,
+        value: values[fieldName],
+        rules: validationSchema[fieldName]
+      }
+      const error = validateField(field)
+      setErrors(prev => ({
+        ...prev,
+        [fieldName]: error || ''
+      }))
+      return !error
+    } else {
+      // 验证整个表单
+      const fields: FormField[] = Object.keys(validationSchema).map(key => ({
+        name: key,
+        value: values[key],
+        rules: validationSchema[key]
+      }))
+      const result = validateForm(fields)
+      setErrors(result.errors)
+      return result.isValid
+    }
+  }, [values, validationSchema])
+
+  const handleChange = useCallback((name: keyof T, value: any) => {
+    setValues(prev => ({ ...prev, [name]: value }))
+    
+    // 如果字段已经被触摸过，立即验证
+    if (touched[name]) {
+      validate(name)
+    }
+  }, [touched, validate])
+
+  const handleBlur = useCallback((name: keyof T) => {
+    setTouched(prev => ({ ...prev, [name]: true }))
+    validate(name)
+  }, [validate])
+
+  const handleSubmit = useCallback((onSubmit: (values: T) => void) => {
+    const isValid = validate()
+    if (isValid) {
+      onSubmit(values)
+    }
+  }, [values, validate])
+
+  const reset = useCallback(() => {
+    setValues(initialValues)
+    setErrors({})
+    setTouched({})
+  }, [initialValues])
+
+  return {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    validate,
+    reset,
+    isValid: Object.keys(errors).length === 0
+  }
 }
 
-// 验证日期是否在未来
-export function validateFutureDate(dateString: string): boolean {
-  const date = new Date(dateString)
-  const now = new Date()
-  return date > now
-}
+// 表单验证组件
+export function FormField({
+  name,
+  label,
+  type = 'text',
+  value,
+  error,
+  touched,
+  onChange,
+  onBlur,
+  placeholder,
+  required = false,
+  ...props
+}: {
+  name: string
+  label: string
+  type?: string
+  value: any
+  error?: string
+  touched?: boolean
+  onChange: (name: string, value: any) => void
+  onBlur: (name: string) => void
+  placeholder?: string
+  required?: boolean
+  [key: string]: any
+}) {
+  const showError = touched && error
 
-// 验证距离范围
-export function validateDistance(distance: number, min: number = 0, max: number = 1000): boolean {
-  return distance >= min && distance <= max
-}
-
-// 验证邮箱格式
-export function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-// 验证手机号格式（国际格式）
-export function validatePhone(phone: string): boolean {
-  const phoneRegex = /^\+?[1-9]\d{1,14}$/
-  return phoneRegex.test(phone.replace(/\s/g, ''))
+  return (
+    <div className="space-y-2">
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
+      </label>
+      <input
+        id={name}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+        onBlur={() => onBlur(name)}
+        placeholder={placeholder}
+        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+          showError ? 'border-red-300' : 'border-gray-300'
+        }`}
+        {...props}
+      />
+      {showError && (
+        <p className="text-sm text-red-600">{error}</p>
+      )}
+    </div>
+  )
 }

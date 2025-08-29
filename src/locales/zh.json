@@ -819,5 +819,11 @@
         "userVerificationFailed": "用户验证失败"
       }
     }
+  },
+  "search": {
+    "advancedFilters": "高级筛选",
+    "clearAll": "清除全部",
+    "results": "显示 {filtered} / {total} 条结果",
+    "all": "全部"
   }
 } 
