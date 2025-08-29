@@ -517,6 +517,10 @@
     "pending": "Pending",
     "failedToLoadHistory": "Failed to load history",
     "onlineUsers": "Online Users",
+    "communityChat": "Community Chat",
+    "messagePlaceholder": "Share something with the community...",
+    "noMessages": "No messages yet",
+    "startConversation": "Be the first to start a conversation!",
     "notifications": {
       "title": "Notifications",
       "description": "View all meetup invitations and reminders",

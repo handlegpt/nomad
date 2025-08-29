@@ -485,6 +485,10 @@
     "pending": "Pendiente",
     "failedToLoadHistory": "Error al cargar historial",
     "onlineUsers": "Usuarios En Línea",
+    "communityChat": "Chat de la Comunidad",
+    "messagePlaceholder": "Comparte algo con la comunidad...",
+    "noMessages": "Aún no hay mensajes",
+    "startConversation": "¡Sé el primero en iniciar una conversación!",
     "notifications": {
       "title": "Centro de Notificaciones",
       "description": "Ver todas las invitaciones y recordatorios de meetups",

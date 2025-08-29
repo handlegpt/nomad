@@ -487,6 +487,10 @@
     "pending": "保留中",
     "failedToLoadHistory": "履歴の読み込みに失敗しました",
     "onlineUsers": "オンラインユーザー",
+    "communityChat": "コミュニティチャット",
+    "messagePlaceholder": "コミュニティと何かを共有しましょう...",
+    "noMessages": "まだメッセージがありません",
+    "startConversation": "最初に会話を始めましょう！",
     "notifications": {
       "title": "通知センター",
       "description": "すべてのミートアップ招待とリマインダーを表示",
