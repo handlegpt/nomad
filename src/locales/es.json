@@ -788,5 +788,75 @@
     "voteSubmitted": "Voto enviado exitosamente",
     "detailedVoteSubmitted": "Voto detallado enviado exitosamente",
     "voteFailed": "Error al enviar el voto, por favor intenta de nuevo"
+  },
+  "recommendationForm": {
+    "city": {
+      "title": "Recomendar Nueva Ciudad",
+      "submitButton": "Recomendar Ciudad",
+      "fields": {
+        "name": "Nombre de la Ciudad",
+        "namePlaceholder": "ej., Chiang Mai",
+        "country": "País",
+        "countryPlaceholder": "ej., Tailandia",
+        "countryCode": "Código del País",
+        "countryCodePlaceholder": "ej., TH",
+        "timezone": "Zona Horaria",
+        "latitude": "Latitud (Opcional)",
+        "latitudePlaceholder": "ej., 18.7883",
+        "longitude": "Longitud (Opcional)",
+        "longitudePlaceholder": "ej., 98.9853",
+        "visaType": "Tipo de Visa",
+        "visaDays": "Días de Estancia",
+        "costOfLiving": "Costo de Vida Mensual (USD)",
+        "costOfLivingPlaceholder": "ej., 1500",
+        "wifiSpeed": "Velocidad WiFi (Mbps)",
+        "wifiSpeedPlaceholder": "ej., 50",
+        "description": "Descripción de la Ciudad",
+        "descriptionPlaceholder": "Describe por qué esta ciudad es adecuada para nómadas digitales, incluyendo experiencia de vida, entorno de trabajo, características culturales...",
+        "highlights": "Destacados de la Ciudad",
+        "tags": "Etiquetas"
+      }
+    },
+    "place": {
+      "title": "Agregar Lugar Recomendado",
+      "submitButton": "Agregar Lugar",
+      "fields": {
+        "name": "Nombre del Lugar",
+        "namePlaceholder": "ej., Starbucks Coffee",
+        "category": "Categoría",
+        "address": "Dirección",
+        "addressPlaceholder": "Dirección detallada",
+        "description": "Descripción",
+        "descriptionPlaceholder": "Describe las características de este lugar y por qué es adecuado para nómadas digitales...",
+        "wifiSpeed": "Velocidad WiFi (Mbps)",
+        "wifiSpeedPlaceholder": "ej., 50",
+        "priceLevel": "Nivel de Precio",
+        "noiseLevel": "Nivel de Ruido",
+        "noiseLevels": {
+          "quiet": "Tranquilo",
+          "moderate": "Moderado",
+          "loud": "Ruidoso"
+        },
+        "socialAtmosphere": "Ambiente Social",
+        "socialLevels": {
+          "low": "Bajo",
+          "medium": "Medio",
+          "high": "Alto"
+        },
+        "tags": "Etiquetas"
+      }
+    },
+    "addTag": "Agregar Etiqueta",
+    "addHighlight": "Agregar Destacado",
+    "suggestedTags": "Etiquetas Sugeridas",
+    "suggestedHighlights": "Destacados Sugeridos",
+    "submitSuccess": "Recomendación enviada exitosamente",
+    "submitError": "Error al enviar la recomendación, por favor intenta de nuevo"
+  },
+  "common": {
+    "select": "Por favor selecciona",
+    "add": "Agregar",
+    "cancel": "Cancelar",
+    "submitting": "Enviando..."
   }
 } 

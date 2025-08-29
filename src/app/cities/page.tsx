@@ -7,13 +7,13 @@ import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
 import PageLayout from '@/components/PageLayout'
 import FixedLink from '@/components/FixedLink'
-import AddCityForm from '@/components/AddCityForm'
 import { useUser } from '@/contexts/GlobalStateContext'
 import { useNotifications } from '@/contexts/GlobalStateContext'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import ErrorMessage from '@/components/ErrorMessage'
 import { useSearchParams } from 'next/navigation'
 import UnifiedVoteSystem, { VoteItem } from '@/components/UnifiedVoteSystem'
+import UniversalRecommendationForm, { RecommendationType } from '@/components/UniversalRecommendationForm'
 
 function CitiesPageContent() {
   const { t } = useTranslation()
@@ -310,14 +310,13 @@ function CitiesPageContent() {
         </div>
       )}
 
-      {/* Add City Form Modal */}
-      {showAddForm && (
-        <AddCityForm
-          isOpen={showAddForm}
-          onClose={() => setShowAddForm(false)}
-          onSubmit={handleAddCity}
-        />
-      )}
+      {/* Universal Recommendation Form */}
+      <UniversalRecommendationForm
+        type="city"
+        isOpen={showAddForm}
+        onClose={() => setShowAddForm(false)}
+        onSubmit={handleAddCity}
+      />
     </PageLayout>
   )
 }

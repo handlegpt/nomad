@@ -816,5 +816,75 @@
     "voteSubmitted": "投票が正常に送信されました",
     "detailedVoteSubmitted": "詳細評価が正常に送信されました",
     "voteFailed": "投票の送信に失敗しました。再試行してください"
+  },
+  "recommendationForm": {
+    "city": {
+      "title": "新しい都市を推薦",
+      "submitButton": "都市を推薦",
+      "fields": {
+        "name": "都市名",
+        "namePlaceholder": "例：チェンマイ",
+        "country": "国",
+        "countryPlaceholder": "例：タイ",
+        "countryCode": "国コード",
+        "countryCodePlaceholder": "例：TH",
+        "timezone": "タイムゾーン",
+        "latitude": "緯度（任意）",
+        "latitudePlaceholder": "例：18.7883",
+        "longitude": "経度（任意）",
+        "longitudePlaceholder": "例：98.9853",
+        "visaType": "ビザタイプ",
+        "visaDays": "滞在日数",
+        "costOfLiving": "月間生活費（USD）",
+        "costOfLivingPlaceholder": "例：1500",
+        "wifiSpeed": "WiFi速度（Mbps）",
+        "wifiSpeedPlaceholder": "例：50",
+        "description": "都市の説明",
+        "descriptionPlaceholder": "この都市がデジタルノマドに適している理由を説明してください。生活体験、仕事環境、文化的特徴を含む...",
+        "highlights": "都市のハイライト",
+        "tags": "タグ"
+      }
+    },
+    "place": {
+      "title": "おすすめの場所を追加",
+      "submitButton": "場所を追加",
+      "fields": {
+        "name": "場所名",
+        "namePlaceholder": "例：スターバックスコーヒー",
+        "category": "カテゴリ",
+        "address": "住所",
+        "addressPlaceholder": "詳細な住所",
+        "description": "説明",
+        "descriptionPlaceholder": "この場所の特徴とデジタルノマドに適している理由を説明してください...",
+        "wifiSpeed": "WiFi速度（Mbps）",
+        "wifiSpeedPlaceholder": "例：50",
+        "priceLevel": "価格レベル",
+        "noiseLevel": "騒音レベル",
+        "noiseLevels": {
+          "quiet": "静か",
+          "moderate": "普通",
+          "loud": "うるさい"
+        },
+        "socialAtmosphere": "社交的な雰囲気",
+        "socialLevels": {
+          "low": "低い",
+          "medium": "普通",
+          "high": "高い"
+        },
+        "tags": "タグ"
+      }
+    },
+    "addTag": "タグを追加",
+    "addHighlight": "ハイライトを追加",
+    "suggestedTags": "推奨タグ",
+    "suggestedHighlights": "推奨ハイライト",
+    "submitSuccess": "推薦が正常に送信されました",
+    "submitError": "推薦の送信に失敗しました。再試行してください"
+  },
+  "common": {
+    "select": "選択してください",
+    "add": "追加",
+    "cancel": "キャンセル",
+    "submitting": "送信中..."
   }
 } 

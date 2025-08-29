@@ -676,6 +676,76 @@
     "detailedVoteSubmitted": "Detailed vote submitted successfully",
     "voteFailed": "Vote submission failed, please try again"
   },
+  "recommendationForm": {
+    "city": {
+      "title": "Recommend New City",
+      "submitButton": "Recommend City",
+      "fields": {
+        "name": "City Name",
+        "namePlaceholder": "e.g., Chiang Mai",
+        "country": "Country",
+        "countryPlaceholder": "e.g., Thailand",
+        "countryCode": "Country Code",
+        "countryCodePlaceholder": "e.g., TH",
+        "timezone": "Timezone",
+        "latitude": "Latitude (Optional)",
+        "latitudePlaceholder": "e.g., 18.7883",
+        "longitude": "Longitude (Optional)",
+        "longitudePlaceholder": "e.g., 98.9853",
+        "visaType": "Visa Type",
+        "visaDays": "Stay Days",
+        "costOfLiving": "Monthly Cost of Living (USD)",
+        "costOfLivingPlaceholder": "e.g., 1500",
+        "wifiSpeed": "WiFi Speed (Mbps)",
+        "wifiSpeedPlaceholder": "e.g., 50",
+        "description": "City Description",
+        "descriptionPlaceholder": "Describe why this city is suitable for digital nomads, including living experience, work environment, cultural features...",
+        "highlights": "City Highlights",
+        "tags": "Tags"
+      }
+    },
+    "place": {
+      "title": "Add Recommended Place",
+      "submitButton": "Add Place",
+      "fields": {
+        "name": "Place Name",
+        "namePlaceholder": "e.g., Starbucks Coffee",
+        "category": "Category",
+        "address": "Address",
+        "addressPlaceholder": "Detailed address",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe the features of this place and why it's suitable for digital nomads...",
+        "wifiSpeed": "WiFi Speed (Mbps)",
+        "wifiSpeedPlaceholder": "e.g., 50",
+        "priceLevel": "Price Level",
+        "noiseLevel": "Noise Level",
+        "noiseLevels": {
+          "quiet": "Quiet",
+          "moderate": "Moderate",
+          "loud": "Loud"
+        },
+        "socialAtmosphere": "Social Atmosphere",
+        "socialLevels": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "tags": "Tags"
+      }
+    },
+    "addTag": "Add Tag",
+    "addHighlight": "Add Highlight",
+    "suggestedTags": "Suggested Tags",
+    "suggestedHighlights": "Suggested Highlights",
+    "submitSuccess": "Recommendation submitted successfully",
+    "submitError": "Recommendation submission failed, please try again"
+  },
+  "common": {
+    "select": "Please select",
+    "add": "Add",
+    "cancel": "Cancel",
+    "submitting": "Submitting..."
+  },
   "cities": {
     "title": "Cities",
     "searchPlaceholder": "Search cities...",

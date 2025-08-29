@@ -668,6 +668,76 @@
     "detailedVoteSubmitted": "详细评价提交成功",
     "voteFailed": "投票提交失败，请重试"
   },
+  "recommendationForm": {
+    "city": {
+      "title": "推荐新城市",
+      "submitButton": "推荐城市",
+      "fields": {
+        "name": "城市名称",
+        "namePlaceholder": "例如：清迈",
+        "country": "国家",
+        "countryPlaceholder": "例如：泰国",
+        "countryCode": "国家代码",
+        "countryCodePlaceholder": "例如：TH",
+        "timezone": "时区",
+        "latitude": "纬度 (可选)",
+        "latitudePlaceholder": "例如：18.7883",
+        "longitude": "经度 (可选)",
+        "longitudePlaceholder": "例如：98.9853",
+        "visaType": "签证类型",
+        "visaDays": "停留天数",
+        "costOfLiving": "月生活成本 (USD)",
+        "costOfLivingPlaceholder": "例如：1500",
+        "wifiSpeed": "WiFi速度 (Mbps)",
+        "wifiSpeedPlaceholder": "例如：50",
+        "description": "城市描述",
+        "descriptionPlaceholder": "描述这个城市为什么适合数字游民，包括生活体验、工作环境、文化特色等...",
+        "highlights": "城市亮点",
+        "tags": "标签"
+      }
+    },
+    "place": {
+      "title": "添加推荐地点",
+      "submitButton": "添加地点",
+      "fields": {
+        "name": "地点名称",
+        "namePlaceholder": "例如：星巴克咖啡厅",
+        "category": "类别",
+        "address": "地址",
+        "addressPlaceholder": "详细地址",
+        "description": "描述",
+        "descriptionPlaceholder": "描述这个地点的特色和适合数字游民的原因...",
+        "wifiSpeed": "WiFi速度 (Mbps)",
+        "wifiSpeedPlaceholder": "例如：50",
+        "priceLevel": "价格等级",
+        "noiseLevel": "噪音水平",
+        "noiseLevels": {
+          "quiet": "安静",
+          "moderate": "适中",
+          "loud": "嘈杂"
+        },
+        "socialAtmosphere": "社交氛围",
+        "socialLevels": {
+          "low": "低",
+          "medium": "中等",
+          "high": "高"
+        },
+        "tags": "标签"
+      }
+    },
+    "addTag": "添加标签",
+    "addHighlight": "添加亮点",
+    "suggestedTags": "建议标签",
+    "suggestedHighlights": "建议亮点",
+    "submitSuccess": "推荐提交成功",
+    "submitError": "推荐提交失败，请重试"
+  },
+  "common": {
+    "select": "请选择",
+    "add": "添加",
+    "cancel": "取消",
+    "submitting": "提交中..."
+  },
   "cities": {
     "title": "城市列表",
     "searchPlaceholder": "搜索城市...",
