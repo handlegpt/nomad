@@ -226,7 +226,7 @@ export async function getOnlineUsers(
     }).filter(Boolean)
     
     // 按距离和匹配度排序
-    usersWithDistance.sort((a, b) => {
+    usersWithDistance.sort((a: OnlineUser | null, b: OnlineUser | null) => {
       if (a!.meetupCompatibility !== b!.meetupCompatibility) {
         return b!.meetupCompatibility! - a!.meetupCompatibility!
       }
