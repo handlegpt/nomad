@@ -780,5 +780,13 @@
       "title": "No se encontraron guías de visa coincidentes",
       "description": "Intenta ajustar tus criterios de búsqueda o filtros"
     }
+  },
+  "voteSystem": {
+    "upvote": "Votar arriba",
+    "downvote": "Votar abajo",
+    "detailedVote": "Voto detallado",
+    "voteSubmitted": "Voto enviado exitosamente",
+    "detailedVoteSubmitted": "Voto detallado enviado exitosamente",
+    "voteFailed": "Error al enviar el voto, por favor intenta de nuevo"
   }
 } 

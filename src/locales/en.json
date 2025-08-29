@@ -667,5 +667,42 @@
       "title": "No matching visa guides found",
       "description": "Try adjusting your search criteria or filters"
     }
+  },
+  "voteSystem": {
+    "upvote": "Upvote",
+    "downvote": "Downvote",
+    "detailedVote": "Detailed Vote",
+    "voteSubmitted": "Vote submitted successfully",
+    "detailedVoteSubmitted": "Detailed vote submitted successfully",
+    "voteFailed": "Vote submission failed, please try again"
+  },
+  "cities": {
+    "title": "Cities",
+    "searchPlaceholder": "Search cities...",
+    "viewDetails": "View Details",
+    "vote": "Vote",
+    "votingComingSoon": "Voting feature coming soon",
+    "costOfLiving": "Cost of Living",
+    "wifiSpeed": "WiFi Speed",
+    "visaType": "Visa Type",
+    "stayDays": "Stay Days",
+    "votes": "votes",
+    "quickUpvote": "Quick Upvote",
+    "quickDownvote": "Quick Downvote",
+    "voteDetails": "Vote Details",
+    "loading": "Loading...",
+    "filters": {
+      "all": "All Cities",
+      "visaFree": "Visa Free",
+      "digitalNomad": "Digital Nomad Visa",
+      "lowCost": "Low Cost"
+    },
+    "noResults": {
+      "title": "No cities found",
+      "description": "Try adjusting your search criteria or recommend a new city"
+    },
+    "addCity": "Recommend City",
+    "addCitySuccess": "Successfully recommended city: {cityName}",
+    "addCityError": "Failed to add city, please try again"
   }
 } 

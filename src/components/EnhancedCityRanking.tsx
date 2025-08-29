@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { StarIcon, ThumbsUpIcon, ThumbsDownIcon, MapPinIcon } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import VoteModal from './VoteModal'
 import { City } from '@/lib/supabase'
+import UnifiedVoteSystem, { VoteItem } from './UnifiedVoteSystem'
 
 interface EnhancedCityRankingProps {
   limit?: number
@@ -20,8 +20,6 @@ export default function EnhancedCityRanking({
   const { t } = useTranslation()
   const [cities, setCities] = useState<City[]>([])
   const [loading, setLoading] = useState(true)
-  const [showVoteModal, setShowVoteModal] = useState(false)
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const [currentCity, setCurrentCity] = useState<string>('Osaka')
 
   // 模拟数据
@@ -103,9 +101,9 @@ export default function EnhancedCityRanking({
         timezone: 'America/Bogota',
         latitude: 6.2442,
         longitude: -75.5812,
-        visa_days: 180,
+        visa_days: 90,
         visa_type: 'Tourist Visa',
-        cost_of_living: 1400,
+        cost_of_living: 1200,
         wifi_speed: 40,
         created_at: '2024-01-01T00:00:00Z',
         updated_at: '2024-01-01T00:00:00Z',
@@ -113,6 +111,7 @@ export default function EnhancedCityRanking({
         vote_count: 140
       }
     ]
+    
     setCities(mockCities)
     setLoading(false)
   }, [])
@@ -125,35 +124,26 @@ export default function EnhancedCityRanking({
     return String.fromCodePoint(...codePoints)
   }
 
-  const handleQuickVote = (cityId: string, voteType: 'up' | 'down') => {
-    // 这里可以添加快速投票逻辑
-    console.log(`Quick vote: ${voteType} for city ${cityId}`)
-  }
-
-  const handleDetailedVote = (city: City) => {
-    setSelectedCity(city)
-    setShowVoteModal(true)
-  }
-
-  const handleVoteSubmitted = () => {
-    console.log('Vote submitted')
-    setShowVoteModal(false)
-    setSelectedCity(null)
-  }
-
-  const handleCurrentCityVote = (voteType: 'up' | 'down') => {
-    console.log(`Current city vote: ${voteType} for ${currentCity}`)
-  }
-
-  const handleQuickRating = (rating: number) => {
-    console.log(`Quick rating: ${rating} for ${currentCity}`)
+  const handleVoteSubmitted = (voteData: any) => {
+    console.log('Vote submitted:', voteData)
+    // 这里可以更新城市数据或触发重新加载
   }
 
   if (loading) {
     return (
-      <div className="text-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-        <p className="text-gray-600 mt-2">{t('cities.loading')}</p>
+      <div className="animate-pulse space-y-4">
+        {[...Array(limit)].map((_, i) => (
+          <div key={i} className="flex items-center justify-between p-4 bg-gray-100 rounded-xl">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-24"></div>
+                <div className="h-3 bg-gray-200 rounded w-16"></div>
+              </div>
+            </div>
+            <div className="h-4 bg-gray-200 rounded w-12"></div>
+          </div>
+        ))}
       </div>
     )
   }
@@ -162,37 +152,21 @@ export default function EnhancedCityRanking({
     <>
       {/* Current City Vote Section */}
       {showCurrentCityVote && (
-        <div className="bg-blue-50 rounded-xl p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+          <h3 className="font-semibold text-gray-900 mb-3">
             {t('home.quickVote.currentCity')}: {currentCity}
           </h3>
           <div className="flex items-center space-x-4">
-            <button
-              onClick={() => handleCurrentCityVote('up')}
-              className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <ThumbsUpIcon className="h-4 w-4" />
-              <span>{t('home.quickVote.like')}</span>
-            </button>
-            <button
-              onClick={() => handleCurrentCityVote('down')}
-              className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              <ThumbsDownIcon className="h-4 w-4" />
-              <span>{t('home.quickVote.dislike')}</span>
-            </button>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-600">{t('home.quickVote.rateExperience')}:</span>
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  onClick={() => handleQuickRating(star)}
-                  className="text-yellow-400 hover:text-yellow-500 transition-colors"
-                >
-                  <StarIcon className="h-5 w-5" />
-                </button>
-              ))}
-            </div>
+            <UnifiedVoteSystem
+              item={{
+                id: 'current-city',
+                name: currentCity,
+                type: 'city'
+              }}
+              variant="quick"
+              showRating={true}
+              onVoteSubmitted={handleVoteSubmitted}
+            />
           </div>
           <p className="text-sm text-gray-600 mt-2">{t('home.quickVote.ratingHint')}</p>
         </div>
@@ -200,76 +174,61 @@ export default function EnhancedCityRanking({
 
       {/* Cities Ranking */}
       <div className="space-y-3">
-        {cities.slice(0, limit).map((city, index) => (
-          <div
-            key={city.id}
-            className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
-          >
-            {/* Rank and City Info */}
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                {index + 1}
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-lg">{getCountryFlag(city.country_code)}</span>
-                <div>
-                  <div className="font-semibold text-gray-900">{city.name}</div>
-                  <div className="text-sm text-gray-600">{city.country}</div>
-                </div>
-              </div>
-            </div>
+        {cities.slice(0, limit).map((city, index) => {
+          const voteItem: VoteItem = {
+            id: city.id,
+            name: city.name,
+            type: 'city',
+            currentVotes: {
+              upvotes: Math.floor(city.vote_count * 0.7),
+              downvotes: Math.floor(city.vote_count * 0.3),
+              rating: city.avg_overall_rating
+            }
+          }
 
-            {/* Rating and Votes */}
-            <div className="flex items-center space-x-4">
-              <div className="text-center">
-                <div className="flex items-center space-x-1">
-                  <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
-                  <span className="font-bold text-gray-900">{city.avg_overall_rating}</span>
+          return (
+            <div
+              key={city.id}
+              className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+            >
+              {/* Rank and City Info */}
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  {index + 1}
                 </div>
-                <div className="text-xs text-gray-500">({city.vote_count} {t('cities.votes')})</div>
-              </div>
-
-              {/* Quick Vote Buttons */}
-              {showQuickVote && (
                 <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => handleQuickVote(city.id, 'up')}
-                    className="p-1 text-green-600 hover:text-green-700 hover:bg-green-100 rounded"
-                    title={t('cities.quickUpvote')}
-                  >
-                    <ThumbsUpIcon className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleQuickVote(city.id, 'down')}
-                    className="p-1 text-red-600 hover:text-red-700 hover:bg-red-100 rounded"
-                    title={t('cities.quickDownvote')}
-                  >
-                    <ThumbsDownIcon className="h-4 w-4" />
-                  </button>
+                  <span className="text-lg">{getCountryFlag(city.country_code)}</span>
+                  <div>
+                    <div className="font-semibold text-gray-900">{city.name}</div>
+                    <div className="text-sm text-gray-600">{city.country}</div>
+                  </div>
                 </div>
-              )}
+              </div>
 
-              {/* Detailed Vote Button */}
-              <button
-                onClick={() => handleDetailedVote(city)}
-                className="px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                {t('cities.voteDetails')}
-              </button>
+              {/* Rating and Votes */}
+              <div className="flex items-center space-x-4">
+                <div className="text-center">
+                  <div className="flex items-center space-x-1">
+                    <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
+                    <span className="font-bold text-gray-900">{city.avg_overall_rating}</span>
+                  </div>
+                  <div className="text-xs text-gray-500">({city.vote_count} {t('cities.votes')})</div>
+                </div>
+
+                {/* Unified Vote System */}
+                {showQuickVote && (
+                  <UnifiedVoteSystem
+                    item={voteItem}
+                    variant="detailed"
+                    showRating={true}
+                    onVoteSubmitted={handleVoteSubmitted}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
-
-      {/* Vote Modal */}
-      {showVoteModal && selectedCity && (
-        <VoteModal
-          isOpen={showVoteModal}
-          onClose={() => setShowVoteModal(false)}
-          onVoteSubmitted={handleVoteSubmitted}
-          city={selectedCity}
-        />
-      )}
     </>
   )
 }

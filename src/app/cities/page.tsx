@@ -13,6 +13,7 @@ import { useNotifications } from '@/contexts/GlobalStateContext'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import ErrorMessage from '@/components/ErrorMessage'
 import { useSearchParams } from 'next/navigation'
+import UnifiedVoteSystem, { VoteItem } from '@/components/UnifiedVoteSystem'
 
 function CitiesPageContent() {
   const { t } = useTranslation()
@@ -78,16 +79,13 @@ function CitiesPageContent() {
     return 'text-red-600'
   }
 
-  const handleVote = (cityId: string) => {
-    // TODO: Implement voting functionality
-    console.log('Voting for city:', cityId)
-    // In production, this would call an API to record the vote
-    const city = cities.find(c => c.id === cityId)
-    if (city) {
-      alert(`感谢您对 ${city.name} 的关注！\n\n投票功能正在开发中，即将推出。\n\n您可以先查看城市详情了解更多信息。`)
-    } else {
-      alert(t('cities.votingComingSoon'))
-    }
+  const handleVoteSubmitted = (voteData: any) => {
+    console.log('Vote submitted:', voteData)
+    addNotification({
+      type: 'success',
+      message: t('voteSystem.voteSubmitted')
+    })
+    // 这里可以更新城市数据或触发重新加载
   }
 
   const handleAddCity = async (cityData: any) => {
@@ -248,55 +246,67 @@ function CitiesPageContent() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCities.map((city) => (
-            <div key={city.id} className="card card-md hover:shadow-lg transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{getCountryFlag(city.country_code)}</span>
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{city.name}</h3>
-                    <p className="text-sm text-gray-600">{city.country}</p>
+          {filteredCities.map((city) => {
+            const voteItem: VoteItem = {
+              id: city.id,
+              name: city.name,
+              type: 'city',
+              currentVotes: {
+                upvotes: Math.floor((city.vote_count || 0) * 0.7),
+                downvotes: Math.floor((city.vote_count || 0) * 0.3),
+                rating: city.avg_overall_rating
+              }
+            }
+
+            return (
+              <div key={city.id} className="card card-md hover:shadow-lg transition-shadow">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{getCountryFlag(city.country_code)}</span>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{city.name}</h3>
+                      <p className="text-sm text-gray-600">{city.country}</p>
+                    </div>
+                  </div>
+                  <UnifiedVoteSystem
+                    item={voteItem}
+                    variant="quick"
+                    onVoteSubmitted={handleVoteSubmitted}
+                  />
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">{t('cities.costOfLiving')}</span>
+                    <span className="font-medium">${city.cost_of_living}/month</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">{t('cities.wifiSpeed')}</span>
+                    <span className="font-medium">{city.wifi_speed} Mbps</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">{t('cities.visaType')}</span>
+                    <span className={`font-medium ${getVisaColor(city.visa_days)}`}>
+                      {city.visa_type}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">{t('cities.stayDays')}</span>
+                    <span className="font-medium">{city.visa_days} days</span>
                   </div>
                 </div>
-                <button
-                  onClick={() => handleVote(city.id)}
-                  className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
-                >
-                  <StarIcon className="h-5 w-5" />
-                </button>
-              </div>
-              
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">{t('cities.costOfLiving')}</span>
-                  <span className="font-medium">${city.cost_of_living}/month</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">{t('cities.wifiSpeed')}</span>
-                  <span className="font-medium">{city.wifi_speed} Mbps</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">{t('cities.visaType')}</span>
-                  <span className={`font-medium ${getVisaColor(city.visa_days)}`}>
-                    {city.visa_type}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">{t('cities.stayDays')}</span>
-                  <span className="font-medium">{city.visa_days} days</span>
+                
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <FixedLink
+                    href={`/cities/${city.id}`}
+                    className="btn btn-sm btn-outline w-full"
+                  >
+                    {t('cities.viewDetails')}
+                  </FixedLink>
                 </div>
               </div>
-              
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <FixedLink
-                  href={`/cities/${city.id}`}
-                  className="btn btn-sm btn-outline w-full"
-                >
-                  {t('cities.viewDetails')}
-                </FixedLink>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 

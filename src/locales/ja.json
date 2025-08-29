@@ -808,5 +808,13 @@
       "title": "一致するビザガイドが見つかりません",
       "description": "検索条件やフィルターを調整してみてください"
     }
+  },
+  "voteSystem": {
+    "upvote": "いいね",
+    "downvote": "よくない",
+    "detailedVote": "詳細評価",
+    "voteSubmitted": "投票が正常に送信されました",
+    "detailedVoteSubmitted": "詳細評価が正常に送信されました",
+    "voteFailed": "投票の送信に失敗しました。再試行してください"
   }
 } 
