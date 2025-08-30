@@ -3,7 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { MapPinIcon, WifiIcon, DollarSignIcon, CalendarIcon, StarIcon, UsersIcon, CloudIcon, TrendingUpIcon, HeartIcon, CoffeeIcon, GlobeIcon } from 'lucide-react'
+import { 
+  MapPinIcon, WifiIcon, DollarSignIcon, CalendarIcon, StarIcon, UsersIcon, 
+  TrendingUpIcon, HeartIcon, CoffeeIcon, GlobeIcon, ThumbsUpIcon, ThumbsDownIcon,
+  PlaneIcon, HomeIcon, UtensilsIcon, BusIcon, WifiIcon as WifiIconSolid,
+  ShieldIcon, SunIcon, CloudIcon, ClockIcon, BookOpenIcon
+} from 'lucide-react'
 import { getCityById, submitVote } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -17,6 +22,7 @@ export default function CityDetailPage() {
   const [city, setCity] = useState<City | null>(null)
   const [loading, setLoading] = useState(true)
   const [showVoteModal, setShowVoteModal] = useState(false)
+  const [activeTab, setActiveTab] = useState('overview')
 
   useEffect(() => {
     fetchCityData()
@@ -71,6 +77,75 @@ export default function CityDetailPage() {
     return Math.min(5, baseScore + wifiBonus + costBonus).toFixed(1)
   }
 
+  // 获取优缺点数据
+  const getProsAndCons = () => {
+    return {
+      pros: [
+        "生活成本相对较低",
+        "WiFi速度快且稳定",
+        "数字游民社区活跃",
+        "英语普及度高",
+        "交通便利",
+        "美食文化丰富",
+        "气候宜人",
+        "安全指数高"
+      ],
+      cons: [
+        "雨季可能影响出行",
+        "某些地区WiFi不稳定",
+        "语言障碍（非英语区）",
+        "交通拥堵（高峰时段）",
+        "签证限制",
+        "医疗费用较高",
+        "文化差异",
+        "网络审查"
+      ]
+    }
+  }
+
+  // 获取生活成本细分
+  const getCostBreakdown = () => {
+    const totalCost = city?.cost_of_living || 2000
+    return {
+      accommodation: Math.round(totalCost * 0.4),
+      food: Math.round(totalCost * 0.25),
+      transportation: Math.round(totalCost * 0.15),
+      entertainment: Math.round(totalCost * 0.1),
+      utilities: Math.round(totalCost * 0.05),
+      other: Math.round(totalCost * 0.05)
+    }
+  }
+
+  // 获取用户评价
+  const getUserReviews = () => {
+    return [
+      {
+        id: 1,
+        user: "Sarah M.",
+        rating: 5,
+        date: "2024-01-15",
+        comment: "里斯本是我去过的最适合数字游民的城市之一。WiFi速度快，生活成本合理，社区氛围很好。强烈推荐！",
+        avatar: "👩‍💻"
+      },
+      {
+        id: 2,
+        user: "Mike R.",
+        rating: 4,
+        date: "2024-01-10",
+        comment: "整体体验不错，但住宿价格在旺季会比较高。建议提前预订。",
+        avatar: "👨‍💻"
+      },
+      {
+        id: 3,
+        user: "Emma L.",
+        rating: 5,
+        date: "2024-01-05",
+        comment: "这里的联合办公空间很棒，认识了很多志同道合的朋友。",
+        avatar: "👩‍💼"
+      }
+    ]
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -92,6 +167,10 @@ export default function CityDetailPage() {
       </div>
     )
   }
+
+  const prosAndCons = getProsAndCons()
+  const costBreakdown = getCostBreakdown()
+  const userReviews = getUserReviews()
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -118,7 +197,7 @@ export default function CityDetailPage() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Core Info Card - 替换时间和天气为更有价值的信息 */}
+        {/* Core Info Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
             <div className="p-4 bg-blue-50 rounded-xl">
@@ -155,239 +234,372 @@ export default function CityDetailPage() {
           </div>
         </div>
 
-        {/* Nomad Place Recommendations */}
+        {/* Navigation Tabs */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center">
-              <HeartIcon className="h-5 w-5 mr-2 text-red-500" />
-              {t('cities.nomadPlaces.title')}
-            </h2>
-            <div className="flex space-x-3">
-              <Link 
-                href={`/places?cityId=${city.id}`}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+          <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-4">
+            {[
+              { id: 'overview', label: '概览', icon: StarIcon },
+              { id: 'pros-cons', label: '优缺点', icon: ThumbsUpIcon },
+              { id: 'cost', label: '生活成本', icon: DollarSignIcon },
+              { id: 'reviews', label: '用户评价', icon: UsersIcon },
+              { id: 'visa', label: '签证信息', icon: CalendarIcon },
+              { id: 'transport', label: '交通住宿', icon: PlaneIcon }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  activeTab === tab.id
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
               >
-                {t('cities.nomadPlaces.more')} →
-              </Link>
-              <button className="bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm">
-                {t('cities.nomadPlaces.addRecommendation')}
+                <tab.icon className="h-4 w-4" />
+                <span>{tab.label}</span>
               </button>
-            </div>
+            ))}
           </div>
 
-          <div className="space-y-4">
-            {/* Mock place recommendations */}
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <span className="text-2xl">☕</span>
+          {/* Tab Content */}
+          <div className="mt-6">
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                {/* Nomad Place Recommendations */}
                 <div>
-                  <h3 className="font-semibold text-gray-900">Café Fabrica</h3>
-                  <p className="text-sm text-gray-600">{t('cities.nomadPlaces.quietAtmosphere')}, WiFi {t('cities.nomadPlaces.stable')}, {t('cities.nomadPlaces.latte')} €2.5</p>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <HeartIcon className="h-5 w-5 mr-2 text-red-500" />
+                    {t('cities.nomadPlaces.title')}
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-2xl">☕</span>
+                        <div>
+                          <h4 className="font-semibold text-gray-900">Café Fabrica</h4>
+                          <p className="text-sm text-gray-600">{t('cities.nomadPlaces.quietAtmosphere')}, WiFi {t('cities.nomadPlaces.stable')}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-600 text-sm font-medium">4.8 ⭐</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-2xl">💻</span>
+                        <div>
+                          <h4 className="font-semibold text-gray-900">Outsite Lisbon</h4>
+                          <p className="text-sm text-gray-600">{t('cities.nomadPlaces.coworkingColiving')}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-600 text-sm font-medium">4.6 ⭐</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button className="flex items-center space-x-1 text-green-600 hover:text-green-700">
-                  <span>👍</span>
-                  <span className="text-sm font-medium">32</span>
-                </button>
-                <button className="flex items-center space-x-1 text-red-600 hover:text-red-700">
-                  <span>👎</span>
-                  <span className="text-sm font-medium">1</span>
-                </button>
-              </div>
-            </div>
 
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <span className="text-2xl">💻</span>
+                {/* City Statistics */}
                 <div>
-                  <h3 className="font-semibold text-gray-900">Outsite Lisbon</h3>
-                  <p className="text-sm text-gray-600">{t('cities.nomadPlaces.coworkingColiving')}, {t('cities.nomadPlaces.goodCommunity')}</p>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <TrendingUpIcon className="h-5 w-5 mr-2 text-blue-600" />
+                    {t('cities.statistics')}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-blue-600 mb-1">4.8</div>
+                      <div className="text-sm text-gray-600">{t('cities.rating')}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-green-600 mb-1">${city.cost_of_living}</div>
+                      <div className="text-sm text-gray-600">{t('cities.costOfLiving')}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-purple-600 mb-1">{city.wifi_speed} Mbps</div>
+                      <div className="text-sm text-gray-600">{t('cities.wifiSpeed')}</div>
+                    </div>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-orange-600 mb-1">{city.visa_days}</div>
+                      <div className="text-sm text-gray-600">{t('cities.stayDays')}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <button className="flex items-center space-x-1 text-green-600 hover:text-green-700">
-                  <span>👍</span>
-                  <span className="text-sm font-medium">28</span>
-                </button>
-                <button className="flex items-center space-x-1 text-red-600 hover:text-red-700">
-                  <span>👎</span>
-                  <span className="text-sm font-medium">3</span>
-                </button>
-              </div>
-            </div>
+            )}
 
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <span className="text-2xl">🌳</span>
+            {activeTab === 'pros-cons' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-semibold text-gray-900">LX Factory</h3>
-                  <p className="text-sm text-gray-600">{t('cities.nomadPlaces.artisticAtmosphere')}, {t('cities.nomadPlaces.goodForShortWork')}</p>
+                  <h3 className="text-lg font-bold text-green-600 mb-4 flex items-center">
+                    <ThumbsUpIcon className="h-5 w-5 mr-2" />
+                    优点
+                  </h3>
+                  <div className="space-y-3">
+                    {prosAndCons.pros.map((pro, index) => (
+                      <div key={index} className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+                        <span className="text-green-500">✓</span>
+                        <span className="text-gray-700">{pro}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-red-600 mb-4 flex items-center">
+                    <ThumbsDownIcon className="h-5 w-5 mr-2" />
+                    缺点
+                  </h3>
+                  <div className="space-y-3">
+                    {prosAndCons.cons.map((con, index) => (
+                      <div key={index} className="flex items-center space-x-3 p-3 bg-red-50 rounded-lg">
+                        <span className="text-red-500">✗</span>
+                        <span className="text-gray-700">{con}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <button className="flex items-center space-x-1 text-green-600 hover:text-green-700">
-                  <span>👍</span>
-                  <span className="text-sm font-medium">20</span>
-                </button>
-                <button className="flex items-center space-x-1 text-red-600 hover:text-red-700">
-                  <span>👎</span>
-                  <span className="text-sm font-medium">5</span>
-                </button>
+            )}
+
+            {activeTab === 'cost' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">月生活成本细分</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="p-4 bg-blue-50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <HomeIcon className="h-5 w-5 text-blue-600" />
+                        <span className="font-medium">住宿</span>
+                      </div>
+                      <div className="text-2xl font-bold text-blue-600">${costBreakdown.accommodation}</div>
+                    </div>
+                    <div className="p-4 bg-green-50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <UtensilsIcon className="h-5 w-5 text-green-600" />
+                        <span className="font-medium">餐饮</span>
+                      </div>
+                      <div className="text-2xl font-bold text-green-600">${costBreakdown.food}</div>
+                    </div>
+                    <div className="p-4 bg-purple-50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <BusIcon className="h-5 w-5 text-purple-600" />
+                        <span className="font-medium">交通</span>
+                      </div>
+                      <div className="text-2xl font-bold text-purple-600">${costBreakdown.transportation}</div>
+                    </div>
+                    <div className="p-4 bg-orange-50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <HeartIcon className="h-5 w-5 text-orange-600" />
+                        <span className="font-medium">娱乐</span>
+                      </div>
+                      <div className="text-2xl font-bold text-orange-600">${costBreakdown.entertainment}</div>
+                    </div>
+                    <div className="p-4 bg-red-50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <WifiIconSolid className="h-5 w-5 text-red-600" />
+                        <span className="font-medium">水电网络</span>
+                      </div>
+                      <div className="text-2xl font-bold text-red-600">${costBreakdown.utilities}</div>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <GlobeIcon className="h-5 w-5 text-gray-600" />
+                        <span className="font-medium">其他</span>
+                      </div>
+                      <div className="text-2xl font-bold text-gray-600">${costBreakdown.other}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {activeTab === 'reviews' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-gray-900">用户评价</h3>
+                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    写评价
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  {userReviews.map((review) => (
+                    <div key={review.id} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">{review.avatar}</span>
+                          <div>
+                            <div className="font-medium text-gray-900">{review.user}</div>
+                            <div className="text-sm text-gray-500">{review.date}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <StarIcon
+                              key={i}
+                              className={`h-4 w-4 ${
+                                i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-gray-700">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'visa' && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-6 bg-blue-50 rounded-lg">
+                    <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center">
+                      <CalendarIcon className="h-5 w-5 mr-2" />
+                      签证信息
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">签证类型</span>
+                        <span className="font-medium">{city.visa_type}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">停留天数</span>
+                        <span className="font-medium">{city.visa_days} 天</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">申请难度</span>
+                        <span className="font-medium text-green-600">简单</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">申请费用</span>
+                        <span className="font-medium">$25-100</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6 bg-green-50 rounded-lg">
+                    <h3 className="text-lg font-bold text-green-900 mb-4 flex items-center">
+                      <BookOpenIcon className="h-5 w-5 mr-2" />
+                      申请要求
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span className="text-gray-700">有效护照（6个月以上）</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span className="text-gray-700">往返机票</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span className="text-gray-700">住宿证明</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-green-500">✓</span>
+                        <span className="text-gray-700">资金证明</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'transport' && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-6 bg-purple-50 rounded-lg">
+                    <h3 className="text-lg font-bold text-purple-900 mb-4 flex items-center">
+                      <PlaneIcon className="h-5 w-5 mr-2" />
+                      交通信息
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">机场</h4>
+                        <p className="text-sm text-gray-600">里斯本波尔特拉机场 (LIS)</p>
+                        <p className="text-sm text-gray-600">距离市中心约7公里</p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">公共交通</h4>
+                        <p className="text-sm text-gray-600">地铁、公交、电车网络完善</p>
+                        <p className="text-sm text-gray-600">月票约€40</p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">打车</h4>
+                        <p className="text-sm text-gray-600">Uber、Bolt等网约车服务</p>
+                        <p className="text-sm text-gray-600">起步价约€3</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6 bg-orange-50 rounded-lg">
+                    <h3 className="text-lg font-bold text-orange-900 mb-4 flex items-center">
+                      <HomeIcon className="h-5 w-5 mr-2" />
+                      住宿信息
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">联合办公空间</h4>
+                        <p className="text-sm text-gray-600">WeWork、Outsite等</p>
+                        <p className="text-sm text-gray-600">月费€200-400</p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">公寓租赁</h4>
+                        <p className="text-sm text-gray-600">市中心1室公寓</p>
+                        <p className="text-sm text-gray-600">月租€800-1200</p>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">酒店</h4>
+                        <p className="text-sm text-gray-600">经济型酒店</p>
+                        <p className="text-sm text-gray-600">每晚€50-100</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Existing content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* City Details */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* City Statistics */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                <TrendingUpIcon className="h-5 w-5 mr-2 text-blue-600" />
-                {t('cities.statistics')}
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-1">4.8</div>
-                  <div className="text-sm text-gray-600">{t('cities.rating')}</div>
+        {/* Recommended Services */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 mb-8">
+          <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
+            <GlobeIcon className="h-5 w-5 mr-2 text-green-600" />
+            {t('cities.recommendedServices')}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <span className="text-blue-600 text-lg">🛡️</span>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-1">${city.cost_of_living}</div>
-                  <div className="text-sm text-gray-600">{t('cities.costOfLiving')}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600 mb-1">{city.wifi_speed} Mbps</div>
-                  <div className="text-sm text-gray-600">{t('cities.wifiSpeed')}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600 mb-1">{city.visa_days}</div>
-                  <div className="text-sm text-gray-600">{t('cities.stayDays')}</div>
+                <div>
+                  <p className="font-medium text-gray-900">{t('cities.services.insurance')}</p>
+                  <p className="text-sm text-gray-600">SafetyWing</p>
+                  <p className="text-sm font-medium text-green-600">$42/{t('cities.services.month')}</p>
                 </div>
               </div>
             </div>
 
-            {/* Recommended Services */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                <GlobeIcon className="h-5 w-5 mr-2 text-green-600" />
-                {t('cities.recommendedServices')}
-              </h3>
-              <div className="space-y-4">
-                {/* Insurance */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <span className="text-blue-600 text-lg">🛡️</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{t('cities.services.insurance')}</p>
-                        <p className="text-sm text-gray-600">SafetyWing - {t('cities.services.digitalNomadInsurance')}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-green-600">$42/{t('cities.services.month')}</p>
-                      <p className="text-xs text-gray-500">{t('cities.services.globalCoverage')}</p>
-                    </div>
-                  </div>
+            <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <span className="text-green-600 text-lg">📋</span>
                 </div>
-
-                {/* Visa Services */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <span className="text-green-600 text-lg">📋</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{t('cities.services.visaServices')}</p>
-                        <p className="text-sm text-gray-600">iVisa - {t('cities.services.professionalVisa')}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-green-600">{t('cities.services.from')}$25</p>
-                      <p className="text-xs text-gray-500">{t('cities.services.fastProcessing')}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Co-working Spaces */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <span className="text-purple-600 text-lg">💻</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{t('cities.services.coworkingSpaces')}</p>
-                        <p className="text-sm text-gray-600">WeWork - {t('cities.services.globalNetwork')}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-green-600">{t('cities.services.from')}$200/{t('cities.services.month')}</p>
-                      <p className="text-xs text-gray-500">{t('cities.services.flexibleMembership')}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Related Cities */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                <MapPinIcon className="h-5 w-5 mr-2 text-blue-600" />
-                {t('cities.relatedCities')}
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div className="text-2xl">🇹🇭</div>
-                  <div>
-                    <p className="font-medium">{t('cities.chiangMai')}</p>
-                    <p className="text-sm text-gray-600">{t('cities.thailand')}</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div className="text-2xl">🇵🇹</div>
-                  <div>
-                    <p className="font-medium">{t('cities.lisbon')}</p>
-                    <p className="text-sm text-gray-600">{t('cities.portugal')}</p>
-                  </div>
+                <div>
+                  <p className="font-medium text-gray-900">{t('cities.services.visaServices')}</p>
+                  <p className="text-sm text-gray-600">iVisa</p>
+                  <p className="text-sm font-medium text-green-600">{t('cities.services.from')}$25</p>
                 </div>
               </div>
             </div>
 
-            {/* City Highlights */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
-                <StarIcon className="h-5 w-5 mr-2 text-yellow-500" />
-                城市亮点
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-sm">数字游民友好</span>
+            <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <span className="text-purple-600 text-lg">💻</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-sm">英语普及度高</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-sm">交通便利</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-sm">安全宜居</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-sm">美食文化丰富</span>
+                <div>
+                  <p className="font-medium text-gray-900">{t('cities.services.coworkingSpaces')}</p>
+                  <p className="text-sm text-gray-600">WeWork</p>
+                  <p className="text-sm font-medium text-green-600">{t('cities.services.from')}$200/{t('cities.services.month')}</p>
                 </div>
               </div>
             </div>
@@ -406,4 +618,6 @@ export default function CityDetailPage() {
       )}
     </div>
   )
+}
+
 }
