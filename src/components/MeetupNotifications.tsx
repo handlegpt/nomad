@@ -1,148 +1,160 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Bell, Coffee, Calendar, MapPin, Clock, CheckCircle, XCircle, MessageSquare } from 'lucide-react'
+import { 
+  Bell, 
+  Coffee, 
+  Calendar, 
+  MapPin, 
+  Clock, 
+  CheckCircle, 
+  XCircle, 
+  MessageSquare,
+  Search,
+  Filter,
+  Trash2,
+  Settings,
+  RefreshCw,
+  ChevronDown,
+  ChevronUp,
+  MoreVertical,
+  Star,
+  AlertCircle,
+  Info,
+  Users
+} from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useNotifications } from '@/contexts/GlobalStateContext'
 import { logInfo, logError } from '@/lib/logger'
-
-interface MeetupNotification {
-  id: string
-  type: 'invitation' | 'reminder' | 'update' | 'message'
-  title: string
-  message: string
-  messageParams?: Record<string, string>
-  from: string
-  time: string
-  isRead: boolean
-  action?: {
-    type: 'accept' | 'decline' | 'view' | 'reply'
-    data?: any
-  }
-}
+import { 
+  getUserNotifications,
+  markNotificationsAsRead,
+  deleteNotification,
+  getNotificationStats,
+  batchNotificationAction,
+  type Notification,
+  type GetNotificationsOptions
+} from '@/lib/notificationsApi'
 
 export default function MeetupNotifications() {
   const { t } = useTranslation()
   const { addNotification } = useNotifications()
-  const [notifications, setNotifications] = useState<MeetupNotification[]>([])
+  const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showAll, setShowAll] = useState(false)
+  const [stats, setStats] = useState<any>(null)
+  
+  // 筛选和搜索状态
+  const [filters, setFilters] = useState<GetNotificationsOptions>({
+    page: 1,
+    limit: 20
+  })
+  const [showFilters, setShowFilters] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [hasMore, setHasMore] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [selectedNotifications, setSelectedNotifications] = useState<string[]>([])
 
   useEffect(() => {
     fetchNotifications()
-  }, [])
+    fetchStats()
+  }, [filters])
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = async (append = false) => {
     try {
-      setLoading(true)
+      if (append) {
+        setLoadingMore(true)
+      } else {
+        setLoading(true)
+      }
       setError(null)
       
-      // 这里应该调用真实的API
-      // 目前使用模拟数据
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const result = await getUserNotifications({
+        ...filters,
+        filter_type: searchTerm ? undefined : filters.filter_type
+      })
+
+      if (append) {
+        setNotifications(prev => [...prev, ...result.notifications])
+      } else {
+        setNotifications(result.notifications)
+      }
       
-      const mockNotifications: MeetupNotification[] = [
-        {
-          id: '1',
-          type: 'invitation',
-          title: 'meetup.notifications.newInvitation',
-          message: 'meetup.notifications.invitationMessage',
-          messageParams: { user: 'Sarah Chen' },
-          from: 'Sarah Chen',
-          time: '2分钟前',
-          isRead: false,
-          action: {
-            type: 'accept',
-            data: { meetupId: '123' }
-          }
-        },
-        {
-          id: '2',
-          type: 'reminder',
-          title: 'meetup.notifications.meetupReminder',
-          message: 'meetup.notifications.reminderMessage',
-          messageParams: { time: '14:00', location: 'Blue Bottle Coffee' },
-          from: 'System',
-          time: '1小时前',
-          isRead: false,
-          action: {
-            type: 'view',
-            data: { meetupId: '456' }
-          }
-        },
-        {
-          id: '3',
-          type: 'update',
-          title: 'meetup.notifications.meetupUpdate',
-          message: 'meetup.notifications.updateMessage',
-          messageParams: { user: 'Alex Rodriguez' },
-          from: 'Alex Rodriguez',
-          time: '3小时前',
-          isRead: true,
-          action: {
-            type: 'view',
-            data: { meetupId: '789' }
-          }
-        },
-        {
-          id: '4',
-          type: 'message',
-          title: 'meetup.notifications.newMessage',
-          message: 'meetup.notifications.messagePreview',
-          messageParams: { user: 'Emma Wilson' },
-          from: 'Emma Wilson',
-          time: '1天前',
-          isRead: true,
-          action: {
-            type: 'reply',
-            data: { userId: 'emma123' }
-          }
-        }
-      ]
-      
-      setNotifications(mockNotifications)
+      setHasMore(result.hasMore)
     } catch (error) {
       logError('Failed to fetch notifications', error, 'MeetupNotifications')
       setError(t('meetup.notifications.loadError'))
+      addNotification({
+        type: 'error',
+        message: t('meetup.notifications.loadError')
+      })
     } finally {
       setLoading(false)
+      setLoadingMore(false)
     }
   }
 
-  const handleAction = async (notification: MeetupNotification) => {
-    if (!notification.action) return
+  const fetchStats = async () => {
+    try {
+      const statsData = await getNotificationStats()
+      setStats(statsData)
+    } catch (error) {
+      logError('Failed to fetch notification stats', error, 'MeetupNotifications')
+    }
+  }
+
+  const handleSearch = () => {
+    setFilters(prev => ({ ...prev, page: 1 }))
+  }
+
+  const handleFilterChange = (key: keyof GetNotificationsOptions, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value, page: 1 }))
+  }
+
+  const loadMore = () => {
+    if (hasMore && !loadingMore) {
+      setFilters(prev => ({ ...prev, page: (prev.page || 1) + 1 }))
+    }
+  }
+
+  const handleAction = async (notification: Notification) => {
+    if (!notification.action_type) return
 
     try {
-      switch (notification.action.type) {
+      switch (notification.action_type) {
         case 'accept':
-          // 这里应该调用API接受邀请
-          logInfo('Accepting meetup invitation', notification.action.data, 'MeetupNotifications')
+          logInfo('Accepting notification action', notification.action_data, 'MeetupNotifications')
           addNotification({
             type: 'success',
             message: t('meetup.notifications.invitationAccepted')
           })
           break
         case 'decline':
-          // 这里应该调用API拒绝邀请
-          logInfo('Declining meetup invitation', notification.action.data, 'MeetupNotifications')
+          logInfo('Declining notification action', notification.action_data, 'MeetupNotifications')
           addNotification({
             type: 'info',
             message: t('meetup.notifications.invitationDeclined')
           })
           break
         case 'view':
-          // 查看meetup详情
-          logInfo('Viewing meetup details', notification.action.data, 'MeetupNotifications')
+          logInfo('Viewing notification details', notification.action_data, 'MeetupNotifications')
           break
         case 'reply':
-          // 回复消息
-          logInfo('Replying to message', notification.action.data, 'MeetupNotifications')
+          logInfo('Replying to notification', notification.action_data, 'MeetupNotifications')
+          break
+        case 'dismiss':
+          await deleteNotification(notification.id)
+          setNotifications(prev => prev.filter(n => n.id !== notification.id))
+          addNotification({
+            type: 'success',
+            message: t('meetup.notifications.dismissed')
+          })
           break
       }
       
       // 标记为已读
-      markAsRead(notification.id)
+      await markAsRead(notification.id)
     } catch (error) {
       logError('Failed to handle notification action', error, 'MeetupNotifications')
       addNotification({
@@ -152,32 +164,88 @@ export default function MeetupNotifications() {
     }
   }
 
-  const markAsRead = (notificationId: string) => {
-    setNotifications(prev => 
-      prev.map(notification => 
-        notification.id === notificationId 
-          ? { ...notification, isRead: true }
-          : notification
+  const markAsRead = async (notificationId: string) => {
+    try {
+      await markNotificationsAsRead([notificationId])
+      setNotifications(prev => 
+        prev.map(notification => 
+          notification.id === notificationId 
+            ? { ...notification, is_read: true }
+            : notification
+        )
       )
-    )
+    } catch (error) {
+      logError('Failed to mark notification as read', error, 'MeetupNotifications')
+    }
   }
 
-  const markAllAsRead = () => {
-    setNotifications(prev => 
-      prev.map(notification => ({ ...notification, isRead: true }))
+  const markAllAsRead = async () => {
+    try {
+      await markNotificationsAsRead()
+      setNotifications(prev => 
+        prev.map(notification => ({ ...notification, is_read: true }))
+      )
+      addNotification({
+        type: 'success',
+        message: t('meetup.notifications.allMarkedRead')
+      })
+    } catch (error) {
+      logError('Failed to mark all notifications as read', error, 'MeetupNotifications')
+      addNotification({
+        type: 'error',
+        message: t('meetup.notifications.markAllReadError')
+      })
+    }
+  }
+
+  const deleteSelected = async () => {
+    if (selectedNotifications.length === 0) return
+
+    try {
+      await batchNotificationAction('delete', selectedNotifications)
+      setNotifications(prev => prev.filter(n => !selectedNotifications.includes(n.id)))
+      setSelectedNotifications([])
+      addNotification({
+        type: 'success',
+        message: t('meetup.notifications.deleted')
+      })
+    } catch (error) {
+      logError('Failed to delete notifications', error, 'MeetupNotifications')
+      addNotification({
+        type: 'error',
+        message: t('meetup.notifications.deleteError')
+      })
+    }
+  }
+
+  const toggleSelection = (notificationId: string) => {
+    setSelectedNotifications(prev => 
+      prev.includes(notificationId)
+        ? prev.filter(id => id !== notificationId)
+        : [...prev, notificationId]
     )
   }
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
-      case 'invitation':
+      case 'meetup_invitation':
         return <Coffee className="h-5 w-5 text-green-600" />
-      case 'reminder':
+      case 'meetup_reminder':
         return <Calendar className="h-5 w-5 text-blue-600" />
-      case 'update':
+      case 'meetup_update':
         return <Clock className="h-5 w-5 text-yellow-600" />
-      case 'message':
-        return <MessageSquare className="h-5 w-5 text-purple-600" />
+      case 'meetup_cancelled':
+        return <XCircle className="h-5 w-5 text-red-600" />
+      case 'city_update':
+        return <MapPin className="h-5 w-5 text-purple-600" />
+      case 'visa_reminder':
+        return <AlertCircle className="h-5 w-5 text-orange-600" />
+      case 'weather_alert':
+        return <Info className="h-5 w-5 text-cyan-600" />
+      case 'social_mention':
+        return <Users className="h-5 w-5 text-indigo-600" />
+      case 'system_announcement':
+        return <Star className="h-5 w-5 text-pink-600" />
       default:
         return <Bell className="h-5 w-5 text-gray-600" />
     }
@@ -185,21 +253,67 @@ export default function MeetupNotifications() {
 
   const getNotificationColor = (type: string) => {
     switch (type) {
-      case 'invitation':
+      case 'meetup_invitation':
         return 'bg-green-100'
-      case 'reminder':
+      case 'meetup_reminder':
         return 'bg-blue-100'
-      case 'update':
+      case 'meetup_update':
         return 'bg-yellow-100'
-      case 'message':
+      case 'meetup_cancelled':
+        return 'bg-red-100'
+      case 'city_update':
         return 'bg-purple-100'
+      case 'visa_reminder':
+        return 'bg-orange-100'
+      case 'weather_alert':
+        return 'bg-cyan-100'
+      case 'social_mention':
+        return 'bg-indigo-100'
+      case 'system_announcement':
+        return 'bg-pink-100'
       default:
         return 'bg-gray-100'
     }
   }
 
-  const unreadCount = notifications.filter(n => !n.isRead).length
-  const displayedNotifications = showAll ? notifications : notifications.slice(0, 3)
+  const getNotificationTypeText = (type: string) => {
+    switch (type) {
+      case 'meetup_invitation':
+        return t('meetup.notifications.typeInvitation')
+      case 'meetup_reminder':
+        return t('meetup.notifications.typeReminder')
+      case 'meetup_update':
+        return t('meetup.notifications.typeUpdate')
+      case 'meetup_cancelled':
+        return t('meetup.notifications.typeCancelled')
+      case 'city_update':
+        return t('meetup.notifications.typeCityUpdate')
+      case 'visa_reminder':
+        return t('meetup.notifications.typeVisaReminder')
+      case 'weather_alert':
+        return t('meetup.notifications.typeWeatherAlert')
+      case 'social_mention':
+        return t('meetup.notifications.typeSocialMention')
+      case 'system_announcement':
+        return t('meetup.notifications.typeSystemAnnouncement')
+      default:
+        return type
+    }
+  }
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
+    
+    if (diffInMinutes < 1) return t('meetup.notifications.justNow')
+    if (diffInMinutes < 60) return t('meetup.notifications.minutesAgo', { minutes: diffInMinutes })
+    if (diffInMinutes < 1440) return t('meetup.notifications.hoursAgo', { hours: Math.floor(diffInMinutes / 60) })
+    return t('meetup.notifications.daysAgo', { days: Math.floor(diffInMinutes / 1440) })
+  }
+
+  const unreadCount = notifications.filter(n => !n.is_read).length
+  const displayedNotifications = showAll ? notifications : notifications.slice(0, 5)
 
   if (loading) {
     return (
@@ -223,10 +337,10 @@ export default function MeetupNotifications() {
           <Bell className="h-12 w-12 text-red-500 mx-auto mb-3" />
           <p className="text-gray-600 mb-4">{error}</p>
           <button
-            onClick={fetchNotifications}
+            onClick={() => fetchNotifications()}
             className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mx-auto"
           >
-            <Clock className="h-4 w-4" />
+            <RefreshCw className="h-4 w-4" />
             <span>{t('common.retry')}</span>
           </button>
         </div>
@@ -254,6 +368,129 @@ export default function MeetupNotifications() {
         )}
       </div>
 
+      {/* Search and Filters */}
+      <div className="mb-6 space-y-4">
+        {/* Search Bar */}
+        <div className="flex items-center space-x-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder={t('meetup.notifications.searchPlaceholder')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          <button
+            onClick={handleSearch}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {t('common.search')}
+          </button>
+        </div>
+
+        {/* Filter Toggle */}
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-700 transition-colors"
+          >
+            <Filter className="h-4 w-4" />
+            <span>{t('common.filters')}</span>
+            {showFilters ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
+        </div>
+
+        {/* Filter Options */}
+        {showFilters && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {t('meetup.notifications.status')}
+              </label>
+              <select
+                value={filters.filter_read === undefined ? '' : filters.filter_read.toString()}
+                onChange={(e) => handleFilterChange('filter_read', e.target.value === '' ? undefined : e.target.value === 'true')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">{t('common.all')}</option>
+                <option value="false">{t('meetup.notifications.unread')}</option>
+                <option value="true">{t('meetup.notifications.read')}</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {t('meetup.notifications.type')}
+              </label>
+              <select
+                value={filters.filter_type || ''}
+                onChange={(e) => handleFilterChange('filter_type', e.target.value || undefined)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">{t('common.all')}</option>
+                <option value="meetup_invitation">{t('meetup.notifications.typeInvitation')}</option>
+                <option value="meetup_reminder">{t('meetup.notifications.typeReminder')}</option>
+                <option value="meetup_update">{t('meetup.notifications.typeUpdate')}</option>
+                <option value="city_update">{t('meetup.notifications.typeCityUpdate')}</option>
+                <option value="visa_reminder">{t('meetup.notifications.typeVisaReminder')}</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Stats */}
+      {stats && (
+        <div className="mb-6 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+              <p className="text-xs text-gray-600">{t('meetup.notifications.total')}</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-red-600">{stats.unread}</p>
+              <p className="text-xs text-gray-600">{t('meetup.notifications.unread')}</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-blue-600">{Object.keys(stats.byType).length}</p>
+              <p className="text-xs text-gray-600">{t('meetup.notifications.types')}</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-green-600">{stats.byPriority.priority_1 || 0}</p>
+              <p className="text-xs text-gray-600">{t('meetup.notifications.highPriority')}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Batch Actions */}
+      {selectedNotifications.length > 0 && (
+        <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-blue-700">
+              {t('meetup.notifications.selected', { count: selectedNotifications.length })}
+            </span>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => batchNotificationAction('mark_read', selectedNotifications)}
+                className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                {t('meetup.notifications.markRead')}
+              </button>
+              <button
+                onClick={deleteSelected}
+                className="text-sm text-red-600 hover:text-red-700 transition-colors"
+              >
+                {t('meetup.notifications.delete')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Notifications List */}
       <div className="space-y-3">
         {notifications.length === 0 ? (
@@ -267,41 +504,60 @@ export default function MeetupNotifications() {
             <div 
               key={notification.id} 
               className={`border rounded-lg p-4 transition-colors ${
-                notification.isRead 
+                notification.is_read 
                   ? 'border-gray-200 bg-gray-50' 
                   : 'border-blue-200 bg-blue-50'
-              }`}
+              } ${selectedNotifications.includes(notification.id) ? 'ring-2 ring-blue-500' : ''}`}
             >
               <div className="flex items-start space-x-3">
+                <input
+                  type="checkbox"
+                  checked={selectedNotifications.includes(notification.id)}
+                  onChange={() => toggleSelection(notification.id)}
+                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                
                 <div className={`p-2 rounded-lg ${getNotificationColor(notification.type)}`}>
                   {getNotificationIcon(notification.type)}
                 </div>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-1">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
-                      {t(notification.title)}
-                    </h4>
+                    <div className="flex items-center space-x-2">
+                      <h4 className="text-sm font-medium text-gray-900 truncate">
+                        {notification.title}
+                      </h4>
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                        {getNotificationTypeText(notification.type)}
+                      </span>
+                      {notification.priority > 3 && (
+                        <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                          {t('meetup.notifications.highPriority')}
+                        </span>
+                      )}
+                    </div>
                     <span className="text-xs text-gray-500 ml-2">
-                      {notification.time}
+                      {formatTime(notification.created_at)}
                     </span>
                   </div>
                   
                   <p className="text-sm text-gray-600 mb-2">
-                    {notification.messageParams 
-                      ? t(notification.message, notification.messageParams)
-                      : t(notification.message)
-                    }
+                    {notification.message}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">
-                      {t('meetup.notifications.from')}: {notification.from}
-                    </span>
+                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                      {notification.data.creator_name && (
+                        <span>{t('meetup.notifications.from')}: {notification.data.creator_name}</span>
+                      )}
+                      {notification.data.location && (
+                        <span>{t('meetup.notifications.at')}: {notification.data.location}</span>
+                      )}
+                    </div>
                     
-                    {notification.action && (
+                    {notification.action_type && (
                       <div className="flex space-x-2">
-                        {notification.action.type === 'accept' && (
+                        {notification.action_type === 'accept' && (
                           <>
                             <button
                               onClick={() => handleAction(notification)}
@@ -311,7 +567,7 @@ export default function MeetupNotifications() {
                               <span>{t('meetup.notifications.accept')}</span>
                             </button>
                             <button
-                              onClick={() => handleAction({ ...notification, action: { type: 'decline', data: notification.action!.data } })}
+                              onClick={() => handleAction({ ...notification, action_type: 'decline' })}
                               className="flex items-center space-x-1 bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700 transition-colors"
                             >
                               <XCircle className="h-3 w-3" />
@@ -319,7 +575,7 @@ export default function MeetupNotifications() {
                             </button>
                           </>
                         )}
-                        {notification.action.type === 'view' && (
+                        {notification.action_type === 'view' && (
                           <button
                             onClick={() => handleAction(notification)}
                             className="flex items-center space-x-1 bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700 transition-colors"
@@ -328,13 +584,22 @@ export default function MeetupNotifications() {
                             <span>{t('meetup.notifications.view')}</span>
                           </button>
                         )}
-                        {notification.action.type === 'reply' && (
+                        {notification.action_type === 'reply' && (
                           <button
                             onClick={() => handleAction(notification)}
                             className="flex items-center space-x-1 bg-purple-600 text-white px-2 py-1 rounded text-xs hover:bg-purple-700 transition-colors"
                           >
                             <MessageSquare className="h-3 w-3" />
                             <span>{t('meetup.notifications.reply')}</span>
+                          </button>
+                        )}
+                        {notification.action_type === 'dismiss' && (
+                          <button
+                            onClick={() => handleAction(notification)}
+                            className="flex items-center space-x-1 bg-gray-600 text-white px-2 py-1 rounded text-xs hover:bg-gray-700 transition-colors"
+                          >
+                            <XCircle className="h-3 w-3" />
+                            <span>{t('meetup.notifications.dismiss')}</span>
                           </button>
                         )}
                       </div>
@@ -351,14 +616,25 @@ export default function MeetupNotifications() {
       {notifications.length > 0 && (
         <div className="mt-6 pt-4 border-t border-gray-200">
           <div className="flex items-center justify-between">
-            <button
-              onClick={markAllAsRead}
-              className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              {t('meetup.notifications.markAllRead')}
-            </button>
+            <div className="flex space-x-4">
+              <button
+                onClick={markAllAsRead}
+                className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                {t('meetup.notifications.markAllRead')}
+              </button>
+              
+              {selectedNotifications.length > 0 && (
+                <button
+                  onClick={deleteSelected}
+                  className="text-sm text-red-600 hover:text-red-700 transition-colors"
+                >
+                  {t('meetup.notifications.deleteSelected')}
+                </button>
+              )}
+            </div>
             
-            {notifications.length > 3 && (
+            {notifications.length > 5 && (
               <button
                 onClick={() => setShowAll(!showAll)}
                 className="text-sm text-gray-600 hover:text-gray-700 transition-colors"
@@ -367,6 +643,24 @@ export default function MeetupNotifications() {
               </button>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Load More */}
+      {hasMore && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors mx-auto disabled:opacity-50"
+          >
+            {loadingMore ? (
+              <RefreshCw className="h-4 w-4 animate-spin" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+            <span>{loadingMore ? t('common.loading') : t('common.loadMore')}</span>
+          </button>
         </div>
       )}
     </div>
