@@ -1046,7 +1046,17 @@
         "workspaces": "Good Workspaces",
         "coffeeCulture": "Coffee Culture",
         "outdoorActivities": "Outdoor Activities",
-        "nightlife": "Good Nightlife"
+        "nightlife": "Good Nightlife",
+        "coworkingSpaces": "Many Coworking Spaces",
+        "stableNetwork": "Stable Network",
+        "slowPace": "Slow Pace of Life",
+        "beautifulScenery": "Beautiful Scenery",
+        "historicalSites": "Historical Sites",
+        "modernFacilities": "Modern Facilities",
+        "goodHealthcare": "Good Healthcare",
+        "educationResources": "Education Resources",
+        "startupAtmosphere": "Startup Atmosphere",
+        "internationalLevel": "High International Level"
       },
       "suggestedTags": {
         "budgetFriendly": "Budget Friendly",
@@ -1063,7 +1073,17 @@
         "coffeeCulture": "Coffee Culture",
         "outdoor": "Outdoor Activities",
         "nightlife": "Nightlife",
-        "shopping": "Shopping"
+        "shopping": "Shopping",
+        "coworking": "Coworking",
+        "stableNetwork": "Stable Network",
+        "slowPace": "Slow Pace",
+        "beautifulScenery": "Beautiful Scenery",
+        "historicalSites": "Historical Sites",
+        "modernFacilities": "Modern Facilities",
+        "goodHealthcare": "Good Healthcare",
+        "educationResources": "Education Resources",
+        "startupAtmosphere": "Startup Atmosphere",
+        "internationalLevel": "International"
       }
     },
     "place": {

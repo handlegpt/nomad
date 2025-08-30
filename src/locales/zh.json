@@ -1060,7 +1060,17 @@
         "workspaces": "工作空间好",
         "coffeeCulture": "咖啡文化",
         "outdoorActivities": "户外活动",
-        "nightlife": "夜生活丰富"
+        "nightlife": "夜生活丰富",
+        "coworkingSpaces": "联合办公空间多",
+        "stableNetwork": "网络稳定",
+        "slowPace": "生活节奏慢",
+        "beautifulScenery": "风景优美",
+        "historicalSites": "历史古迹",
+        "modernFacilities": "现代设施",
+        "goodHealthcare": "医疗条件好",
+        "educationResources": "教育资源丰富",
+        "startupAtmosphere": "创业氛围",
+        "internationalLevel": "国际化程度高"
       },
       "suggestedTags": {
         "budgetFriendly": "预算友好",
@@ -1077,7 +1087,17 @@
         "coffeeCulture": "咖啡文化",
         "outdoor": "户外活动",
         "nightlife": "夜生活",
-        "shopping": "购物"
+        "shopping": "购物",
+        "coworking": "联合办公",
+        "stableNetwork": "网络稳定",
+        "slowPace": "生活节奏慢",
+        "beautifulScenery": "风景美",
+        "historicalSites": "历史古迹",
+        "modernFacilities": "现代设施",
+        "goodHealthcare": "医疗好",
+        "educationResources": "教育资源",
+        "startupAtmosphere": "创业氛围",
+        "internationalLevel": "国际化"
       }
     },
     "place": {

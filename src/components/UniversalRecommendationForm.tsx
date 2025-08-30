@@ -17,6 +17,7 @@ interface FormField {
   type: 'text' | 'number' | 'select' | 'textarea' | 'tags' | 'highlights' | 'category'
   required?: boolean
   placeholder?: string
+  helpText?: string
   options?: Array<{ value: string | number; label: string; icon?: React.ReactNode }>
   validation?: {
     min?: number
@@ -64,12 +65,16 @@ export default function UniversalRecommendationForm({
         suggestedTags: [
           '预算友好', 'WiFi快', '签证简单', '气候好', '美食多',
           '文化丰富', '交通便利', '安全', '英语好', '社区好',
-          '工作空间', '咖啡文化', '户外', '夜生活', '购物'
+          '工作空间', '咖啡文化', '户外', '夜生活', '购物',
+          '联合办公', '网络稳定', '生活节奏慢', '风景美', '历史古迹',
+          '现代设施', '医疗好', '教育资源', '创业氛围', '国际化'
         ],
         suggestedHighlights: [
           '数字游民友好', 'WiFi速度快', '生活成本低', '签证便利', '气候宜人',
           '美食丰富', '文化多元', '交通便利', '安全宜居', '英语普及',
-          '社区活跃', '工作空间多', '咖啡文化', '户外活动', '夜生活丰富'
+          '社区活跃', '工作空间多', '咖啡文化', '户外活动', '夜生活丰富',
+          '联合办公空间多', '网络稳定', '生活节奏慢', '风景优美', '历史古迹',
+          '现代设施', '医疗条件好', '教育资源丰富', '创业氛围', '国际化程度高'
         ],
         fields: [
           {
@@ -128,9 +133,15 @@ export default function UniversalRecommendationForm({
             type: 'select',
             required: true,
             options: [
-              'Tourist Visa', 'Digital Nomad Visa', 'Visa Free', 'Visa on Arrival',
-              'Business Visa', 'Student Visa', 'Work Visa'
-            ].map(vt => ({ value: vt, label: vt })),
+              { value: 'Tourist Visa', label: '旅游签证' },
+              { value: 'Digital Nomad Visa', label: '数字游民签证' },
+              { value: 'Visa Free', label: '免签' },
+              { value: 'Visa on Arrival', label: '落地签' },
+              { value: 'Business Visa', label: '商务签证' },
+              { value: 'Student Visa', label: '学生签证' },
+              { value: 'Work Visa', label: '工作签证' },
+              { value: 'Residence Permit', label: '居留许可' }
+            ],
             gridCols: 1
           },
           {
@@ -139,7 +150,8 @@ export default function UniversalRecommendationForm({
             type: 'number',
             required: true,
             validation: { min: 1, max: 365 },
-            gridCols: 1
+            gridCols: 1,
+            helpText: '单次签证可停留的最大天数'
           },
           {
             name: 'cost_of_living',
@@ -148,7 +160,8 @@ export default function UniversalRecommendationForm({
             required: true,
             validation: { min: 100, max: 10000 },
             placeholder: t('recommendationForm.city.fields.costOfLivingPlaceholder'),
-            gridCols: 1
+            gridCols: 1,
+            helpText: '包括住宿、餐饮、交通等基本生活费用'
           },
           {
             name: 'wifi_speed',
@@ -157,7 +170,8 @@ export default function UniversalRecommendationForm({
             required: true,
             validation: { min: 1, max: 1000 },
             placeholder: t('recommendationForm.city.fields.wifiSpeedPlaceholder'),
-            gridCols: 1
+            gridCols: 1,
+            helpText: '平均下载速度，影响远程工作效率'
           },
           {
             name: 'description',
