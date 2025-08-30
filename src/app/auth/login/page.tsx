@@ -10,6 +10,133 @@ import LoadingSpinner from '@/components/LoadingSpinner'
 import { Mail, ArrowLeft, RefreshCw, Globe, Shield, Clock } from 'lucide-react'
 import FixedLink from '@/components/FixedLink'
 
+// 多语言文本配置
+const translations = {
+  zh: {
+    login: '登录',
+    enterEmail: '输入邮箱地址获取验证码',
+    enterCode: '输入发送到您邮箱的验证码',
+    email: '邮箱地址',
+    emailPlaceholder: 'your@email.com',
+    sendCode: '发送验证码',
+    verificationCode: '验证码',
+    codePlaceholder: '000000',
+    back: '返回',
+    verify: '验证',
+    footer: '使用邮箱验证码即可登录，无需注册',
+    backToHome: '返回首页',
+    resendCode: '重新发送验证码',
+    resendCountdown: '{countdown}秒后可重新发送',
+    codeError: '验证码错误',
+    attemptsRemaining: '{count} 次尝试剩余',
+    codeSent: '验证码发送成功',
+    codeResent: '验证码重新发送成功',
+    sendCodeFailed: '发送验证码失败',
+    resendCodeFailed: '重新发送验证码失败',
+    networkError: '网络错误，请重试',
+    tooManyAttempts: '尝试次数过多，请重新获取验证码',
+    loginSuccess: '登录成功！正在跳转...',
+    verificationFailed: '验证失败',
+    loading: '加载中...'
+  },
+  en: {
+    login: 'Sign In',
+    enterEmail: 'Enter your email to receive a verification code',
+    enterCode: 'Enter the verification code sent to your email',
+    email: 'Email Address',
+    emailPlaceholder: 'your@email.com',
+    sendCode: 'Send Code',
+    verificationCode: 'Verification Code',
+    codePlaceholder: '000000',
+    back: 'Back',
+    verify: 'Verify',
+    footer: 'Sign in with email verification code, no registration required',
+    backToHome: 'Back to Home',
+    resendCode: 'Resend Code',
+    resendCountdown: 'Resend available in {countdown} seconds',
+    codeError: 'Invalid verification code',
+    attemptsRemaining: '{count} attempts remaining',
+    codeSent: 'Verification code sent successfully',
+    codeResent: 'Verification code resent successfully',
+    sendCodeFailed: 'Failed to send verification code',
+    resendCodeFailed: 'Failed to resend verification code',
+    networkError: 'Network error, please try again',
+    tooManyAttempts: 'Too many attempts. Please request a new code.',
+    loginSuccess: 'Login successful! Redirecting...',
+    verificationFailed: 'Verification failed',
+    loading: 'Loading...'
+  },
+  ja: {
+    login: 'ログイン',
+    enterEmail: 'メールアドレスを入力して認証コードを受信',
+    enterCode: 'メールに送信された認証コードを入力',
+    email: 'メールアドレス',
+    emailPlaceholder: 'your@email.com',
+    sendCode: '認証コードを送信',
+    verificationCode: '認証コード',
+    codePlaceholder: '000000',
+    back: '戻る',
+    verify: '認証',
+    footer: 'メール認証コードでログイン、登録不要',
+    backToHome: 'ホームに戻る',
+    resendCode: '認証コードを再送信',
+    resendCountdown: '{countdown}秒後に再送信可能',
+    codeError: '認証コードが無効です',
+    attemptsRemaining: '残り{count}回',
+    codeSent: '認証コードを送信しました',
+    codeResent: '認証コードを再送信しました',
+    sendCodeFailed: '認証コードの送信に失敗しました',
+    resendCodeFailed: '認証コードの再送信に失敗しました',
+    networkError: 'ネットワークエラー、再試行してください',
+    tooManyAttempts: '試行回数が多すぎます。新しいコードをリクエストしてください。',
+    loginSuccess: 'ログイン成功！リダイレクト中...',
+    verificationFailed: '認証に失敗しました',
+    loading: '読み込み中...'
+  },
+  es: {
+    login: 'Iniciar Sesión',
+    enterEmail: 'Ingresa tu email para recibir un código de verificación',
+    enterCode: 'Ingresa el código de verificación enviado a tu email',
+    email: 'Dirección de Email',
+    emailPlaceholder: 'your@email.com',
+    sendCode: 'Enviar Código',
+    verificationCode: 'Código de Verificación',
+    codePlaceholder: '000000',
+    back: 'Volver',
+    verify: 'Verificar',
+    footer: 'Inicia sesión con código de verificación por email, sin registro requerido',
+    backToHome: 'Volver al Inicio',
+    resendCode: 'Reenviar Código',
+    resendCountdown: 'Reenvío disponible en {countdown} segundos',
+    codeError: 'Código de verificación inválido',
+    attemptsRemaining: '{count} intentos restantes',
+    codeSent: 'Código de verificación enviado exitosamente',
+    codeResent: 'Código de verificación reenviado exitosamente',
+    sendCodeFailed: 'Error al enviar código de verificación',
+    resendCodeFailed: 'Error al reenviar código de verificación',
+    networkError: 'Error de red, por favor intenta de nuevo',
+    tooManyAttempts: 'Demasiados intentos. Solicita un nuevo código.',
+    loginSuccess: '¡Inicio de sesión exitoso! Redirigiendo...',
+    verificationFailed: 'Verificación fallida',
+    loading: 'Cargando...'
+  }
+}
+
+// 安全的翻译函数
+function safeTranslate(locale: string, key: string, params?: Record<string, string>): string {
+  const localeTranslations = translations[locale as keyof typeof translations] || translations.en
+  let text = localeTranslations[key as keyof typeof localeTranslations] || key
+  
+  // 替换参数
+  if (params) {
+    Object.entries(params).forEach(([param, value]) => {
+      text = text.replace(new RegExp(`{${param}}`, 'g'), value)
+    })
+  }
+  
+  return text
+}
+
 export default function LoginPage() {
   const { t, locale, loading: translationLoading } = useTranslation()
   const router = useRouter()
@@ -26,6 +153,8 @@ export default function LoginPage() {
   
   const codeInputRef = useRef<HTMLInputElement>(null)
   const emailInputRef = useRef<HTMLInputElement>(null)
+
+
 
   // 从localStorage恢复邮箱
   useEffect(() => {
@@ -87,7 +216,7 @@ export default function LoginPage() {
         // 保存邮箱到localStorage
         localStorage.setItem('login_email', email)
         
-        setSuccess('验证码发送成功')
+        setSuccess(safeTranslate(locale, 'codeSent'))
         setStep('code')
         setResendCountdown(60) // 60秒倒计时
         setShowResendButton(false)
@@ -95,18 +224,20 @@ export default function LoginPage() {
         
         logInfo('Verification code sent successfully', { email }, 'LoginPage')
       } else {
-        setError(data.message || '发送验证码失败')
+        setError(data.message || safeTranslate(locale, 'sendCodeFailed'))
         logError('Failed to send verification code', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError('网络错误，请重试')
-      logError('Network error during send code', error, 'LoginPage')
+      setError(safeTranslate(locale, 'networkError'))
+      logError('Network error sending verification code', error, 'LoginPage')
     } finally {
       setLoading(false)
     }
   }
 
   const handleResendCode = async () => {
+    if (resendCountdown > 0) return
+    
     setError('')
     setLoading(true)
 
@@ -125,19 +256,19 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setSuccess('验证码重新发送成功')
+        setSuccess(safeTranslate(locale, 'codeResent'))
         setResendCountdown(60)
         setShowResendButton(false)
         setAttempts(0)
         
         logInfo('Verification code resent successfully', { email }, 'LoginPage')
       } else {
-        setError(data.message || '重新发送验证码失败')
+        setError(data.message || safeTranslate(locale, 'resendCodeFailed'))
         logError('Failed to resend verification code', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError('网络错误，请重试')
-      logError('Network error during resend code', error, 'LoginPage')
+      setError(safeTranslate(locale, 'networkError'))
+      logError('Network error resending verification code', error, 'LoginPage')
     } finally {
       setLoading(false)
     }
@@ -150,7 +281,7 @@ export default function LoginPage() {
 
     // 检查尝试次数
     if (attempts >= 5) {
-      setError('尝试次数过多，请重新获取验证码')
+      setError(safeTranslate(locale, 'tooManyAttempts'))
       setLoading(false)
       return
     }
@@ -180,7 +311,7 @@ export default function LoginPage() {
       if (response.ok && data.success) {
         // 设置JWT令牌
         setSessionToken(data.data.sessionToken)
-        setSuccess('登录成功！正在跳转...')
+        setSuccess(safeTranslate(locale, 'loginSuccess'))
         
         logInfo('User logged in successfully', { userId: data.data.user.id }, 'LoginPage')
         
@@ -190,11 +321,11 @@ export default function LoginPage() {
         }, 1000)
       } else {
         setAttempts(attempts + 1)
-        setError(data.message || '验证失败')
+        setError(data.message || safeTranslate(locale, 'verificationFailed'))
         logError('Verification failed', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError('网络错误，请重试')
+      setError(safeTranslate(locale, 'networkError'))
       logError('Network error during verification', error, 'LoginPage')
     } finally {
       setLoading(false)
@@ -234,7 +365,7 @@ export default function LoginPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100 text-center">
-          <LoadingSpinner size="lg" text="加载中..." />
+          <LoadingSpinner size="lg" text={safeTranslate(locale, 'loading')} />
         </div>
       </div>
     )
@@ -251,10 +382,10 @@ export default function LoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            登录
+            {safeTranslate(locale, 'login')}
           </h1>
           <p className="text-gray-600 text-sm">
-            {step === 'email' ? '输入邮箱地址获取验证码' : '输入发送到您邮箱的验证码'}
+            {step === 'email' ? safeTranslate(locale, 'enterEmail') : safeTranslate(locale, 'enterCode')}
           </p>
         </div>
 
@@ -282,7 +413,7 @@ export default function LoginPage() {
           <form onSubmit={handleSendCode} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                邮箱地址
+                {safeTranslate(locale, 'email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -293,7 +424,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  placeholder="your@email.com"
+                  placeholder={safeTranslate(locale, 'emailPlaceholder')}
                   required
                   disabled={loading}
                 />
@@ -310,7 +441,7 @@ export default function LoginPage() {
               ) : (
                 <>
                   <Mail className="h-4 w-4 mr-2" />
-                  发送验证码
+                  {safeTranslate(locale, 'sendCode')}
                 </>
               )}
             </button>
@@ -320,7 +451,7 @@ export default function LoginPage() {
           <div className="space-y-6">
             <div>
               <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
-                验证码
+                {safeTranslate(locale, 'verificationCode')}
               </label>
               <div className="relative">
                 <input
@@ -330,14 +461,14 @@ export default function LoginPage() {
                   value={code}
                   onChange={handleCodeChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-lg font-mono tracking-widest transition-all duration-200"
-                  placeholder="000000"
+                  placeholder={safeTranslate(locale, 'codePlaceholder')}
                   maxLength={6}
                   required
                   disabled={loading}
                 />
               </div>
               <p className="text-xs text-gray-500 mt-2 text-center">
-                000000
+                {safeTranslate(locale, 'codePlaceholder')}
               </p>
             </div>
 
@@ -350,12 +481,12 @@ export default function LoginPage() {
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center justify-center mx-auto transition-colors"
                 >
                   <RefreshCw className="h-4 w-4 mr-1" />
-                  重新发送验证码
+                  {safeTranslate(locale, 'resendCode')}
                 </button>
               ) : (
                 <div className="text-sm text-gray-500 flex items-center justify-center">
                   <Clock className="h-4 w-4 mr-1" />
-                  {resendCountdown}秒后可重新发送
+                  {safeTranslate(locale, 'resendCountdown', { countdown: resendCountdown.toString() })}
                 </div>
               )}
             </div>
@@ -364,7 +495,7 @@ export default function LoginPage() {
             {attempts > 0 && (
               <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-xl">
                 <p className="text-yellow-700 text-sm text-center">
-                  验证码错误 ({5 - attempts} 次尝试剩余)
+                  {safeTranslate(locale, 'codeError')} ({5 - attempts} {safeTranslate(locale, 'attemptsRemaining', { count: (5 - attempts).toString() })})
                 </p>
               </div>
             )}
@@ -377,7 +508,7 @@ export default function LoginPage() {
                 className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-xl hover:bg-gray-200 disabled:opacity-50 flex items-center justify-center transition-all duration-200 font-medium"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                返回
+                {safeTranslate(locale, 'back')}
               </button>
               
               <button
@@ -390,7 +521,7 @@ export default function LoginPage() {
                 ) : (
                   <>
                     <Shield className="h-4 w-4 mr-2" />
-                    验证
+                    {safeTranslate(locale, 'verify')}
                   </>
                 )}
               </button>
@@ -401,12 +532,12 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="mt-8 text-center space-y-4">
           <p className="text-sm text-gray-500">
-            使用邮箱验证码即可登录，无需注册
+            {safeTranslate(locale, 'footer')}
           </p>
           
           <div className="flex items-center justify-center space-x-4">
             <FixedLink href="/" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-              返回首页
+              {safeTranslate(locale, 'backToHome')}
             </FixedLink>
             <span className="text-gray-300">|</span>
             <button className="text-sm text-gray-500 hover:text-gray-700 transition-colors flex items-center">
