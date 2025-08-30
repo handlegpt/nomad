@@ -757,7 +757,7 @@
         "tags": "标签",
         "addTag": "添加标签",
         "suggestedTags": "建议标签",
-        "selectTimezone": "选择时区"
+        "selectTimezone": "选择时区",
         "description": "城市描述",
         "descriptionPlaceholder": "描述这个城市为什么适合数字游民，包括生活体验、工作环境、文化特色等...",
         "highlights": "城市亮点",
