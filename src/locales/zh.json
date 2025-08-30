@@ -299,7 +299,10 @@
     "safety": "安全",
     "visa": "签证",
     "highlights": "亮点",
-    "localTips": "当地提示"
+    "localTips": "当地提示",
+    "login": "登录",
+    "search": "搜索",
+    "retry": "重试"
   },
 
   "notifications": {
@@ -534,6 +537,15 @@
     "distance": "{distance}公里",
     "mutualInterests": "{count}个共同兴趣",
     "compatibility": "{percentage}%匹配",
+    "filterAll": "全部",
+    "filterGeneral": "一般",
+    "filterQuestion": "问题",
+    "filterInfo": "信息",
+    "filterHelp": "帮助",
+    "messageStats": "消息统计",
+    "messagePlaceholder": "写下你的消息...",
+    "noMessages": "暂无消息",
+    "startConversation": "开始对话",
     "notifications": {
       "title": "通知",
       "description": "及时了解聚会活动",

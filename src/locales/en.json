@@ -319,7 +319,10 @@
     "safety": "Safety",
     "visa": "Visa",
     "highlights": "Highlights",
-    "localTips": "Local Tips"
+    "localTips": "Local Tips",
+    "login": "Login",
+    "search": "Search",
+    "retry": "Retry"
   },
 
   "notifications": {
@@ -576,6 +579,15 @@
     "distance": "{distance}km",
     "mutualInterests": "{count} mutual interests",
     "compatibility": "{percentage}% match",
+    "filterAll": "All",
+    "filterGeneral": "General",
+    "filterQuestion": "Question",
+    "filterInfo": "Info",
+    "filterHelp": "Help",
+    "messageStats": "Message Statistics",
+    "messagePlaceholder": "Write your message...",
+    "noMessages": "No messages yet",
+    "startConversation": "Start the conversation",
     "notifications": {
       "title": "Notifications",
       "description": "Stay updated with meetup activities",
