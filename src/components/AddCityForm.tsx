@@ -50,15 +50,39 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
   ]
 
   const suggestedHighlights = [
-    '数字游民友好', 'WiFi速度快', '生活成本低', '签证便利', '气候宜人',
-    '美食丰富', '文化多元', '交通便利', '安全宜居', '英语普及',
-    '社区活跃', '工作空间多', '咖啡文化', '户外活动', '夜生活丰富'
+    t('recommendationForm.city.suggestedHighlights.nomadFriendly'),
+    t('recommendationForm.city.suggestedHighlights.fastWifi'),
+    t('recommendationForm.city.suggestedHighlights.lowCost'),
+    t('recommendationForm.city.suggestedHighlights.visaConvenient'),
+    t('recommendationForm.city.suggestedHighlights.goodClimate'),
+    t('recommendationForm.city.suggestedHighlights.foodRich'),
+    t('recommendationForm.city.suggestedHighlights.culturalDiverse'),
+    t('recommendationForm.city.suggestedHighlights.convenientTransport'),
+    t('recommendationForm.city.suggestedHighlights.safeLiving'),
+    t('recommendationForm.city.suggestedHighlights.englishFriendly'),
+    t('recommendationForm.city.suggestedHighlights.activeCommunity'),
+    t('recommendationForm.city.suggestedHighlights.workspaces'),
+    t('recommendationForm.city.suggestedHighlights.coffeeCulture'),
+    t('recommendationForm.city.suggestedHighlights.outdoorActivities'),
+    t('recommendationForm.city.suggestedHighlights.nightlife')
   ]
 
   const suggestedTags = [
-    '预算友好', 'WiFi快', '签证简单', '气候好', '美食多',
-    '文化丰富', '交通便利', '安全', '英语好', '社区好',
-    '工作空间', '咖啡文化', '户外', '夜生活', '购物'
+    t('recommendationForm.city.suggestedTags.budgetFriendly'),
+    t('recommendationForm.city.suggestedTags.fastWifi'),
+    t('recommendationForm.city.suggestedTags.easyVisa'),
+    t('recommendationForm.city.suggestedTags.goodClimate'),
+    t('recommendationForm.city.suggestedTags.goodFood'),
+    t('recommendationForm.city.suggestedTags.culturalRich'),
+    t('recommendationForm.city.suggestedTags.convenientTransport'),
+    t('recommendationForm.city.suggestedTags.safe'),
+    t('recommendationForm.city.suggestedTags.englishFriendly'),
+    t('recommendationForm.city.suggestedTags.goodCommunity'),
+    t('recommendationForm.city.suggestedTags.workspaces'),
+    t('recommendationForm.city.suggestedTags.coffeeCulture'),
+    t('recommendationForm.city.suggestedTags.outdoor'),
+    t('recommendationForm.city.suggestedTags.nightlife'),
+    t('recommendationForm.city.suggestedTags.shopping')
   ]
 
   const handleInputChange = (field: string, value: any) => {
@@ -142,7 +166,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900">推荐新城市</h2>
+            <h2 className="text-xl font-bold text-gray-900">{t('recommendationForm.city.title')}</h2>
             <button
               onClick={onClose}
               className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
@@ -164,7 +188,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  城市名称 *
+                  {t('recommendationForm.city.fields.name')} *
                 </label>
                 <input
                   type="text"
@@ -175,13 +199,13 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：清迈"
+                  placeholder={t('recommendationForm.city.fields.namePlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  国家 *
+                  {t('recommendationForm.city.fields.country')} *
                 </label>
                 <input
                   type="text"
@@ -192,13 +216,13 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：泰国"
+                  placeholder={t('recommendationForm.city.fields.countryPlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  国家代码 *
+                  {t('recommendationForm.city.fields.countryCode')} *
                 </label>
                 <input
                   type="text"
@@ -210,13 +234,13 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：TH"
+                  placeholder={t('recommendationForm.city.fields.countryCodePlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  时区 *
+                  {t('recommendationForm.city.fields.timezone')} *
                 </label>
                 <select
                   value={formData.timezone}
@@ -227,7 +251,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
                 >
-                  <option value="">选择时区</option>
+                  <option value="">{t('recommendationForm.city.fields.selectTimezone')}</option>
                   {timezones.map((tz) => (
                     <option key={tz} value={tz}>{tz}</option>
                   ))}
@@ -239,7 +263,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  纬度 (可选)
+                  {t('recommendationForm.city.fields.latitude')}
                 </label>
                 <input
                   type="number"
@@ -250,13 +274,13 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：18.7883"
+                  placeholder={t('recommendationForm.city.fields.latitudePlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  经度 (可选)
+                  {t('recommendationForm.city.fields.longitude')}
                 </label>
                 <input
                   type="number"
@@ -267,7 +291,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：98.9853"
+                  placeholder={t('recommendationForm.city.fields.longitudePlaceholder')}
                 />
               </div>
             </div>
@@ -276,7 +300,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  签证类型 *
+                  {t('recommendationForm.city.fields.visaType')} *
                 </label>
                 <select
                   value={formData.visa_type}
@@ -295,7 +319,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  停留天数 *
+                  {t('recommendationForm.city.fields.visaDays')} *
                 </label>
                 <input
                   type="number"
@@ -316,7 +340,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  月生活成本 (USD) *
+                  {t('recommendationForm.city.fields.costOfLiving')} *
                 </label>
                 <input
                   type="number"
@@ -329,13 +353,13 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：1500"
+                  placeholder={t('recommendationForm.city.fields.costOfLivingPlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  WiFi速度 (Mbps) *
+                  {t('recommendationForm.city.fields.wifiSpeed')} *
                 </label>
                 <input
                   type="number"
@@ -348,7 +372,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                     !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                   }`}
-                  placeholder="例如：50"
+                  placeholder={t('recommendationForm.city.fields.wifiSpeedPlaceholder')}
                 />
               </div>
             </div>
@@ -356,7 +380,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                城市描述 *
+                {t('recommendationForm.city.fields.description')} *
               </label>
               <textarea
                 value={formData.description}
@@ -367,14 +391,14 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                 className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none ${
                   !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                 }`}
-                placeholder="描述这个城市为什么适合数字游民，包括生活体验、工作环境、文化特色等..."
+                placeholder={t('recommendationForm.city.fields.descriptionPlaceholder')}
               />
             </div>
 
             {/* Highlights */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                城市亮点
+                {t('recommendationForm.city.fields.highlights')}
               </label>
               <div className="space-y-3">
                 <div className="flex flex-wrap gap-2">
@@ -405,7 +429,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                     className={`flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                     }`}
-                    placeholder="添加亮点"
+                    placeholder={t('recommendationForm.city.fields.addHighlight')}
                   />
                   <button
                     type="button"
@@ -413,11 +437,11 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                     onClick={() => addHighlight(newHighlight)}
                     className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                   >
-                    添加
+                    {t('common.add')}
                   </button>
                 </div>
                 <div className="text-sm text-gray-600">
-                  建议亮点：
+                  {t('recommendationForm.city.fields.suggestedHighlights')}：
                   <div className="flex flex-wrap gap-1 mt-1">
                     {suggestedHighlights.map((highlight) => (
                       <button
@@ -438,7 +462,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
             {/* Tags */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                标签
+                {t('recommendationForm.city.fields.tags')}
               </label>
               <div className="space-y-3">
                 <div className="flex flex-wrap gap-2">
@@ -469,7 +493,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                     className={`flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
                       !user.isAuthenticated ? 'cursor-not-allowed opacity-50' : ''
                     }`}
-                    placeholder="添加标签"
+                    placeholder={t('recommendationForm.city.fields.addTag')}
                   />
                   <button
                     type="button"
@@ -477,11 +501,11 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                     onClick={() => addTag(newTag)}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    添加
+                    {t('common.add')}
                   </button>
                 </div>
                 <div className="text-sm text-gray-600">
-                  建议标签：
+                  {t('recommendationForm.city.fields.suggestedTags')}：
                   <div className="flex flex-wrap gap-1 mt-1">
                     {suggestedTags.map((tag) => (
                       <button
@@ -506,7 +530,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                 onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
               >
-                取消
+                {t('common.cancel')}
               </button>
               <button
                 type="submit"
@@ -515,7 +539,7 @@ export default function AddCityForm({ isOpen, onClose, onSubmit }: AddCityFormPr
                   !user.isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                推荐城市
+                {t('recommendationForm.city.submitButton')}
               </button>
             </div>
           </form>

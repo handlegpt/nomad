@@ -767,9 +767,14 @@
         "wifiSpeed": "WiFi Speed (Mbps)",
         "wifiSpeedPlaceholder": "e.g., 50",
         "description": "City Description",
-        "descriptionPlaceholder": "Describe why this city is suitable for digital nomads, including living experience, work environment, cultural features...",
+        "descriptionPlaceholder": "Describe why this city is suitable for digital nomads, including life experience, work environment, cultural characteristics, etc...",
         "highlights": "City Highlights",
-        "tags": "Tags"
+        "addHighlight": "Add highlight",
+        "suggestedHighlights": "Suggested highlights",
+        "tags": "Tags",
+        "addTag": "Add tag",
+        "suggestedTags": "Suggested tags",
+        "selectTimezone": "Select timezone"
       }
     },
     "place": {
@@ -809,6 +814,40 @@
     "addHighlight": "Add Highlight",
     "suggestedTags": "Suggested Tags",
     "suggestedHighlights": "Suggested Highlights",
+    "suggestedHighlights": {
+      "nomadFriendly": "Digital Nomad Friendly",
+      "fastWifi": "Fast WiFi",
+      "lowCost": "Low Cost of Living",
+      "visaConvenient": "Visa Convenient",
+      "goodClimate": "Good Climate",
+      "foodRich": "Rich Food Culture",
+      "culturalDiverse": "Cultural Diversity",
+      "convenientTransport": "Convenient Transportation",
+      "safeLiving": "Safe Living",
+      "englishFriendly": "English Friendly",
+      "activeCommunity": "Active Community",
+      "workspaces": "Good Workspaces",
+      "coffeeCulture": "Coffee Culture",
+      "outdoorActivities": "Outdoor Activities",
+      "nightlife": "Rich Nightlife"
+    },
+    "suggestedTags": {
+      "budgetFriendly": "Budget Friendly",
+      "fastWifi": "Fast WiFi",
+      "easyVisa": "Easy Visa",
+      "goodClimate": "Good Climate",
+      "goodFood": "Good Food",
+      "culturalRich": "Cultural Rich",
+      "convenientTransport": "Convenient Transport",
+      "safe": "Safe",
+      "englishFriendly": "English Friendly",
+      "goodCommunity": "Good Community",
+      "workspaces": "Workspaces",
+      "coffeeCulture": "Coffee Culture",
+      "outdoor": "Outdoor",
+      "nightlife": "Nightlife",
+      "shopping": "Shopping"
+    },
     "submitSuccess": "Recommendation submitted successfully",
     "submitError": "Recommendation submission failed, please try again"
   },
