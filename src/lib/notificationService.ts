@@ -2,7 +2,7 @@ import { logInfo, logError } from './logger'
 
 export interface NotificationData {
   id: string
-  type: 'message' | 'meetup' | 'nearby' | 'activity'
+  type: 'messages' | 'meetups' | 'nearby' | 'activities'
   title: string
   message: string
   data?: any
@@ -199,11 +199,11 @@ class NotificationService {
 
   private handleNotificationClick(notification: NotificationData) {
     switch (notification.type) {
-      case 'message':
+      case 'messages':
         // 打开聊天界面
         window.focus()
         break
-      case 'meetup':
+      case 'meetups':
         // 打开聚会详情
         window.focus()
         break
@@ -211,7 +211,7 @@ class NotificationService {
         // 打开地图视图
         window.focus()
         break
-      case 'activity':
+      case 'activities':
         // 打开活动详情
         window.focus()
         break
@@ -328,7 +328,7 @@ class NotificationService {
   // 发送特定类型的通知
   async sendMessageNotification(senderName: string, message: string): Promise<void> {
     await this.sendNotification(
-      'message',
+      'messages',
       `新消息来自 ${senderName}`,
       message,
       { senderName, message }
@@ -337,7 +337,7 @@ class NotificationService {
 
   async sendMeetupNotification(inviterName: string, location: string): Promise<void> {
     await this.sendNotification(
-      'meetup',
+      'meetups',
       `${inviterName} 邀请你聚会`,
       `地点: ${location}`,
       { inviterName, location }
@@ -355,7 +355,7 @@ class NotificationService {
 
   async sendActivityNotification(activityName: string, location: string): Promise<void> {
     await this.sendNotification(
-      'activity',
+      'activities',
       `新活动: ${activityName}`,
       `地点: ${location}`,
       { activityName, location }
