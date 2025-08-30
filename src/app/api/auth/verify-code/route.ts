@@ -58,7 +58,11 @@ export async function POST(request: NextRequest) {
       if (connectionError) {
         console.error('❌ Database connection failed:', connectionError)
         return NextResponse.json(
-          { error: 'Database connection failed' },
+          { 
+            success: false,
+            error: 'Database connection failed',
+            message: 'Database connection failed'
+          },
           { status: 500 }
         )
       }
@@ -66,15 +70,20 @@ export async function POST(request: NextRequest) {
     } catch (dbError) {
       console.error('❌ Database error:', dbError)
       return NextResponse.json(
-        { error: 'Database error' },
+        { 
+          success: false,
+          error: 'Database error',
+          message: 'Database error'
+        },
         { status: 500 }
       )
     }
 
     // 4. 验证验证码
     console.log('🔍 Step 4: Verifying verification code')
+    let verificationCode
     try {
-      const { data: verificationCode, error: codeError } = await supabase
+      const { data: codeData, error: codeError } = await supabase
         .from('verification_codes')
         .select('*')
         .eq('email', email)
@@ -104,6 +113,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
+      verificationCode = codeData
       if (!verificationCode) {
         console.error('❌ No valid verification code found')
         return NextResponse.json(
@@ -120,7 +130,11 @@ export async function POST(request: NextRequest) {
     } catch (verifyError) {
       console.error('❌ Verification error:', verifyError)
       return NextResponse.json(
-        { error: 'Verification error' },
+        { 
+          success: false,
+          error: 'Verification error',
+          message: 'Verification error'
+        },
         { status: 500 }
       )
     }
