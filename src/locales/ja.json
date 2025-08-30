@@ -905,6 +905,22 @@
   "auth": {
     "signIn": "ログイン",
     "logout": "ログアウト",
+    "login": "ログイン",
+    "email": "メールアドレス",
+    "emailPlaceholder": "your@email.com",
+    "sendCode": "コードを送信",
+    "enterEmail": "認証コードを受け取るためにメールアドレスを入力してください",
+    "enterCode": "メールに送信された認証コードを入力してください",
+    "verificationCode": "認証コード",
+    "codePlaceholder": "000000",
+    "back": "戻る",
+    "verify": "認証",
+    "noAccount": "アカウントをお持ちでない方は",
+    "signUp": "サインアップ",
+    "loginSuccess": "ログイン成功！リダイレクト中...",
+    "verificationFailed": "認証に失敗しました",
+    "networkError": "ネットワークエラー、再試行してください",
+    "codeSent": "認証コードが正常に送信されました",
     "login": {
       "title": "おかえりなさい",
       "subtitle": "メール認証コードでアカウントにサインイン",
@@ -929,23 +945,30 @@
         "codeError": "認証コードが無効です"
       }
     },
-    "email": {
-      "subject": "NOMAD.NOW 認証コード",
-      "title": "NOMAD.NOW",
-      "subtitle": "認証コード",
-      "verificationCode": "認証コード",
-      "expiresIn": "このコードは{minutes}分後に期限切れになります",
-      "ignoreMessage": "このコードをリクエストしていない場合は、このメールを無視してください。",
-      "apiMessages": {
-        "invalidEmail": "有効なメールアドレスを入力してください",
-        "sendCodeFailed": "認証コードの送信に失敗しました。再試行してください",
-        "databaseError": "データベース設定エラー、管理者にお問い合わせください",
-        "connectionError": "データベース接続に失敗しました。再試行してください",
-        "verificationFailed": "認証コードの検証に失敗しました",
-        "invalidOrExpired": "認証コードが無効または期限切れです",
-        "userCreationFailed": "ユーザーの作成に失敗しました",
-        "userVerificationFailed": "ユーザー認証に失敗しました"
-      }
+    "errors": {
+      "invalidEmail": "有効なメールアドレスを入力してください",
+      "sendCodeFailed": "認証コードの送信に失敗しました",
+      "networkError": "ネットワークエラー、再試行してください",
+      "invalidCode": "6桁の認証コードを入力してください",
+      "codeError": "認証コードが無効です"
+    }
+  },
+  "email": {
+    "subject": "NOMAD.NOW 認証コード",
+    "title": "NOMAD.NOW",
+    "subtitle": "認証コード",
+    "verificationCode": "認証コード",
+    "expiresIn": "このコードは{minutes}分後に期限切れになります",
+    "ignoreMessage": "このコードをリクエストしていない場合は、このメールを無視してください。",
+    "apiMessages": {
+      "invalidEmail": "有効なメールアドレスを入力してください",
+      "sendCodeFailed": "認証コードの送信に失敗しました。再試行してください",
+      "databaseError": "データベース設定エラー、管理者にお問い合わせください",
+      "connectionError": "データベース接続に失敗しました。再試行してください",
+      "verificationFailed": "認証コードの検証に失敗しました",
+      "invalidOrExpired": "認証コードが無効または期限切れです",
+      "userCreationFailed": "ユーザーの作成に失敗しました",
+      "userVerificationFailed": "ユーザー認証に失敗しました"
     }
   },
   "search": {
