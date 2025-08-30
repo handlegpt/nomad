@@ -11,7 +11,7 @@ import { Mail, ArrowLeft, RefreshCw, Globe, Shield, Clock } from 'lucide-react'
 import FixedLink from '@/components/FixedLink'
 
 export default function LoginPage() {
-  const { t, locale } = useTranslation()
+  const { t, locale, loading: translationLoading } = useTranslation()
   const router = useRouter()
   
   const [email, setEmail] = useState('')
@@ -26,6 +26,17 @@ export default function LoginPage() {
   
   const codeInputRef = useRef<HTMLInputElement>(null)
   const emailInputRef = useRef<HTMLInputElement>(null)
+
+  // 调试翻译
+  useEffect(() => {
+    console.log('🔍 Translation debug:', {
+      translationLoading,
+      locale,
+      loginText: t('auth.login'),
+      enterEmailText: t('auth.enterEmail'),
+      sendCodeText: t('auth.sendCode')
+    })
+  }, [t, translationLoading, locale])
 
   // 从localStorage恢复邮箱
   useEffect(() => {
