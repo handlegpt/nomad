@@ -39,17 +39,28 @@ export default function CityDetailPage() {
   }, [cityId])
 
   const setupRealtimeSubscription = () => {
-    // 订阅城市评论实时更新
-    realtimeService.subscribeToCityReviews(cityId, (payload) => {
-      console.log('Real-time review update:', payload)
-      // 这里可以更新评论数据
-    })
+    // 只在客户端设置实时订阅
+    if (typeof window !== 'undefined') {
+      // 订阅城市评论实时更新
+      realtimeService.subscribeToCityReviews(cityId, (payload) => {
+        console.log('Real-time review update:', payload)
+        // 这里可以更新评论数据
+        if (payload.eventType === 'INSERT') {
+          // 新评论添加时刷新数据
+          fetchCityData()
+        }
+      })
 
-    // 订阅城市投票实时更新
-    realtimeService.subscribeToCityVotes(cityId, (payload) => {
-      console.log('Real-time vote update:', payload)
-      // 这里可以更新投票数据
-    })
+      // 订阅城市投票实时更新
+      realtimeService.subscribeToCityVotes(cityId, (payload) => {
+        console.log('Real-time vote update:', payload)
+        // 这里可以更新投票数据
+        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+          // 投票更新时刷新数据
+          fetchCityData()
+        }
+      })
+    }
   }
 
   const fetchCityData = async () => {

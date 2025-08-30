@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { supabase } from './supabase'
 
 export interface RealtimeCallback {
   (payload: any): void
@@ -14,8 +9,16 @@ export class RealtimeService {
 
   // 订阅城市评论实时更新
   subscribeToCityReviews(cityId: string, callback: RealtimeCallback) {
+    const channelName = `city_reviews_${cityId}`
+    
+    // 检查是否已经存在订阅
+    if (this.subscriptions.has(channelName)) {
+      console.log(`Already subscribed to ${channelName}`)
+      return this.subscriptions.get(channelName)
+    }
+
     const subscription = supabase
-      .channel(`city_reviews_${cityId}`)
+      .channel(channelName)
       .on(
         'postgres_changes',
         {
@@ -28,14 +31,22 @@ export class RealtimeService {
       )
       .subscribe()
 
-    this.subscriptions.set(`city_reviews_${cityId}`, subscription)
+    this.subscriptions.set(channelName, subscription)
     return subscription
   }
 
   // 订阅城市投票实时更新
   subscribeToCityVotes(cityId: string, callback: RealtimeCallback) {
+    const channelName = `city_votes_${cityId}`
+    
+    // 检查是否已经存在订阅
+    if (this.subscriptions.has(channelName)) {
+      console.log(`Already subscribed to ${channelName}`)
+      return this.subscriptions.get(channelName)
+    }
+
     const subscription = supabase
-      .channel(`city_votes_${cityId}`)
+      .channel(channelName)
       .on(
         'postgres_changes',
         {
@@ -48,7 +59,7 @@ export class RealtimeService {
       )
       .subscribe()
 
-    this.subscriptions.set(`city_votes_${cityId}`, subscription)
+    this.subscriptions.set(channelName, subscription)
     return subscription
   }
 
