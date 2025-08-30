@@ -599,6 +599,41 @@
     "within50km": "Within 50km",
     "allDistances": "All Distances",
     "distance": "{distance}km",
+    "recommendationForm": {
+      "place": {
+        "title": "Recommend a Place",
+        "submitButton": "Submit Recommendation",
+        "fields": {
+          "name": "Place Name",
+          "namePlaceholder": "Enter place name",
+          "category": "Category",
+          "address": "Address",
+          "addressPlaceholder": "Enter full address",
+          "latitude": "Latitude",
+          "latitudePlaceholder": "Enter latitude",
+          "longitude": "Longitude",
+          "longitudePlaceholder": "Enter longitude",
+          "description": "Description",
+          "descriptionPlaceholder": "Describe the place and why you recommend it",
+          "wifiSpeed": "WiFi Speed",
+          "wifiSpeedPlaceholder": "Enter WiFi speed in Mbps",
+          "priceLevel": "Price Level",
+          "noiseLevel": "Noise Level",
+          "noiseLevels": {
+            "quiet": "Quiet",
+            "moderate": "Moderate",
+            "loud": "Loud"
+          },
+          "socialAtmosphere": "Social Atmosphere",
+          "socialLevels": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+          },
+          "tags": "Tags"
+        }
+      }
+    },
     "mutualInterests": "{count} mutual interests",
     "compatibility": "{percentage}% match",
     "filterAll": "All",

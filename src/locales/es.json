@@ -509,6 +509,41 @@
     "mutualInterests": "{count} intereses en común",
     "compatibility": "{percentage}% coincidencia",
     "distance": "{distance}km",
+    "recommendationForm": {
+      "place": {
+        "title": "Recomendar Lugar",
+        "submitButton": "Enviar Recomendación",
+        "fields": {
+          "name": "Nombre del Lugar",
+          "namePlaceholder": "Ingresa el nombre del lugar",
+          "category": "Categoría",
+          "address": "Dirección",
+          "addressPlaceholder": "Ingresa la dirección completa",
+          "latitude": "Latitud",
+          "latitudePlaceholder": "Ingresa la latitud",
+          "longitude": "Longitud",
+          "longitudePlaceholder": "Ingresa la longitud",
+          "description": "Descripción",
+          "descriptionPlaceholder": "Describe el lugar y por qué lo recomiendas",
+          "wifiSpeed": "Velocidad WiFi",
+          "wifiSpeedPlaceholder": "Ingresa la velocidad WiFi en Mbps",
+          "priceLevel": "Nivel de Precio",
+          "noiseLevel": "Nivel de Ruido",
+          "noiseLevels": {
+            "quiet": "Tranquilo",
+            "moderate": "Moderado",
+            "loud": "Ruidoso"
+          },
+          "socialAtmosphere": "Atmósfera Social",
+          "socialLevels": {
+            "low": "Bajo",
+            "medium": "Medio",
+            "high": "Alto"
+          },
+          "tags": "Etiquetas"
+        }
+      }
+    },
     "notifications": {
       "title": "Centro de Notificaciones",
       "description": "Ver todas las invitaciones y recordatorios de meetups",

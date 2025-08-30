@@ -557,6 +557,41 @@
     "within50km": "50公里内",
     "allDistances": "所有距离",
     "distance": "{distance}公里",
+    "recommendationForm": {
+      "place": {
+        "title": "推荐地点",
+        "submitButton": "提交推荐",
+        "fields": {
+          "name": "地点名称",
+          "namePlaceholder": "输入地点名称",
+          "category": "类别",
+          "address": "地址",
+          "addressPlaceholder": "输入完整地址",
+          "latitude": "纬度",
+          "latitudePlaceholder": "输入纬度",
+          "longitude": "经度",
+          "longitudePlaceholder": "输入经度",
+          "description": "描述",
+          "descriptionPlaceholder": "描述这个地点以及推荐理由",
+          "wifiSpeed": "WiFi速度",
+          "wifiSpeedPlaceholder": "输入WiFi速度（Mbps）",
+          "priceLevel": "价格水平",
+          "noiseLevel": "噪音水平",
+          "noiseLevels": {
+            "quiet": "安静",
+            "moderate": "中等",
+            "loud": "嘈杂"
+          },
+          "socialAtmosphere": "社交氛围",
+          "socialLevels": {
+            "low": "低",
+            "medium": "中等",
+            "high": "高"
+          },
+          "tags": "标签"
+        }
+      }
+    },
     "mutualInterests": "{count}个共同兴趣",
     "compatibility": "{percentage}%匹配",
     "filterAll": "全部",

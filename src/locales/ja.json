@@ -511,6 +511,41 @@
     "mutualInterests": "{count} の共通の興味",
     "compatibility": "{percentage}% マッチ",
     "distance": "{distance}km",
+    "recommendationForm": {
+      "place": {
+        "title": "場所を推薦",
+        "submitButton": "推薦を送信",
+        "fields": {
+          "name": "場所名",
+          "namePlaceholder": "場所名を入力",
+          "category": "カテゴリ",
+          "address": "住所",
+          "addressPlaceholder": "完全な住所を入力",
+          "latitude": "緯度",
+          "latitudePlaceholder": "緯度を入力",
+          "longitude": "経度",
+          "longitudePlaceholder": "経度を入力",
+          "description": "説明",
+          "descriptionPlaceholder": "場所と推薦理由を説明",
+          "wifiSpeed": "WiFi速度",
+          "wifiSpeedPlaceholder": "WiFi速度をMbpsで入力",
+          "priceLevel": "価格レベル",
+          "noiseLevel": "騒音レベル",
+          "noiseLevels": {
+            "quiet": "静か",
+            "moderate": "普通",
+            "loud": "うるさい"
+          },
+          "socialAtmosphere": "社交雰囲気",
+          "socialLevels": {
+            "low": "低",
+            "medium": "中",
+            "high": "高"
+          },
+          "tags": "タグ"
+        }
+      }
+    },
     "notifications": {
       "title": "通知センター",
       "description": "すべてのミートアップ招待とリマインダーを表示",
