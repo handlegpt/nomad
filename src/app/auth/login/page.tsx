@@ -287,12 +287,12 @@ export default function LoginPage() {
     }
 
     try {
-      // 验证输入
-      const validation = validateInput(verificationCodeSchema, { email, code, locale })
-      if (!validation.success) {
-        setError(validation.errors[0])
-        return
-      }
+      // 临时：跳过前端验证，直接发送请求
+      // const validation = validateInput(verificationCodeSchema, { email, code, locale })
+      // if (!validation.success) {
+      //   setError(validation.errors[0])
+      //   return
+      // }
 
       const response = await fetch('/api/auth/verify-code', {
         method: 'POST',
@@ -357,12 +357,13 @@ export default function LoginPage() {
     const formattedCode = formatCode(e.target.value)
     setCode(formattedCode)
     
+    // 临时：禁用自动提交，避免页面刷新问题
     // 自动提交当输入6位数字时
-    if (formattedCode.length === 6) {
-      setTimeout(() => {
-        handleVerifyCode(e as any)
-      }, 100)
-    }
+    // if (formattedCode.length === 6) {
+    //   setTimeout(() => {
+    //     handleVerifyCode(e as any)
+    //   }, 100)
+    // }
   }
 
   // 如果翻译还在加载，显示加载状态
