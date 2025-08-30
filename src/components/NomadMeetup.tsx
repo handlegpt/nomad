@@ -837,7 +837,9 @@ export default function NomadMeetup() {
               <div key={message.id} className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="flex items-start space-x-3">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-blue-600 text-sm font-medium">{message.userAvatar}</span>
+                    <span className="text-blue-600 text-sm font-medium">
+                      {message.user_avatar || message.user_name?.substring(0, 2).toUpperCase() || 'U'}
+                    </span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1 flex-wrap">
