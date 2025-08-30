@@ -290,7 +290,7 @@
   "cityComparison": {
     "title": "City Comparison",
     "description": "Compare cities side by side",
-    "select2To4Cities": "Select 2-4 cities to compare",
+    "select2To4Cities": "Select 2-6 cities to compare",
     "addCityButton": "Add City",
     "removeCity": "Remove",
     "compare": "Compare",
@@ -300,8 +300,21 @@
     "error": "Error loading comparison data",
     "addCity": "Add City",
     "exportPDF": "Export PDF",
-    "selectCities": "Select 2-4 cities to compare",
-    "startComparison": "Start Comparison"
+    "selectCities": "Select 2-6 cities to compare",
+    "startComparison": "Start Comparison",
+    "metrics": "Metrics",
+    "chart": "Chart",
+    "table": "Table",
+    "save": "Save",
+    "share": "Share",
+    "overallScore": "Overall Score",
+    "recommendation": "Recommendation",
+    "searchCities": "Search cities or countries...",
+    "sortBy": "Sort by",
+    "advancedFilter": "Advanced Filter",
+    "selectedCities": "Selected {count}/6 cities",
+    "startComparing": "Start Comparing",
+    "compareDescription": "Select 2-6 cities for detailed comparison including WiFi speed, cost of living, visa convenience, climate comfort and social atmosphere"
   },
 
 
