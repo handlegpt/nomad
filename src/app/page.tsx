@@ -57,7 +57,13 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-            <EnhancedCityRanking limit={5} showQuickVote={true} showCurrentCityVote={true} />
+            <EnhancedCityRanking 
+              limit={5} 
+              showQuickVote={true} 
+              showCurrentCityVote={true}
+              showFilters={true}
+              showPersonalized={true}
+            />
           </div>
         </section>
 
