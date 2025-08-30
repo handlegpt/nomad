@@ -307,9 +307,9 @@ export default function MeetupNotifications() {
     const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
     
     if (diffInMinutes < 1) return t('meetup.notifications.justNow')
-    if (diffInMinutes < 60) return t('meetup.notifications.minutesAgo', { minutes: diffInMinutes })
-    if (diffInMinutes < 1440) return t('meetup.notifications.hoursAgo', { hours: Math.floor(diffInMinutes / 60) })
-    return t('meetup.notifications.daysAgo', { days: Math.floor(diffInMinutes / 1440) })
+    if (diffInMinutes < 60) return t('meetup.notifications.minutesAgo', { minutes: diffInMinutes.toString() })
+    if (diffInMinutes < 1440) return t('meetup.notifications.hoursAgo', { hours: Math.floor(diffInMinutes / 60).toString() })
+    return t('meetup.notifications.daysAgo', { days: Math.floor(diffInMinutes / 1440).toString() })
   }
 
   const unreadCount = notifications.filter(n => !n.is_read).length
