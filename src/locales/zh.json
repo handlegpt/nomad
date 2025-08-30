@@ -861,21 +861,6 @@
     "detailedVoteSubmitted": "详细评价提交成功",
     "voteFailed": "投票提交失败，请重试"
   },
-      "goodFood": "美食多",
-      "culturalRich": "文化丰富",
-      "convenientTransport": "交通便利",
-      "safe": "安全",
-      "englishFriendly": "英语好",
-      "goodCommunity": "社区好",
-      "workspaces": "工作空间",
-      "coffeeCulture": "咖啡文化",
-      "outdoor": "户外",
-      "nightlife": "夜生活",
-      "shopping": "购物"
-    },
-    "submitSuccess": "推荐提交成功",
-    "submitError": "推荐提交失败，请重试"
-  },
   "common": {
     "loading": "加载中...",
     "learnMore": "了解更多",
