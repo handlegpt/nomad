@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { MapPinIcon, WifiIcon, DollarSignIcon, CalendarIcon, StarIcon, UsersIcon, CloudIcon } from 'lucide-react'
+import { MapPinIcon, WifiIcon, DollarSignIcon, CalendarIcon, StarIcon, UsersIcon, CloudIcon, TrendingUpIcon, HeartIcon, CoffeeIcon, GlobeIcon } from 'lucide-react'
 import { getCityById, submitVote } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -17,8 +17,6 @@ export default function CityDetailPage() {
   const [city, setCity] = useState<City | null>(null)
   const [loading, setLoading] = useState(true)
   const [showVoteModal, setShowVoteModal] = useState(false)
-  const [weather, setWeather] = useState<any>(null)
-  const [localTime, setLocalTime] = useState<string>('')
 
   useEffect(() => {
     fetchCityData()
@@ -29,18 +27,6 @@ export default function CityDetailPage() {
       setLoading(true)
       const cityData = await getCityById(cityId)
       setCity(cityData)
-      
-      // 获取天气信息
-      if (cityData) {
-        const weatherData = await fetch(`/api/weather?lat=${cityData.latitude}&lon=${cityData.longitude}`)
-        const weatherJson = await weatherData.json()
-        setWeather(weatherJson)
-        
-        // 获取当地时间
-        const timeData = await fetch(`/api/time?timezone=${cityData.timezone}`)
-        const timeJson = await timeData.json()
-        setLocalTime(timeJson.datetime)
-      }
     } catch (error) {
       console.error('Error fetching city data:', error)
     } finally {
@@ -59,6 +45,30 @@ export default function CityDetailPage() {
   const handleVoteSubmitted = () => {
     setShowVoteModal(false)
     fetchCityData() // 刷新数据
+  }
+
+  // 计算城市评分（模拟数据）
+  const getCityScore = () => {
+    const baseScore = 4.2
+    const wifiBonus = (city?.wifi_speed || 0) > 50 ? 0.3 : 0
+    const costBonus = (city?.cost_of_living || 0) < 2000 ? 0.2 : 0
+    const visaBonus = (city?.visa_days || 0) > 90 ? 0.3 : 0
+    return Math.min(5, baseScore + wifiBonus + costBonus + visaBonus).toFixed(1)
+  }
+
+  // 获取社区活跃度（模拟数据）
+  const getCommunityActivity = () => {
+    const baseActivity = 75
+    const randomVariation = Math.floor(Math.random() * 20) - 10
+    return Math.max(0, Math.min(100, baseActivity + randomVariation))
+  }
+
+  // 获取生活便利性评分（模拟数据）
+  const getConvenienceScore = () => {
+    const baseScore = 4.0
+    const wifiBonus = (city?.wifi_speed || 0) > 50 ? 0.4 : 0
+    const costBonus = (city?.cost_of_living || 0) < 2000 ? 0.3 : 0
+    return Math.min(5, baseScore + wifiBonus + costBonus).toFixed(1)
   }
 
   if (loading) {
@@ -108,39 +118,39 @@ export default function CityDetailPage() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Core Info Card */}
+        {/* Core Info Card - 替换时间和天气为更有价值的信息 */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
             <div className="p-4 bg-blue-50 rounded-xl">
-              <div className="text-2xl font-bold text-blue-600 mb-1">
-                🕒 {localTime ? new Date(localTime).toLocaleTimeString('en-US', { 
-                  hour: '2-digit', 
-                  minute: '2-digit',
-                  hour12: false 
-                }) : '--:--'}
+              <div className="text-2xl font-bold text-blue-600 mb-1 flex items-center justify-center">
+                <StarIcon className="h-6 w-6 mr-1" />
+                {getCityScore()}
               </div>
-              <div className="text-sm text-gray-600">{t('home.localTime')}</div>
+              <div className="text-sm text-gray-600">综合评分</div>
             </div>
             
             <div className="p-4 bg-green-50 rounded-xl">
-              <div className="text-2xl font-bold text-green-600 mb-1">
-                🌤 {weather?.temperature ? `${weather.temperature}°C` : '--°C'}
+              <div className="text-2xl font-bold text-green-600 mb-1 flex items-center justify-center">
+                <UsersIcon className="h-6 w-6 mr-1" />
+                {getCommunityActivity()}%
               </div>
-              <div className="text-sm text-gray-600">{t('home.weather')}</div>
+              <div className="text-sm text-gray-600">社区活跃度</div>
             </div>
             
             <div className="p-4 bg-purple-50 rounded-xl">
-              <div className="text-2xl font-bold text-purple-600 mb-1">
-                ☕ {city.wifi_speed || '--'} Mbps
+              <div className="text-2xl font-bold text-purple-600 mb-1 flex items-center justify-center">
+                <CoffeeIcon className="h-6 w-6 mr-1" />
+                {getConvenienceScore()}
               </div>
-              <div className="text-sm text-gray-600">{t('home.wifiSpeed')}</div>
+              <div className="text-sm text-gray-600">生活便利性</div>
             </div>
             
             <div className="p-4 bg-orange-50 rounded-xl">
-              <div className="text-2xl font-bold text-orange-600 mb-1">
-                🛂 {city.visa_days} {t('cities.days')}
+              <div className="text-2xl font-bold text-orange-600 mb-1 flex items-center justify-center">
+                <TrendingUpIcon className="h-6 w-6 mr-1" />
+                {city.visa_days}
               </div>
-              <div className="text-sm text-gray-600">{t('cities.visaFree')}</div>
+              <div className="text-sm text-gray-600">{t('cities.stayDays')}</div>
             </div>
           </div>
         </div>
@@ -149,7 +159,8 @@ export default function CityDetailPage() {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900 flex items-center">
-              ⭐ {t('cities.nomadPlaces.title')}
+              <HeartIcon className="h-5 w-5 mr-2 text-red-500" />
+              {t('cities.nomadPlaces.title')}
             </h2>
             <div className="flex space-x-3">
               <Link 
@@ -234,7 +245,10 @@ export default function CityDetailPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* City Statistics */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">{t('cities.statistics')}</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <TrendingUpIcon className="h-5 w-5 mr-2 text-blue-600" />
+                {t('cities.statistics')}
+              </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-600 mb-1">4.8</div>
@@ -257,7 +271,10 @@ export default function CityDetailPage() {
 
             {/* Recommended Services */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4">{t('cities.recommendedServices')}</h3>
+              <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
+                <GlobeIcon className="h-5 w-5 mr-2 text-green-600" />
+                {t('cities.recommendedServices')}
+              </h3>
               <div className="space-y-4">
                 {/* Insurance */}
                 <div className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
@@ -323,7 +340,10 @@ export default function CityDetailPage() {
           <div className="space-y-6">
             {/* Related Cities */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-900 mb-4">{t('cities.relatedCities')}</h3>
+              <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
+                <MapPinIcon className="h-5 w-5 mr-2 text-blue-600" />
+                {t('cities.relatedCities')}
+              </h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
                   <div className="text-2xl">🇹🇭</div>
@@ -342,26 +362,35 @@ export default function CityDetailPage() {
               </div>
             </div>
 
-            {/* Weather Forecast */}
-            {weather && (
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                <h3 className="font-semibold text-gray-900 mb-4">{t('cities.weatherForecast')}</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{t('cities.today')}</span>
-                    <span className="font-medium">{weather.main?.temp}°C</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{t('cities.tomorrow')}</span>
-                    <span className="font-medium">25°C</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{t('cities.dayAfterTomorrow')}</span>
-                    <span className="font-medium">27°C</span>
-                  </div>
+            {/* City Highlights */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
+                <StarIcon className="h-5 w-5 mr-2 text-yellow-500" />
+                城市亮点
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-sm">数字游民友好</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-sm">英语普及度高</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-sm">交通便利</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-sm">安全宜居</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-500">✓</span>
+                  <span className="text-sm">美食文化丰富</span>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
