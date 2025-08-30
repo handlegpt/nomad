@@ -471,7 +471,7 @@ export default function MeetupNotifications() {
         <div className="mb-4 p-3 bg-blue-50 rounded-lg">
           <div className="flex items-center justify-between">
             <span className="text-sm text-blue-700">
-              {t('meetup.notifications.selected', { count: selectedNotifications.length })}
+              {t('meetup.notifications.selected', { count: selectedNotifications.length.toString() })}
             </span>
             <div className="flex space-x-2">
               <button
