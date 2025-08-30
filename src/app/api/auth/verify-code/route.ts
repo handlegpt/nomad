@@ -58,13 +58,12 @@ export async function POST(request: NextRequest) {
     // 临时：接受任何6位数字验证码
     console.log('✅ Mock verification successful')
     
-    // 4. 返回成功响应
+    // 4. 返回成功响应 - 不包含JWT相关数据
     console.log('🎉 Mock verification successful, returning response')
     return NextResponse.json({
       success: true,
       message: 'Verification successful (mock)',
       data: {
-        sessionToken: 'mock_token_' + Date.now(),
         user: {
           id: 'mock_user_' + Date.now(),
           email: email,
