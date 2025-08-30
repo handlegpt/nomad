@@ -49,6 +49,10 @@ export default function MapView({
         // 这里应该初始化真实的地图（如Google Maps, Mapbox等）
         // 为了演示，我们创建一个模拟的地图容器
         const mapContainer = mapRef.current
+        if (!mapContainer) {
+          throw new Error('Map container not found')
+        }
+        
         mapContainer.style.position = 'relative'
         mapContainer.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
         mapContainer.style.borderRadius = '12px'
