@@ -856,6 +856,7 @@
     "voteFailed": "Vote submission failed, please try again"
   },
   "common": {
+    "home": "Home",
     "loading": "Loading...",
     "learnMore": "Learn more",
     "viewDetails": "View Details",
@@ -909,7 +910,23 @@
     },
     "addCity": "Recommend City",
     "addCitySuccess": "Successfully recommended city: {cityName}",
-    "addCityError": "Failed to add city, please try again"
+    "addCityError": "Failed to add city, please try again",
+    "rating": "Rating",
+    "statistics": "Statistics",
+    "nomadPlaces": {
+      "title": "Nomad Places",
+      "quietAtmosphere": "Quiet atmosphere",
+      "stable": "stable",
+      "coworkingColiving": "Coworking & Coliving"
+    },
+    "recommendedServices": "Recommended Services",
+    "services": {
+      "insurance": "Travel Insurance",
+      "month": "month",
+      "visaServices": "Visa Services",
+      "from": "from",
+      "coworkingSpaces": "Coworking Spaces"
+    }
   },
   "auth": {
     "signIn": "Sign In",

@@ -847,6 +847,7 @@
     "voteFailed": "投票提交失败，请重试"
   },
   "common": {
+    "home": "首页",
     "loading": "加载中...",
     "learnMore": "了解更多",
     "viewDetails": "查看详情",
