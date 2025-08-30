@@ -299,7 +299,7 @@ function CitiesPageContent() {
                 
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <FixedLink
-                    href={`/cities/${city.id}`}
+                    href={`/cities/${city.name.toLowerCase().replace(/\s+/g, '-')}`}
                     className="btn btn-sm btn-outline w-full"
                   >
                     {t('cities.viewDetails')}
@@ -334,4 +334,5 @@ export default function CitiesPage() {
       <CitiesPageContent />
     </Suspense>
   )
-} 
+} JWT_SECRET=your-super-secret-jwt-key-change-in-production
+NEXT_PUBLIC_ENCRYPTION_KEY=your-encryption-key-2024用bu s

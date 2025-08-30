@@ -9,7 +9,7 @@ import {
   PlaneIcon, HomeIcon, UtensilsIcon, BusIcon, WifiIcon as WifiIconSolid,
   ShieldIcon, SunIcon, CloudIcon, ClockIcon, BookOpenIcon
 } from 'lucide-react'
-import { getCityById, submitVote } from '@/lib/api'
+import { getCityById, submitVote, getCities } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
 import VoteModal from '@/components/VoteModal'
@@ -19,7 +19,7 @@ import { realtimeService, realtimeData } from '@/lib/realtimeService'
 export default function CityDetailPage() {
   const { t } = useTranslation()
   const params = useParams()
-  const cityId = params.id as string
+  const citySlug = params.slug as string
   
   const [city, setCity] = useState<City | null>(null)
   const [loading, setLoading] = useState(true)
@@ -33,16 +33,18 @@ export default function CityDetailPage() {
     
     return () => {
       // 清理实时订阅
-      realtimeService.unsubscribe(`city_reviews_${cityId}`)
-      realtimeService.unsubscribe(`city_votes_${cityId}`)
+      if (city) {
+        realtimeService.unsubscribe(`city_reviews_${city.id}`)
+        realtimeService.unsubscribe(`city_votes_${city.id}`)
+      }
     }
-  }, [cityId])
+  }, [citySlug])
 
   const setupRealtimeSubscription = () => {
     // 只在客户端设置实时订阅
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && city) {
       // 订阅城市评论实时更新
-      realtimeService.subscribeToCityReviews(cityId, (payload) => {
+      realtimeService.subscribeToCityReviews(city.id, (payload) => {
         console.log('Real-time review update:', payload)
         // 这里可以更新评论数据
         if (payload.eventType === 'INSERT') {
@@ -52,7 +54,7 @@ export default function CityDetailPage() {
       })
 
       // 订阅城市投票实时更新
-      realtimeService.subscribeToCityVotes(cityId, (payload) => {
+      realtimeService.subscribeToCityVotes(city.id, (payload) => {
         console.log('Real-time vote update:', payload)
         // 这里可以更新投票数据
         if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
@@ -66,8 +68,24 @@ export default function CityDetailPage() {
   const fetchCityData = async () => {
     try {
       setLoading(true)
-      const cityData = await getCityById(cityId)
+      
+      // 首先尝试通过slug查找城市
+      const allCities = await getCities()
+      const cityBySlug = allCities.find(c => 
+        c.name.toLowerCase().replace(/\s+/g, '-') === citySlug.toLowerCase() ||
+        c.name.toLowerCase().replace(/\s+/g, '_') === citySlug.toLowerCase()
+      )
+      
+      if (cityBySlug) {
+        setCity(cityBySlug)
+        setupRealtimeSubscription()
+        return
+      }
+      
+      // 如果通过slug没找到，尝试通过ID查找（向后兼容）
+      const cityData = await getCityById(citySlug)
       setCity(cityData)
+      setupRealtimeSubscription()
     } catch (error) {
       console.error('Error fetching city data:', error)
     } finally {
@@ -198,6 +216,9 @@ export default function CityDetailPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('common.error')}</h1>
           <p className="text-gray-600">城市信息未找到</p>
+          <Link href="/cities" className="text-blue-600 hover:text-blue-700 mt-4 inline-block">
+            返回城市列表
+          </Link>
         </div>
       </div>
     )
@@ -207,25 +228,101 @@ export default function CityDetailPage() {
   const costBreakdown = getCostBreakdown()
   const userReviews = getUserReviews()
 
+  // 生成结构化数据
+  const generateStructuredData = () => {
+    if (!city) return null
+    
+    return {
+      "@context": "https://schema.org",
+      "@type": "City",
+      "name": city.name,
+      "description": `${city.name}是${city.country}的一个城市，适合数字游民生活和工作。`,
+      "url": `https://nomadnow.app/cities/${city.name.toLowerCase().replace(/\s+/g, '-')}`,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": city.latitude || 0,
+        "longitude": city.longitude || 0
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": city.country,
+        "addressLocality": city.name
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": getCityScore(),
+        "reviewCount": userReviews.length,
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": userReviews.map(review => ({
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": review.user
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": review.rating,
+          "bestRating": "5"
+        },
+        "reviewBody": review.comment,
+        "datePublished": review.date
+      }))
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* 结构化数据 */}
+      {city && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateStructuredData())
+          }}
+        />
+      )}
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+            <Link href="/" className="hover:text-blue-600 transition-colors">
+              {t('common.home')}
+            </Link>
+            <span>/</span>
+            <Link href="/cities" className="hover:text-blue-600 transition-colors">
+              {t('cities.title')}
+            </Link>
+            <span>/</span>
+            <span className="text-gray-900 font-medium">{city.name}</span>
+          </nav>
+          
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="text-4xl">{getCountryFlag(city.country_code)}</div>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">{city.name} {getCountryFlag(city.country_code)}</h1>
-                <p className="text-lg text-gray-600">{city.country}</p>
+                <div className="flex items-center space-x-4 mt-2">
+                  <p className="text-lg text-gray-600">{city.country}</p>
+                  <div className="flex items-center space-x-1">
+                    <StarIcon className="h-4 w-4 text-yellow-400 fill-current" />
+                    <span className="text-sm font-medium text-gray-700">{getCityScore()}</span>
+                    <span className="text-sm text-gray-500">({getCommunityActivity()}% {t('cityDetail.communityActivity')})</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <button
-              onClick={() => setShowVoteModal(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              {t('cities.vote')}
-            </button>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setShowVoteModal(true)}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+              >
+                <StarIcon className="h-4 w-4" />
+                <span>{t('cities.vote')}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -273,12 +370,12 @@ export default function CityDetailPage() {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-4">
             {[
-                          { id: 'overview', label: t('cityDetail.overview'), icon: StarIcon },
-            { id: 'pros-cons', label: t('cityDetail.prosCons'), icon: ThumbsUpIcon },
-            { id: 'cost', label: t('cityDetail.costOfLiving'), icon: DollarSignIcon },
-            { id: 'reviews', label: t('cityDetail.reviews'), icon: UsersIcon },
-            { id: 'visa', label: t('cityDetail.visaInfo'), icon: CalendarIcon },
-            { id: 'transport', label: t('cityDetail.transportAccommodation'), icon: PlaneIcon }
+              { id: 'overview', label: t('cityDetail.overview'), icon: StarIcon },
+              { id: 'pros-cons', label: t('cityDetail.prosCons'), icon: ThumbsUpIcon },
+              { id: 'cost', label: t('cityDetail.costOfLiving'), icon: DollarSignIcon },
+              { id: 'reviews', label: t('cityDetail.reviews'), icon: UsersIcon },
+              { id: 'visa', label: t('cityDetail.visaInfo'), icon: CalendarIcon },
+              { id: 'transport', label: t('cityDetail.transportAccommodation'), icon: PlaneIcon }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -447,7 +544,7 @@ export default function CityDetailPage() {
             )}
 
             {activeTab === 'reviews' && (
-              <CityReviews cityId={cityId} onReviewAdded={fetchCityData} />
+              <CityReviews cityId={city.id} onReviewAdded={fetchCityData} />
             )}
 
             {activeTab === 'visa' && (
