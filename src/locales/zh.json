@@ -285,25 +285,7 @@
   },
 
 
-  "common": {
-    "loading": "加载中...",
-    "learnMore": "了解更多",
-    "viewDetails": "查看详情",
-    "back": "返回",
-    "visitWebsite": "访问网站",
-    "suggestTool": "建议工具",
-    "getCityGuide": "获取城市指南",
-    "nomadScore": "游民评分",
-    "costOfLiving": "生活成本",
-    "internet": "互联网",
-    "safety": "安全",
-    "visa": "签证",
-    "highlights": "亮点",
-    "localTips": "当地提示",
-    "login": "登录",
-    "search": "搜索",
-    "retry": "重试"
-  },
+
 
   "notifications": {
     "title": "通知",
@@ -857,14 +839,29 @@
     "submitError": "推荐提交失败，请重试"
   },
   "common": {
+    "loading": "加载中...",
+    "learnMore": "了解更多",
+    "viewDetails": "查看详情",
+    "back": "返回",
+    "visitWebsite": "访问网站",
+    "suggestTool": "建议工具",
+    "getCityGuide": "获取城市指南",
+    "nomadScore": "游民评分",
+    "costOfLiving": "生活成本",
+    "internet": "互联网",
+    "safety": "安全",
+    "visa": "签证",
+    "highlights": "亮点",
+    "localTips": "当地提示",
     "select": "请选择",
     "add": "添加",
     "cancel": "取消",
     "submitting": "提交中...",
-    "viewDetails": "查看详情",
     "retry": "重试",
     "refresh": "刷新",
-    "profile": "个人资料"
+    "profile": "个人资料",
+    "login": "登录",
+    "search": "搜索"
   },
   "cities": {
     "title": "城市列表",

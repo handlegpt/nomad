@@ -305,25 +305,7 @@
   },
 
 
-  "common": {
-    "loading": "Loading...",
-    "learnMore": "Learn more",
-    "viewDetails": "View Details",
-    "back": "Back",
-    "visitWebsite": "Visit Website",
-    "suggestTool": "Suggest Tool",
-    "getCityGuide": "Get City Guide",
-    "nomadScore": "Nomad Score",
-    "costOfLiving": "Cost of Living",
-    "internet": "Internet",
-    "safety": "Safety",
-    "visa": "Visa",
-    "highlights": "Highlights",
-    "localTips": "Local Tips",
-    "login": "Login",
-    "search": "Search",
-    "retry": "Retry"
-  },
+
 
   "notifications": {
     "noNotifications": "No notifications",
@@ -852,14 +834,29 @@
     "submitError": "Recommendation submission failed, please try again"
   },
   "common": {
+    "loading": "Loading...",
+    "learnMore": "Learn more",
+    "viewDetails": "View Details",
+    "back": "Back",
+    "visitWebsite": "Visit Website",
+    "suggestTool": "Suggest Tool",
+    "getCityGuide": "Get City Guide",
+    "nomadScore": "Nomad Score",
+    "costOfLiving": "Cost of Living",
+    "internet": "Internet",
+    "safety": "Safety",
+    "visa": "Visa",
+    "highlights": "Highlights",
+    "localTips": "Local Tips",
     "select": "Please select",
     "add": "Add",
     "cancel": "Cancel",
     "submitting": "Submitting...",
-    "viewDetails": "View Details",
     "retry": "Retry",
     "refresh": "Refresh",
-    "profile": "Profile"
+    "profile": "Profile",
+    "login": "Login",
+    "search": "Search"
   },
   "cities": {
     "title": "Cities",
