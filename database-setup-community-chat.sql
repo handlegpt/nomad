@@ -1,7 +1,7 @@
--- Community Chat 数据库设计
--- 社区消息系统
+-- Community Chat Database Design
+-- Community messaging system
 
--- 1. 社区消息表
+-- 1. Community messages table
 CREATE TABLE IF NOT EXISTS community_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS community_messages (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
--- 2. 消息点赞表
+-- 2. Message likes table
 CREATE TABLE IF NOT EXISTS message_likes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   message_id UUID REFERENCES community_messages(id) ON DELETE CASCADE,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS message_likes (
   UNIQUE(message_id, user_id)
 );
 
--- 3. 消息回复表
+-- 3. Message replies table
 CREATE TABLE IF NOT EXISTS message_replies (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   parent_message_id UUID REFERENCES community_messages(id) ON DELETE CASCADE,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS message_replies (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
--- 4. 消息通知表
+-- 4. Message notifications table
 CREATE TABLE IF NOT EXISTS message_notifications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS message_notifications (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
--- 创建索引以提高查询性能
+-- Create indexes to improve query performance
 CREATE INDEX IF NOT EXISTS idx_community_messages_user_id ON community_messages(user_id);
 CREATE INDEX IF NOT EXISTS idx_community_messages_type ON community_messages(message_type);
 CREATE INDEX IF NOT EXISTS idx_community_messages_created_at ON community_messages(created_at DESC);
@@ -71,17 +71,17 @@ CREATE INDEX IF NOT EXISTS idx_message_replies_user_id ON message_replies(user_i
 CREATE INDEX IF NOT EXISTS idx_message_notifications_user_id ON message_notifications(user_id);
 CREATE INDEX IF NOT EXISTS idx_message_notifications_is_read ON message_notifications(is_read);
 
--- 创建触发器来更新消息的统计信息
+-- Create triggers to update message statistics
 CREATE OR REPLACE FUNCTION update_message_stats()
 RETURNS TRIGGER AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
-    -- 新增点赞
+    -- Add like
     UPDATE community_messages 
     SET likes_count = likes_count + 1, updated_at = NOW()
     WHERE id = NEW.message_id;
   ELSIF TG_OP = 'DELETE' THEN
-    -- 删除点赞
+    -- Remove like
     UPDATE community_messages 
     SET likes_count = likes_count - 1, updated_at = NOW()
     WHERE id = OLD.message_id;
@@ -95,17 +95,17 @@ CREATE TRIGGER trigger_update_message_likes_count
   FOR EACH ROW
   EXECUTE FUNCTION update_message_stats();
 
--- 创建触发器来更新回复计数
+-- Create trigger to update reply count
 CREATE OR REPLACE FUNCTION update_reply_count()
 RETURNS TRIGGER AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
-    -- 新增回复
+    -- Add reply
     UPDATE community_messages 
     SET replies_count = replies_count + 1, updated_at = NOW()
     WHERE id = NEW.parent_message_id;
   ELSIF TG_OP = 'DELETE' THEN
-    -- 删除回复
+    -- Remove reply
     UPDATE community_messages 
     SET replies_count = replies_count - 1, updated_at = NOW()
     WHERE id = OLD.parent_message_id;
@@ -119,7 +119,7 @@ CREATE TRIGGER trigger_update_reply_count
   FOR EACH ROW
   EXECUTE FUNCTION update_reply_count();
 
--- 创建更新时间戳的触发器
+-- Create trigger to update timestamps
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -138,13 +138,13 @@ CREATE TRIGGER trigger_update_message_replies_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
--- 启用RLS (Row Level Security)
+-- Enable RLS (Row Level Security)
 ALTER TABLE community_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE message_likes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE message_replies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE message_notifications ENABLE ROW LEVEL SECURITY;
 
--- RLS策略：社区消息
+-- RLS policies: Community messages
 CREATE POLICY "Allow public read community messages" ON community_messages
   FOR SELECT USING (NOT is_deleted);
 
@@ -157,7 +157,7 @@ CREATE POLICY "Allow users to update own messages" ON community_messages
 CREATE POLICY "Allow users to delete own messages" ON community_messages
   FOR DELETE USING (auth.uid() = user_id);
 
--- RLS策略：消息点赞
+-- RLS policies: Message likes
 CREATE POLICY "Allow public read message likes" ON message_likes
   FOR SELECT USING (true);
 
@@ -167,7 +167,7 @@ CREATE POLICY "Allow authenticated users to insert likes" ON message_likes
 CREATE POLICY "Allow users to delete own likes" ON message_likes
   FOR DELETE USING (auth.uid() = user_id);
 
--- RLS策略：消息回复
+-- RLS policies: Message replies
 CREATE POLICY "Allow public read message replies" ON message_replies
   FOR SELECT USING (NOT is_deleted);
 
@@ -180,7 +180,7 @@ CREATE POLICY "Allow users to update own replies" ON message_replies
 CREATE POLICY "Allow users to delete own replies" ON message_replies
   FOR DELETE USING (auth.uid() = user_id);
 
--- RLS策略：消息通知
+-- RLS policies: Message notifications
 CREATE POLICY "Allow users to read own notifications" ON message_notifications
   FOR SELECT USING (auth.uid() = user_id);
 
@@ -190,7 +190,7 @@ CREATE POLICY "Allow system to insert notifications" ON message_notifications
 CREATE POLICY "Allow users to update own notifications" ON message_notifications
   FOR UPDATE USING (auth.uid() = user_id);
 
--- 创建视图来简化查询
+-- Create view to simplify queries
 CREATE OR REPLACE VIEW community_messages_with_user_info AS
 SELECT 
   cm.*,
@@ -202,7 +202,7 @@ FROM community_messages cm
 LEFT JOIN users u ON cm.user_id = u.id
 WHERE NOT cm.is_deleted;
 
--- 创建函数来获取消息及其回复
+-- Create function to get message with replies
 CREATE OR REPLACE FUNCTION get_message_with_replies(message_uuid UUID)
 RETURNS TABLE (
   message_data JSON,
