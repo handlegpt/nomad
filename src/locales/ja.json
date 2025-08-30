@@ -688,26 +688,7 @@
     "contactUs": "お問い合わせ"
   },
 
-  "nomadTip": {
-    "title": "ノマドのヒント",
-    "portugalVisa": "ポルトガルでは、デジタルノマドビザで1年間の滞在が可能で、更新可能です。",
-    "thailandVisa": "タイのデジタルノマドビザには月収最低$2,000が必要です。",
-    "lisbonWifi": "リスボンのカフェは一般的にWiFi速度が速く、リモートワークに適しています。",
-    "chiangMaiCost": "チェンマイの生活費はバンコクより30%安いですが、インターネット速度は少し遅いです。",
-    "georgiaVisa": "ジョージアはほとんどの国に1年間のビザなし入国を提供し、ノマドに最適です。",
-    "categories": {
-      "visa": "ビザ",
-      "work": "仕事",
-      "life": "生活"
-    },
-    "subscribeButton": "メールリマインダーを購読 → ビザ期限切れ/都市推奨を取得",
-    "subscriptionSettings": "購読設定",
-    "emailPlaceholder": "メールアドレスを入力",
-    "visaReminder": "ビザ期限切れリマインダー",
-    "cityRecommendations": "都市推奨",
-    "subscribe": "購読",
-    "cancel": "キャンセル"
-  },
+
 
 
   "components": {

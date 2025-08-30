@@ -332,26 +332,7 @@
     "contactUs": "Contact Us"
   },
 
-  "nomadTip": {
-    "title": "Nomad Tips",
-    "portugalVisa": "In Portugal, the digital nomad visa allows a 1-year stay and is renewable.",
-    "thailandVisa": "Thailand's digital nomad visa requires a minimum monthly income of $2,000.",
-    "lisbonWifi": "Cafes in Lisbon generally have fast WiFi speeds, suitable for remote work.",
-    "chiangMaiCost": "Chiang Mai's cost of living is 30% lower than Bangkok, but internet speed is slightly slower.",
-    "georgiaVisa": "Georgia offers 1-year visa-free entry for most countries, perfect for nomads.",
-    "categories": {
-      "visa": "Visa",
-      "work": "Work",
-      "life": "Life"
-    },
-    "subscribeButton": "Subscribe to email reminders → Get visa expiry/city recommendations",
-    "subscriptionSettings": "Subscription Settings",
-    "emailPlaceholder": "Enter email address",
-    "visaReminder": "Visa expiry reminders",
-    "cityRecommendations": "City recommendations",
-    "subscribe": "Subscribe",
-    "cancel": "Cancel"
-  },
+
 
   "about": {
     "title": "About NOMAD.NOW",

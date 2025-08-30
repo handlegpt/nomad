@@ -15,7 +15,7 @@ import PersonalizedRecommendations from '@/components/PersonalizedRecommendation
 import CityComparison from '@/components/CityComparison'
 import NomadMeetup from '@/components/NomadMeetup'
 import HomePlaceRecommendations from '@/components/HomePlaceRecommendations'
-import NomadTip from '@/components/NomadTip'
+
 import WifiSpeedTest from '@/components/WifiSpeedTest'
 import AddCityForm from '@/components/AddCityForm'
 
@@ -67,10 +67,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Nomad Tip */}
-        <section className="animate-fade-in">
-          <NomadTip />
-        </section>
+
 
         {/* Place Recommendations */}
         <section className="animate-fade-in">

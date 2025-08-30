@@ -682,26 +682,7 @@
     "contactUs": "Contáctanos"
   },
 
-  "nomadTip": {
-    "title": "Consejos Nómadas",
-    "portugalVisa": "En Portugal, la visa de nómada digital permite una estadía de 1 año y es renovable.",
-    "thailandVisa": "La visa de nómada digital de Tailandia requiere un ingreso mensual mínimo de $2,000.",
-    "lisbonWifi": "Los cafés en Lisboa generalmente tienen velocidades WiFi rápidas, adecuadas para trabajo remoto.",
-    "chiangMaiCost": "El costo de vida en Chiang Mai es 30% menor que en Bangkok, pero la velocidad de internet es ligeramente más lenta.",
-    "georgiaVisa": "Georgia ofrece entrada sin visa de 1 año para la mayoría de países, perfecto para nómadas.",
-    "categories": {
-      "visa": "Visa",
-      "work": "Trabajo",
-      "life": "Vida"
-    },
-    "subscribeButton": "Suscribirse a recordatorios por email → Obtener vencimiento de visa/recomendaciones de ciudades",
-    "subscriptionSettings": "Configuración de Suscripción",
-    "emailPlaceholder": "Ingresar dirección de email",
-    "visaReminder": "Recordatorios de vencimiento de visa",
-    "cityRecommendations": "Recomendaciones de ciudades",
-    "subscribe": "Suscribirse",
-    "cancel": "Cancelar"
-  },
+
 
 
   "common": {

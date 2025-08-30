@@ -315,26 +315,7 @@
     "contactUs": "联系我们"
   },
 
-  "nomadTip": {
-    "title": "Nomad 小贴士",
-    "portugalVisa": "在葡萄牙，数字游民签证允许停留1年并可续签。",
-    "thailandVisa": "泰国的数字游民签证需要月收入至少$2,000。",
-    "lisbonWifi": "里斯本的咖啡馆WiFi速度普遍很快，适合远程工作。",
-    "chiangMaiCost": "清迈的生活成本比曼谷低30%，但网速稍慢。",
-    "georgiaVisa": "格鲁吉亚对大多数国家提供1年免签，非常适合游民。",
-    "categories": {
-      "visa": "签证",
-      "work": "工作",
-      "life": "生活"
-    },
-    "subscribeButton": "订阅邮件提醒 → 获取签证到期/城市推荐",
-    "subscriptionSettings": "订阅设置",
-    "emailPlaceholder": "输入邮箱地址",
-    "visaReminder": "签证到期提醒",
-    "cityRecommendations": "城市推荐",
-    "subscribe": "订阅",
-    "cancel": "取消"
-  },
+
 
   "about": {
     "title": "关于 NOMAD.NOW",
