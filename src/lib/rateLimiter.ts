@@ -77,7 +77,7 @@ export class RateLimiter {
     this.configs = new Map([
       [RateLimitLevel.STRICT, {
         windowMs: 15 * 60 * 1000, // 15分钟
-        maxRequests: 5,
+        maxRequests: 50, // 临时增加到50次，方便测试
         skipSuccessfulRequests: false,
         skipFailedRequests: false
       }],
