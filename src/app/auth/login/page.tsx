@@ -281,6 +281,26 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        {/* Debug: 检查每个元素 */}
+        {(() => {
+          const debugElements = {
+            login: t('auth.login'),
+            enterEmail: t('auth.enterEmail'),
+            email: t('auth.email'),
+            emailPlaceholder: t('auth.emailPlaceholder'),
+            sendCode: t('auth.sendCode'),
+            footer: t('auth.loginForm.footer'),
+            backToHome: t('auth.loginForm.backToHome')
+          }
+          
+          Object.entries(debugElements).forEach(([key, value]) => {
+            if (typeof value === 'object') {
+              console.error('❌ Object found in element:', key, value)
+            }
+          })
+          return null
+        })()}
+        
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
