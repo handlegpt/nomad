@@ -4,54 +4,71 @@ import { getEmailTranslation } from '@/lib/emailTemplates'
 import { logInfo, logError } from '@/lib/logger'
 import { generateToken } from '@/lib/jwt'
 import { safeValidate, verificationCodeSchema } from '@/lib/validation'
-import { handleError, createSuccessResponse, generateRequestId, ErrorType } from '@/lib/errorHandler'
 
 export async function POST(request: NextRequest) {
-  const requestId = generateRequestId()
-  logInfo('API Route: /api/auth/verify-code called', { requestId }, 'VerifyCodeAPI')
+  console.log('🔍 Verify-code API called')
   
   try {
-    // 添加请求体解析的错误处理
+    // 1. 解析请求体
+    console.log('📝 Step 1: Parsing request body')
     let body
     try {
       body = await request.json()
-      logInfo('Request body received', { body }, 'VerifyCodeAPI')
+      console.log('✅ Request body parsed:', body)
     } catch (parseError) {
-      logError('Failed to parse request body', parseError, 'VerifyCodeAPI')
+      console.error('❌ Failed to parse request body:', parseError)
       return NextResponse.json(
         { error: 'Invalid JSON in request body' },
         { status: 400 }
       )
     }
     
-    // 输入验证
+    // 2. 验证输入
+    console.log('🔍 Step 2: Validating input')
     let validatedData
     try {
       validatedData = safeValidate(verificationCodeSchema, body)
-      const { email, code, locale } = validatedData
-      // 确保locale是字符串类型
-      const safeLocale = locale || 'en'
-      
-      logInfo('Valid request received', { email, code }, 'VerifyCodeAPI')
+      console.log('✅ Input validated:', validatedData)
+    } catch (validationError) {
+      console.error('❌ Validation error:', validationError)
+      return NextResponse.json(
+        { error: 'Invalid request data' },
+        { status: 400 }
+      )
+    }
+    
+    const { email, code, locale } = validatedData
+    const safeLocale = locale || 'en'
+    
+    console.log('📧 Processing verification for:', { email, code, locale: safeLocale })
 
-      // 检查数据库连接
-      logInfo('Checking database connection...', null, 'VerifyCodeAPI')
+    // 3. 检查数据库连接
+    console.log('🔍 Step 3: Checking database connection')
+    try {
       const { data: connectionTest, error: connectionError } = await supabase
         .from('verification_codes')
         .select('count')
         .limit(1)
       
       if (connectionError) {
-        logError('Database connection failed', connectionError, 'VerifyCodeAPI')
-        return handleError(
-          new Error(getEmailTranslation(safeLocale, 'databaseError')),
-          'VerifyCodeAPI',
-          requestId
+        console.error('❌ Database connection failed:', connectionError)
+        return NextResponse.json(
+          { error: 'Database connection failed' },
+          { status: 500 }
         )
       }
+      console.log('✅ Database connection successful')
+    } catch (dbError) {
+      console.error('❌ Database error:', dbError)
+      return NextResponse.json(
+        { error: 'Database error' },
+        { status: 500 }
+      )
+    }
 
-      // 验证验证码
-      logInfo('Verifying verification code...', null, 'VerifyCodeAPI')
+    // 4. 验证验证码
+    console.log('🔍 Step 4: Verifying verification code')
+    try {
       const { data: verificationCode, error: codeError } = await supabase
         .from('verification_codes')
         .select('*')
@@ -61,35 +78,41 @@ export async function POST(request: NextRequest) {
         .single()
 
       if (codeError) {
-        logError('Verification code error', codeError, 'VerifyCodeAPI')
+        console.error('❌ Verification code error:', codeError)
         if (codeError.code === 'PGRST116') {
-          return handleError(
-            new Error(getEmailTranslation(safeLocale, 'invalidOrExpired')),
-            'VerifyCodeAPI',
-            requestId
+          return NextResponse.json(
+            { error: 'Invalid or expired verification code' },
+            { status: 400 }
           )
         }
-        return handleError(
-          new Error(getEmailTranslation(safeLocale, 'verificationFailed')),
-          'VerifyCodeAPI',
-          requestId
+        return NextResponse.json(
+          { error: 'Verification failed' },
+          { status: 400 }
         )
       }
 
       if (!verificationCode) {
-        logError('No valid verification code found', null, 'VerifyCodeAPI')
-        return handleError(
-          new Error(getEmailTranslation(safeLocale, 'invalidOrExpired')),
-          'VerifyCodeAPI',
-          requestId
+        console.error('❌ No valid verification code found')
+        return NextResponse.json(
+          { error: 'Invalid or expired verification code' },
+          { status: 400 }
         )
       }
 
-      logInfo('Verification code is valid', { verificationCodeId: verificationCode.id }, 'VerifyCodeAPI')
+      console.log('✅ Verification code is valid:', verificationCode.id)
+    } catch (verifyError) {
+      console.error('❌ Verification error:', verifyError)
+      return NextResponse.json(
+        { error: 'Verification error' },
+        { status: 500 }
+      )
+    }
 
-      // 检查用户是否存在
-      logInfo('Checking if user exists...', null, 'VerifyCodeAPI')
-      let { data: user, error: userError } = await supabase
+    // 5. 检查用户是否存在
+    console.log('🔍 Step 5: Checking if user exists')
+    let user
+    try {
+      let { data: existingUser, error: userError } = await supabase
         .from('users')
         .select('*')
         .eq('email', email)
@@ -97,16 +120,15 @@ export async function POST(request: NextRequest) {
 
       if (userError && userError.code === 'PGRST116') {
         // 用户不存在，创建新用户
-        logInfo('User does not exist, creating new user...', null, 'VerifyCodeAPI')
+        console.log('👤 User does not exist, creating new user')
         
-        const userName = email.split('@')[0] // 使用邮箱前缀作为默认名称
+        const userName = email.split('@')[0]
         const newUserData = {
           email,
           name: userName
-          // 不手动设置created_at和updated_at，让数据库自动处理
         }
         
-        logInfo('Creating user with data', newUserData, 'VerifyCodeAPI')
+        console.log('📝 Creating user with data:', newUserData)
         
         const { data: newUser, error: createError } = await supabase
           .from('users')
@@ -115,78 +137,103 @@ export async function POST(request: NextRequest) {
           .single()
 
         if (createError) {
-          logError('Create user error', createError, 'VerifyCodeAPI')
-          return handleError(
-            new Error(getEmailTranslation(safeLocale, 'userCreationFailed')),
-            'VerifyCodeAPI',
-            requestId
+          console.error('❌ Create user error:', createError)
+          return NextResponse.json(
+            { error: 'Failed to create user' },
+            { status: 500 }
           )
         }
 
-        logInfo('New user created successfully', { userId: newUser.id }, 'VerifyCodeAPI')
+        console.log('✅ New user created successfully:', newUser.id)
         user = newUser
       } else if (userError) {
-        logError('User query error', userError, 'VerifyCodeAPI')
-        return handleError(
-          new Error(getEmailTranslation(safeLocale, 'userVerificationFailed')),
-          'VerifyCodeAPI',
-          requestId
+        console.error('❌ User query error:', userError)
+        return NextResponse.json(
+          { error: 'User verification failed' },
+          { status: 500 }
         )
+      } else {
+        console.log('✅ Existing user found:', existingUser.id)
+        user = existingUser
       }
+    } catch (userError) {
+      console.error('❌ User processing error:', userError)
+      return NextResponse.json(
+        { error: 'User processing error' },
+        { status: 500 }
+      )
+    }
 
-      if (!user) {
-        logError('User not found after creation/query', null, 'VerifyCodeAPI')
-        return handleError(
-          new Error(getEmailTranslation(safeLocale, 'userVerificationFailed')),
-          'VerifyCodeAPI',
-          requestId
-        )
-      }
+    if (!user) {
+      console.error('❌ User not found after creation/query')
+      return NextResponse.json(
+        { error: 'User verification failed' },
+        { status: 500 }
+      )
+    }
 
-      logInfo('User verified successfully', { userId: user.id }, 'VerifyCodeAPI')
+    console.log('✅ User verified successfully:', user.id)
 
-      // 删除已使用的验证码
-      logInfo('Deleting used verification code...', null, 'VerifyCodeAPI')
+    // 6. 删除已使用的验证码
+    console.log('🔍 Step 6: Deleting used verification code')
+    try {
       const { error: deleteError } = await supabase
         .from('verification_codes')
         .delete()
-        .eq('id', verificationCode.id)
+        .eq('email', email)
+        .eq('code', code)
 
       if (deleteError) {
-        logError('Failed to delete verification code', deleteError, 'VerifyCodeAPI')
+        console.error('⚠️ Failed to delete verification code:', deleteError)
         // 不返回错误，因为用户已经验证成功
+      } else {
+        console.log('✅ Verification code deleted successfully')
       }
+    } catch (deleteError) {
+      console.error('⚠️ Delete verification code error:', deleteError)
+      // 不返回错误，因为用户已经验证成功
+    }
 
-      // 生成JWT令牌
-      logInfo('Creating JWT token...', null, 'VerifyCodeAPI')
+    // 7. 生成JWT令牌
+    console.log('🔍 Step 7: Creating JWT token')
+    try {
       const sessionToken = generateToken({
         userId: user.id,
         email: user.email
       })
 
-      logInfo('JWT token created successfully', null, 'VerifyCodeAPI')
+      console.log('✅ JWT token created successfully')
+    } catch (tokenError) {
+      console.error('❌ JWT token creation error:', tokenError)
+      return NextResponse.json(
+        { error: 'Token creation failed' },
+        { status: 500 }
+      )
+    }
 
-      // 返回成功响应
-      return NextResponse.json(createSuccessResponse({
-        message: getEmailTranslation(safeLocale, 'verificationSuccess'),
-        sessionToken,
+    // 8. 返回成功响应
+    console.log('🎉 Verification successful, returning response')
+    return NextResponse.json({
+      success: true,
+      message: 'Verification successful',
+      data: {
+        sessionToken: generateToken({
+          userId: user.id,
+          email: user.email
+        }),
         user: {
           id: user.id,
           email: user.email,
           name: user.name
         }
-      }, requestId))
-
-    } catch (validationError) {
-      logError('Validation error', validationError, 'VerifyCodeAPI')
-      return NextResponse.json(
-        { error: 'Invalid request data' },
-        { status: 400 }
-      )
-    }
+      }
+    })
 
   } catch (error) {
-    logError('Unexpected error in verify-code API', error, 'VerifyCodeAPI')
-    return handleError(error, 'VerifyCodeAPI', requestId)
+    console.error('💥 Unexpected error in verify-code API:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
   }
 }
