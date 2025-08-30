@@ -13,6 +13,8 @@ import { getCityById, submitVote } from '@/lib/api'
 import { City } from '@/lib/supabase'
 import { useTranslation } from '@/hooks/useTranslation'
 import VoteModal from '@/components/VoteModal'
+import CityReviews from '@/components/CityReviews'
+import { realtimeService, realtimeData } from '@/lib/realtimeService'
 
 export default function CityDetailPage() {
   const { t } = useTranslation()
@@ -23,10 +25,32 @@ export default function CityDetailPage() {
   const [loading, setLoading] = useState(true)
   const [showVoteModal, setShowVoteModal] = useState(false)
   const [activeTab, setActiveTab] = useState('overview')
+  const [realTimeData, setRealTimeData] = useState<any>(null)
 
   useEffect(() => {
     fetchCityData()
+    setupRealtimeSubscription()
+    
+    return () => {
+      // 清理实时订阅
+      realtimeService.unsubscribe(`city_reviews_${cityId}`)
+      realtimeService.unsubscribe(`city_votes_${cityId}`)
+    }
   }, [cityId])
+
+  const setupRealtimeSubscription = () => {
+    // 订阅城市评论实时更新
+    realtimeService.subscribeToCityReviews(cityId, (payload) => {
+      console.log('Real-time review update:', payload)
+      // 这里可以更新评论数据
+    })
+
+    // 订阅城市投票实时更新
+    realtimeService.subscribeToCityVotes(cityId, (payload) => {
+      console.log('Real-time vote update:', payload)
+      // 这里可以更新投票数据
+    })
+  }
 
   const fetchCityData = async () => {
     try {
@@ -205,7 +229,7 @@ export default function CityDetailPage() {
                 <StarIcon className="h-6 w-6 mr-1" />
                 {getCityScore()}
               </div>
-              <div className="text-sm text-gray-600">综合评分</div>
+              <div className="text-sm text-gray-600">{t('cityDetail.overallScore')}</div>
             </div>
             
             <div className="p-4 bg-green-50 rounded-xl">
@@ -213,7 +237,7 @@ export default function CityDetailPage() {
                 <UsersIcon className="h-6 w-6 mr-1" />
                 {getCommunityActivity()}%
               </div>
-              <div className="text-sm text-gray-600">社区活跃度</div>
+              <div className="text-sm text-gray-600">{t('cityDetail.communityActivity')}</div>
             </div>
             
             <div className="p-4 bg-purple-50 rounded-xl">
@@ -221,7 +245,7 @@ export default function CityDetailPage() {
                 <CoffeeIcon className="h-6 w-6 mr-1" />
                 {getConvenienceScore()}
               </div>
-              <div className="text-sm text-gray-600">生活便利性</div>
+              <div className="text-sm text-gray-600">{t('cityDetail.convenienceScore')}</div>
             </div>
             
             <div className="p-4 bg-orange-50 rounded-xl">
@@ -229,7 +253,7 @@ export default function CityDetailPage() {
                 <TrendingUpIcon className="h-6 w-6 mr-1" />
                 {city.visa_days}
               </div>
-              <div className="text-sm text-gray-600">{t('cities.stayDays')}</div>
+              <div className="text-sm text-gray-600">{t('cityDetail.stayDays')}</div>
             </div>
           </div>
         </div>
@@ -238,12 +262,12 @@ export default function CityDetailPage() {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
           <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-4">
             {[
-              { id: 'overview', label: '概览', icon: StarIcon },
-              { id: 'pros-cons', label: '优缺点', icon: ThumbsUpIcon },
-              { id: 'cost', label: '生活成本', icon: DollarSignIcon },
-              { id: 'reviews', label: '用户评价', icon: UsersIcon },
-              { id: 'visa', label: '签证信息', icon: CalendarIcon },
-              { id: 'transport', label: '交通住宿', icon: PlaneIcon }
+                          { id: 'overview', label: t('cityDetail.overview'), icon: StarIcon },
+            { id: 'pros-cons', label: t('cityDetail.prosCons'), icon: ThumbsUpIcon },
+            { id: 'cost', label: t('cityDetail.costOfLiving'), icon: DollarSignIcon },
+            { id: 'reviews', label: t('cityDetail.reviews'), icon: UsersIcon },
+            { id: 'visa', label: t('cityDetail.visaInfo'), icon: CalendarIcon },
+            { id: 'transport', label: t('cityDetail.transportAccommodation'), icon: PlaneIcon }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -412,40 +436,7 @@ export default function CityDetailPage() {
             )}
 
             {activeTab === 'reviews' && (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-gray-900">用户评价</h3>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                    写评价
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {userReviews.map((review) => (
-                    <div key={review.id} className="border border-gray-200 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-3">
-                          <span className="text-2xl">{review.avatar}</span>
-                          <div>
-                            <div className="font-medium text-gray-900">{review.user}</div>
-                            <div className="text-sm text-gray-500">{review.date}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          {[...Array(5)].map((_, i) => (
-                            <StarIcon
-                              key={i}
-                              className={`h-4 w-4 ${
-                                i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-gray-700">{review.comment}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <CityReviews cityId={cityId} onReviewAdded={fetchCityData} />
             )}
 
             {activeTab === 'visa' && (
@@ -618,6 +609,4 @@ export default function CityDetailPage() {
       )}
     </div>
   )
-}
-
 }
