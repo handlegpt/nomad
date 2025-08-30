@@ -569,6 +569,11 @@
     "replySent": "Reply sent",
     "failedToSendReply": "Failed to send reply",
     "replyPlaceholder": "Write a reply...",
+    "onlineUsers": "Online Users",
+    "communityChat": "Community Chat",
+    "distance": "{distance}km",
+    "mutualInterests": "{count} mutual interests",
+    "compatibility": "{percentage}% match",
     "notifications": {
       "title": "Notifications",
       "description": "Stay updated with meetup activities",

@@ -527,6 +527,11 @@
     "replySent": "回复已发送",
     "failedToSendReply": "发送回复失败",
     "replyPlaceholder": "写回复...",
+    "onlineUsers": "在线用户",
+    "communityChat": "社区聊天",
+    "distance": "{distance}公里",
+    "mutualInterests": "{count}个共同兴趣",
+    "compatibility": "{percentage}%匹配",
     "notifications": {
       "title": "通知",
       "description": "及时了解聚会活动",
