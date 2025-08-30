@@ -94,7 +94,8 @@ export function getEmailTranslation(locale: string, key: string): string {
       verificationFailed: '验证码验证失败',
       invalidOrExpired: '验证码无效或已过期',
       userCreationFailed: '创建用户失败',
-      userVerificationFailed: '用户验证失败'
+      userVerificationFailed: '用户验证失败',
+      verificationSuccess: '验证成功！欢迎使用Nomad Now'
     },
     en: {
       invalidEmail: 'Please enter a valid email address',
@@ -104,7 +105,8 @@ export function getEmailTranslation(locale: string, key: string): string {
       verificationFailed: 'Verification code validation failed',
       invalidOrExpired: 'Verification code is invalid or expired',
       userCreationFailed: 'Failed to create user',
-      userVerificationFailed: 'User verification failed'
+      userVerificationFailed: 'User verification failed',
+      verificationSuccess: 'Verification successful! Welcome to Nomad Now'
     },
     ja: {
       invalidEmail: '有効なメールアドレスを入力してください',
@@ -114,7 +116,8 @@ export function getEmailTranslation(locale: string, key: string): string {
       verificationFailed: '認証コードの検証に失敗しました',
       invalidOrExpired: '認証コードが無効または期限切れです',
       userCreationFailed: 'ユーザーの作成に失敗しました',
-      userVerificationFailed: 'ユーザー認証に失敗しました'
+      userVerificationFailed: 'ユーザー認証に失敗しました',
+      verificationSuccess: '認証成功！Nomad Nowへようこそ'
     },
     es: {
       invalidEmail: 'Por favor ingresa una dirección de email válida',
@@ -124,7 +127,8 @@ export function getEmailTranslation(locale: string, key: string): string {
       verificationFailed: 'Error en la validación del código de verificación',
       invalidOrExpired: 'El código de verificación es inválido o ha expirado',
       userCreationFailed: 'Error al crear usuario',
-      userVerificationFailed: 'Error en la verificación del usuario'
+      userVerificationFailed: 'Error en la verificación del usuario',
+      verificationSuccess: '¡Verificación exitosa! Bienvenido a Nomad Now'
     }
   }
   

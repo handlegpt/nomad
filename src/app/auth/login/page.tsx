@@ -91,10 +91,10 @@ export default function LoginPage() {
 
       if (response.ok && data.success) {
         // 设置JWT令牌
-        setSessionToken(data.user)
+        setSessionToken(data.data.sessionToken)
         setSuccess(t('auth.loginSuccess'))
         
-        logInfo('User logged in successfully', { userId: data.user.id }, 'LoginPage')
+        logInfo('User logged in successfully', { userId: data.data.user.id }, 'LoginPage')
         
         // 延迟跳转到仪表板
         setTimeout(() => {

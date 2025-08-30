@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
   
   try {
     const body = await request.json()
+    logInfo('Request body received', { body }, 'VerifyCodeAPI')
     
     // 输入验证
     const validatedData = safeValidate(verificationCodeSchema, body)
@@ -20,6 +21,22 @@ export async function POST(request: NextRequest) {
     const safeLocale = locale || 'en'
     
     logInfo('Valid request received', { email, code }, 'VerifyCodeAPI')
+
+    // 检查数据库连接
+    logInfo('Checking database connection...', null, 'VerifyCodeAPI')
+    const { data: connectionTest, error: connectionError } = await supabase
+      .from('verification_codes')
+      .select('count')
+      .limit(1)
+    
+    if (connectionError) {
+      logError('Database connection failed', connectionError, 'VerifyCodeAPI')
+      return handleError(
+        new Error(getEmailTranslation(safeLocale, 'databaseError')),
+        'VerifyCodeAPI',
+        requestId
+      )
+    }
 
     // 验证验证码
     logInfo('Verifying verification code...', null, 'VerifyCodeAPI')
@@ -56,7 +73,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    logInfo('Verification code is valid', null, 'VerifyCodeAPI')
+    logInfo('Verification code is valid', { verificationCodeId: verificationCode.id }, 'VerifyCodeAPI')
 
     // 检查用户是否存在
     logInfo('Checking if user exists...', null, 'VerifyCodeAPI')
@@ -73,9 +90,8 @@ export async function POST(request: NextRequest) {
       const userName = email.split('@')[0] // 使用邮箱前缀作为默认名称
       const newUserData = {
         email,
-        name: userName,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        name: userName
+        // 不手动设置created_at和updated_at，让数据库自动处理
       }
       
       logInfo('Creating user with data', newUserData, 'VerifyCodeAPI')
@@ -95,7 +111,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      logInfo('New user created successfully', newUser, 'VerifyCodeAPI')
+      logInfo('New user created successfully', { userId: newUser.id }, 'VerifyCodeAPI')
       user = newUser
     } else if (userError) {
       logError('User query error', userError, 'VerifyCodeAPI')
@@ -114,6 +130,8 @@ export async function POST(request: NextRequest) {
         requestId
       )
     }
+
+    logInfo('User verified successfully', { userId: user.id }, 'VerifyCodeAPI')
 
     // 删除已使用的验证码
     logInfo('Deleting used verification code...', null, 'VerifyCodeAPI')
@@ -148,6 +166,7 @@ export async function POST(request: NextRequest) {
     }, requestId))
 
   } catch (error) {
+    logError('Unexpected error in verify-code API', error, 'VerifyCodeAPI')
     return handleError(error, 'VerifyCodeAPI', requestId)
   }
 }
