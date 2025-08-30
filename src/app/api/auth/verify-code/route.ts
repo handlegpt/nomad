@@ -31,8 +31,13 @@ export async function POST(request: NextRequest) {
       console.log('✅ Input validated:', validatedData)
     } catch (validationError) {
       console.error('❌ Validation error:', validationError)
+      const errorMessage = validationError instanceof Error ? validationError.message : 'Invalid request data'
       return NextResponse.json(
-        { error: 'Invalid request data' },
+        { 
+          success: false,
+          error: errorMessage,
+          message: errorMessage
+        },
         { status: 400 }
       )
     }
@@ -81,12 +86,20 @@ export async function POST(request: NextRequest) {
         console.error('❌ Verification code error:', codeError)
         if (codeError.code === 'PGRST116') {
           return NextResponse.json(
-            { error: 'Invalid or expired verification code' },
+            { 
+              success: false,
+              error: 'Invalid or expired verification code',
+              message: 'Invalid or expired verification code'
+            },
             { status: 400 }
           )
         }
         return NextResponse.json(
-          { error: 'Verification failed' },
+          { 
+            success: false,
+            error: 'Verification failed',
+            message: 'Verification failed'
+          },
           { status: 400 }
         )
       }
@@ -94,7 +107,11 @@ export async function POST(request: NextRequest) {
       if (!verificationCode) {
         console.error('❌ No valid verification code found')
         return NextResponse.json(
-          { error: 'Invalid or expired verification code' },
+          { 
+            success: false,
+            error: 'Invalid or expired verification code',
+            message: 'Invalid or expired verification code'
+          },
           { status: 400 }
         )
       }
