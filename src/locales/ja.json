@@ -737,16 +737,61 @@
 
     "cityComparison": {
       "title": "都市比較",
-      "selectCities": "比較する2-4都市を選択",
-      "startComparison": "比較を開始",
+      "description": "都市を並べて比較",
+      "select2To4Cities": "比較する2-6都市を選択",
+      "addCityButton": "都市を追加",
+      "removeCity": "削除",
+      "compare": "比較",
+      "reset": "リセット",
+      "noCitiesSelected": "比較するには少なくとも2都市を選択してください",
+      "loading": "比較データを読み込み中...",
+      "error": "比較データの読み込みに失敗しました",
       "addCity": "都市を追加",
       "exportPDF": "PDFをエクスポート",
-      "metrics": {
-        "wifi": "WiFi速度",
+      "selectCities": "比較する2-6都市を選択",
+      "startComparison": "比較を開始",
+      "metrics": "指標",
+      "chart": "チャート",
+      "table": "テーブル",
+      "save": "保存",
+      "share": "共有",
+      "overallScore": "総合スコア",
+      "recommendation": "推奨",
+      "searchCities": "都市や国を検索...",
+      "sortBy": "並び替え",
+      "advancedFilter": "高度なフィルター",
+      "selectedCities": "選択済み {count}/6 都市",
+      "startComparing": "比較を開始",
+      "compareDescription": "WiFi速度、生活費、ビザの利便性、気候の快適さ、社会的雰囲気などの指標を含む2-6都市の詳細比較を選択",
+      "metricsSelector": "指標",
+      "viewMode": {
+        "chart": "チャート",
+        "table": "テーブル"
+      },
+      "saveComparison": "保存",
+      "shareComparison": "共有",
+      "selectMetrics": "比較指標を選択",
+      "loadingCities": "都市データを読み込み中...",
+      "startComparisonTitle": "都市比較を開始",
+      "startComparisonDescription": "WiFi速度、生活費、ビザの利便性、気候の快適さ、社会的雰囲気などの指標を含む2-6都市の詳細比較を選択",
+      "comparisonMetrics": "比較指標",
+      "overallScoreLabel": "推奨指数",
+      "overallScoreDescription": "総合評価に基づく",
+      "recommended": "推奨",
+      "selectCitiesTitle": "比較都市を選択",
+      "searchPlaceholder": "都市や国を検索...",
+      "sortOptions": {
+        "name": "都市名",
+        "country": "国",
         "cost": "生活費",
-        "visa": "ビザの利便性",
-        "climate": "気候の快適さ",
-        "social": "社会的雰囲気"
+        "wifi": "WiFi速度",
+        "visa": "ビザ日数"
+      },
+      "selectedCount": "選択済み {count}/6 都市",
+      "cityInfo": {
+        "overallScore": "総合スコア",
+        "costPerMonth": "${cost}/月",
+        "wifiSpeed": "{speed}Mbps"
       }
     }
   },

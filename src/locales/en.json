@@ -314,7 +314,37 @@
     "advancedFilter": "Advanced Filter",
     "selectedCities": "Selected {count}/6 cities",
     "startComparing": "Start Comparing",
-    "compareDescription": "Select 2-6 cities for detailed comparison including WiFi speed, cost of living, visa convenience, climate comfort and social atmosphere"
+    "compareDescription": "Select 2-6 cities for detailed comparison including WiFi speed, cost of living, visa convenience, climate comfort and social atmosphere",
+    "metricsSelector": "Metrics",
+    "viewMode": {
+      "chart": "Chart",
+      "table": "Table"
+    },
+    "saveComparison": "Save",
+    "shareComparison": "Share",
+    "selectMetrics": "Select Comparison Metrics",
+    "loadingCities": "Loading city data...",
+    "startComparisonTitle": "Start City Comparison",
+    "startComparisonDescription": "Select 2-6 cities for detailed comparison including WiFi speed, cost of living, visa convenience, climate comfort and social atmosphere",
+    "comparisonMetrics": "Comparison Metrics",
+    "overallScoreLabel": "Overall Score",
+    "overallScoreDescription": "Based on comprehensive rating",
+    "recommended": "Recommended",
+    "selectCitiesTitle": "Select Comparison Cities",
+    "searchPlaceholder": "Search cities or countries...",
+    "sortOptions": {
+      "name": "City Name",
+      "country": "Country",
+      "cost": "Cost of Living",
+      "wifi": "WiFi Speed",
+      "visa": "Visa Days"
+    },
+    "selectedCount": "Selected {count}/6 cities",
+    "cityInfo": {
+      "overallScore": "Overall Score",
+      "costPerMonth": "${cost}/month",
+      "wifiSpeed": "{speed}Mbps"
+    }
   },
 
 

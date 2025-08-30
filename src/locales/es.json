@@ -737,16 +737,61 @@
 
     "cityComparison": {
       "title": "Comparación de Ciudades",
-      "selectCities": "Selecciona 2-4 ciudades para comparar",
-      "startComparison": "Comenzar Comparación",
+      "description": "Compara ciudades lado a lado",
+      "select2To4Cities": "Selecciona 2-6 ciudades para comparar",
+      "addCityButton": "Agregar Ciudad",
+      "removeCity": "Eliminar",
+      "compare": "Comparar",
+      "reset": "Restablecer",
+      "noCitiesSelected": "Por favor selecciona al menos 2 ciudades para comparar",
+      "loading": "Cargando datos de comparación...",
+      "error": "Error al cargar datos de comparación",
       "addCity": "Agregar Ciudad",
       "exportPDF": "Exportar PDF",
-      "metrics": {
-        "wifi": "Velocidad WiFi",
+      "selectCities": "Selecciona 2-6 ciudades para comparar",
+      "startComparison": "Comenzar Comparación",
+      "metrics": "Métricas",
+      "chart": "Gráfico",
+      "table": "Tabla",
+      "save": "Guardar",
+      "share": "Compartir",
+      "overallScore": "Puntuación General",
+      "recommendation": "Recomendación",
+      "searchCities": "Buscar ciudades o países...",
+      "sortBy": "Ordenar por",
+      "advancedFilter": "Filtro Avanzado",
+      "selectedCities": "Seleccionadas {count}/6 ciudades",
+      "startComparing": "Comenzar Comparación",
+      "compareDescription": "Selecciona 2-6 ciudades para comparación detallada incluyendo velocidad WiFi, costo de vida, conveniencia de visa, comodidad climática y atmósfera social",
+      "metricsSelector": "Métricas",
+      "viewMode": {
+        "chart": "Gráfico",
+        "table": "Tabla"
+      },
+      "saveComparison": "Guardar",
+      "shareComparison": "Compartir",
+      "selectMetrics": "Seleccionar Métricas de Comparación",
+      "loadingCities": "Cargando datos de ciudades...",
+      "startComparisonTitle": "Comenzar Comparación de Ciudades",
+      "startComparisonDescription": "Selecciona 2-6 ciudades para comparación detallada incluyendo velocidad WiFi, costo de vida, conveniencia de visa, comodidad climática y atmósfera social",
+      "comparisonMetrics": "Métricas de Comparación",
+      "overallScoreLabel": "Índice de Recomendación",
+      "overallScoreDescription": "Basado en puntuación integral",
+      "recommended": "Recomendado",
+      "selectCitiesTitle": "Seleccionar Ciudades para Comparar",
+      "searchPlaceholder": "Buscar ciudades o países...",
+      "sortOptions": {
+        "name": "Nombre de Ciudad",
+        "country": "País",
         "cost": "Costo de Vida",
-        "visa": "Conveniencia de Visa",
-        "climate": "Comodidad Climática",
-        "social": "Atmósfera Social"
+        "wifi": "Velocidad WiFi",
+        "visa": "Días de Visa"
+      },
+      "selectedCount": "Seleccionadas {count}/6 ciudades",
+      "cityInfo": {
+        "overallScore": "Puntuación General",
+        "costPerMonth": "${cost}/mes",
+        "wifiSpeed": "{speed}Mbps"
       }
     }
   },

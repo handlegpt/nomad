@@ -295,7 +295,7 @@ export default function CityComparison() {
               className="flex items-center space-x-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
             >
               <Settings className="h-4 w-4" />
-              <span>指标</span>
+              <span>{t('cityComparison.metricsSelector')}</span>
               {showMetricsSelector ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
             </button>
             <button
@@ -303,7 +303,7 @@ export default function CityComparison() {
               className="flex items-center space-x-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
             >
               {viewMode === 'table' ? <BarChart3 className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              <span>{viewMode === 'table' ? '图表' : '表格'}</span>
+              <span>{viewMode === 'table' ? t('cityComparison.viewMode.chart') : t('cityComparison.viewMode.table')}</span>
             </button>
           </div>
         </div>
@@ -325,14 +325,14 @@ export default function CityComparison() {
                 className="flex items-center space-x-1 px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
               >
                 <Save className="h-4 w-4" />
-                <span>保存</span>
+                <span>{t('cityComparison.saveComparison')}</span>
               </button>
               <button
                 onClick={shareComparison}
                 className="flex items-center space-x-1 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm font-medium"
               >
                 <Share2 className="h-4 w-4" />
-                <span>分享</span>
+                <span>{t('cityComparison.shareComparison')}</span>
               </button>
               <button
                 onClick={exportComparison}
@@ -349,7 +349,7 @@ export default function CityComparison() {
       {/* Metrics Selector */}
       {showMetricsSelector && (
         <div className="mb-6 p-4 bg-gray-50 rounded-xl">
-          <h3 className="font-medium text-gray-900 mb-3">选择对比指标</h3>
+          <h3 className="font-medium text-gray-900 mb-3">{t('cityComparison.selectMetrics')}</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             {comparisonMetrics.map(metric => (
               <button
@@ -372,14 +372,14 @@ export default function CityComparison() {
       {loading ? (
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-500">加载城市数据中...</p>
+          <p className="text-gray-500">{t('cityComparison.loadingCities')}</p>
         </div>
       ) : selectedCities.length === 0 ? (
         <div className="text-center py-12">
           <BarChart3 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">开始城市对比</h3>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t('cityComparison.startComparisonTitle')}</h3>
           <p className="text-gray-500 mb-6 max-w-md mx-auto">
-            选择2-6个城市进行详细对比，包括WiFi速度、生活成本、签证便利性、气候舒适度和社交氛围等指标
+            {t('cityComparison.startComparisonDescription')}
           </p>
           <button
             onClick={() => setShowCitySelector(true)}
@@ -397,7 +397,7 @@ export default function CityComparison() {
                                                    selectedCities.length === 5 ? 'grid-cols-6' : 'grid-cols-7'}`}>
             <div className="font-semibold text-gray-900 flex items-center">
               <Globe className="h-4 w-4 mr-2" />
-              对比指标
+              {t('cityComparison.comparisonMetrics')}
             </div>
             {selectedCitiesData.map(city => (
               <div key={city.id} className="relative">
@@ -407,7 +407,7 @@ export default function CityComparison() {
                     {getCountryFlag(city.country_code)} {city.country}
                   </div>
                   <div className="text-xs text-gray-400">
-                    综合评分: {getOverallScore(city)}/100
+                    {t('cityComparison.cityInfo.overallScore')}: {getOverallScore(city)}/100
                   </div>
                 </div>
                 <button
@@ -459,8 +459,8 @@ export default function CityComparison() {
             <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-xl">
               <Star className="h-4 w-4 text-blue-600" />
               <div>
-                <div className="font-semibold text-blue-900">推荐指数</div>
-                <div className="text-xs text-blue-600">基于综合评分</div>
+                <div className="font-semibold text-blue-900">{t('cityComparison.overallScoreLabel')}</div>
+                <div className="text-xs text-blue-600">{t('cityComparison.overallScoreDescription')}</div>
               </div>
             </div>
             {selectedCitiesData.map(city => {
@@ -478,7 +478,7 @@ export default function CityComparison() {
                     {isTop && <Star className="h-3 w-3 fill-current" />}
                   </div>
                   {isTop && (
-                    <div className="text-xs text-green-600 mt-1 font-medium">推荐</div>
+                    <div className="text-xs text-green-600 mt-1 font-medium">{t('cityComparison.recommended')}</div>
                   )}
                 </div>
               )
@@ -492,7 +492,7 @@ export default function CityComparison() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-hidden">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">选择对比城市</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t('cityComparison.selectCitiesTitle')}</h3>
               <button
                 onClick={() => setShowCitySelector(false)}
                 className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
@@ -508,7 +508,7 @@ export default function CityComparison() {
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="搜索城市或国家..."
+                  placeholder={t('cityComparison.searchPlaceholder')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -517,17 +517,17 @@ export default function CityComparison() {
               
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <label className="text-sm text-gray-600">排序:</label>
+                  <label className="text-sm text-gray-600">{t('cityComparison.sortBy')}:</label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     className="text-sm border border-gray-300 rounded px-2 py-1"
                   >
-                    <option value="name">城市名</option>
-                    <option value="country">国家</option>
-                    <option value="cost">生活成本</option>
-                    <option value="wifi">WiFi速度</option>
-                    <option value="visa">签证天数</option>
+                    <option value="name">{t('cityComparison.sortOptions.name')}</option>
+                    <option value="country">{t('cityComparison.sortOptions.country')}</option>
+                    <option value="cost">{t('cityComparison.sortOptions.cost')}</option>
+                    <option value="wifi">{t('cityComparison.sortOptions.wifi')}</option>
+                    <option value="visa">{t('cityComparison.sortOptions.visa')}</option>
                   </select>
                   <button
                     onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
@@ -542,7 +542,7 @@ export default function CityComparison() {
                   className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-800"
                 >
                   <Filter className="h-4 w-4" />
-                  <span>高级筛选</span>
+                  <span>{t('cityComparison.advancedFilter')}</span>
                 </button>
               </div>
             </div>
@@ -575,7 +575,7 @@ export default function CityComparison() {
                       <div className="text-right">
                         <div className="text-sm font-medium text-gray-900">{overallScore}/100</div>
                         <div className="text-xs text-gray-500">
-                          ${city.cost_of_living || 0}/月 • {city.wifi_speed || 0}Mbps
+                          {t('cityComparison.cityInfo.costPerMonth', { cost: city.cost_of_living || 0 })} • {t('cityComparison.cityInfo.wifiSpeed', { speed: city.wifi_speed || 0 })}
                         </div>
                       </div>
                     </div>
@@ -585,7 +585,7 @@ export default function CityComparison() {
             </div>
             
             <div className="mt-4 text-center text-sm text-gray-500">
-              已选择 {selectedCities.length}/6 个城市
+              {t('cityComparison.selectedCount', { count: selectedCities.length })}
             </div>
           </div>
         </div>
