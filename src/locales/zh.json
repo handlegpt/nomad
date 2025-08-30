@@ -522,6 +522,13 @@
     "noMatchingMessages": "没有找到匹配的消息",
     "tryAdjustSearch": "尝试调整搜索条件或筛选器",
     "mutualInterests": "{count} 共同兴趣",
+    "messageSent": "消息已发送",
+    "failedToSendMessage": "发送消息失败",
+    "failedToLoadMessages": "加载消息失败",
+    "failedToLikeMessage": "点赞失败",
+    "replySent": "回复已发送",
+    "failedToSendReply": "发送回复失败",
+    "replyPlaceholder": "写下你的回复...",
     "compatibility": "{percentage}% 匹配",
     "distance": "{distance}km",
     "notifications": {

@@ -14,20 +14,18 @@ import {
   type MeetupUser,
   type MeetupStats
 } from '@/lib/meetupApi'
+import {
+  getCommunityMessages,
+  sendCommunityMessage,
+  toggleMessageLike,
+  getMessageReplies,
+  sendMessageReply,
+  type CommunityMessage,
+  type MessageReply
+} from '@/lib/communityChatApi'
+import { communityRealtimeService } from '@/lib/communityRealtimeService'
 
-interface CommunityMessage {
-  id: string
-  userId: string
-  userName: string
-  userAvatar: string
-  content: string
-  timestamp: string
-  location: string
-  type: 'question' | 'info' | 'help' | 'general'
-  tags: string[]
-  likes: number
-  replies: CommunityMessage[]
-}
+// 移除旧的接口定义，使用从API导入的接口
 import { validateForm, validationRules, validateField } from '@/lib/formValidation'
 import UserProfileModal from './UserProfileModal'
 import MeetupHistory from './MeetupHistory'
@@ -64,6 +62,12 @@ export default function NomadMeetup() {
   const [messageType, setMessageType] = useState<'general' | 'question' | 'info' | 'help'>('general')
   const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState<'all' | 'question' | 'info' | 'help' | 'general'>('all')
+  const [messagesLoading, setMessagesLoading] = useState(false)
+  const [messagesPage, setMessagesPage] = useState(1)
+  const [hasMoreMessages, setHasMoreMessages] = useState(true)
+  const [selectedMessageForReply, setSelectedMessageForReply] = useState<string | null>(null)
+  const [replyContent, setReplyContent] = useState('')
+  const [replies, setReplies] = useState<Record<string, MessageReply[]>>({})
   
   const { addNotification } = useNotifications()
 
@@ -77,60 +81,53 @@ export default function NomadMeetup() {
     }
   }, [userLocation])
 
-  const fetchCommunityMessages = async () => {
+  const fetchCommunityMessages = async (page = 1, append = false) => {
     if (!userLocation) return
     
     try {
-      // 模拟获取社区消息数据
-      const mockMessages: CommunityMessage[] = [
-        {
-          id: '1',
-          userId: 'user1',
-          userName: 'Sarah Chen',
-          userAvatar: 'SC',
-          content: '有人知道大阪哪里有好的咖啡馆可以工作吗？WiFi要稳定的',
-          timestamp: '2分钟前',
-          location: userLocation.city,
-          type: 'question',
-          tags: ['WiFi', '咖啡馆', '工作'],
-          likes: 3,
-          replies: []
-        },
-        {
-          id: '2',
-          userId: 'user2',
-          userName: 'Alex Rodriguez',
-          userAvatar: 'AR',
-          content: '推荐心斋桥的Blue Bottle Coffee，WiFi很快，环境也不错',
-          timestamp: '5分钟前',
-          location: userLocation.city,
-          type: 'info',
-          tags: ['推荐', '咖啡馆'],
-          likes: 5,
-          replies: []
-        },
-        {
-          id: '3',
-          userId: 'user3',
-          userName: 'Yuki Tanaka',
-          userAvatar: 'YT',
-          content: '今天天气不错，有人想一起去大阪城公园走走吗？',
-          timestamp: '10分钟前',
-          location: userLocation.city,
-          type: 'general',
-          tags: ['户外', '公园'],
-          likes: 2,
-          replies: []
-        }
-      ]
+      setMessagesLoading(true)
       
-      setCommunityMessages(mockMessages)
+      const result = await getCommunityMessages({
+        page,
+        limit: 20,
+        message_type: filterType === 'all' ? undefined : filterType,
+        location: currentCity,
+        search: searchQuery || undefined
+      })
+
+      if (append) {
+        setCommunityMessages(prev => [...prev, ...result.messages])
+      } else {
+        setCommunityMessages(result.messages)
+      }
+      
+      setHasMoreMessages(result.hasMore)
+      setMessagesPage(page)
     } catch (error) {
       logError('Failed to fetch community messages', error, 'NomadMeetup')
+      addNotification({
+        type: 'error',
+        message: t('meetup.failedToLoadMessages')
+      })
+    } finally {
+      setMessagesLoading(false)
     }
   }
 
-  const handleSendCommunityMessage = () => {
+  // 获取消息回复
+  const fetchMessageReplies = async (messageId: string) => {
+    try {
+      const repliesData = await getMessageReplies(messageId)
+      setReplies(prev => ({
+        ...prev,
+        [messageId]: repliesData
+      }))
+    } catch (error) {
+      logError('Failed to fetch message replies', error, 'NomadMeetup')
+    }
+  }
+
+  const handleSendCommunityMessage = async () => {
     if (!user.isAuthenticated) {
       addNotification({
         type: 'warning',
@@ -139,26 +136,27 @@ export default function NomadMeetup() {
       return
     }
 
-    if (newCommunityMessage.trim()) {
-      const message: CommunityMessage = {
-        id: Date.now().toString(),
-        userId: user.profile?.id || 'anonymous',
-        userName: user.profile?.name || 'You',
-        userAvatar: user.profile?.name ? user.profile.name.substring(0, 2).toUpperCase() : 'YO',
-        content: newCommunityMessage,
-        timestamp: '刚刚',
-        location: userLocation ? userLocation.city : 'Unknown',
-        type: messageType,
-        tags: [],
-        likes: 0,
-        replies: []
-      }
+    if (!newCommunityMessage.trim()) return
+
+    try {
+      const message = await sendCommunityMessage({
+        content: newCommunityMessage.trim(),
+        message_type: messageType,
+        location: currentCity,
+        tags: []
+      })
       
-      setCommunityMessages([message, ...communityMessages])
+      setCommunityMessages(prev => [message, ...prev])
       setNewCommunityMessage('')
       addNotification({
         type: 'success',
-        message: '消息已发送'
+        message: t('meetup.messageSent')
+      })
+    } catch (error) {
+      logError('Failed to send community message', error, 'NomadMeetup')
+      addNotification({
+        type: 'error',
+        message: t('meetup.failedToSendMessage')
       })
     }
   }
@@ -167,13 +165,132 @@ export default function NomadMeetup() {
   const filteredMessages = communityMessages.filter(message => {
     const matchesSearch = searchQuery === '' || 
       message.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      message.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      message.user_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       message.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     
-    const matchesFilter = filterType === 'all' || message.type === filterType
+    const matchesFilter = filterType === 'all' || message.message_type === filterType
     
     return matchesSearch && matchesFilter
   })
+
+  // 处理点赞
+  const handleLikeMessage = async (messageId: string) => {
+    if (!user.isAuthenticated) {
+      addNotification({
+        type: 'warning',
+        message: t('meetup.pleaseLoginToMeetup')
+      })
+      return
+    }
+
+    try {
+      const result = await toggleMessageLike(messageId)
+      
+      setCommunityMessages(prev => prev.map(message => 
+        message.id === messageId 
+          ? { ...message, likes_count: result.likesCount, is_liked_by_current_user: result.isLiked }
+          : message
+      ))
+    } catch (error) {
+      logError('Failed to like message', error, 'NomadMeetup')
+      addNotification({
+        type: 'error',
+        message: t('meetup.failedToLikeMessage')
+      })
+    }
+  }
+
+  // 处理回复
+  const handleReplyToMessage = async (messageId: string) => {
+    if (!user.isAuthenticated) {
+      addNotification({
+        type: 'warning',
+        message: t('meetup.pleaseLoginToMeetup')
+      })
+      return
+    }
+
+    if (!replyContent.trim()) return
+
+    try {
+      const reply = await sendMessageReply(messageId, replyContent.trim())
+      
+      setReplies(prev => ({
+        ...prev,
+        [messageId]: [...(prev[messageId] || []), reply]
+      }))
+      
+      setReplyContent('')
+      setSelectedMessageForReply(null)
+      
+      addNotification({
+        type: 'success',
+        message: t('meetup.replySent')
+      })
+    } catch (error) {
+      logError('Failed to send reply', error, 'NomadMeetup')
+      addNotification({
+        type: 'error',
+        message: t('meetup.failedToSendReply')
+      })
+    }
+  }
+
+  // 实时通信设置
+  useEffect(() => {
+    if (activeTab === 'community' && user.isAuthenticated) {
+      // 连接实时通信
+      communityRealtimeService.connect()
+      
+      // 监听新消息
+      const handleNewMessage = (event: any) => {
+        setCommunityMessages(prev => [event.data, ...prev])
+      }
+      
+      // 监听消息更新
+      const handleMessageUpdate = (event: any) => {
+        setCommunityMessages(prev => prev.map(message => 
+          message.id === event.data.id ? event.data : message
+        ))
+      }
+      
+      // 监听消息删除
+      const handleMessageDelete = (event: any) => {
+        setCommunityMessages(prev => prev.filter(message => message.id !== event.data.id))
+      }
+      
+      // 监听点赞
+      const handleMessageLike = (event: any) => {
+        setCommunityMessages(prev => prev.map(message => 
+          message.id === event.data.message_id 
+            ? { ...message, likes_count: message.likes_count + 1 }
+            : message
+        ))
+      }
+      
+      // 监听新回复
+      const handleNewReply = (event: any) => {
+        setReplies(prev => ({
+          ...prev,
+          [event.data.parent_message_id]: [...(prev[event.data.parent_message_id] || []), event.data]
+        }))
+      }
+      
+      communityRealtimeService.addEventListener('new_message', handleNewMessage)
+      communityRealtimeService.addEventListener('message_updated', handleMessageUpdate)
+      communityRealtimeService.addEventListener('message_deleted', handleMessageDelete)
+      communityRealtimeService.addEventListener('message_liked', handleMessageLike)
+      communityRealtimeService.addEventListener('new_reply', handleNewReply)
+      
+      return () => {
+        communityRealtimeService.removeEventListener('new_message', handleNewMessage)
+        communityRealtimeService.removeEventListener('message_updated', handleMessageUpdate)
+        communityRealtimeService.removeEventListener('message_deleted', handleMessageDelete)
+        communityRealtimeService.removeEventListener('message_liked', handleMessageLike)
+        communityRealtimeService.removeEventListener('new_reply', handleNewReply)
+      }
+    }
+  }, [activeTab, user.isAuthenticated])
 
   const fetchUsers = async () => {
     if (!userLocation) return
@@ -724,25 +841,27 @@ export default function NomadMeetup() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1 flex-wrap">
-                      <span className="font-medium text-gray-900">{message.userName}</span>
+                      <span className="font-medium text-gray-900">{message.user_name}</span>
                       <span className={`px-2 py-1 text-xs rounded-full flex-shrink-0 ${
-                        message.type === 'question' ? 'bg-yellow-100 text-yellow-800' :
-                        message.type === 'info' ? 'bg-green-100 text-green-800' :
-                        message.type === 'help' ? 'bg-red-100 text-red-800' :
+                        message.message_type === 'question' ? 'bg-yellow-100 text-yellow-800' :
+                        message.message_type === 'info' ? 'bg-green-100 text-green-800' :
+                        message.message_type === 'help' ? 'bg-red-100 text-red-800' :
                         'bg-gray-100 text-gray-800'
                       }`}>
-                        {message.type === 'question' ? t('meetup.typeQuestion') :
-                         message.type === 'info' ? t('meetup.typeInfo') :
-                         message.type === 'help' ? t('meetup.typeHelp') : t('meetup.typeGeneral')}
+                        {message.message_type === 'question' ? t('meetup.typeQuestion') :
+                         message.message_type === 'info' ? t('meetup.typeInfo') :
+                         message.message_type === 'help' ? t('meetup.typeHelp') : t('meetup.typeGeneral')}
                       </span>
-                      <span className="text-xs text-gray-500 flex-shrink-0">{message.timestamp}</span>
+                      <span className="text-xs text-gray-500 flex-shrink-0">
+                        {new Date(message.created_at).toLocaleString()}
+                      </span>
                       <span className="text-xs text-gray-500 flex items-center flex-shrink-0">
                         <MapPin className="h-3 w-3 mr-1" />
-                        {message.location}
+                        {message.location || message.user_location}
                       </span>
                     </div>
                     <p className="text-sm text-gray-700 mb-2 break-words">{message.content}</p>
-                    {message.tags.length > 0 && (
+                    {message.tags && message.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-2">
                         {message.tags.map((tag, index) => (
                           <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
@@ -751,19 +870,80 @@ export default function NomadMeetup() {
                         ))}
                       </div>
                     )}
+                    
+                    {/* 回复区域 */}
+                    {selectedMessageForReply === message.id && (
+                      <div className="mb-3 p-3 bg-gray-50 rounded-lg">
+                        <textarea
+                          value={replyContent}
+                          onChange={(e) => setReplyContent(e.target.value)}
+                          placeholder={t('meetup.replyPlaceholder')}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
+                          rows={2}
+                        />
+                        <div className="flex justify-end space-x-2 mt-2">
+                          <button
+                            onClick={() => setSelectedMessageForReply(null)}
+                            className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800"
+                          >
+                            {t('common.cancel')}
+                          </button>
+                          <button
+                            onClick={() => handleReplyToMessage(message.id)}
+                            disabled={!replyContent.trim()}
+                            className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                          >
+                            {t('meetup.reply')}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 显示回复 */}
+                    {replies[message.id] && replies[message.id].length > 0 && (
+                      <div className="mb-3 space-y-2">
+                        {replies[message.id].map((reply) => (
+                          <div key={reply.id} className="ml-4 p-2 bg-gray-50 rounded border-l-2 border-blue-200">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <span className="font-medium text-sm text-gray-900">{reply.user_name}</span>
+                              <span className="text-xs text-gray-500">
+                                {new Date(reply.created_at).toLocaleString()}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-700">{reply.content}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <div className="flex items-center space-x-4 text-xs text-gray-500">
                       <button 
-                        className="flex items-center space-x-1 hover:text-blue-600 transition-colors"
+                        onClick={() => handleLikeMessage(message.id)}
+                        className={`flex items-center space-x-1 transition-colors ${
+                          message.is_liked_by_current_user 
+                            ? 'text-blue-600' 
+                            : 'hover:text-blue-600'
+                        }`}
                         title={t('meetup.like')}
                       >
                         <span>👍</span>
-                        <span>{message.likes}</span>
+                        <span>{message.likes_count}</span>
                       </button>
                       <button 
+                        onClick={() => {
+                          if (selectedMessageForReply === message.id) {
+                            setSelectedMessageForReply(null)
+                          } else {
+                            setSelectedMessageForReply(message.id)
+                            if (!replies[message.id]) {
+                              fetchMessageReplies(message.id)
+                            }
+                          }
+                        }}
                         className="hover:text-blue-600 transition-colors"
                         title={t('meetup.reply')}
                       >
-                        {t('meetup.reply')}
+                        {t('meetup.reply')} ({message.replies_count})
                       </button>
                       <button 
                         className="hover:text-blue-600 transition-colors"

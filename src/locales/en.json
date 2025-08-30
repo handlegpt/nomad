@@ -564,6 +564,13 @@
     "noMatchingMessages": "No matching messages found",
     "tryAdjustSearch": "Try adjusting search criteria or filters",
     "mutualInterests": "{count} mutual interests",
+    "messageSent": "Message sent successfully",
+    "failedToSendMessage": "Failed to send message",
+    "failedToLoadMessages": "Failed to load messages",
+    "failedToLikeMessage": "Failed to like message",
+    "replySent": "Reply sent successfully",
+    "failedToSendReply": "Failed to send reply",
+    "replyPlaceholder": "Write your reply...",
     "compatibility": "{percentage}% match",
     "distance": "{distance}km",
     "notifications": {
