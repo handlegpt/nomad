@@ -267,35 +267,7 @@
 
 
 
-  "cityComparison": {
-    "title": "城市对比",
-    "description": "并排对比城市",
-    "select2To4Cities": "选择2-6个城市进行对比",
-    "addCityButton": "添加城市",
-    "removeCity": "移除",
-    "compare": "对比",
-    "reset": "重置",
-    "noCitiesSelected": "请至少选择2个城市进行对比",
-    "loading": "正在加载对比数据...",
-    "error": "加载对比数据失败",
-    "addCity": "添加城市",
-    "exportPDF": "导出PDF",
-    "selectCities": "选择2-6个城市进行对比",
-    "startComparison": "开始对比",
-    "metrics": "指标",
-    "chart": "图表",
-    "table": "表格",
-    "save": "保存",
-    "share": "分享",
-    "overallScore": "综合评分",
-    "recommendation": "推荐",
-    "searchCities": "搜索城市或国家...",
-    "sortBy": "排序方式",
-    "advancedFilter": "高级筛选",
-    "selectedCities": "已选择 {count}/6 个城市",
-    "startComparing": "开始对比",
-    "compareDescription": "选择2-6个城市进行详细对比，包括WiFi速度、生活成本、签证便利性、气候舒适度和社交氛围等指标"
-  },
+
 
 
 
