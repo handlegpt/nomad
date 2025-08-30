@@ -134,7 +134,7 @@ export async function getUserMeetupHistory(options: GetMeetupHistoryOptions = {}
     }
 
     // 转换数据格式
-    const meetups: Meetup[] = participants?.map(p => ({
+    const meetups: Meetup[] = participants?.map((p: any) => ({
       ...p.meetups,
       creator_name: p.meetups.users?.name
     })) || []
