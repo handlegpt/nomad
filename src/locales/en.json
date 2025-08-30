@@ -817,7 +817,7 @@
     "verificationFailed": "Verification failed",
     "networkError": "Network error, please try again",
     "codeSent": "Verification code sent successfully",
-    "login": {
+    "loginForm": {
       "title": "Welcome Back",
       "subtitle": "Sign in to your account using email verification code",
       "backToHome": "Back to Home",

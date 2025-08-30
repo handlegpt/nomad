@@ -921,7 +921,7 @@
     "verificationFailed": "認証に失敗しました",
     "networkError": "ネットワークエラー、再試行してください",
     "codeSent": "認証コードが正常に送信されました",
-    "login": {
+    "loginForm": {
       "title": "おかえりなさい",
       "subtitle": "メール認証コードでアカウントにサインイン",
       "backToHome": "ホームに戻る",

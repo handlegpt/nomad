@@ -9,7 +9,7 @@ import { validateInput, verificationCodeSchema } from '@/lib/validation'
 import LoadingSpinner from '@/components/LoadingSpinner'
 
 export default function LoginPage() {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const router = useRouter()
   
   const [email, setEmail] = useState('')
@@ -40,7 +40,7 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ 
           email,
-          locale: t('locale')
+          locale
         }),
       })
 
@@ -69,7 +69,7 @@ export default function LoginPage() {
 
     try {
       // 验证输入
-      const validation = validateInput(verificationCodeSchema, { email, code, locale: t('locale') })
+      const validation = validateInput(verificationCodeSchema, { email, code, locale })
       if (!validation.success) {
         setError(validation.errors[0])
         return
@@ -83,7 +83,7 @@ export default function LoginPage() {
         body: JSON.stringify({ 
           email,
           code,
-          locale: t('locale')
+          locale
         }),
       })
 

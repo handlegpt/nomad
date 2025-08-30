@@ -921,7 +921,7 @@
     "verificationFailed": "Verificación fallida",
     "networkError": "Error de red, por favor intenta de nuevo",
     "codeSent": "Código de verificación enviado exitosamente",
-    "login": {
+    "loginForm": {
       "title": "Bienvenido de Vuelta",
       "subtitle": "Inicia sesión en tu cuenta usando código de verificación por email",
       "backToHome": "Volver al Inicio",
