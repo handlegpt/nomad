@@ -334,5 +334,4 @@ export default function CitiesPage() {
       <CitiesPageContent />
     </Suspense>
   )
-} JWT_SECRET=your-super-secret-jwt-key-change-in-production
-NEXT_PUBLIC_ENCRYPTION_KEY=your-encryption-key-2024用bu s
+}
