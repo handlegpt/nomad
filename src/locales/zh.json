@@ -861,102 +861,6 @@
     "detailedVoteSubmitted": "详细评价提交成功",
     "voteFailed": "投票提交失败，请重试"
   },
-  "recommendationForm": {
-    "city": {
-      "title": "推荐新城市",
-      "submitButton": "推荐城市",
-      "fields": {
-        "name": "城市名称",
-        "namePlaceholder": "例如：清迈",
-        "country": "国家",
-        "countryPlaceholder": "例如：泰国",
-        "countryCode": "国家代码",
-        "countryCodePlaceholder": "例如：TH",
-        "timezone": "时区",
-        "latitude": "纬度 (可选)",
-        "latitudePlaceholder": "例如：18.7883",
-        "longitude": "经度 (可选)",
-        "longitudePlaceholder": "例如：98.9853",
-        "visaType": "签证类型",
-        "visaDays": "停留天数",
-        "costOfLiving": "月生活成本 (USD)",
-        "costOfLivingPlaceholder": "例如：1500",
-        "wifiSpeed": "WiFi速度 (Mbps)",
-        "wifiSpeedPlaceholder": "例如：50",
-        "description": "城市描述",
-        "descriptionPlaceholder": "描述这个城市为什么适合数字游民，包括生活体验、工作环境、文化特色等...",
-        "highlights": "城市亮点",
-        "addHighlight": "添加亮点",
-        "suggestedHighlights": "建议亮点",
-        "tags": "标签",
-        "addTag": "添加标签",
-        "suggestedTags": "建议标签",
-        "selectTimezone": "选择时区",
-        "description": "城市描述",
-        "descriptionPlaceholder": "描述这个城市为什么适合数字游民，包括生活体验、工作环境、文化特色等...",
-        "highlights": "城市亮点",
-        "tags": "标签"
-      }
-    },
-    "place": {
-      "title": "添加推荐地点",
-      "submitButton": "添加地点",
-      "fields": {
-        "name": "地点名称",
-        "namePlaceholder": "例如：星巴克咖啡厅",
-        "category": "类别",
-        "address": "地址",
-        "addressPlaceholder": "详细地址",
-        "latitude": "纬度 (可选)",
-        "latitudePlaceholder": "例如：34.0522",
-        "longitude": "经度 (可选)",
-        "longitudePlaceholder": "例如：-118.2437",
-        "description": "描述",
-        "descriptionPlaceholder": "描述这个地点的特色和适合数字游民的原因...",
-        "wifiSpeed": "WiFi速度 (Mbps)",
-        "wifiSpeedPlaceholder": "例如：50",
-        "priceLevel": "价格等级",
-        "noiseLevel": "噪音水平",
-        "noiseLevels": {
-          "quiet": "安静",
-          "moderate": "适中",
-          "loud": "嘈杂"
-        },
-        "socialAtmosphere": "社交氛围",
-        "socialLevels": {
-          "low": "低",
-          "medium": "中等",
-          "high": "高"
-        },
-        "tags": "标签"
-      }
-    },
-    "addTag": "添加标签",
-    "addHighlight": "添加亮点",
-    "suggestedTags": "建议标签",
-    "suggestedHighlights": "建议亮点",
-    "suggestedHighlights": {
-      "nomadFriendly": "数字游民友好",
-      "fastWifi": "WiFi速度快",
-      "lowCost": "生活成本低",
-      "visaConvenient": "签证便利",
-      "goodClimate": "气候宜人",
-      "foodRich": "美食丰富",
-      "culturalDiverse": "文化多元",
-      "convenientTransport": "交通便利",
-      "safeLiving": "安全宜居",
-      "englishFriendly": "英语普及",
-      "activeCommunity": "社区活跃",
-      "workspaces": "工作空间多",
-      "coffeeCulture": "咖啡文化",
-      "outdoorActivities": "户外活动",
-      "nightlife": "夜生活丰富"
-    },
-    "suggestedTags": {
-      "budgetFriendly": "预算友好",
-      "fastWifi": "WiFi快",
-      "easyVisa": "签证简单",
-      "goodClimate": "气候好",
       "goodFood": "美食多",
       "culturalRich": "文化丰富",
       "convenientTransport": "交通便利",
@@ -1154,6 +1058,39 @@
         "outdoor": "户外活动",
         "nightlife": "夜生活",
         "shopping": "购物"
+      }
+    },
+    "place": {
+      "title": "推荐地点",
+      "submitButton": "提交推荐",
+      "fields": {
+        "name": "地点名称",
+        "namePlaceholder": "输入地点名称",
+        "category": "类别",
+        "address": "地址",
+        "addressPlaceholder": "输入完整地址",
+        "latitude": "纬度",
+        "latitudePlaceholder": "输入纬度",
+        "longitude": "经度",
+        "longitudePlaceholder": "输入经度",
+        "description": "描述",
+        "descriptionPlaceholder": "描述这个地点以及推荐理由",
+        "wifiSpeed": "WiFi速度",
+        "wifiSpeedPlaceholder": "输入WiFi速度（Mbps）",
+        "priceLevel": "价格水平",
+        "noiseLevel": "噪音水平",
+        "noiseLevels": {
+          "quiet": "安静",
+          "moderate": "中等",
+          "loud": "嘈杂"
+        },
+        "socialAtmosphere": "社交氛围",
+        "socialLevels": {
+          "low": "低",
+          "medium": "中等",
+          "high": "高"
+        },
+        "tags": "标签"
       }
     }
   }
