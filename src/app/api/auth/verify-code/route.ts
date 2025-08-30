@@ -68,7 +68,10 @@ export async function POST(request: NextRequest) {
         user: {
           id: 'mock_user_' + Date.now(),
           email: email,
-          name: email.split('@')[0]
+          name: email.split('@')[0],
+          avatar: null,
+          current_city: null,
+          created_at: new Date().toISOString()
         }
       }
     })
