@@ -495,7 +495,7 @@ export async function getMeetupStats(userId?: string): Promise<{
     const completedMeetups = stats?.filter((s: any) => s.meetups?.status === 'completed').length || 0
     const cancelledMeetups = stats?.filter((s: any) => s.meetups?.status === 'cancelled').length || 0
     const ratings = stats?.filter((s: any) => s.rating !== null).map((s: any) => s.rating!) || []
-    const averageRating = ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0
+    const averageRating = ratings.length > 0 ? ratings.reduce((a: number, b: number) => a + b, 0) / ratings.length : 0
     const participationRate = totalMeetups > 0 ? (completedMeetups / totalMeetups) * 100 : 0
 
     return {
