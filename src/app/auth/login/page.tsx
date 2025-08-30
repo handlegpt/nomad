@@ -41,7 +41,38 @@ export default function LoginPage() {
       resendCountdownText: t('auth.loginForm.resendCountdown', { countdown: '60' }),
       codeErrorText: t('auth.loginForm.errors.codeError')
     })
-  }, [t, translationLoading, locale])
+    
+    // 检查每个翻译键的类型
+    const translations = {
+      login: t('auth.login'),
+      enterEmail: t('auth.enterEmail'),
+      sendCode: t('auth.sendCode'),
+      footer: t('auth.loginForm.footer'),
+      backToHome: t('auth.loginForm.backToHome'),
+      resendCode: t('auth.loginForm.resendCode'),
+      resendCountdown: t('auth.loginForm.resendCountdown', { countdown: '60' }),
+      codeError: t('auth.loginForm.errors.codeError')
+    }
+    
+    Object.entries(translations).forEach(([key, value]) => {
+      if (typeof value === 'object') {
+        console.error('❌ Object found in translation:', key, value)
+      }
+    })
+    
+    // 检查状态变量
+    console.log('🔍 State debug:', {
+      step,
+      loading,
+      error,
+      success,
+      resendCountdown,
+      attempts,
+      showResendButton,
+      email,
+      code
+    })
+  }, [t, translationLoading, locale, step, loading, error, success, resendCountdown, attempts, showResendButton, email, code])
 
   // 从localStorage恢复邮箱
   useEffect(() => {
