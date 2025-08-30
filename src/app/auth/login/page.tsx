@@ -34,7 +34,12 @@ export default function LoginPage() {
       locale,
       loginText: t('auth.login'),
       enterEmailText: t('auth.enterEmail'),
-      sendCodeText: t('auth.sendCode')
+      sendCodeText: t('auth.sendCode'),
+      footerText: t('auth.loginForm.footer'),
+      backToHomeText: t('auth.loginForm.backToHome'),
+      resendCodeText: t('auth.loginForm.resendCode'),
+      resendCountdownText: t('auth.loginForm.resendCountdown', { countdown: '60' }),
+      codeErrorText: t('auth.loginForm.errors.codeError')
     })
   }, [t, translationLoading, locale])
 
@@ -366,7 +371,7 @@ export default function LoginPage() {
             {attempts > 0 && (
               <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-xl">
                 <p className="text-yellow-700 text-sm text-center">
-                  {t('auth.loginForm.errors.codeError')} ({5 - attempts} {t('common.attempts')} {t('common.remaining')})
+                  {t('auth.loginForm.errors.codeError')} ({5 - attempts} attempts remaining)
                 </p>
               </div>
             )}
