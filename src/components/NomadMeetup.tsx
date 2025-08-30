@@ -1,7 +1,36 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Users, MapPin, Coffee, MessageSquare, Plus, Clock, AlertCircle, RefreshCw, MapPinOff, Calendar, Bell, Send } from 'lucide-react'
+import { 
+  Users, 
+  MapPin, 
+  Coffee, 
+  MessageSquare, 
+  Plus, 
+  Clock, 
+  AlertCircle, 
+  RefreshCw, 
+  MapPinOff, 
+  Calendar, 
+  Bell, 
+  Send,
+  Filter,
+  Search,
+  Map,
+  List,
+  Star,
+  Heart,
+  MessageCircle,
+  Eye,
+  UserPlus,
+  Settings,
+  ChevronDown,
+  ChevronUp,
+  Wifi,
+  Globe,
+  Award,
+  Shield
+} from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useNotifications, useUser } from '@/contexts/GlobalStateContext'
 import { logInfo, logError } from '@/lib/logger'
@@ -52,6 +81,17 @@ export default function NomadMeetup() {
   const [showNotifications, setShowNotifications] = useState(false)
   const [activeTab, setActiveTab] = useState<'users' | 'history' | 'notifications' | 'community'>('users')
   
+  // 新增筛选和视图状态
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list')
+  const [showFilters, setShowFilters] = useState(false)
+  const [filterStatus, setFilterStatus] = useState<'all' | 'online' | 'available'>('all')
+  const [filterDistance, setFilterDistance] = useState<number>(50)
+  const [sortBy, setSortBy] = useState<'distance' | 'compatibility' | 'lastSeen' | 'name'>('distance')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showOffline, setShowOffline] = useState(false)
+  const [autoRefresh, setAutoRefresh] = useState(false)
+  
   // 表单验证状态
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
   const [isValidating, setIsValidating] = useState(false)
@@ -73,6 +113,62 @@ export default function NomadMeetup() {
 
   const currentCity = userLocation ? `${userLocation.city}, ${userLocation.country}` : 'Loading...'
 
+  // 筛选和排序用户
+  const filteredAndSortedUsers = users
+    .filter(user => {
+      // 状态筛选
+      if (filterStatus === 'online' && user.status !== 'online') return false
+      if (filterStatus === 'available' && !user.isAvailable) return false
+      if (!showOffline && user.status === 'offline') return false
+      
+      // 距离筛选
+      if (user.distance && user.distance > filterDistance) return false
+      
+      // 搜索筛选
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase()
+        const matchesName = user.name.toLowerCase().includes(query)
+        const matchesInterests = user.interests.some(interest => 
+          interest.toLowerCase().includes(query)
+        )
+        const matchesLocation = user.location.toLowerCase().includes(query)
+        if (!matchesName && !matchesInterests && !matchesLocation) return false
+      }
+      
+      return true
+    })
+    .sort((a, b) => {
+      let aValue: any, bValue: any
+      
+      switch (sortBy) {
+        case 'distance':
+          aValue = a.distance || 999
+          bValue = b.distance || 999
+          break
+        case 'compatibility':
+          aValue = a.meetupCompatibility || 0
+          bValue = b.meetupCompatibility || 0
+          break
+        case 'lastSeen':
+          aValue = new Date(a.lastSeen).getTime()
+          bValue = new Date(b.lastSeen).getTime()
+          break
+        case 'name':
+          aValue = a.name
+          bValue = b.name
+          break
+        default:
+          aValue = a.distance || 999
+          bValue = b.distance || 999
+      }
+      
+      if (sortOrder === 'asc') {
+        return aValue > bValue ? 1 : -1
+      } else {
+        return aValue < bValue ? 1 : -1
+      }
+    })
+
   useEffect(() => {
     if (userLocation) {
       fetchUsers()
@@ -80,6 +176,18 @@ export default function NomadMeetup() {
       fetchCommunityMessages()
     }
   }, [userLocation])
+
+  // 自动刷新
+  useEffect(() => {
+    if (!autoRefresh) return
+    
+    const interval = setInterval(() => {
+      fetchUsers()
+      fetchStats()
+    }, 30000) // 30秒刷新一次
+    
+    return () => clearInterval(interval)
+  }, [autoRefresh])
 
   const fetchCommunityMessages = async (page = 1, append = false) => {
     if (!userLocation) return
@@ -477,6 +585,43 @@ export default function NomadMeetup() {
     setShowUserProfile(true)
   }
 
+  const handleQuickChat = (userId: string) => {
+    // 实现快速聊天功能
+    console.log('Quick chat with user:', userId)
+  }
+
+  const handleAddFriend = (userId: string) => {
+    // 实现添加好友功能
+    console.log('Add friend:', userId)
+  }
+
+  const handleViewProfile = (user: MeetupUser) => {
+    setSelectedUser(user)
+    setShowUserProfile(true)
+  }
+
+  const getStatusColor = (status: string, isAvailable: boolean) => {
+    if (!isAvailable) return 'bg-gray-400'
+    switch (status) {
+      case 'online': return 'bg-green-500'
+      case 'away': return 'bg-yellow-500'
+      case 'busy': return 'bg-orange-500'
+      case 'dnd': return 'bg-red-500'
+      default: return 'bg-gray-400'
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'online': return t('meetup.statusOnline')
+      case 'offline': return t('meetup.statusOffline')
+      case 'away': return t('meetup.statusAway')
+      case 'busy': return t('meetup.statusBusy')
+      case 'dnd': return t('meetup.statusDnd')
+      default: return t('meetup.statusOffline')
+    }
+  }
+
   const TabButton = ({ id, label, icon: Icon, count }: { id: string, label: string, icon: any, count?: number }) => (
     <button
       onClick={() => setActiveTab(id as any)}
@@ -626,102 +771,290 @@ export default function NomadMeetup() {
       {/* Tab Content */}
       {activeTab === 'users' && (
         <>
-          {/* Online Users */}
+          {/* Enhanced Header with Filters */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h4 className="font-medium text-gray-900 flex items-center">
-                <Users className="h-4 w-4 mr-2" />
-                {t('meetup.onlineNomads')} ({users.filter(u => u.status === 'online').length})
-              </h4>
-              <span className="text-sm text-gray-500">
-                {users.filter(u => u.isAvailable).length} {t('meetup.available')}
-              </span>
+              <div className="flex items-center space-x-4">
+                <h4 className="font-medium text-gray-900 flex items-center">
+                  <Users className="h-4 w-4 mr-2" />
+                  {t('meetup.onlineUsers')} ({filteredAndSortedUsers.length})
+                </h4>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-sm transition-colors ${
+                      showFilters ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Filter className="h-3 w-3" />
+                    <span>{t('meetup.filterBy')}</span>
+                    {showFilters ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                  </button>
+                  <button
+                    onClick={() => setViewMode(viewMode === 'list' ? 'map' : 'list')}
+                    className="flex items-center space-x-1 px-2 py-1 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                  >
+                    {viewMode === 'list' ? <Map className="h-3 w-3" /> : <List className="h-3 w-3" />}
+                    <span>{viewMode === 'list' ? t('meetup.mapView') : t('meetup.listView')}</span>
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setAutoRefresh(!autoRefresh)}
+                  className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-sm transition-colors ${
+                    autoRefresh ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  <RefreshCw className={`h-3 w-3 ${autoRefresh ? 'animate-spin' : ''}`} />
+                  <span>{t('meetup.autoRefresh')}</span>
+                </button>
+                <span className="text-sm text-gray-500">
+                  {filteredAndSortedUsers.filter(u => u.isAvailable).length} {t('meetup.available')}
+                </span>
+              </div>
             </div>
 
-            <div className="space-y-3">
-              {users.filter(user => user.status === 'online').map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => handleUserClick(user)}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium cursor-pointer hover:opacity-80 transition-opacity ${
-                        user.isAvailable ? 'bg-green-500' : 'bg-gray-400'
-                      }`}>
-                      {user.avatar}
-                    </button>
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <h5 className="font-medium text-gray-900">{user.name}</h5>
-                        <span className={`w-2 h-2 rounded-full ${
-                          user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
-                        }`}></span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <Clock className="h-3 w-3" />
-                        <span>{user.lastSeen}</span>
-                        {user.distance && (
-                          <>
-                            <span>•</span>
-                            <span>{t('meetup.distance', { distance: user.distance.toString() })}</span>
-                          </>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {user.interests.slice(0, 2).map((interest, index) => (
-                          <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                            {interest}
-                          </span>
-                        ))}
-                        {user.mutualInterests && user.mutualInterests.length > 0 && (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                            {t('meetup.mutualInterests', { count: user.mutualInterests.length.toString() })}
-                          </span>
-                        )}
-                      </div>
-                      {user.meetupCompatibility && (
-                        <div className="flex items-center space-x-1 mt-1">
-                          <div className="flex-1 bg-gray-200 rounded-full h-1.5">
-                            <div 
-                              className="bg-green-500 h-1.5 rounded-full transition-all duration-300"
-                              style={{ width: `${user.meetupCompatibility}%` }}
-                            ></div>
-                          </div>
-                          <span className="text-xs text-gray-500">{t('meetup.compatibility', { percentage: user.meetupCompatibility.toString() })}</span>
-                        </div>
-                      )}
-                    </div>
+            {/* Filters Panel */}
+            {showFilters && (
+              <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="搜索用户、兴趣或位置..."
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    />
                   </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    {user.isAvailable ? (
-                      <button
-                        onClick={() => handleRequestMeetup(user.id)}
-                        disabled={sendingInvitation}
-                        className="flex items-center space-x-1 bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition-colors text-sm disabled:opacity-50"
-                      >
-                        {sendingInvitation ? (
-                          <RefreshCw className="h-3 w-3 animate-spin" />
-                        ) : (
-                          <Coffee className="h-3 w-3" />
-                        )}
-                        <span>{t('meetup.coffeeMeetup')}</span>
-                      </button>
-                    ) : (
-                      <span className="text-sm text-gray-500">{t('meetup.busy')}</span>
-                    )}
-                    <button className="p-1 text-gray-400 hover:text-gray-600">
-                      <MessageSquare className="h-4 w-4" />
+
+                  {/* Status Filter */}
+                  <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value as any)}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  >
+                    <option value="all">{t('meetup.allNomads')}</option>
+                    <option value="online">{t('meetup.onlineNow')}</option>
+                    <option value="available">{t('meetup.availableNow')}</option>
+                  </select>
+
+                  {/* Distance Filter */}
+                  <select
+                    value={filterDistance}
+                    onChange={(e) => setFilterDistance(Number(e.target.value))}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  >
+                    <option value={5}>{t('meetup.within5km')}</option>
+                    <option value={10}>{t('meetup.within10km')}</option>
+                    <option value={25}>{t('meetup.within25km')}</option>
+                    <option value={50}>{t('meetup.within50km')}</option>
+                    <option value={999}>{t('meetup.allDistances')}</option>
+                  </select>
+
+                  {/* Sort */}
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  >
+                    <option value="distance">{t('meetup.byDistance')}</option>
+                    <option value="compatibility">{t('meetup.byCompatibility')}</option>
+                    <option value="lastSeen">{t('meetup.lastActive')}</option>
+                    <option value="name">姓名</option>
+                  </select>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <label className="flex items-center space-x-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={showOffline}
+                        onChange={(e) => setShowOffline(e.target.checked)}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span>{showOffline ? t('meetup.hideOffline') : t('meetup.showOffline')}</span>
+                    </label>
+                  </div>
+                  {(searchQuery || filterStatus !== 'all' || filterDistance !== 50 || showOffline) && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery('')
+                        setFilterStatus('all')
+                        setFilterDistance(50)
+                        setShowOffline(false)
+                      }}
+                      className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      {t('meetup.clearFilters')}
                     </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Enhanced User Cards */}
+            <div className="space-y-4">
+              {filteredAndSortedUsers.map((user) => (
+                <div key={user.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    {/* User Info */}
+                    <div className="flex items-start space-x-4 flex-1">
+                      {/* Avatar and Status */}
+                      <div className="relative">
+                        <button
+                          onClick={() => handleViewProfile(user)}
+                          className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-medium cursor-pointer hover:opacity-80 transition-opacity ${
+                            user.isAvailable ? 'bg-gradient-to-br from-blue-500 to-purple-600' : 'bg-gray-400'
+                          }`}>
+                          {user.avatar}
+                        </button>
+                        <span className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${getStatusColor(user.status, user.isAvailable)}`}></span>
+                      </div>
+
+                      {/* User Details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <h5 className="font-semibold text-gray-900 truncate">{user.name}</h5>
+                          <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                            {getStatusText(user.status)}
+                          </span>
+                          {user.meetupCompatibility && user.meetupCompatibility > 80 && (
+                            <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full flex items-center">
+                              <Star className="h-3 w-3 mr-1 fill-current" />
+                              {t('meetup.compatibility', { percentage: user.meetupCompatibility.toString() })}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Location and Distance */}
+                        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
+                          <MapPin className="h-3 w-3" />
+                          <span>{user.location}</span>
+                          {user.distance && (
+                            <>
+                              <span>•</span>
+                              <span>{t('meetup.distance', { distance: user.distance.toString() })}</span>
+                            </>
+                          )}
+                          <span>•</span>
+                          <Clock className="h-3 w-3" />
+                          <span>{user.lastSeen}</span>
+                        </div>
+
+                        {/* Interests */}
+                        <div className="flex flex-wrap gap-1 mb-2">
+                          {user.interests.slice(0, 3).map((interest, index) => (
+                            <span key={index} className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full border border-blue-200">
+                              {interest}
+                            </span>
+                          ))}
+                          {user.interests.length > 3 && (
+                            <span className="px-2 py-1 bg-gray-50 text-gray-600 text-xs rounded-full border border-gray-200">
+                              +{user.interests.length - 3}
+                            </span>
+                          )}
+                          {user.mutualInterests && user.mutualInterests.length > 0 && (
+                            <span className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full border border-green-200 flex items-center">
+                              <Heart className="h-3 w-3 mr-1" />
+                              {t('meetup.mutualInterests', { count: user.mutualInterests.length.toString() })}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Compatibility Bar */}
+                        {user.meetupCompatibility && (
+                          <div className="flex items-center space-x-2">
+                            <div className="flex-1 bg-gray-200 rounded-full h-2">
+                              <div 
+                                className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${user.meetupCompatibility}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-xs text-gray-500 font-medium">{user.meetupCompatibility}%</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col space-y-2 ml-4">
+                      {user.isAvailable ? (
+                        <button
+                          onClick={() => handleRequestMeetup(user.id)}
+                          disabled={sendingInvitation}
+                          className="flex items-center space-x-1 bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm disabled:opacity-50 font-medium"
+                        >
+                          {sendingInvitation ? (
+                            <RefreshCw className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <Coffee className="h-3 w-3" />
+                          )}
+                          <span>{t('meetup.coffeeMeetup')}</span>
+                        </button>
+                      ) : (
+                        <span className="text-sm text-gray-500 px-3 py-2">{t('meetup.busy')}</span>
+                      )}
+                      
+                      <div className="flex space-x-1">
+                        <button
+                          onClick={() => handleQuickChat(user.id)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title={t('meetup.quickChat')}
+                        >
+                          <MessageCircle className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => handleAddFriend(user.id)}
+                          className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                          title={t('meetup.addFriend')}
+                        >
+                          <UserPlus className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => handleViewProfile(user)}
+                          className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                          title={t('meetup.viewProfile')}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {users.filter(user => user.status === 'online').length === 0 && (
-              <div className="text-center py-8">
-                <Coffee className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-gray-600">{t('meetup.noOnlineUsers')}</p>
-                <p className="text-sm text-gray-500">{t('meetup.checkLater')}</p>
+            {filteredAndSortedUsers.length === 0 && (
+              <div className="text-center py-12">
+                <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  {searchQuery || filterStatus !== 'all' || filterDistance !== 50 
+                    ? t('meetup.noFilterResults') 
+                    : t('meetup.noOnlineUsers')}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {searchQuery || filterStatus !== 'all' || filterDistance !== 50 
+                    ? 'Try adjusting your filters or search terms'
+                    : t('meetup.checkLater')}
+                </p>
+                {(searchQuery || filterStatus !== 'all' || filterDistance !== 50) && (
+                  <button
+                    onClick={() => {
+                      setSearchQuery('')
+                      setFilterStatus('all')
+                      setFilterDistance(50)
+                      setShowOffline(false)
+                    }}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    {t('meetup.clearFilters')}
+                  </button>
+                )}
               </div>
             )}
           </div>
