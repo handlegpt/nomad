@@ -195,8 +195,8 @@ CREATE OR REPLACE VIEW community_messages_with_user_info AS
 SELECT 
   cm.*,
   u.name as user_name,
-  u.avatar as user_avatar,
-  u.current_city as user_location,
+  u.avatar_url as user_avatar,
+  cm.location as user_location,
   EXISTS(SELECT 1 FROM message_likes ml WHERE ml.message_id = cm.id AND ml.user_id = auth.uid()) as is_liked_by_current_user
 FROM community_messages cm
 LEFT JOIN users u ON cm.user_id = u.id
@@ -217,7 +217,7 @@ BEGIN
        SELECT 
          mr.*,
          u.name as user_name,
-         u.avatar as user_avatar
+         u.avatar_url as user_avatar
        FROM message_replies mr
        LEFT JOIN users u ON mr.user_id = u.id
        WHERE mr.parent_message_id = message_uuid AND NOT mr.is_deleted
