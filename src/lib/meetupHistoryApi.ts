@@ -211,12 +211,12 @@ export async function getMeetupDetails(meetupId: string): Promise<{
         ...meetup,
         creator_name: meetup.users?.name
       },
-      participants: participants?.map(p => ({
+      participants: participants?.map((p: any) => ({
         ...p,
         user_name: p.users?.name,
         user_avatar: p.users?.avatar_url
       })) || [],
-      history: history?.map(h => ({
+      history: history?.map((h: any) => ({
         ...h,
         action_by_name: h.users?.name
       })) || []
@@ -492,9 +492,9 @@ export async function getMeetupStats(userId?: string): Promise<{
     }
 
     const totalMeetups = stats?.length || 0
-    const completedMeetups = stats?.filter(s => s.meetups?.status === 'completed').length || 0
-    const cancelledMeetups = stats?.filter(s => s.meetups?.status === 'cancelled').length || 0
-    const ratings = stats?.filter(s => s.rating !== null).map(s => s.rating!) || []
+    const completedMeetups = stats?.filter((s: any) => s.meetups?.status === 'completed').length || 0
+    const cancelledMeetups = stats?.filter((s: any) => s.meetups?.status === 'cancelled').length || 0
+    const ratings = stats?.filter((s: any) => s.rating !== null).map((s: any) => s.rating!) || []
     const averageRating = ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : 0
     const participationRate = totalMeetups > 0 ? (completedMeetups / totalMeetups) * 100 : 0
 
