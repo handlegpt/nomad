@@ -265,10 +265,10 @@ export async function getMessageReplies(messageId: string): Promise<MessageReply
       throw new Error('Failed to fetch replies')
     }
 
-    return replies?.map(reply => ({
+    return replies?.map((reply: any) => ({
       ...reply,
       user_name: reply.users?.name,
-      user_avatar: reply.users?.avatar
+      user_avatar: reply.users?.avatar_url
     })) || []
   } catch (error) {
     logError('Error in getMessageReplies', error, 'communityChatApi')
@@ -306,7 +306,7 @@ export async function sendMessageReply(messageId: string, content: string): Prom
     return {
       ...reply,
       user_name: reply.users?.name,
-      user_avatar: reply.users?.avatar
+      user_avatar: reply.users?.avatar_url
     }
   } catch (error) {
     logError('Error in sendMessageReply', error, 'communityChatApi')
