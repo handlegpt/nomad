@@ -62,52 +62,52 @@ export class CommunityRealtimeService {
           event: 'INSERT',
           schema: 'public',
           table: 'community_messages'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleNewMessage(payload)
         })
         .on('postgres_changes', {
           event: 'UPDATE',
           schema: 'public',
           table: 'community_messages'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleMessageUpdate(payload)
         })
         .on('postgres_changes', {
           event: 'DELETE',
           schema: 'public',
           table: 'community_messages'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleMessageDelete(payload)
         })
         .on('postgres_changes', {
           event: 'INSERT',
           schema: 'public',
           table: 'message_likes'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleMessageLike(payload)
         })
         .on('postgres_changes', {
           event: 'DELETE',
           schema: 'public',
           table: 'message_likes'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleMessageUnlike(payload)
         })
         .on('postgres_changes', {
           event: 'INSERT',
           schema: 'public',
           table: 'message_replies'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleNewReply(payload)
         })
         .on('postgres_changes', {
           event: 'INSERT',
           schema: 'public',
           table: 'message_notifications'
-        }, (payload) => {
+        }, (payload: any) => {
           this.handleNewNotification(payload)
         })
-        .subscribe((status) => {
+        .subscribe((status: string) => {
           this.handleConnectionStatus(status)
         })
 
