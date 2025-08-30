@@ -950,5 +950,66 @@
     "clearAll": "Limpiar Todo",
     "results": "Mostrando {filtered} de {total} resultados",
     "all": "Todos"
+  },
+  "recommendationForm": {
+    "city": {
+      "title": "Recomendar Nueva Ciudad",
+      "fields": {
+        "name": "Nombre de la Ciudad",
+        "namePlaceholder": "ej., Chiang Mai",
+        "country": "País",
+        "countryPlaceholder": "ej., Tailandia",
+        "description": "Descripción",
+        "descriptionPlaceholder": "Describe qué hace que esta ciudad sea genial para nómadas digitales...",
+        "costOfLiving": "Costo de Vida (USD/mes)",
+        "costOfLivingPlaceholder": "ej., 1200",
+        "wifiSpeed": "Velocidad WiFi Promedio (Mbps)",
+        "wifiSpeedPlaceholder": "ej., 50",
+        "visaDays": "Días de Visa",
+        "visaDaysPlaceholder": "ej., 90",
+        "visaType": "Tipo de Visa",
+        "visaTypePlaceholder": "ej., Visa de Turista, Visa de Nómada Digital",
+        "highlights": "Destacados",
+        "highlightsPlaceholder": "¿Qué hace especial a esta ciudad?",
+        "tags": "Etiquetas",
+        "tagsPlaceholder": "Agregar etiquetas relevantes"
+      },
+      "submitButton": "Recomendar Ciudad",
+      "cancelButton": "Cancelar",
+      "suggestedHighlights": {
+        "nomadFriendly": "Amigable para Nómadas Digitales",
+        "fastWifi": "WiFi Rápido",
+        "lowCost": "Bajo Costo de Vida",
+        "visaConvenient": "Visa Conveniente",
+        "goodClimate": "Buen Clima",
+        "foodRich": "Rica Cultura Gastronómica",
+        "culturalDiverse": "Diversidad Cultural",
+        "convenientTransport": "Transporte Conveniente",
+        "safeLiving": "Vida Segura",
+        "englishFriendly": "Amigable con el Inglés",
+        "activeCommunity": "Comunidad Activa",
+        "workspaces": "Buenos Espacios de Trabajo",
+        "coffeeCulture": "Cultura del Café",
+        "outdoorActivities": "Actividades al Aire Libre",
+        "nightlife": "Buena Vida Nocturna"
+      },
+      "suggestedTags": {
+        "budgetFriendly": "Amigable con el Presupuesto",
+        "fastWifi": "WiFi Rápido",
+        "easyVisa": "Visa Fácil",
+        "goodClimate": "Buen Clima",
+        "goodFood": "Buena Comida",
+        "culturalRich": "Rica Cultura",
+        "convenientTransport": "Transporte Conveniente",
+        "safe": "Seguro",
+        "englishFriendly": "Amigable con el Inglés",
+        "goodCommunity": "Buena Comunidad",
+        "workspaces": "Espacios de Trabajo",
+        "coffeeCulture": "Cultura del Café",
+        "outdoor": "Actividades al Aire Libre",
+        "nightlife": "Vida Nocturna",
+        "shopping": "Compras"
+      }
+    }
   }
 } 

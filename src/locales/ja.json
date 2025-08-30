@@ -957,5 +957,66 @@
     "clearAll": "すべてクリア",
     "results": "{filtered} / {total} 件の結果を表示",
     "all": "すべて"
+  },
+  "recommendationForm": {
+    "city": {
+      "title": "新しい都市を推薦",
+      "fields": {
+        "name": "都市名",
+        "namePlaceholder": "例：チェンマイ",
+        "country": "国",
+        "countryPlaceholder": "例：タイ",
+        "description": "説明",
+        "descriptionPlaceholder": "この都市がデジタルノマドに適している理由を説明してください...",
+        "costOfLiving": "生活費（USD/月）",
+        "costOfLivingPlaceholder": "例：1200",
+        "wifiSpeed": "平均WiFi速度（Mbps）",
+        "wifiSpeedPlaceholder": "例：50",
+        "visaDays": "ビザ日数",
+        "visaDaysPlaceholder": "例：90",
+        "visaType": "ビザタイプ",
+        "visaTypePlaceholder": "例：観光ビザ、デジタルノマドビザ",
+        "highlights": "ハイライト",
+        "highlightsPlaceholder": "この都市の特別な点は何ですか？",
+        "tags": "タグ",
+        "tagsPlaceholder": "関連タグを追加"
+      },
+      "submitButton": "都市を推薦",
+      "cancelButton": "キャンセル",
+      "suggestedHighlights": {
+        "nomadFriendly": "デジタルノマドフレンドリー",
+        "fastWifi": "WiFi高速",
+        "lowCost": "生活費安い",
+        "visaConvenient": "ビザ便利",
+        "goodClimate": "気候良い",
+        "foodRich": "食文化豊富",
+        "culturalDiverse": "文化多様",
+        "convenientTransport": "交通便利",
+        "safeLiving": "生活安全",
+        "englishFriendly": "英語フレンドリー",
+        "activeCommunity": "活発なコミュニティ",
+        "workspaces": "ワークスペース良い",
+        "coffeeCulture": "コーヒー文化",
+        "outdoorActivities": "アウトドア活動",
+        "nightlife": "ナイトライフ豊富"
+      },
+      "suggestedTags": {
+        "budgetFriendly": "予算フレンドリー",
+        "fastWifi": "WiFi高速",
+        "easyVisa": "ビザ簡単",
+        "goodClimate": "気候良い",
+        "goodFood": "食事良い",
+        "culturalRich": "文化豊富",
+        "convenientTransport": "交通便利",
+        "safe": "安全",
+        "englishFriendly": "英語フレンドリー",
+        "goodCommunity": "コミュニティ良い",
+        "workspaces": "ワークスペース",
+        "coffeeCulture": "コーヒー文化",
+        "outdoor": "アウトドア活動",
+        "nightlife": "ナイトライフ",
+        "shopping": "ショッピング"
+      }
+    }
   }
 } 

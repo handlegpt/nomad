@@ -940,5 +940,66 @@
     "clearAll": "清除全部",
     "results": "显示 {filtered} / {total} 条结果",
     "all": "全部"
+  },
+  "recommendationForm": {
+    "city": {
+      "title": "推荐新城市",
+      "fields": {
+        "name": "城市名称",
+        "namePlaceholder": "例如：清迈",
+        "country": "国家",
+        "countryPlaceholder": "例如：泰国",
+        "description": "描述",
+        "descriptionPlaceholder": "描述这个城市为什么适合数字游民...",
+        "costOfLiving": "生活成本（美元/月）",
+        "costOfLivingPlaceholder": "例如：1200",
+        "wifiSpeed": "平均WiFi速度（Mbps）",
+        "wifiSpeedPlaceholder": "例如：50",
+        "visaDays": "签证天数",
+        "visaDaysPlaceholder": "例如：90",
+        "visaType": "签证类型",
+        "visaTypePlaceholder": "例如：旅游签证、数字游民签证",
+        "highlights": "亮点",
+        "highlightsPlaceholder": "这个城市有什么特别之处？",
+        "tags": "标签",
+        "tagsPlaceholder": "添加相关标签"
+      },
+      "submitButton": "推荐城市",
+      "cancelButton": "取消",
+      "suggestedHighlights": {
+        "nomadFriendly": "数字游民友好",
+        "fastWifi": "WiFi速度快",
+        "lowCost": "生活成本低",
+        "visaConvenient": "签证便利",
+        "goodClimate": "气候宜人",
+        "foodRich": "美食丰富",
+        "culturalDiverse": "文化多元",
+        "convenientTransport": "交通便利",
+        "safeLiving": "生活安全",
+        "englishFriendly": "英语友好",
+        "activeCommunity": "活跃社区",
+        "workspaces": "工作空间好",
+        "coffeeCulture": "咖啡文化",
+        "outdoorActivities": "户外活动",
+        "nightlife": "夜生活丰富"
+      },
+      "suggestedTags": {
+        "budgetFriendly": "预算友好",
+        "fastWifi": "WiFi快",
+        "easyVisa": "签证容易",
+        "goodClimate": "气候好",
+        "goodFood": "美食好",
+        "culturalRich": "文化丰富",
+        "convenientTransport": "交通便利",
+        "safe": "安全",
+        "englishFriendly": "英语友好",
+        "goodCommunity": "社区好",
+        "workspaces": "工作空间",
+        "coffeeCulture": "咖啡文化",
+        "outdoor": "户外活动",
+        "nightlife": "夜生活",
+        "shopping": "购物"
+      }
+    }
   }
 } 
