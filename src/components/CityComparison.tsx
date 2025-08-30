@@ -575,7 +575,7 @@ export default function CityComparison() {
                       <div className="text-right">
                         <div className="text-sm font-medium text-gray-900">{overallScore}/100</div>
                         <div className="text-xs text-gray-500">
-                          {t('cityComparison.cityInfo.costPerMonth', { cost: city.cost_of_living || 0 })} • {t('cityComparison.cityInfo.wifiSpeed', { speed: city.wifi_speed || 0 })}
+                          {t('cityComparison.cityInfo.costPerMonth', { cost: String(city.cost_of_living || 0) })} • {t('cityComparison.cityInfo.wifiSpeed', { speed: String(city.wifi_speed || 0) })}
                         </div>
                       </div>
                     </div>
@@ -585,7 +585,7 @@ export default function CityComparison() {
             </div>
             
             <div className="mt-4 text-center text-sm text-gray-500">
-              {t('cityComparison.selectedCount', { count: selectedCities.length })}
+              {t('cityComparison.selectedCount', { count: String(selectedCities.length) })}
             </div>
           </div>
         </div>
