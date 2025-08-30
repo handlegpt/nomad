@@ -88,6 +88,7 @@
       "title": "Participate in Voting",
       "description": "Rate cities based on your experience",
       "currentCity": "Rate Current City",
+      "recentCity": "Recent City",
       "like": "Like",
       "dislike": "Dislike",
       "rateExperience": "Rate Your Experience",

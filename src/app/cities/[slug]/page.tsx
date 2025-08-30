@@ -15,6 +15,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import VoteModal from '@/components/VoteModal'
 import CityReviews from '@/components/CityReviews'
 import { realtimeService, realtimeData } from '@/lib/realtimeService'
+import { addRecentCity } from '@/lib/recentCities'
 
 export default function CityDetailPage() {
   const { t } = useTranslation()
@@ -78,6 +79,13 @@ export default function CityDetailPage() {
       
       if (cityBySlug) {
         setCity(cityBySlug)
+        // 添加到最近访问城市
+        addRecentCity({
+          id: cityBySlug.id,
+          name: cityBySlug.name,
+          country: cityBySlug.country,
+          country_code: cityBySlug.country_code
+        })
         setupRealtimeSubscription()
         return
       }
@@ -85,6 +93,15 @@ export default function CityDetailPage() {
       // 如果通过slug没找到，尝试通过ID查找（向后兼容）
       const cityData = await getCityById(citySlug)
       setCity(cityData)
+      // 添加到最近访问城市
+      if (cityData) {
+        addRecentCity({
+          id: cityData.id,
+          name: cityData.name,
+          country: cityData.country,
+          country_code: cityData.country_code
+        })
+      }
       setupRealtimeSubscription()
     } catch (error) {
       console.error('Error fetching city data:', error)

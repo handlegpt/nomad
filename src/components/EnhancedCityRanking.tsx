@@ -25,6 +25,7 @@ import { City } from '@/lib/supabase'
 import { getCities } from '@/lib/api'
 import UnifiedVoteSystem, { VoteItem } from './UnifiedVoteSystem'
 import FixedLink from './FixedLink'
+import RecentCityVote from './RecentCityVote'
 
 interface EnhancedCityRankingProps {
   limit?: number
@@ -352,26 +353,9 @@ export default function EnhancedCityRanking({
         </div>
       )}
 
-      {/* Current City Vote Section */}
+      {/* Recent City Vote Section */}
       {showCurrentCityVote && (
-        <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-          <h3 className="font-semibold text-gray-900 mb-3">
-            {t('home.quickVote.currentCity')}: {currentCity}
-          </h3>
-          <div className="flex items-center space-x-4">
-            <UnifiedVoteSystem
-              item={{
-                id: 'current-city',
-                name: currentCity,
-                type: 'city'
-              }}
-              variant="quick"
-              showRating={true}
-              onVoteSubmitted={handleVoteSubmitted}
-            />
-          </div>
-          <p className="text-sm text-gray-600 mt-2">{t('home.quickVote.ratingHint')}</p>
-        </div>
+        <RecentCityVote onVoteSubmitted={() => handleVoteSubmitted({})} />
       )}
 
       {/* Cities Ranking */}
