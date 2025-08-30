@@ -28,10 +28,11 @@ import {
   type Meetup,
   type GetMeetupHistoryOptions
 } from '@/lib/meetupHistoryApi'
-import { useNotifications } from '@/contexts/GlobalStateContext'
+import { useUser, useNotifications } from '@/contexts/GlobalStateContext'
 
 export default function MeetupHistory() {
   const { t } = useTranslation()
+  const { user } = useUser()
   const { addNotification } = useNotifications()
   const [meetups, setMeetups] = useState<Meetup[]>([])
   const [loading, setLoading] = useState(true)
@@ -49,9 +50,13 @@ export default function MeetupHistory() {
   const [loadingMore, setLoadingMore] = useState(false)
 
   useEffect(() => {
-    fetchMeetupHistory()
-    fetchStats()
-  }, [filters])
+    if (user.isAuthenticated) {
+      fetchMeetupHistory()
+      fetchStats()
+    } else {
+      setLoading(false)
+    }
+  }, [filters, user.isAuthenticated])
 
   const fetchMeetupHistory = async (append = false) => {
     try {
@@ -227,6 +232,25 @@ export default function MeetupHistory() {
               <div key={i} className="h-20 bg-gray-200 rounded"></div>
             ))}
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user.isAuthenticated) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="text-center py-8">
+          <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('meetup.history')}</h3>
+          <p className="text-gray-600 mb-4">{t('meetup.historyDescription')}</p>
+          <p className="text-sm text-gray-500 mb-4">{t('meetup.pleaseLoginToViewHistory')}</p>
+          <button
+            onClick={() => window.location.href = '/auth/login'}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {t('common.login')}
+          </button>
         </div>
       </div>
     )

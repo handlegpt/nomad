@@ -24,7 +24,7 @@ import {
   Users
 } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
-import { useNotifications } from '@/contexts/GlobalStateContext'
+import { useUser, useNotifications } from '@/contexts/GlobalStateContext'
 import { logInfo, logError } from '@/lib/logger'
 import { 
   getUserNotifications,
@@ -38,6 +38,7 @@ import {
 
 export default function MeetupNotifications() {
   const { t } = useTranslation()
+  const { user } = useUser()
   const { addNotification } = useNotifications()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState(true)
@@ -57,9 +58,13 @@ export default function MeetupNotifications() {
   const [selectedNotifications, setSelectedNotifications] = useState<string[]>([])
 
   useEffect(() => {
-    fetchNotifications()
-    fetchStats()
-  }, [filters])
+    if (user.isAuthenticated) {
+      fetchNotifications()
+      fetchStats()
+    } else {
+      setLoading(false)
+    }
+  }, [filters, user.isAuthenticated])
 
   const fetchNotifications = async (append = false) => {
     try {
@@ -325,6 +330,25 @@ export default function MeetupNotifications() {
               <div key={i} className="h-16 bg-gray-200 rounded"></div>
             ))}
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user.isAuthenticated) {
+    return (
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="text-center py-8">
+          <Bell className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('meetup.notifications.title')}</h3>
+          <p className="text-gray-600 mb-4">{t('meetup.notifications.description')}</p>
+          <p className="text-sm text-gray-500 mb-4">{t('meetup.pleaseLoginToViewNotifications')}</p>
+          <button
+            onClick={() => window.location.href = '/auth/login'}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {t('common.login')}
+          </button>
         </div>
       </div>
     )

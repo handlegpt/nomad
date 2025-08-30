@@ -515,6 +515,8 @@
     "loadingUsers": "Loading user data...",
     "failedToLoadUsers": "Failed to load user data, please try again",
     "pleaseLoginToMeetup": "Please login to create meetup invitations",
+    "pleaseLoginToViewHistory": "Please login to view your meetup history",
+    "pleaseLoginToViewNotifications": "Please login to view your notifications",
     "locationError": "Unable to get location information",
     "requestFailed": "Failed to send meetup invitation",
     "fillRequiredFields": "Please fill in required fields",

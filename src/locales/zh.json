@@ -473,6 +473,8 @@
     "loadingUsers": "正在加载用户数据...",
     "failedToLoadUsers": "加载用户数据失败，请重试",
     "pleaseLoginToMeetup": "请登录以创建聚会邀请",
+    "pleaseLoginToViewHistory": "请登录以查看您的聚会历史记录",
+    "pleaseLoginToViewNotifications": "请登录以查看您的通知",
     "locationError": "无法获取位置信息",
     "requestFailed": "发送聚会邀请失败",
     "fillRequiredFields": "请填写必填字段",
