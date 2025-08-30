@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 import { GlobalStateProvider } from '@/contexts/GlobalStateContext'
+import { UserProvider } from '@/hooks/useUser'
 import GlobalLoading from '@/components/GlobalLoading'
 import GlobalNotifications from '@/components/GlobalNotifications'
 import ErrorBoundary from '@/components/ErrorBoundary'
@@ -112,9 +113,11 @@ export default function RootLayout({
       <body className={`${inter.className} h-full antialiased`}>
         <ErrorBoundary>
           <GlobalStateProvider>
-            {children}
-            <GlobalLoading />
-            <GlobalNotifications />
+            <UserProvider>
+              {children}
+              <GlobalLoading />
+              <GlobalNotifications />
+            </UserProvider>
           </GlobalStateProvider>
         </ErrorBoundary>
       </body>
