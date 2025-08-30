@@ -842,7 +842,9 @@
     "refresh": "刷新",
     "profile": "个人资料",
     "login": "登录",
-    "search": "搜索"
+    "search": "搜索",
+    "attempts": "次尝试",
+    "remaining": "剩余"
   },
   "cities": {
     "title": "城市列表",

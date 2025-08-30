@@ -837,7 +837,9 @@
     "refresh": "Refresh",
     "profile": "Profile",
     "login": "Login",
-    "search": "Search"
+    "search": "Search",
+    "attempts": "attempts",
+    "remaining": "remaining"
   },
   "cities": {
     "title": "Cities",

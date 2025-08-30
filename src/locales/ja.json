@@ -881,7 +881,9 @@
     "viewDetails": "詳細を見る",
     "retry": "再試行",
     "refresh": "更新",
-    "profile": "プロフィール"
+    "profile": "プロフィール",
+    "attempts": "回試行",
+    "remaining": "残り"
   },
   "auth": {
     "signIn": "ログイン",

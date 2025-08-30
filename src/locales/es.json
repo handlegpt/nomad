@@ -881,7 +881,9 @@
     "viewDetails": "Ver Detalles",
     "retry": "Reintentar",
     "refresh": "Actualizar",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "attempts": "intentos",
+    "remaining": "restantes"
   },
   "auth": {
     "signIn": "Iniciar Sesión",
