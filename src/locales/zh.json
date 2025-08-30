@@ -976,6 +976,7 @@
     "noAccount": "还没有账户？",
     "signUp": "注册",
     "loginSuccess": "登录成功！正在跳转...",
+    "logout": "退出登录",
     "verificationFailed": "验证失败",
     "networkError": "网络错误，请重试",
     "codeSent": "验证码发送成功",

@@ -44,14 +44,14 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4">
               <FixedLink 
                 href="/cities"
-                className="btn btn-lg btn-primary group"
+                className="btn btn-lg btn-primary group w-full sm:w-auto justify-center"
               >
                 {t('home.hero.exploreCities')}
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </FixedLink>
               <FixedLink 
                 href="/dashboard"
-                className="btn btn-lg btn-secondary"
+                className="btn btn-lg btn-secondary w-full sm:w-auto justify-center"
               >
                 {t('home.hero.getStarted')}
               </FixedLink>

@@ -1,15 +1,32 @@
 'use client'
 
-import { useState } from 'react'
-import { Menu, X, Globe, Home, MapPin, FileText, User, Settings, LogOut } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Menu, X, Globe, Home, MapPin, FileText, User, Settings, LogOut, Languages } from 'lucide-react'
 import { useTranslation } from '@/hooks/useTranslation'
 import FixedLink from './FixedLink'
 import { useUser } from '@/contexts/GlobalStateContext'
+import { Locale, locales, localeNames, localeFlags } from '@/i18n/config'
+import { getCurrentLocale, setLocale } from '@/i18n/utils'
 
 export default function MobileMenu() {
-  const { t } = useTranslation()
+  const { t, changeLocale } = useTranslation()
   const { user, logout } = useUser()
   const [isOpen, setIsOpen] = useState(false)
+  const [currentLocale, setCurrentLocale] = useState<Locale>('en')
+  const [showLanguageSelector, setShowLanguageSelector] = useState(false)
+
+  // 获取当前语言
+  useEffect(() => {
+    const locale = getCurrentLocale()
+    setCurrentLocale(locale)
+  }, [])
+
+  const handleLanguageChange = async (locale: Locale) => {
+    setCurrentLocale(locale)
+    setLocale(locale)
+    await changeLocale(locale)
+    setShowLanguageSelector(false)
+  }
 
   const handleLogout = () => {
     logout()
@@ -103,6 +120,44 @@ export default function MobileMenu() {
                 })}
               </nav>
 
+              {/* Language Selector */}
+              <div className="px-4 py-3 border-t border-gray-200">
+                <button
+                  onClick={() => setShowLanguageSelector(!showLanguageSelector)}
+                  className="flex items-center w-full p-4 rounded-xl text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 touch-manipulation min-h-[60px]"
+                >
+                  <Languages className="h-5 w-5 mr-4 text-gray-500" />
+                  <div className="flex-1 text-left">
+                    <div className="font-medium">{t('mobileMenu.languageSettings')}</div>
+                    <div className="text-sm text-gray-500">
+                      {localeFlags[currentLocale]} {localeNames[currentLocale]}
+                    </div>
+                  </div>
+                </button>
+                
+                {showLanguageSelector && (
+                  <div className="mt-2 space-y-1">
+                    {locales.map((locale) => (
+                      <button
+                        key={locale}
+                        onClick={() => handleLanguageChange(locale)}
+                        className={`w-full flex items-center space-x-3 p-3 rounded-lg text-left transition-colors ${
+                          currentLocale === locale 
+                            ? 'bg-blue-50 text-blue-600' 
+                            : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <span className="text-lg">{localeFlags[locale]}</span>
+                        <span className="text-sm font-medium">{localeNames[locale]}</span>
+                        {currentLocale === locale && (
+                          <div className="ml-auto w-2 h-2 bg-blue-600 rounded-full"></div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Footer */}
               <div className="p-4 border-t border-gray-200 space-y-2">
                 {user.isAuthenticated ? (
@@ -111,7 +166,7 @@ export default function MobileMenu() {
                       <User className="h-5 w-5 mr-3 text-gray-500" />
                       <div className="flex-1">
                         <div className="font-medium text-gray-900">{user.profile?.email}</div>
-                        <div className="text-sm text-gray-500">已登录</div>
+                        <div className="text-sm text-gray-500">{t('common.login')}</div>
                       </div>
                     </div>
                     <button
@@ -119,7 +174,7 @@ export default function MobileMenu() {
                       className="flex items-center w-full p-4 rounded-xl text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-200 touch-manipulation min-h-[60px]"
                     >
                       <LogOut className="h-5 w-5 mr-4" />
-                      <span className="font-medium">退出登录</span>
+                      <span className="font-medium">{t('auth.logout')}</span>
                     </button>
                   </>
                 ) : (
@@ -129,7 +184,7 @@ export default function MobileMenu() {
                     className="flex items-center w-full p-4 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 touch-manipulation min-h-[60px]"
                   >
                     <User className="h-5 w-5 mr-4" />
-                    <span className="font-medium">登录</span>
+                    <span className="font-medium">{t('common.login')}</span>
                   </FixedLink>
                 )}
               </div>

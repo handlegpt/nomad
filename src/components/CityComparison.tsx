@@ -283,66 +283,69 @@ export default function CityComparison() {
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-3">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center">
-            <BarChart3 className="h-6 w-6 mr-2 text-blue-600" />
-            {t('cityComparison.title')}
-          </h2>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setShowMetricsSelector(!showMetricsSelector)}
-              className="flex items-center space-x-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
-            >
-              <Settings className="h-4 w-4" />
-              <span>{t('cityComparison.metricsSelector')}</span>
-              {showMetricsSelector ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-            </button>
-            <button
-              onClick={() => setViewMode(viewMode === 'table' ? 'chart' : 'table')}
-              className="flex items-center space-x-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
-            >
-              {viewMode === 'table' ? <BarChart3 className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              <span>{viewMode === 'table' ? t('cityComparison.viewMode.chart') : t('cityComparison.viewMode.table')}</span>
-            </button>
+      <div className="space-y-4 mb-6">
+        {/* Title and Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center space-x-3">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center">
+              <BarChart3 className="h-6 w-6 mr-2 text-blue-600" />
+              {t('cityComparison.title')}
+            </h2>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setShowMetricsSelector(!showMetricsSelector)}
+                className="flex items-center space-x-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+              >
+                <Settings className="h-4 w-4" />
+                <span className="hidden sm:inline">{t('cityComparison.metricsSelector')}</span>
+                {showMetricsSelector ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+              </button>
+              <button
+                onClick={() => setViewMode(viewMode === 'table' ? 'chart' : 'table')}
+                className="flex items-center space-x-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+              >
+                {viewMode === 'table' ? <BarChart3 className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                <span className="hidden sm:inline">{viewMode === 'table' ? t('cityComparison.viewMode.chart') : t('cityComparison.viewMode.table')}</span>
+              </button>
+            </div>
           </div>
-        </div>
-        
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setShowCitySelector(true)}
-            disabled={selectedCities.length >= 6}
-            className="flex items-center space-x-1 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            <Plus className="h-4 w-4" />
-            <span>{t('cityComparison.addCity')}</span>
-          </button>
           
-          {selectedCities.length > 0 && (
-            <>
-              <button
-                onClick={saveComparison}
-                className="flex items-center space-x-1 px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
-              >
-                <Save className="h-4 w-4" />
-                <span>{t('cityComparison.saveComparison')}</span>
-              </button>
-              <button
-                onClick={shareComparison}
-                className="flex items-center space-x-1 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm font-medium"
-              >
-                <Share2 className="h-4 w-4" />
-                <span>{t('cityComparison.shareComparison')}</span>
-              </button>
-              <button
-                onClick={exportComparison}
-                className="flex items-center space-x-1 px-3 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors text-sm font-medium"
-              >
-                <Download className="h-4 w-4" />
-                <span>{t('cityComparison.exportPDF')}</span>
-              </button>
-            </>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => setShowCitySelector(true)}
+              disabled={selectedCities.length >= 6}
+              className="flex items-center space-x-1 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+            >
+              <Plus className="h-4 w-4" />
+              <span>{t('cityComparison.addCity')}</span>
+            </button>
+            
+            {selectedCities.length > 0 && (
+              <>
+                <button
+                  onClick={saveComparison}
+                  className="flex items-center space-x-1 px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium"
+                >
+                  <Save className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('cityComparison.saveComparison')}</span>
+                </button>
+                <button
+                  onClick={shareComparison}
+                  className="flex items-center space-x-1 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm font-medium"
+                >
+                  <Share2 className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('cityComparison.shareComparison')}</span>
+                </button>
+                <button
+                  onClick={exportComparison}
+                  className="flex items-center space-x-1 px-3 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition-colors text-sm font-medium"
+                >
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">{t('cityComparison.exportPDF')}</span>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -391,19 +394,22 @@ export default function CityComparison() {
       ) : (
         <div className="space-y-6">
           {/* City Headers */}
-          <div className={`grid gap-4 ${selectedCities.length === 2 ? 'grid-cols-3' : 
-                                                   selectedCities.length === 3 ? 'grid-cols-4' :
-                                                   selectedCities.length === 4 ? 'grid-cols-5' :
-                                                   selectedCities.length === 5 ? 'grid-cols-6' : 'grid-cols-7'}`}>
-            <div className="font-semibold text-gray-900 flex items-center">
+          <div className={`grid gap-2 sm:gap-4 ${
+            selectedCities.length === 2 ? 'grid-cols-2 sm:grid-cols-3' : 
+            selectedCities.length === 3 ? 'grid-cols-2 sm:grid-cols-4' :
+            selectedCities.length === 4 ? 'grid-cols-2 sm:grid-cols-5' :
+            selectedCities.length === 5 ? 'grid-cols-2 sm:grid-cols-6' : 'grid-cols-2 sm:grid-cols-7'
+          }`}>
+            <div className="font-semibold text-gray-900 flex items-center col-span-2 sm:col-span-1">
               <Globe className="h-4 w-4 mr-2" />
-              {t('cityComparison.comparisonMetrics')}
+              <span className="hidden sm:inline">{t('cityComparison.comparisonMetrics')}</span>
+              <span className="sm:hidden">指标</span>
             </div>
             {selectedCitiesData.map(city => (
               <div key={city.id} className="relative">
-                <div className="text-center p-3 bg-gray-50 rounded-xl">
-                  <div className="font-semibold text-gray-900 mb-1">{city.name}</div>
-                  <div className="text-sm text-gray-500 mb-2">
+                <div className="text-center p-2 sm:p-3 bg-gray-50 rounded-xl">
+                  <div className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">{city.name}</div>
+                  <div className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">
                     {getCountryFlag(city.country_code)} {city.country}
                   </div>
                   <div className="text-xs text-gray-400">
@@ -412,9 +418,9 @@ export default function CityComparison() {
                 </div>
                 <button
                   onClick={() => removeCity(city.id)}
-                  className="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
+                  className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-5 h-5 sm:w-6 sm:h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-2 w-2 sm:h-3 sm:w-3" />
                 </button>
               </div>
             ))}
@@ -422,15 +428,17 @@ export default function CityComparison() {
 
           {/* Comparison Rows */}
           {visibleMetrics.map(metric => (
-            <div key={metric.key} className={`grid gap-4 ${selectedCities.length === 2 ? 'grid-cols-3' : 
-                                                           selectedCities.length === 3 ? 'grid-cols-4' :
-                                                           selectedCities.length === 4 ? 'grid-cols-5' :
-                                                           selectedCities.length === 5 ? 'grid-cols-6' : 'grid-cols-7'}`}>
-              <div className="flex items-center space-x-2 p-3">
+            <div key={metric.key} className={`grid gap-2 sm:gap-4 ${
+              selectedCities.length === 2 ? 'grid-cols-2 sm:grid-cols-3' : 
+              selectedCities.length === 3 ? 'grid-cols-2 sm:grid-cols-4' :
+              selectedCities.length === 4 ? 'grid-cols-2 sm:grid-cols-5' :
+              selectedCities.length === 5 ? 'grid-cols-2 sm:grid-cols-6' : 'grid-cols-2 sm:grid-cols-7'
+            }`}>
+              <div className="flex items-center space-x-2 p-2 sm:p-3 col-span-2 sm:col-span-1">
                 <div className="text-gray-500">{metric.icon}</div>
                 <div>
-                  <div className="font-medium text-gray-900">{metric.label}</div>
-                  <div className="text-xs text-gray-500">{metric.description}</div>
+                  <div className="font-medium text-gray-900 text-sm sm:text-base">{metric.label}</div>
+                  <div className="text-xs text-gray-500 hidden sm:block">{metric.description}</div>
                 </div>
               </div>
               {selectedCitiesData.map(city => {
@@ -439,8 +447,8 @@ export default function CityComparison() {
                 const trendIcon = getTrendIcon(city, metric.key)
                 
                 return (
-                  <div key={city.id} className="text-center p-3">
-                    <div className={`inline-flex items-center space-x-1 px-3 py-2 rounded-full text-sm font-medium ${getScoreColor(score)}`}>
+                  <div key={city.id} className="text-center p-2 sm:p-3">
+                    <div className={`inline-flex items-center space-x-1 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium ${getScoreColor(score)}`}>
                       <span>{metric.formatValue(value)}</span>
                       {trendIcon}
                     </div>
@@ -452,15 +460,17 @@ export default function CityComparison() {
           ))}
 
           {/* Summary Row */}
-          <div className={`grid gap-4 ${selectedCities.length === 2 ? 'grid-cols-3' : 
-                                       selectedCities.length === 3 ? 'grid-cols-4' :
-                                       selectedCities.length === 4 ? 'grid-cols-5' :
-                                       selectedCities.length === 5 ? 'grid-cols-6' : 'grid-cols-7'}`}>
-            <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-xl">
+          <div className={`grid gap-2 sm:gap-4 ${
+            selectedCities.length === 2 ? 'grid-cols-2 sm:grid-cols-3' : 
+            selectedCities.length === 3 ? 'grid-cols-2 sm:grid-cols-4' :
+            selectedCities.length === 4 ? 'grid-cols-2 sm:grid-cols-5' :
+            selectedCities.length === 5 ? 'grid-cols-2 sm:grid-cols-6' : 'grid-cols-2 sm:grid-cols-7'
+          }`}>
+            <div className="flex items-center space-x-2 p-2 sm:p-3 bg-blue-50 rounded-xl col-span-2 sm:col-span-1">
               <Star className="h-4 w-4 text-blue-600" />
               <div>
-                <div className="font-semibold text-blue-900">{t('cityComparison.overallScoreLabel')}</div>
-                <div className="text-xs text-blue-600">{t('cityComparison.overallScoreDescription')}</div>
+                <div className="font-semibold text-blue-900 text-sm sm:text-base">{t('cityComparison.overallScoreLabel')}</div>
+                <div className="text-xs text-blue-600 hidden sm:block">{t('cityComparison.overallScoreDescription')}</div>
               </div>
             </div>
             {selectedCitiesData.map(city => {
@@ -470,12 +480,12 @@ export default function CityComparison() {
               )
               
               return (
-                <div key={city.id} className="text-center p-3">
-                  <div className={`inline-flex items-center space-x-1 px-3 py-2 rounded-full text-sm font-medium ${
+                <div key={city.id} className="text-center p-2 sm:p-3">
+                  <div className={`inline-flex items-center space-x-1 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium ${
                     isTop ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
                   }`}>
                     <span>{overallScore}/100</span>
-                    {isTop && <Star className="h-3 w-3 fill-current" />}
+                    {isTop && <Star className="h-2 w-2 sm:h-3 sm:w-3 fill-current" />}
                   </div>
                   {isTop && (
                     <div className="text-xs text-green-600 mt-1 font-medium">{t('cityComparison.recommended')}</div>

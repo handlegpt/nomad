@@ -913,6 +913,7 @@
     "noAccount": "¿No tienes una cuenta?",
     "signUp": "Regístrate",
     "loginSuccess": "¡Inicio de sesión exitoso! Redirigiendo...",
+    "logout": "Cerrar sesión",
     "verificationFailed": "Verificación fallida",
     "networkError": "Error de red, por favor intenta de nuevo",
     "codeSent": "Código de verificación enviado exitosamente",

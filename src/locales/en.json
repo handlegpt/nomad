@@ -927,6 +927,7 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
     "loginSuccess": "Login successful! Redirecting...",
+    "logout": "Logout",
     "verificationFailed": "Verification failed",
     "networkError": "Network error, please try again",
     "codeSent": "Verification code sent successfully",

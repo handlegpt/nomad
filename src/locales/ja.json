@@ -913,6 +913,7 @@
     "noAccount": "アカウントをお持ちでない方は",
     "signUp": "サインアップ",
     "loginSuccess": "ログイン成功！リダイレクト中...",
+    "logout": "ログアウト",
     "verificationFailed": "認証に失敗しました",
     "networkError": "ネットワークエラー、再試行してください",
     "codeSent": "認証コードが正常に送信されました",
