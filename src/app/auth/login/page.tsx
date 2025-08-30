@@ -309,8 +309,8 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok && data.success) {
-        // 设置JWT令牌
-        setSessionToken(data.data.sessionToken)
+        // 设置JWT令牌 - 传递用户对象而不是令牌字符串
+        setSessionToken(data.data.user)
         setSuccess(safeTranslate(locale, 'loginSuccess'))
         
         logInfo('User logged in successfully', { userId: data.data.user.id }, 'LoginPage')
