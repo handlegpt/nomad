@@ -152,35 +152,6 @@
       "button": "建议工具"
     }
   },
-  "cities": {
-    "title": "城市列表",
-    "searchPlaceholder": "搜索城市...",
-    "viewDetails": "查看详情",
-    "vote": "投票",
-    "votingComingSoon": "投票功能即将推出",
-    "costOfLiving": "生活成本",
-    "wifiSpeed": "WiFi速度",
-    "visaType": "签证类型",
-    "stayDays": "停留天数",
-    "votes": "票",
-    "quickUpvote": "快速点赞",
-    "quickDownvote": "快速点踩",
-    "voteDetails": "详细投票",
-    "loading": "加载中...",
-    "filters": {
-      "all": "全部城市",
-      "visaFree": "免签城市",
-      "digitalNomad": "数字游民签证",
-      "lowCost": "低成本城市"
-    },
-    "noResults": {
-      "title": "没有找到城市",
-      "description": "尝试调整搜索条件或推荐新的城市"
-    },
-    "addCity": "推荐城市",
-    "addCitySuccess": "成功推荐城市：{cityName}",
-    "addCityError": "添加城市失败，请重试"
-  },
   "tax": {
     "title": "税务指导",
     "description": "了解数字游民的税务义务和优化策略",
@@ -929,7 +900,46 @@
     },
     "addCity": "推荐城市",
     "addCitySuccess": "成功推荐城市：{cityName}",
-    "addCityError": "添加城市失败，请重试"
+    "addCityError": "添加城市失败，请重试",
+    "days": "天",
+    "visaFree": "免签",
+    "nomadPlaces": {
+      "title": "游民推荐地点",
+      "more": "查看更多",
+      "addRecommendation": "添加推荐",
+      "quietAtmosphere": "安静氛围",
+      "stable": "稳定",
+      "latte": "拿铁",
+      "coworkingColiving": "联合办公空间",
+      "goodCommunity": "良好社区",
+      "artisticAtmosphere": "艺术氛围",
+      "goodForShortWork": "适合短期工作"
+    },
+    "statistics": "统计数据",
+    "rating": "评分",
+    "recommendedServices": "推荐服务",
+    "services": {
+      "insurance": "保险服务",
+      "digitalNomadInsurance": "数字游民保险",
+      "month": "月",
+      "globalCoverage": "全球覆盖",
+      "visaServices": "签证服务",
+      "professionalVisa": "专业签证服务",
+      "from": "起价",
+      "fastProcessing": "快速处理",
+      "coworkingSpaces": "联合办公空间",
+      "globalNetwork": "全球网络",
+      "flexibleMembership": "灵活会员制"
+    },
+    "relatedCities": "相关城市",
+    "chiangMai": "清迈",
+    "thailand": "泰国",
+    "lisbon": "里斯本",
+    "portugal": "葡萄牙",
+    "weatherForecast": "天气预报",
+    "today": "今天",
+    "tomorrow": "明天",
+    "dayAfterTomorrow": "后天"
   },
   "auth": {
     "signIn": "登录",
