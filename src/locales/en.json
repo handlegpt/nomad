@@ -658,41 +658,6 @@
         "activities": "Activities"
       }
     },
-    "recommendationForm": {
-      "place": {
-        "title": "Recommend a Place",
-        "submitButton": "Submit Recommendation",
-        "fields": {
-          "name": "Place Name",
-          "namePlaceholder": "Enter place name",
-          "category": "Category",
-          "address": "Address",
-          "addressPlaceholder": "Enter full address",
-          "latitude": "Latitude",
-          "latitudePlaceholder": "Enter latitude",
-          "longitude": "Longitude",
-          "longitudePlaceholder": "Enter longitude",
-          "description": "Description",
-          "descriptionPlaceholder": "Describe the place and why you recommend it",
-          "wifiSpeed": "WiFi Speed",
-          "wifiSpeedPlaceholder": "Enter WiFi speed in Mbps",
-          "priceLevel": "Price Level",
-          "noiseLevel": "Noise Level",
-          "noiseLevels": {
-            "quiet": "Quiet",
-            "moderate": "Moderate",
-            "loud": "Loud"
-          },
-          "socialAtmosphere": "Social Atmosphere",
-          "socialLevels": {
-            "low": "Low",
-            "medium": "Medium",
-            "high": "High"
-          },
-          "tags": "Tags"
-        }
-      }
-    },
     "mutualInterests": "{count} mutual interests",
     "compatibility": "{percentage}% match",
     "filterAll": "All",
@@ -983,5 +948,99 @@
     "clearAll": "Clear All",
     "results": "Showing {filtered} of {total} results",
     "all": "All"
+  },
+  "recommendationForm": {
+    "city": {
+      "title": "Recommend New City",
+      "fields": {
+        "name": "City Name",
+        "namePlaceholder": "e.g., Chiang Mai",
+        "country": "Country",
+        "countryPlaceholder": "e.g., Thailand",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe what makes this city great for digital nomads...",
+        "costOfLiving": "Cost of Living (USD/month)",
+        "costOfLivingPlaceholder": "e.g., 1200",
+        "wifiSpeed": "Average WiFi Speed (Mbps)",
+        "wifiSpeedPlaceholder": "e.g., 50",
+        "visaDays": "Visa Days",
+        "visaDaysPlaceholder": "e.g., 90",
+        "visaType": "Visa Type",
+        "visaTypePlaceholder": "e.g., Tourist Visa, Digital Nomad Visa",
+        "highlights": "Highlights",
+        "highlightsPlaceholder": "What makes this city special?",
+        "tags": "Tags",
+        "tagsPlaceholder": "Add relevant tags"
+      },
+      "submitButton": "Recommend City",
+      "cancelButton": "Cancel",
+      "suggestedHighlights": {
+        "nomadFriendly": "Digital Nomad Friendly",
+        "fastWifi": "Fast WiFi",
+        "lowCost": "Low Cost of Living",
+        "visaConvenient": "Convenient Visa",
+        "goodClimate": "Good Climate",
+        "foodRich": "Rich Food Culture",
+        "culturalDiverse": "Cultural Diversity",
+        "convenientTransport": "Convenient Transportation",
+        "safeLiving": "Safe Living",
+        "englishFriendly": "English Friendly",
+        "activeCommunity": "Active Community",
+        "workspaces": "Good Workspaces",
+        "coffeeCulture": "Coffee Culture",
+        "outdoorActivities": "Outdoor Activities",
+        "nightlife": "Good Nightlife"
+      },
+      "suggestedTags": {
+        "budgetFriendly": "Budget Friendly",
+        "fastWifi": "Fast WiFi",
+        "easyVisa": "Easy Visa",
+        "goodClimate": "Good Climate",
+        "goodFood": "Good Food",
+        "culturalRich": "Cultural Rich",
+        "convenientTransport": "Convenient Transport",
+        "safe": "Safe",
+        "englishFriendly": "English Friendly",
+        "goodCommunity": "Good Community",
+        "workspaces": "Workspaces",
+        "coffeeCulture": "Coffee Culture",
+        "outdoor": "Outdoor Activities",
+        "nightlife": "Nightlife",
+        "shopping": "Shopping"
+      }
+    },
+    "place": {
+      "title": "Recommend a Place",
+      "submitButton": "Submit Recommendation",
+      "fields": {
+        "name": "Place Name",
+        "namePlaceholder": "Enter place name",
+        "category": "Category",
+        "address": "Address",
+        "addressPlaceholder": "Enter full address",
+        "latitude": "Latitude",
+        "latitudePlaceholder": "Enter latitude",
+        "longitude": "Longitude",
+        "longitudePlaceholder": "Enter longitude",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe the place and why you recommend it",
+        "wifiSpeed": "WiFi Speed",
+        "wifiSpeedPlaceholder": "Enter WiFi speed in Mbps",
+        "priceLevel": "Price Level",
+        "noiseLevel": "Noise Level",
+        "noiseLevels": {
+          "quiet": "Quiet",
+          "moderate": "Moderate",
+          "loud": "Loud"
+        },
+        "socialAtmosphere": "Social Atmosphere",
+        "socialLevels": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "tags": "Tags"
+      }
+    }
   }
 } 
