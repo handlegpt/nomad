@@ -27,53 +27,6 @@ export default function LoginPage() {
   const codeInputRef = useRef<HTMLInputElement>(null)
   const emailInputRef = useRef<HTMLInputElement>(null)
 
-  // 调试翻译
-  useEffect(() => {
-    console.log('🔍 Translation debug:', {
-      translationLoading,
-      locale,
-      loginText: t('auth.login'),
-      enterEmailText: t('auth.enterEmail'),
-      sendCodeText: t('auth.sendCode'),
-      footerText: t('auth.loginForm.footer'),
-      backToHomeText: t('auth.loginForm.backToHome'),
-      resendCodeText: t('auth.loginForm.resendCode'),
-      resendCountdownText: t('auth.loginForm.resendCountdown', { countdown: '60' }),
-      codeErrorText: t('auth.loginForm.errors.codeError')
-    })
-    
-    // 检查每个翻译键的类型
-    const translations = {
-      login: t('auth.login'),
-      enterEmail: t('auth.enterEmail'),
-      sendCode: t('auth.sendCode'),
-      footer: t('auth.loginForm.footer'),
-      backToHome: t('auth.loginForm.backToHome'),
-      resendCode: t('auth.loginForm.resendCode'),
-      resendCountdown: t('auth.loginForm.resendCountdown', { countdown: '60' }),
-      codeError: t('auth.loginForm.errors.codeError')
-    }
-    
-    Object.entries(translations).forEach(([key, value]) => {
-      if (typeof value === 'object') {
-        console.error('❌ Object found in translation:', key, value)
-      }
-    })
-    
-    // 检查状态变量
-    console.log('🔍 State debug:', {
-      step,
-      loading,
-      error,
-      success,
-      resendCountdown,
-      attempts,
-      showResendButton,
-      email,
-      code
-    })
-  }, [t, translationLoading, locale, step, loading, error, success, resendCountdown, attempts, showResendButton, email, code])
-
   // 从localStorage恢复邮箱
   useEffect(() => {
     const savedEmail = localStorage.getItem('login_email')
@@ -134,7 +87,7 @@ export default function LoginPage() {
         // 保存邮箱到localStorage
         localStorage.setItem('login_email', email)
         
-        setSuccess(t('auth.codeSent'))
+        setSuccess('验证码发送成功')
         setStep('code')
         setResendCountdown(60) // 60秒倒计时
         setShowResendButton(false)
@@ -142,20 +95,18 @@ export default function LoginPage() {
         
         logInfo('Verification code sent successfully', { email }, 'LoginPage')
       } else {
-        setError(data.message || t('auth.sendCodeFailed'))
+        setError(data.message || '发送验证码失败')
         logError('Failed to send verification code', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError(t('auth.networkError'))
-      logError('Network error sending verification code', error, 'LoginPage')
+      setError('网络错误，请重试')
+      logError('Network error during send code', error, 'LoginPage')
     } finally {
       setLoading(false)
     }
   }
 
   const handleResendCode = async () => {
-    if (resendCountdown > 0) return
-    
     setError('')
     setLoading(true)
 
@@ -174,19 +125,19 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setSuccess(t('auth.codeSent'))
+        setSuccess('验证码重新发送成功')
         setResendCountdown(60)
         setShowResendButton(false)
         setAttempts(0)
         
         logInfo('Verification code resent successfully', { email }, 'LoginPage')
       } else {
-        setError(data.message || t('auth.sendCodeFailed'))
+        setError(data.message || '重新发送验证码失败')
         logError('Failed to resend verification code', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError(t('auth.networkError'))
-      logError('Network error resending verification code', error, 'LoginPage')
+      setError('网络错误，请重试')
+      logError('Network error during resend code', error, 'LoginPage')
     } finally {
       setLoading(false)
     }
@@ -199,7 +150,7 @@ export default function LoginPage() {
 
     // 检查尝试次数
     if (attempts >= 5) {
-      setError('Too many attempts. Please request a new code.')
+      setError('尝试次数过多，请重新获取验证码')
       setLoading(false)
       return
     }
@@ -229,7 +180,7 @@ export default function LoginPage() {
       if (response.ok && data.success) {
         // 设置JWT令牌
         setSessionToken(data.data.sessionToken)
-        setSuccess(t('auth.loginSuccess'))
+        setSuccess('登录成功！正在跳转...')
         
         logInfo('User logged in successfully', { userId: data.data.user.id }, 'LoginPage')
         
@@ -239,11 +190,11 @@ export default function LoginPage() {
         }, 1000)
       } else {
         setAttempts(attempts + 1)
-        setError(data.message || t('auth.verificationFailed'))
+        setError(data.message || '验证失败')
         logError('Verification failed', { email, error: data.message }, 'LoginPage')
       }
     } catch (error) {
-      setError(t('auth.networkError'))
+      setError('网络错误，请重试')
       logError('Network error during verification', error, 'LoginPage')
     } finally {
       setLoading(false)
@@ -278,29 +229,20 @@ export default function LoginPage() {
     }
   }
 
+  // 如果翻译还在加载，显示加载状态
+  if (translationLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100 text-center">
+          <LoadingSpinner size="lg" text="加载中..." />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-        {/* Debug: 检查每个元素 */}
-        {(() => {
-          const debugElements = {
-            login: t('auth.login'),
-            enterEmail: t('auth.enterEmail'),
-            email: t('auth.email'),
-            emailPlaceholder: t('auth.emailPlaceholder'),
-            sendCode: t('auth.sendCode'),
-            footer: t('auth.loginForm.footer'),
-            backToHome: t('auth.loginForm.backToHome')
-          }
-          
-          Object.entries(debugElements).forEach(([key, value]) => {
-            if (typeof value === 'object') {
-              console.error('❌ Object found in element:', key, value)
-            }
-          })
-          return null
-        })()}
-        
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
@@ -309,10 +251,10 @@ export default function LoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {t('auth.login')}
+            登录
           </h1>
           <p className="text-gray-600 text-sm">
-            {step === 'email' ? t('auth.enterEmail') : t('auth.enterCode')}
+            {step === 'email' ? '输入邮箱地址获取验证码' : '输入发送到您邮箱的验证码'}
           </p>
         </div>
 
@@ -340,7 +282,7 @@ export default function LoginPage() {
           <form onSubmit={handleSendCode} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.email')}
+                邮箱地址
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -351,7 +293,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  placeholder={t('auth.emailPlaceholder')}
+                  placeholder="your@email.com"
                   required
                   disabled={loading}
                 />
@@ -368,7 +310,7 @@ export default function LoginPage() {
               ) : (
                 <>
                   <Mail className="h-4 w-4 mr-2" />
-                  {t('auth.sendCode')}
+                  发送验证码
                 </>
               )}
             </button>
@@ -378,7 +320,7 @@ export default function LoginPage() {
           <div className="space-y-6">
             <div>
               <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.verificationCode')}
+                验证码
               </label>
               <div className="relative">
                 <input
@@ -395,7 +337,7 @@ export default function LoginPage() {
                 />
               </div>
               <p className="text-xs text-gray-500 mt-2 text-center">
-                {t('auth.codePlaceholder')}
+                000000
               </p>
             </div>
 
@@ -408,12 +350,12 @@ export default function LoginPage() {
                   className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center justify-center mx-auto transition-colors"
                 >
                   <RefreshCw className="h-4 w-4 mr-1" />
-                  {t('auth.loginForm.resendCode')}
+                  重新发送验证码
                 </button>
               ) : (
                 <div className="text-sm text-gray-500 flex items-center justify-center">
                   <Clock className="h-4 w-4 mr-1" />
-                  {t('auth.loginForm.resendCountdown', { countdown: resendCountdown.toString() })}
+                  {resendCountdown}秒后可重新发送
                 </div>
               )}
             </div>
@@ -422,7 +364,7 @@ export default function LoginPage() {
             {attempts > 0 && (
               <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-xl">
                 <p className="text-yellow-700 text-sm text-center">
-                  {t('auth.loginForm.errors.codeError')} ({5 - attempts} attempts remaining)
+                  验证码错误 ({5 - attempts} 次尝试剩余)
                 </p>
               </div>
             )}
@@ -435,7 +377,7 @@ export default function LoginPage() {
                 className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-xl hover:bg-gray-200 disabled:opacity-50 flex items-center justify-center transition-all duration-200 font-medium"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
-                {t('auth.back')}
+                返回
               </button>
               
               <button
@@ -448,7 +390,7 @@ export default function LoginPage() {
                 ) : (
                   <>
                     <Shield className="h-4 w-4 mr-2" />
-                    {t('auth.verify')}
+                    验证
                   </>
                 )}
               </button>
@@ -459,12 +401,12 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="mt-8 text-center space-y-4">
           <p className="text-sm text-gray-500">
-            {t('auth.loginForm.footer')}
+            使用邮箱验证码即可登录，无需注册
           </p>
           
           <div className="flex items-center justify-center space-x-4">
             <FixedLink href="/" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-              {t('auth.loginForm.backToHome')}
+              返回首页
             </FixedLink>
             <span className="text-gray-300">|</span>
             <button className="text-sm text-gray-500 hover:text-gray-700 transition-colors flex items-center">
