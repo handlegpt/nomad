@@ -100,7 +100,7 @@ export default function NomadMeetup() {
   const [communityMessages, setCommunityMessages] = useState<CommunityMessage[]>([])
   const [newCommunityMessage, setNewCommunityMessage] = useState('')
   const [messageType, setMessageType] = useState<'general' | 'question' | 'info' | 'help'>('general')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [messageSearchQuery, setMessageSearchQuery] = useState('')
   const [filterType, setFilterType] = useState<'all' | 'question' | 'info' | 'help' | 'general'>('all')
   const [messagesLoading, setMessagesLoading] = useState(false)
   const [messagesPage, setMessagesPage] = useState(1)
@@ -271,10 +271,10 @@ export default function NomadMeetup() {
 
   // 筛选和搜索消息
   const filteredMessages = communityMessages.filter(message => {
-    const matchesSearch = searchQuery === '' || 
-      message.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      message.user_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      message.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    const matchesSearch = messageSearchQuery === '' || 
+      message.content.toLowerCase().includes(messageSearchQuery.toLowerCase()) ||
+      message.user_name?.toLowerCase().includes(messageSearchQuery.toLowerCase()) ||
+      message.tags.some(tag => tag.toLowerCase().includes(messageSearchQuery.toLowerCase()))
     
     const matchesFilter = filterType === 'all' || message.message_type === filterType
     
@@ -1094,8 +1094,8 @@ export default function NomadMeetup() {
             <div className="flex-1">
               <input
                 type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={messageSearchQuery}
+                onChange={(e) => setMessageSearchQuery(e.target.value)}
                 placeholder={t('meetup.searchPlaceholder')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
@@ -1118,10 +1118,10 @@ export default function NomadMeetup() {
           {/* Message Stats */}
           <div className="flex items-center justify-between text-sm text-gray-600">
             <span>{t('meetup.messageStats', { filtered: filteredMessages.length.toString(), total: communityMessages.length.toString() })}</span>
-            {(searchQuery || filterType !== 'all') && (
+            {(messageSearchQuery || filterType !== 'all') && (
               <button
                 onClick={() => {
-                  setSearchQuery('')
+                  setMessageSearchQuery('')
                   setFilterType('all')
                 }}
                 className="text-blue-600 hover:text-blue-700 transition-colors"
@@ -1296,7 +1296,7 @@ export default function NomadMeetup() {
           {filteredMessages.length === 0 && (
             <div className="text-center py-8">
               <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-              {searchQuery || filterType !== 'all' ? (
+              {messageSearchQuery || filterType !== 'all' ? (
                 <>
                   <p className="text-gray-600">{t('meetup.noMatchingMessages')}</p>
                   <p className="text-sm text-gray-500">{t('meetup.tryAdjustSearch')}</p>
